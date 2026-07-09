@@ -31,14 +31,14 @@
   --spacing-32: 32px; --spacing-40: 40px; --spacing-48: 48px;
   --spacing-64: 64px; --spacing-128: 128px; --spacing-160: 160px;
 
-  /* Layout / radius (낮은 r — 버튼·이미지 위주) */
+  /* Layout / radius (중간 톤 — 너무 둥글지 않게) */
   --page-max-width: 1200px;
-  --radius-sm: 3px;
-  --radius-lg: 4px;
-  --radius-2xl: 8px;
-  --radius-buttons: 6px;
-  --radius-images: 4px;
-  --radius-tags: 6px;
+  --radius-sm: 4px;
+  --radius-lg: 8px;
+  --radius-2xl: 12px;
+  --radius-buttons: 10px;
+  --radius-images: 8px;
+  --radius-tags: 10px;
   --shadow-subtle: rgba(99, 143, 61, 0.1) 0px 0px 0px 1px;
 }
 

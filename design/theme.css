@@ -43,13 +43,13 @@
   --spacing-128: 128px;
   --spacing-160: 160px;
 
-  /* Border Radius (낮은 r) */
-  --radius-sm: 3px;
-  --radius-lg: 4px;
-  --radius-2xl: 8px;
-  --radius-buttons: 6px;
-  --radius-images: 4px;
-  --radius-tags: 6px;
+  /* Border Radius (중간 톤) */
+  --radius-sm: 4px;
+  --radius-lg: 8px;
+  --radius-2xl: 12px;
+  --radius-buttons: 10px;
+  --radius-images: 8px;
+  --radius-tags: 10px;
 
   /* Shadows */
   --shadow-subtle: rgba(99, 143, 61, 0.1) 0px 0px 0px 1px;
