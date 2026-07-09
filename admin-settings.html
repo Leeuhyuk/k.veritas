@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>관리자 설정 — k.veritas</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fragment+Mono&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main>
+    <section class="subhero">
+      <div class="subhero__inner">
+        <p class="microlabel">ADMIN</p>
+        <h1 class="subhero__title">관리자 설정</h1>
+        <p class="subhero__sub">관리자 계정 보안과 운영 설정을 관리합니다.</p>
+      </div>
+    </section>
+
+    <section class="page" id="login-view" style="display:none">
+      <div class="admin-login">
+        <div class="section-head" style="margin-bottom:var(--spacing-32)">
+          <p class="microlabel">LOGIN</p>
+          <h2 class="section-title" style="font-size:34px;letter-spacing:-1.2px">관리자 로그인</h2>
+        </div>
+        <form class="form" id="login-form">
+          <div class="form__row">
+            <label for="password">비밀번호</label>
+            <input id="password" type="password" autocomplete="current-password" />
+          </div>
+          <button type="submit" class="btn btn--primary form__submit">로그인</button>
+          <p class="admin__msg" id="login-msg"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="page" id="editor-view" style="display:none">
+      <div class="admin">
+        <nav class="admin-tabs">
+          <a href="admin.html">제품</a>
+          <a href="admin-news.html">공지사항</a>
+          <a href="admin-resources.html">자료실</a>
+          <a href="admin-inquiries.html">문의 내역</a>
+          <a href="admin-pages.html">페이지 편집</a>
+          <a href="admin-settings.html" class="is-active">관리자</a>
+        </nav>
+
+        <div class="admin__bar">
+          <h2 class="section-title" style="text-align:left;font-size:28px;letter-spacing:-1px">비밀번호 변경</h2>
+          <button class="btn btn--ghost btn--sm" id="logout-btn">로그아웃</button>
+        </div>
+
+        <form class="form" id="pw-form" style="max-width:520px;gap:var(--spacing-16)">
+          <div class="form__row">
+            <label for="pw-current">현재 비밀번호</label>
+            <input id="pw-current" type="password" autocomplete="current-password" />
+          </div>
+          <div class="form__row">
+            <label for="pw-next">새 비밀번호 (6자 이상)</label>
+            <input id="pw-next" type="password" autocomplete="new-password" />
+          </div>
+          <div class="form__row">
+            <label for="pw-confirm">새 비밀번호 확인</label>
+            <input id="pw-confirm" type="password" autocomplete="new-password" />
+          </div>
+          <div style="display:flex;gap:var(--spacing-16);align-items:center;flex-wrap:wrap">
+            <button type="submit" class="btn btn--primary form__submit">비밀번호 변경</button>
+            <span class="admin__msg" id="pw-msg"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="site.js"></script>
+  <script>
+    (function () {
+      const $ = (id) => document.getElementById(id);
+      function showLogin() { $('login-view').style.display = 'block'; $('editor-view').style.display = 'none'; }
+      function showEditor() { $('login-view').style.display = 'none'; $('editor-view').style.display = 'block'; }
+
+      fetch('/api/admin/me').then((r) => r.json()).then((d) => (d.admin ? showEditor() : showLogin())).catch(showLogin);
+
+      $('login-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        $('login-msg').textContent = '';
+        fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: $('password').value }),
+        }).then((r) => {
+          if (r.ok) { $('password').value = ''; showEditor(); }
+          else $('login-msg').textContent = '비밀번호가 올바르지 않습니다.';
+        });
+      });
+
+      $('logout-btn').addEventListener('click', () => fetch('/api/admin/logout', { method: 'POST' }).then(showLogin));
+
+      $('pw-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const msg = $('pw-msg');
+        const cur = $('pw-current').value;
+        const next = $('pw-next').value;
+        const conf = $('pw-confirm').value;
+        if (next !== conf) {
+          msg.style.color = 'var(--color-warm-loam)';
+          msg.textContent = '새 비밀번호가 일치하지 않습니다.';
+          return;
+        }
+        msg.style.color = '';
+        msg.textContent = '변경 중...';
+        fetch('/api/admin/password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ current: cur, next: next }),
+        }).then(async (r) => {
+          const d = await r.json().catch(() => ({}));
+          if (!r.ok) throw new Error(d.message || '변경에 실패했습니다.');
+          return d;
+        }).then(() => {
+          $('pw-form').reset();
+          msg.style.color = '';
+          msg.textContent = '비밀번호가 변경되었습니다.';
+          setTimeout(() => (msg.textContent = ''), 3000);
+        }).catch((err) => {
+          msg.style.color = 'var(--color-warm-loam)';
+          msg.textContent = err.message;
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

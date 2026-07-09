@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>공지 — k.veritas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fragment+Mono&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main>
+    <section class="page">
+      <div class="detail" id="detail"><p class="empty-note">불러오는 중…</p></div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="site.js"></script>
+  <script src="sanitize-html.js"></script>
+  <script src="detail-lightbox.js"></script>
+  <script>
+    (function () {
+      const root = document.getElementById('detail');
+      const esc = (s) => (s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+      const fmt = (iso) => { try { return new Date(iso).toLocaleDateString('ko-KR'); } catch (e) { return ''; } };
+      const renderBody = (b) => {
+        b = b || '';
+        if (/<[a-z][\s\S]*>/i.test(b)) {
+          return typeof sanitizeHtml === 'function' ? sanitizeHtml(b) : b;
+        }
+        return esc(b).split(/\n{2,}/).map((p) => `<p>${p.replace(/\n/g, '<br/>')}</p>`).join('');
+      };
+      const upsertMeta = (selector, attr, name, value) => {
+        if (!value) return;
+        let el = document.querySelector(selector);
+        if (!el) { el = document.createElement('meta'); el.setAttribute(attr, name); document.head.appendChild(el); }
+        el.setAttribute('content', value);
+      };
+      const id = new URLSearchParams(location.search).get('id');
+      if (!id) { root.innerHTML = '<p class="empty-note">잘못된 접근입니다.</p>'; return; }
+
+      fetch('/api/news/' + encodeURIComponent(id)).then((r) => { if (!r.ok) throw new Error(); return r.json(); }).then((n) => {
+        document.title = (n.seoTitle || n.title) + ' — k.veritas';
+        const plain = (n.body || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 120);
+        upsertMeta('meta[name="description"]', 'name', 'description', n.seoDescription || plain);
+        upsertMeta('meta[property="og:title"]', 'property', 'og:title', n.seoTitle || n.title);
+        upsertMeta('meta[property="og:description"]', 'property', 'og:description', n.seoDescription || plain);
+        upsertMeta('meta[property="og:image"]', 'property', 'og:image', n.ogImage || (n.images && n.images[0]) || '');
+        const imgs = n.images || [];
+        const cover = imgs[0]
+          ? `<img class="detail__cover" src="${esc(imgs[0])}" alt="${esc(n.title)} 대표 사진" title="클릭하면 크게 보기" />`
+          : '';
+        const gallery = imgs.length > 1
+          ? `<div class="detail__gallery" aria-label="공지 사진">${imgs.slice(1).map((u, i) =>
+              `<img src="${esc(u)}" alt="${esc(n.title)} 사진 ${i + 2}" title="클릭하면 크게 보기" />`
+            ).join('')}</div>`
+          : '';
+        root.innerHTML = `
+          <a class="detail__back" href="news.html">
+            <span class="detail__back-icon" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            공지 목록으로
+          </a>
+          ${n.isPopup ? '<div class="detail__tags"><span class="tag">팝업 공지</span></div>' : ''}
+          <p class="detail__date">${fmt(n.createdAt)}</p>
+          <h1 class="detail__title">${esc(n.title)}</h1>
+          ${cover}
+          <div class="detail__body">${renderBody(n.body)}</div>
+          ${gallery}
+          <div class="detail__actions">
+            <a href="news.html" class="btn btn--ghost">목록으로</a>
+          </div>`;
+        if (window.DetailLightbox) window.DetailLightbox.bind(root);
+      }).catch(() => { root.innerHTML = '<p class="empty-note">공지를 찾을 수 없습니다. <a href="news.html">목록으로</a></p>'; });
+    })();
+  </script>
+</body>
+</html>

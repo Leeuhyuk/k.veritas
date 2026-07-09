@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>문의 내역 — k.veritas</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fragment+Mono&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main>
+    <section class="subhero">
+      <div class="subhero__inner">
+        <p class="microlabel">ADMIN</p>
+        <h1 class="subhero__title">문의 내역</h1>
+        <p class="subhero__sub">고객지원 폼으로 접수된 문의를 확인합니다.</p>
+      </div>
+    </section>
+
+    <section class="page" id="login-view" style="display:none">
+      <div class="admin-login">
+        <div class="section-head" style="margin-bottom:var(--spacing-32)">
+          <p class="microlabel">LOGIN</p>
+          <h2 class="section-title" style="font-size:34px;letter-spacing:-1.2px">관리자 로그인</h2>
+        </div>
+        <form class="form" id="login-form">
+          <div class="form__row">
+            <label for="password">비밀번호</label>
+            <input id="password" type="password" autocomplete="current-password" />
+          </div>
+          <button type="submit" class="btn btn--primary form__submit">로그인</button>
+          <p class="admin__msg" id="login-msg"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="page" id="editor-view" style="display:none">
+      <div class="admin">
+        <nav class="admin-tabs">
+          <a href="admin.html">제품</a>
+          <a href="admin-news.html">공지사항</a>
+          <a href="admin-resources.html">자료실</a>
+          <a href="admin-inquiries.html" class="is-active">문의 내역</a>
+          <a href="admin-pages.html">페이지 편집</a>
+          <a href="admin-settings.html">관리자</a>
+        </nav>
+        <div class="admin__bar">
+          <h2 class="section-title" style="text-align:left;font-size:28px;letter-spacing:-1px">접수된 문의 <span id="inq-count" class="mono" style="color:var(--color-bark-brown)"></span></h2>
+          <button class="btn btn--ghost btn--sm" id="logout-btn">로그아웃</button>
+        </div>
+        <div id="inq-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="site.js"></script>
+  <script>
+    (function () {
+      const $ = (id) => document.getElementById(id);
+      const esc = (s) => (s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+      const fmt = (iso) => { try { return new Date(iso).toLocaleString('ko-KR'); } catch (e) { return ''; } };
+      const sizeStr = (b) => { if (!b) return ''; const u = ['B', 'KB', 'MB', 'GB']; let i = 0, n = b; while (n >= 1024 && i < 3) { n /= 1024; i++; } return n.toFixed(n < 10 && i > 0 ? 1 : 0) + u[i]; };
+      const statusLabel = { new: '신규', reviewing: '검토중', replied: '회신완료', hold: '보류' };
+
+      function showLogin() { $('login-view').style.display = 'block'; $('editor-view').style.display = 'none'; }
+      function showEditor() { $('login-view').style.display = 'none'; $('editor-view').style.display = 'block'; loadList(); }
+      fetch('/api/admin/me').then((r) => r.json()).then((d) => (d.admin ? showEditor() : showLogin())).catch(showLogin);
+
+      $('login-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        fetch('/api/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: $('password').value }) })
+          .then((r) => { if (r.ok) { $('password').value = ''; showEditor(); } else $('login-msg').textContent = '비밀번호가 올바르지 않습니다.'; });
+      });
+      $('logout-btn').addEventListener('click', () => fetch('/api/admin/logout', { method: 'POST' }).then(showLogin));
+
+      function loadList() {
+        fetch('/api/inquiries').then((r) => r.json()).then((items) => {
+          const unread = items.filter((i) => (i.status || 'new') === 'new' || !i.read).length;
+          $('inq-count').textContent = `· 총 ${items.length}건 / 미확인 ${unread}건`;
+          if (!items.length) { $('inq-list').innerHTML = '<p class="empty-note" style="padding:var(--spacing-32) 0">접수된 문의가 없습니다.</p>'; return; }
+          $('inq-list').innerHTML = items.map((i) => {
+            const attachments = (i.attachments || []).map((a, idx) =>
+              `<a class="btn btn--ghost btn--sm" href="/api/inquiries/${encodeURIComponent(i.id)}/attachments/${idx}">${esc(a.originalName || '첨부파일')} ${a.size ? '· ' + sizeStr(a.size) : ''}</a>`
+            ).join('');
+            const st = i.status || (i.read ? 'reviewing' : 'new');
+            return `
+            <div class="inq-card${i.read ? '' : ' is-unread'}" data-id="${esc(i.id)}">
+              <div class="inq-card__head">
+                <div>
+                  <strong>${esc(i.name)}</strong>${i.company ? ' · ' + esc(i.company) : ''}
+                  ${i.type ? `<span class="tag" style="margin-left:8px">${esc(i.type)}</span>` : ''}
+                  <span class="tag" style="margin-left:8px;background:${st === 'new' ? 'var(--color-moss-veil)' : 'var(--color-lichen)'}">${statusLabel[st] || st}</span>
+                </div>
+                <span class="mono" style="color:var(--color-bark-brown);font-size:12px">${fmt(i.createdAt)}</span>
+              </div>
+              <div class="inq-card__meta mono">${esc(i.email)}${i.phone ? ' · ' + esc(i.phone) : ''}</div>
+              ${i.productTitle ? `<div class="inq-card__meta mono">제품 문의: ${esc(i.productTitle)}${i.productId ? ' · ' + esc(i.productId) : ''}</div>` : ''}
+              <p class="inq-card__msg">${esc(i.message)}</p>
+              ${attachments ? `<div class="inq-card__actions" style="margin-bottom:var(--spacing-16)">${attachments}</div>` : ''}
+              <div class="form__grid" style="margin-bottom:var(--spacing-16)">
+                <div class="form__row">
+                  <label for="status-${esc(i.id)}">처리 상태</label>
+                  <select class="inq-status" id="status-${esc(i.id)}">
+                    <option value="new"${st === 'new' ? ' selected' : ''}>신규</option>
+                    <option value="reviewing"${st === 'reviewing' ? ' selected' : ''}>검토중</option>
+                    <option value="replied"${st === 'replied' ? ' selected' : ''}>회신완료</option>
+                    <option value="hold"${st === 'hold' ? ' selected' : ''}>보류</option>
+                  </select>
+                </div>
+                <div class="form__row">
+                  <label for="memo-${esc(i.id)}">관리자 메모</label>
+                  <input class="inq-memo" id="memo-${esc(i.id)}" type="text" value="${esc(i.memo || '')}" placeholder="내부 메모" />
+                </div>
+              </div>
+              <div class="inq-card__actions">
+                <a class="btn btn--ghost btn--sm" href="mailto:${esc(i.email)}?subject=${encodeURIComponent('[k.veritas] 문의 회신')}">메일 회신</a>
+                <button class="btn btn--ghost btn--sm act-save">상태 저장</button>
+                <button class="btn btn--ghost btn--sm act-read">${i.read ? '미확인으로' : '확인함'}</button>
+                <button class="btn btn--ghost btn--sm act-del">삭제</button>
+              </div>
+            </div>`;
+          }).join('');
+        });
+      }
+
+      $('inq-list').addEventListener('click', (e) => {
+        const card = e.target.closest('.inq-card'); if (!card) return;
+        const id = card.dataset.id;
+        if (e.target.classList.contains('act-read')) {
+          fetch('/api/inquiries/' + encodeURIComponent(id) + '/read', { method: 'PUT' }).then(loadList);
+        } else if (e.target.classList.contains('act-save')) {
+          fetch('/api/inquiries/' + encodeURIComponent(id), {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              status: card.querySelector('.inq-status').value,
+              memo: card.querySelector('.inq-memo').value,
+            }),
+          }).then(loadList);
+        } else if (e.target.classList.contains('act-del')) {
+          if (!confirm('이 문의를 삭제할까요?')) return;
+          fetch('/api/inquiries/' + encodeURIComponent(id), { method: 'DELETE' }).then(loadList);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

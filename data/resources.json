@@ -1,0 +1,51 @@
+[
+  {
+    "id": "r1782818974532",
+    "title": "ㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹ",
+    "category": "카탈로그",
+    "description": "ㄴㅇㄹㄴㅇㄹㄴㅇㄹ",
+    "file": "/uploads/1782818974439-806008291.jpg",
+    "originalName": "wallpaperbetter.com_5760x3240-2.jpg",
+    "size": 10031871,
+    "downloads": 0,
+    "status": "published",
+    "isBrochure": false,
+    "createdAt": "2026-06-30T11:29:34.532Z"
+  },
+  {
+    "id": "r1782816731048",
+    "title": "ㄴㄹㄴㄹㄴㅇㄹ",
+    "category": "사용설명서",
+    "description": "ㄴㄹㄴㄹㄴㄹㄴㄴㄹ",
+    "file": "/uploads/1782816731014-783891583.jpg",
+    "originalName": "wallpaperbetter.com_5760x3240-4.jpg",
+    "size": 11324040,
+    "downloads": 0,
+    "createdAt": "2026-06-30T10:52:11.048Z",
+    "status": "published",
+    "body": "",
+    "isBrochure": false,
+    "seoTitle": "",
+    "seoDescription": "",
+    "ogImage": "",
+    "updatedAt": "2026-06-30T12:50:27.823Z"
+  },
+  {
+    "id": "r1782816722261",
+    "title": "ㄴㅇㄹㄴㅁㄹㄴㅁㅇㄹ",
+    "category": "카탈로그",
+    "description": "ㅇㄴㅇㄹㄻㄻㄴ",
+    "file": "/uploads/1782816722224-173307338.jpg",
+    "originalName": "wallpaperbetter.com_5760x3240-2.jpg",
+    "size": 10031871,
+    "downloads": 1,
+    "createdAt": "2026-06-30T10:52:02.261Z",
+    "status": "published",
+    "body": "",
+    "isBrochure": false,
+    "seoTitle": "",
+    "seoDescription": "",
+    "ogImage": "",
+    "updatedAt": "2026-06-30T12:50:34.437Z"
+  }
+]

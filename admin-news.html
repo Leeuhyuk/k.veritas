@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>공지 관리 — k.veritas</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fragment+Mono&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main>
+    <section class="subhero">
+      <div class="subhero__inner">
+        <p class="microlabel">ADMIN</p>
+        <h1 class="subhero__title">공지 관리</h1>
+        <p class="subhero__sub">공지사항·소식을 작성하면 공지사항 페이지에 바로 게시됩니다.</p>
+      </div>
+    </section>
+
+    <section class="page" id="login-view" style="display:none">
+      <div class="admin-login">
+        <div class="section-head" style="margin-bottom:var(--spacing-32)">
+          <p class="microlabel">LOGIN</p>
+          <h2 class="section-title" style="font-size:34px;letter-spacing:-1.2px">관리자 로그인</h2>
+        </div>
+        <form class="form" id="login-form">
+          <div class="form__row">
+            <label for="password">비밀번호</label>
+            <input id="password" type="password" autocomplete="current-password" />
+          </div>
+          <button type="submit" class="btn btn--primary form__submit">로그인</button>
+          <p class="admin__msg" id="login-msg"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="page" id="editor-view" style="display:none">
+      <div class="admin admin--split">
+        <nav class="admin-tabs">
+          <a href="admin.html">제품</a>
+          <a href="admin-news.html" class="is-active">공지사항</a>
+          <a href="admin-resources.html">자료실</a>
+          <a href="admin-inquiries.html">문의 내역</a>
+          <a href="admin-pages.html">페이지 편집</a>
+          <a href="admin-settings.html">관리자</a>
+        </nav>
+        <div class="admin__bar">
+          <h2 class="section-title" style="text-align:left;font-size:28px;letter-spacing:-1px" id="editor-title">새 공지 작성</h2>
+          <button class="btn btn--ghost btn--sm" id="logout-btn">로그아웃</button>
+        </div>
+
+        <form class="form" id="news-form">
+          <input type="hidden" id="edit-id" />
+          <div class="form__row">
+            <label for="title">제목 *</label>
+            <input id="title" type="text" placeholder="공지 제목" required />
+          </div>
+          <div class="form__row">
+            <label for="status">공개 상태</label>
+            <select id="status">
+              <option value="published">게시</option>
+              <option value="draft">비공개</option>
+            </select>
+          </div>
+          <label style="display:flex;align-items:center;gap:8px;font-family:var(--font-akkurat);font-size:var(--text-body-sm);letter-spacing:-0.04em;text-transform:none;color:var(--color-bark-brown)">
+            <input id="isPopup" type="checkbox" style="width:auto" />
+            <span>공지 팝업으로 노출</span>
+          </label>
+          <div class="form__grid">
+            <div class="form__row">
+              <label for="seoTitle">SEO 제목</label>
+              <input id="seoTitle" type="text" placeholder="비워두면 공지 제목 사용" />
+            </div>
+            <div class="form__row">
+              <label for="ogImage">OG 이미지 URL</label>
+              <input id="ogImage" type="text" placeholder="비워두면 대표 이미지 사용" />
+            </div>
+          </div>
+          <div class="form__row">
+            <label for="seoDescription">SEO 설명</label>
+            <input id="seoDescription" type="text" placeholder="검색 결과와 공유 미리보기에 표시될 설명" />
+          </div>
+          <div class="form__row">
+            <label for="body">내용</label>
+            <div class="rte-toolbar" id="rte-toolbar">
+              <button type="button" class="rte-btn" data-cmd="bold"><b>B</b></button>
+              <button type="button" class="rte-btn" data-cmd="italic"><i>I</i></button>
+              <button type="button" class="rte-btn" data-cmd="underline"><u>U</u></button>
+              <button type="button" class="rte-btn" data-block="h2">제목</button>
+              <button type="button" class="rte-btn" data-block="h3">소제목</button>
+              <button type="button" class="rte-btn" data-block="p">본문</button>
+              <button type="button" class="rte-btn" id="rte-table">표 삽입</button>
+              <button type="button" class="rte-btn" id="rte-img">이미지</button>
+            </div>
+            <div class="rte-toolbar tt-toolbar" id="table-toolbar">
+              <span class="tt-label">표 편집</span>
+              <button type="button" class="rte-btn" data-tt="row-add">행+</button>
+              <button type="button" class="rte-btn" data-tt="row-del">행−</button>
+              <button type="button" class="rte-btn" data-tt="col-add">열+</button>
+              <button type="button" class="rte-btn" data-tt="col-del">열−</button>
+              <button type="button" class="rte-btn" data-tt="merge-right">→ 병합</button>
+              <button type="button" class="rte-btn" data-tt="merge-down">↓ 병합</button>
+              <button type="button" class="rte-btn" data-tt="unmerge">병합 해제</button>
+              <span class="tt-hint">폭·높이는 셀 경계를 드래그</span>
+              <span class="tt-msg admin__msg"></span>
+            </div>
+            <div class="rte-editor" id="body" contenteditable="true" data-placeholder="공지 내용을 작성하세요."></div>
+          </div>
+          <div class="form__row">
+            <label for="images">사진 첨부 (선택 · 첫 장이 대표 이미지)</label>
+            <input id="images" type="file" accept="image/*" multiple />
+          </div>
+          <div class="form__row" id="kept-row" style="display:none">
+            <label>기존 사진</label>
+            <div class="img-chips" id="kept-chips"></div>
+          </div>
+          <div style="display:flex;gap:var(--spacing-16);align-items:center;flex-wrap:wrap">
+            <button type="submit" class="btn btn--primary form__submit" id="save-btn">등록하기</button>
+            <button type="button" class="btn btn--ghost" id="cancel-btn" style="display:none">취소</button>
+            <span class="admin__msg" id="form-msg"></span>
+          </div>
+        </form>
+
+        <div class="admin__list">
+          <p class="microlabel" style="margin-bottom:var(--spacing-16)">등록된 공지</p>
+          <div id="admin-list"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="site.js"></script>
+  <script src="table-editor.js"></script>
+  <script src="rte-image.js"></script>
+  <script>
+    (function () {
+      const $ = (id) => document.getElementById(id);
+      const esc = (s) => (s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+      const fmt = (iso) => { try { return new Date(iso).toLocaleDateString('ko-KR'); } catch (e) { return ''; } };
+      let keptImages = [];
+
+      function showLogin() { $('login-view').style.display = 'block'; $('editor-view').style.display = 'none'; }
+      function showEditor() { $('login-view').style.display = 'none'; $('editor-view').style.display = 'block'; loadList(); }
+      fetch('/api/admin/me').then((r) => r.json()).then((d) => (d.admin ? showEditor() : showLogin())).catch(showLogin);
+
+      $('login-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        fetch('/api/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: $('password').value }) })
+          .then((r) => { if (r.ok) { $('password').value = ''; showEditor(); } else $('login-msg').textContent = '비밀번호가 올바르지 않습니다.'; });
+      });
+      $('logout-btn').addEventListener('click', () => fetch('/api/admin/logout', { method: 'POST' }).then(showLogin));
+
+      function bindRTE() {
+        const editor = $('body');
+        const exec = (cmd, val) => { editor.focus(); document.execCommand(cmd, false, val || null); };
+        document.querySelectorAll('#rte-toolbar button[data-cmd]').forEach((b) => b.addEventListener('mousedown', (e) => { e.preventDefault(); exec(b.dataset.cmd); }));
+        document.querySelectorAll('#rte-toolbar button[data-block]').forEach((b) => b.addEventListener('mousedown', (e) => { e.preventDefault(); exec('formatBlock', '<' + b.dataset.block + '>'); }));
+        $('rte-table').addEventListener('mousedown', (e) => {
+          e.preventDefault();
+          const rows = parseInt(prompt('표 행 수 — 첫 줄은 제목 행', '3'), 10); if (!rows || rows < 1) return;
+          const cols = parseInt(prompt('표 열 수', '3'), 10); if (!cols || cols < 1) return;
+          let h = '<table><thead><tr>'; for (let c = 0; c < cols; c++) h += '<th>제목' + (c + 1) + '</th>';
+          h += '</tr></thead><tbody>';
+          for (let r = 0; r < rows - 1; r++) { h += '<tr>'; for (let c = 0; c < cols; c++) h += '<td>내용</td>'; h += '</tr>'; }
+          h += '</tbody></table><p><br></p>';
+          editor.focus(); document.execCommand('insertHTML', false, h);
+        });
+      }
+      bindRTE();
+      if (window.initTableEditor) initTableEditor($('body'), $('table-toolbar'));
+      if (window.bindImageInsert) bindImageInsert($('body'), $('rte-img'));
+
+      function renderKept() {
+        const row = $('kept-row');
+        if (!keptImages.length) { row.style.display = 'none'; $('kept-chips').innerHTML = ''; return; }
+        row.style.display = 'grid';
+        $('kept-chips').innerHTML = keptImages.map((u, i) => `<div class="img-chip"><img src="${esc(u)}" alt="" /><button type="button" data-i="${i}">×</button></div>`).join('');
+      }
+      $('kept-chips').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; keptImages.splice(Number(b.dataset.i), 1); renderKept(); });
+
+      function resetForm() {
+        $('news-form').reset(); $('edit-id').value = ''; $('body').innerHTML = ''; keptImages = []; renderKept();
+        $('editor-title').textContent = '새 공지 작성'; $('save-btn').textContent = '등록하기'; $('cancel-btn').style.display = 'none'; $('form-msg').textContent = '';
+      }
+      $('cancel-btn').addEventListener('click', resetForm);
+
+      function loadList() {
+        fetch('/api/admin/news').then((r) => r.json()).then((items) => {
+          if (!items.length) { $('admin-list').innerHTML = '<p class="empty-note" style="padding:var(--spacing-32) 0">등록된 공지가 없습니다.</p>'; return; }
+          $('admin-list').innerHTML = items.map((n) => {
+            const thumb = n.images && n.images[0] ? `<img src="${esc(n.images[0])}" alt="" />` : '<div class="ph"></div>';
+            return `<div class="admin__row" data-id="${esc(n.id)}">${thumb}
+              <div class="admin__row-main"><strong>${esc(n.title)}</strong><span>${n.status === 'draft' ? '비공개' : '게시'}${n.isPopup ? ' · 팝업' : ''} · ${fmt(n.createdAt)}</span></div>
+              <button class="btn btn--ghost btn--sm act-edit">수정</button>
+              <button class="btn btn--ghost btn--sm act-del">삭제</button></div>`;
+          }).join('');
+        });
+      }
+
+      $('news-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = $('edit-id').value;
+        const fd = new FormData();
+        fd.append('title', $('title').value);
+        fd.append('status', $('status').value);
+        fd.append('isPopup', $('isPopup').checked ? 'true' : 'false');
+        fd.append('body', $('body').innerHTML.trim());
+        fd.append('seoTitle', $('seoTitle').value);
+        fd.append('seoDescription', $('seoDescription').value);
+        fd.append('ogImage', $('ogImage').value);
+        const files = $('images').files;
+        for (let i = 0; i < files.length; i++) fd.append('images', files[i]);
+        if (id) fd.append('keepImages', JSON.stringify(keptImages));
+        $('form-msg').textContent = '저장 중…';
+        fetch(id ? '/api/news/' + encodeURIComponent(id) : '/api/news', { method: id ? 'PUT' : 'POST', body: fd })
+          .then(async (r) => { const d = await r.json().catch(() => ({})); if (!r.ok) throw new Error(d.message || '저장 실패'); return d; })
+          .then(() => { resetForm(); $('form-msg').textContent = '저장되었습니다.'; loadList(); setTimeout(() => ($('form-msg').textContent = ''), 2500); })
+          .catch((err) => { $('form-msg').textContent = err.message; });
+      });
+
+      $('admin-list').addEventListener('click', (e) => {
+        const row = e.target.closest('.admin__row'); if (!row) return;
+        const id = row.dataset.id;
+        if (e.target.classList.contains('act-del')) {
+          if (!confirm('이 공지를 삭제할까요?')) return;
+          fetch('/api/news/' + encodeURIComponent(id), { method: 'DELETE' }).then(loadList);
+        } else if (e.target.classList.contains('act-edit')) {
+          fetch('/api/admin/news/' + encodeURIComponent(id)).then((r) => r.json()).then((n) => {
+            $('edit-id').value = n.id; $('title').value = n.title || ''; $('status').value = n.status === 'draft' ? 'draft' : 'published'; $('isPopup').checked = !!n.isPopup; $('body').innerHTML = n.body || ''; $('seoTitle').value = n.seoTitle || ''; $('seoDescription').value = n.seoDescription || ''; $('ogImage').value = n.ogImage || ''; $('images').value = '';
+            keptImages = (n.images || []).slice(); renderKept();
+            $('editor-title').textContent = '공지 수정'; $('save-btn').textContent = '수정 저장'; $('cancel-btn').style.display = 'inline-flex';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

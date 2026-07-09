@@ -1,0 +1,25 @@
+{
+  "name": "kveritas-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "k.veritas 제조사 홈페이지 + 제품 쇼케이스 관리자",
+  "scripts": {
+    "prestart": "node scripts/ensure-admin-build.js",
+    "start": "node server.js",
+    "build:admin": "npm run build --prefix admin-app",
+    "build:public": "npm run build --prefix public-ui",
+    "build:showcase": "npm run build:public",
+    "build:ui": "npm run build:admin && npm run build:public",
+    "dev:admin": "npm run dev --prefix admin-app",
+    "dev:public": "npm run dev --prefix public-ui",
+    "smoke": "node scripts/smoke-check.js",
+    "postinstall": "npm install --prefix admin-app && npm install --prefix public-ui"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "multer": "^2.0.0",
+    "sharp": "^0.35.2"
+  }
+}

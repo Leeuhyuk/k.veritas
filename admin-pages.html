@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>페이지 편집 — k.veritas</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fragment+Mono&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="admin-pages.css" />
+  <link rel="stylesheet" href="rte-float-table.css" />
+  <link rel="stylesheet" href="file-dropzone.css" />
+</head>
+<body class="admin-pages">
+  <div class="admin-shell">
+    <header class="admin-app-nav">
+      <div class="admin-app-nav__left">
+        <a class="admin-app-nav__brand" href="/">
+          k.veritas
+          <span class="admin-app-nav__brand-sub">Admin</span>
+        </a>
+        <nav class="admin-app-nav__links" aria-label="관리 메뉴">
+          <a href="/admin/">제품</a>
+          <a href="/admin/news">공지사항</a>
+          <a href="/admin/resources">자료실</a>
+          <a href="/admin/inquiries">문의 내역</a>
+          <a href="admin-pages.html" class="is-active">페이지 편집</a>
+          <a href="/admin/settings">관리자</a>
+          <a class="admin-app-nav__ext" href="/showcase.html" target="_blank" rel="noreferrer">쇼케이스 ↗</a>
+        </nav>
+      </div>
+      <button type="button" class="btn btn--ghost btn--sm admin-app-nav__logout" id="logout-btn" style="display:none">로그아웃</button>
+    </header>
+
+    <main class="admin-shell__main">
+    <section id="login-view" style="display:none">
+      <div class="admin-login-wrap">
+        <div class="admin-login">
+          <div class="section-head">
+            <p class="microlabel">LOGIN</p>
+            <h1 class="section-title">관리자 로그인</h1>
+          </div>
+          <form class="form" id="login-form">
+            <div class="form__row">
+              <label for="password">비밀번호</label>
+              <input id="password" type="password" autocomplete="current-password" />
+            </div>
+            <button type="submit" class="btn btn--primary form__submit">로그인</button>
+            <p class="admin__msg" id="login-msg"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="editor-view" style="display:none">
+      <div class="admin admin--pages">
+        <div class="admin__bar admin__bar--pages">
+          <div class="admin__bar-text">
+            <h1 class="admin__page-title">페이지 편집</h1>
+            <p class="admin__page-sub">문구·이미지만 수정합니다. 공개 페이지 레이아웃은 유지됩니다.</p>
+          </div>
+        </div>
+
+        <div class="page-edit-tabs-wrap">
+          <p class="microlabel">편집할 페이지</p>
+          <div class="page-edit-tabs" id="page-tabs" role="tablist" aria-label="편집할 페이지"></div>
+        </div>
+
+        <div class="pages-toolbar-row">
+          <p class="admin__msg pages-hint" id="hint">글상자를 클릭하면 위에 서식 도구가 나타납니다.</p>
+          <a class="btn btn--ghost btn--sm pages-preview-link" id="preview-link" href="#" target="_blank" rel="noreferrer">미리보기 ↗</a>
+        </div>
+        <div id="fields"></div>
+
+        <div class="pages-save-bar">
+          <button type="button" class="btn btn--primary" id="save-btn">저장하기</button>
+          <span class="admin__msg" id="save-msg"></span>
+        </div>
+      </div>
+    </section>
+    </main>
+  </div>
+
+  <!-- 텍스트 칸 포커스 시 상단 서식 팝업 (서식 | 표 모드) -->
+  <div class="rte-float" id="rte-toolbar" hidden role="toolbar" aria-label="텍스트 서식">
+    <div class="rte-float__panel" data-mode="format">
+      <div class="rte-float__modes">
+        <button type="button" class="rte-mode is-active" data-mode="format">서식</button>
+        <button type="button" class="rte-mode" data-mode="table" id="rte-mode-table">표</button>
+        <span class="rte-float__grow"></span>
+        <button type="button" class="rte-btn rte-float__close" id="rte-float-close" title="닫기" aria-label="닫기">×</button>
+      </div>
+
+      <div class="rte-float__pane" data-pane="format">
+        <div class="rte-float__inner rte-toolbar">
+          <button type="button" class="rte-btn" data-cmd="undo" title="실행 취소">↶</button>
+          <button type="button" class="rte-btn" data-cmd="redo" title="다시 실행">↷</button>
+          <span class="rte-sep"></span>
+          <button type="button" class="rte-btn" data-cmd="bold" title="굵게"><b>B</b></button>
+          <button type="button" class="rte-btn" data-cmd="italic" title="기울임"><i>I</i></button>
+          <button type="button" class="rte-btn" data-cmd="underline" title="밑줄"><u>U</u></button>
+          <button type="button" class="rte-btn" data-cmd="strikeThrough" title="취소선"><s>S</s></button>
+          <span class="rte-sep"></span>
+          <button type="button" class="rte-btn" data-block="h2" title="제목">제목</button>
+          <button type="button" class="rte-btn" data-block="h3" title="소제목">소제목</button>
+          <button type="button" class="rte-btn" data-block="p" title="본문">본문</button>
+          <span class="rte-sep"></span>
+          <button type="button" class="rte-btn" data-cmd="justifyLeft" title="왼쪽">왼쪽</button>
+          <button type="button" class="rte-btn" data-cmd="justifyCenter" title="가운데">가운데</button>
+          <button type="button" class="rte-btn" data-cmd="justifyRight" title="오른쪽">오른쪽</button>
+          <span class="rte-sep"></span>
+          <button type="button" class="rte-btn" data-cmd="insertUnorderedList" title="글머리">• 목록</button>
+          <button type="button" class="rte-btn" data-cmd="insertOrderedList" title="번호">1.</button>
+          <span class="rte-sep"></span>
+          <button type="button" class="rte-btn" id="rte-link" title="링크">링크</button>
+          <button type="button" class="rte-btn" data-cmd="insertHorizontalRule" title="구분선">구분선</button>
+          <button type="button" class="rte-btn" id="rte-image" title="이미지">이미지</button>
+          <div class="rte-table-wrap">
+            <button type="button" class="rte-btn rte-btn--accent" id="rte-table" title="표 삽입" aria-haspopup="true">표 삽입 ▾</button>
+            <div class="rte-table-picker" id="rte-table-picker" hidden>
+              <p class="rte-table-picker__title">표 크기 선택</p>
+              <div class="rte-table-picker__grid" id="rte-table-grid" role="grid"></div>
+              <p class="rte-table-picker__size" id="rte-table-size">3 × 3</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rte-float__pane" data-pane="table" hidden>
+        <div class="rte-float__inner rte-toolbar tt-toolbar" id="table-toolbar">
+          <button type="button" class="rte-btn" data-tt="row-add" title="아래에 행 추가">행 추가</button>
+          <button type="button" class="rte-btn" data-tt="row-del" title="현재 행 삭제">행 삭제</button>
+          <button type="button" class="rte-btn" data-tt="col-add" title="오른쪽에 열 추가">열 추가</button>
+          <button type="button" class="rte-btn" data-tt="col-del" title="현재 열 삭제">열 삭제</button>
+          <span class="rte-sep"></span>
+          <button type="button" class="rte-btn" data-tt="merge-right" title="오른쪽 셀과 합치기">→ 합치기</button>
+          <button type="button" class="rte-btn" data-tt="merge-down" title="아래 셀과 합치기">↓ 합치기</button>
+          <button type="button" class="rte-btn" data-tt="unmerge" title="합치기 해제">합치기 해제</button>
+          <span class="rte-sep"></span>
+          <button type="button" class="rte-btn rte-btn--danger" data-tt="table-del" title="표 전체 삭제">표 삭제</button>
+        </div>
+        <p class="rte-float__hint" id="table-hint">표 안 셀을 클릭하세요. 셀 경계를 드래그하면 크기를 조절할 수 있습니다. 첫 줄은 제목 행입니다.</p>
+      </div>
+
+      <p class="rte-float__status" id="rte-float-status" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <script src="cms.js"></script>
+  <script src="rte-image.js"></script>
+  <script src="table-editor.js"></script>
+  <script>
+    (function () {
+      const $ = (id) => document.getElementById(id);
+      const esc = (s) => (s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+      const PAGES = [
+        { file: 'index.html', label: '홈(메인)' },
+        { file: 'about.html', label: '회사소개' },
+        { file: 'certifications.html', label: '인증·특허' },
+        { file: 'facilities.html', label: '생산설비' },
+        { file: 'location.html', label: '오시는 길' },
+        { file: 'biz-machining.html', label: '사업영역 · 정밀 가공' },
+        { file: 'biz-mold.html', label: '사업영역 · 금형 제작' },
+        { file: 'biz-assembly.html', label: '사업영역 · 조립·검사' },
+        { file: 'products.html', label: '제품소개' },
+        { file: 'product-parts.html', label: '제품 · 정밀 가공 부품' },
+        { file: 'product-mold.html', label: '제품 · 정밀 금형' },
+        { file: 'product-module.html', label: '제품 · 조립 모듈' },
+        { file: 'support.html', label: '고객지원(FAQ/채널)' },
+      ];
+
+      function showLogin() {
+        $('login-view').style.display = 'block';
+        $('editor-view').style.display = 'none';
+        $('logout-btn').style.display = 'none';
+      }
+      function showEditor() {
+        $('login-view').style.display = 'none';
+        $('editor-view').style.display = 'block';
+        $('logout-btn').style.display = '';
+        initPages();
+      }
+      fetch('/api/admin/me').then((r) => r.json()).then((d) => (d.admin ? showEditor() : showLogin())).catch(showLogin);
+
+      $('login-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        fetch('/api/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: $('password').value }) })
+          .then((r) => { if (r.ok) { $('password').value = ''; showEditor(); } else $('login-msg').textContent = '비밀번호가 올바르지 않습니다.'; });
+      });
+      $('logout-btn').addEventListener('click', () => fetch('/api/admin/logout', { method: 'POST' }).then(showLogin));
+
+      /* 서식 팝업: 모드 전환 + 표 그리드 피커 */
+      let activeEditor = null;
+      let hideTimer = null;
+      let floatMode = 'format';
+      const toolbar = $('rte-toolbar');
+      const panel = toolbar.querySelector('.rte-float__panel');
+      const picker = $('rte-table-picker');
+      const gridEl = $('rte-table-grid');
+      const sizeEl = $('rte-table-size');
+      const GRID_MAX = 6;
+
+      function needFieldHint() {
+        const h = $('hint');
+        h.textContent = '편집할 글상자를 먼저 클릭하세요. 서식 도구가 위에 나타납니다.';
+        h.style.color = 'var(--color-warm-loam)';
+        clearTimeout(needFieldHint._t);
+        needFieldHint._t = setTimeout(() => {
+          h.style.color = '';
+          h.textContent = '글상자를 클릭하면 위에 서식 도구가 나타납니다. 표는 「표」모드에서 편집합니다.';
+        }, 2800);
+      }
+
+      function setFloatMode(mode) {
+        floatMode = mode === 'table' ? 'table' : 'format';
+        if (panel) panel.setAttribute('data-mode', floatMode);
+        toolbar.querySelectorAll('.rte-mode').forEach((b) => {
+          b.classList.toggle('is-active', b.getAttribute('data-mode') === floatMode);
+        });
+        toolbar.querySelectorAll('.rte-float__pane').forEach((p) => {
+          p.hidden = p.getAttribute('data-pane') !== floatMode;
+        });
+        hidePicker();
+        if (activeEditor) requestAnimationFrame(() => positionToolbar(activeEditor));
+      }
+
+      function positionToolbar(editor) {
+        if (!toolbar || !editor) return;
+        const rect = editor.getBoundingClientRect();
+        const pad = 8;
+        const tbH = toolbar.offsetHeight || 80;
+        const tbW = toolbar.offsetWidth || 480;
+        let top = rect.top - tbH - pad;
+        let left = rect.left;
+        if (top < 8) top = rect.bottom + pad;
+        if (left + tbW > window.innerWidth - 8) left = Math.max(8, window.innerWidth - tbW - 8);
+        if (left < 8) left = 8;
+        toolbar.style.top = Math.round(top) + 'px';
+        toolbar.style.left = Math.round(left) + 'px';
+      }
+
+      function hideToolbar(force) {
+        const run = () => {
+          if (!toolbar) return;
+          toolbar.hidden = true;
+          toolbar.classList.remove('is-open');
+          hidePicker();
+          document.querySelectorAll('.rte-editor.is-editing').forEach((el) => el.classList.remove('is-editing'));
+          if (window.clearTableEditorUi) window.clearTableEditorUi();
+        };
+        clearTimeout(hideTimer);
+        if (force) run();
+        else hideTimer = setTimeout(run, 180);
+      }
+
+      function updateTableToolbarState() {
+        const inCell = !!(window.refreshTableEditorUi
+          ? window.refreshTableEditorUi()
+          : window.tableEditorInCell && window.tableEditorInCell());
+        const modeBtn = $('rte-mode-table');
+        if (modeBtn) modeBtn.classList.toggle('has-table', inCell);
+        const hint = $('table-hint');
+        if (hint) {
+          hint.textContent = inCell
+            ? '선택한 셀 기준으로 행·열을 조절합니다. 셀 오른쪽/아래 경계를 드래그해 크기를 바꿀 수 있습니다. 첫 줄은 제목 행입니다.'
+            : '표 안 셀을 클릭하면 행·열·합치기 도구를 사용할 수 있습니다. 「표 삽입」은 서식 탭에 있습니다.';
+        }
+        const pane = toolbar.querySelector('.rte-float__pane[data-pane="table"]');
+        if (pane) pane.classList.toggle('is-in-cell', inCell);
+        // 표 안에서도 서식 탭 유지 — 자동 전환하지 않음 (「표」탭 점 표시만)
+        return inCell;
+      }
+
+      function showToolbar(editor) {
+        if (!toolbar || !editor) return;
+        clearTimeout(hideTimer);
+        activeEditor = editor;
+        document.querySelectorAll('.rte-editor.is-editing').forEach((el) => el.classList.remove('is-editing'));
+        editor.classList.add('is-editing');
+        toolbar.hidden = false;
+        toolbar.classList.add('is-open');
+        if (window.initTableEditor) {
+          window.initTableEditor(editor, $('table-toolbar'));
+          window.setActiveTableEditor(editor);
+        }
+        requestAnimationFrame(() => {
+          updateTableToolbarState();
+          // 사용자가 고른 탭 유지 (표 셀 클릭 시 서식 탭을 뺏지 않음)
+          setFloatMode(floatMode);
+          positionToolbar(editor);
+        });
+      }
+
+      const exec = (cmd, val) => {
+        if (!activeEditor) { needFieldHint(); return; }
+        activeEditor.focus();
+        try { document.execCommand('styleWithCSS', false, true); } catch (e) { /* ignore */ }
+        document.execCommand(cmd, false, val || null);
+        showToolbar(activeEditor);
+      };
+
+      function insertTableAt(rows, cols) {
+        if (!activeEditor) { needFieldHint(); return; }
+        let h = '<table><thead><tr>';
+        for (let c = 0; c < cols; c++) h += '<th>제목' + (c + 1) + '</th>';
+        h += '</tr></thead><tbody>';
+        for (let r = 0; r < rows - 1; r++) {
+          h += '<tr>';
+          for (let c = 0; c < cols; c++) h += '<td>내용</td>';
+          h += '</tr>';
+        }
+        h += '</tbody></table><p><br></p>';
+        activeEditor.focus();
+        document.execCommand('insertHTML', false, h);
+        hidePicker();
+        setFloatMode('table');
+        showToolbar(activeEditor);
+      }
+
+      function buildGrid() {
+        if (!gridEl || gridEl.childElementCount) return;
+        for (let r = 1; r <= GRID_MAX; r++) {
+          for (let c = 1; c <= GRID_MAX; c++) {
+            const cell = document.createElement('button');
+            cell.type = 'button';
+            cell.className = 'rte-table-picker__cell';
+            cell.setAttribute('data-r', r);
+            cell.setAttribute('data-c', c);
+            cell.setAttribute('aria-label', r + '행 ' + c + '열');
+            gridEl.appendChild(cell);
+          }
+        }
+        gridEl.style.gridTemplateColumns = 'repeat(' + GRID_MAX + ', 18px)';
+      }
+
+      function paintGrid(hr, hc) {
+        gridEl.querySelectorAll('.rte-table-picker__cell').forEach((cell) => {
+          const r = +cell.getAttribute('data-r');
+          const c = +cell.getAttribute('data-c');
+          cell.classList.toggle('is-on', r <= hr && c <= hc);
+        });
+        if (sizeEl) sizeEl.textContent = hr + ' × ' + hc + ' (첫 줄 제목)';
+      }
+
+      function showPicker() {
+        if (!activeEditor) { needFieldHint(); return; }
+        buildGrid();
+        picker.hidden = false;
+        paintGrid(3, 3);
+      }
+      function hidePicker() {
+        if (picker) picker.hidden = true;
+      }
+
+      document.querySelectorAll('#rte-toolbar button[data-cmd]').forEach((b) => {
+        b.addEventListener('mousedown', (e) => { e.preventDefault(); exec(b.dataset.cmd); });
+      });
+      document.querySelectorAll('#rte-toolbar button[data-block]').forEach((b) => {
+        b.addEventListener('mousedown', (e) => {
+          e.preventDefault();
+          exec('formatBlock', '<' + b.dataset.block + '>');
+        });
+      });
+      toolbar.querySelectorAll('.rte-mode').forEach((b) => {
+        b.addEventListener('mousedown', (e) => {
+          e.preventDefault();
+          setFloatMode(b.getAttribute('data-mode'));
+        });
+      });
+      $('rte-float-close').addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        hideToolbar(true);
+      });
+      toolbar.addEventListener('mousedown', (e) => {
+        if (e.target.closest('button, .rte-btn, .tt-toolbar, .rte-mode, .rte-table-picker')) e.preventDefault();
+      });
+
+      $('rte-link').addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        if (!activeEditor) { needFieldHint(); return; }
+        const url = prompt('링크 주소(URL)', 'https://');
+        if (url) exec('createLink', url);
+      });
+
+      $('rte-table').addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        if (picker.hidden) showPicker();
+        else hidePicker();
+      });
+      gridEl.addEventListener('mouseover', (e) => {
+        const cell = e.target.closest('.rte-table-picker__cell');
+        if (!cell) return;
+        paintGrid(+cell.getAttribute('data-r'), +cell.getAttribute('data-c'));
+      });
+      gridEl.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        const cell = e.target.closest('.rte-table-picker__cell');
+        if (!cell) return;
+        insertTableAt(+cell.getAttribute('data-r'), +cell.getAttribute('data-c'));
+      });
+      document.addEventListener('mousedown', (e) => {
+        if (picker.hidden) return;
+        if (e.target.closest('.rte-table-wrap')) return;
+        hidePicker();
+      });
+
+      (function () {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.style.display = 'none';
+        document.body.appendChild(input);
+        let range = null;
+        $('rte-image').addEventListener('mousedown', (e) => {
+          e.preventDefault();
+          if (!activeEditor) { needFieldHint(); return; }
+          const s = window.getSelection();
+          range = (s.rangeCount && activeEditor.contains(s.anchorNode)) ? s.getRangeAt(0) : null;
+          input.click();
+        });
+        input.addEventListener('change', () => {
+          const f = input.files[0];
+          if (!f || !activeEditor) return;
+          const fd = new FormData();
+          fd.append('image', f);
+          fetch('/api/upload', { method: 'POST', body: fd }).then((r) => r.json()).then((d) => {
+            if (!d.url) return;
+            activeEditor.focus();
+            const s = window.getSelection();
+            if (range) { s.removeAllRanges(); s.addRange(range); }
+            else if (!(s.rangeCount && activeEditor.contains(s.anchorNode))) {
+              const r = document.createRange();
+              r.selectNodeContents(activeEditor);
+              r.collapse(false);
+              s.removeAllRanges();
+              s.addRange(r);
+            }
+            document.execCommand('insertHTML', false, '<img src="' + d.url + '" style="max-width:100%;border-radius:8px" />');
+            input.value = '';
+            showToolbar(activeEditor);
+          });
+        });
+      })();
+
+      document.addEventListener('selectionchange', () => {
+        if (activeEditor && !toolbar.hidden) updateTableToolbarState();
+      });
+
+      window.addEventListener('scroll', () => {
+        if (activeEditor && !toolbar.hidden) positionToolbar(activeEditor);
+      }, true);
+      window.addEventListener('resize', () => {
+        if (activeEditor && !toolbar.hidden) positionToolbar(activeEditor);
+      });
+
+      function initPages() {
+        const tabs = $('page-tabs');
+        tabs.innerHTML = PAGES.map((p, i) => `<button type="button" class="page-edit-tab${i === 0 ? ' is-active' : ''}" data-page="${esc(p.file)}" role="tab" aria-selected="${i === 0 ? 'true' : 'false'}">${esc(p.label)}</button>`).join('');
+        tabs.onclick = (e) => {
+          const tab = e.target.closest('.page-edit-tab');
+          if (!tab) return;
+          selectPage(tab.dataset.page);
+        };
+        selectPage(PAGES[0].file);
+      }
+
+      let currentPage = null;
+
+      function selectPage(file) {
+        $('page-tabs').querySelectorAll('.page-edit-tab').forEach((tab) => {
+          const active = tab.dataset.page === file;
+          tab.classList.toggle('is-active', active);
+          tab.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        loadPage(file);
+      }
+
+      function ownText(section, selectors) {
+        for (const sel of selectors) {
+          const found = Array.from(section.querySelectorAll(sel))
+            .find((el) => el.closest('section') === section && (el.textContent || '').trim());
+          if (found) return found.textContent.replace(/\s+/g, ' ').trim();
+        }
+        return '';
+      }
+      function sectionKind(section) {
+        if (!section) return 'stack';
+        if (section.classList.contains('hero')) return 'hero';
+        if (section.classList.contains('subhero')) return 'subhero';
+        if (section.classList.contains('trust') || section.querySelector('.trust__logos')) return 'trust';
+        if (section.classList.contains('split')) return 'split';
+        if (section.classList.contains('features') || section.querySelector('.features__grid')) return 'cards';
+        if (section.querySelector('.channels')) return 'channels';
+        if (section.querySelector('.stats')) return 'stats';
+        if (section.querySelector('.timeline, .tl-row')) return 'timeline';
+        if (section.querySelector('.faq, .faq__item')) return 'faq';
+        if (section.querySelector('.spec')) return 'spec';
+        if (section.classList.contains('cta')) return 'cta';
+        if (section.querySelector('.prose')) return 'prose';
+        if (section.querySelector('.show-grid')) return 'grid';
+        return 'stack';
+      }
+      const KIND_META = {
+        hero: { badge: '히어로', hint: '페이지 맨 위 큰 배너 영역' },
+        subhero: { badge: '상단 배너', hint: '서브 페이지 상단 제목 영역' },
+        trust: { badge: '고객사', hint: '로고·고객사 이름 가로 나열' },
+        cards: { badge: '카드 그리드', hint: '카드가 가로로 나란히 배치' },
+        split: { badge: '좌우 분할', hint: '왼쪽 글 · 오른쪽 미디어/표' },
+        channels: { badge: '채널', hint: '문의 채널 카드들' },
+        stats: { badge: '현황 숫자', hint: '숫자 통계 타일' },
+        timeline: { badge: '연혁', hint: '연도 · 내용 타임라인' },
+        faq: { badge: 'FAQ', hint: '질문·답변 목록' },
+        spec: { badge: '사양 표', hint: '표 칸 내용' },
+        cta: { badge: '하단 배너', hint: '페이지 하단 행동 유도 영역' },
+        prose: { badge: '본문', hint: '긴 글 본문' },
+        grid: { badge: '그리드', hint: '격자 배치 영역' },
+        stack: { badge: '섹션', hint: '일반 콘텐츠 블록' },
+      };
+      function sectionTitle(section, index) {
+        if (!section) return '기타 편집 항목';
+        const kind = sectionKind(section);
+        const label = ownText(section, ['.subhero__title', '.hero__headline', '.section-title', '.cta__title', '.microlabel']);
+        const badge = (KIND_META[kind] || KIND_META.stack).badge;
+        return label || `${badge} 영역`;
+      }
+      function fieldClass(f) {
+        const el = f.el;
+        let cls = 'cms-field';
+        if (f.type === 'image') cls += ' cms-field--image';
+        if (f.key === 'trust_label') cls += ' cms-field--wide cms-field--role-label';
+        if (el.matches('.hero__headline, .subhero__title, .section-title, .cta__title')) cls += ' cms-field--wide cms-field--title cms-field--role-title';
+        else if (el.matches('.hero__sub, .subhero__sub, .split__body, .cta__sub, .faq__answer, .prose p')) cls += ' cms-field--wide cms-field--role-body';
+        else if (el.matches('.microlabel, .stat strong, .stat span, .tl-row .tl-year')) cls += ' cms-field--compact cms-field--role-meta';
+        else if (el.matches('.card__title, .channel__title')) cls += ' cms-field--role-title';
+        else if (el.matches('.card__body, .channel__detail')) cls += ' cms-field--role-body';
+        return cls;
+      }
+      function fieldRoleBadge(f) {
+        const el = f.el;
+        if (f.type === 'image') return '이미지';
+        if (el.matches('.hero__headline, .subhero__title, .section-title, .cta__title, .card__title, .channel__title')) return '제목';
+        if (el.matches('.hero__sub, .subhero__sub, .split__body, .cta__sub, .card__body, .channel__detail, .faq__answer')) return '설명';
+        if (el.matches('.microlabel')) return '말머리';
+        if (el.matches('.faq__item summary')) return '질문';
+        if (el.matches('.tl-row .tl-year, .stat strong')) return '강조';
+        if (el.matches('.stat span')) return '라벨';
+        if (el.matches('.split__list li, .prose li')) return '목록';
+        if (el.matches('.spec th, .spec td')) return '표';
+        return '텍스트';
+      }
+      function clientNo(f) {
+        const m = String(f.key || '').match(/^client(\d+)(?:_logo)?$/);
+        return m ? m[1] : '';
+      }
+      function renderSubField(f, overrides) {
+        const key = f.key, label = f.label;
+        const role = fieldRoleBadge(f);
+        if (f.type === 'image') {
+          const def = f.el.getAttribute('src') || '';
+          const val = overrides[key] !== undefined ? overrides[key] : def;
+          const hVal = overrides[key + '__h'] !== undefined ? overrides[key + '__h'] : '';
+          return `<div class="cms-subfield cms-subfield--image" data-key="${esc(key)}" data-type="image">
+            <div class="cms-field__label"><span class="microlabel"><span class="cms-role">${esc(role)}</span> ${esc(label)}</span></div>
+            <div class="cms-img file-drop" data-dropzone>
+              <input type="file" accept="image/*" class="file-drop__input cms-file-input" />
+              <div class="file-drop__icon" aria-hidden="true">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M12 16V7m0 0l-3.5 3.5M12 7l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M4 16.5V18a2 2 0 002 2h12a2 2 0 002-2v-1.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <p class="file-drop__label">이미지를 끌어다 놓으세요</p>
+              <p class="file-drop__sub">또는 클릭해서 탐색기에서 선택</p>
+              <img class="cms-img__preview" src="${esc(val)}" alt="" ${val ? '' : 'style="display:none"'} onerror="this.style.display='none'" />
+              <input type="hidden" class="cms-input" value="${esc(val)}" />
+              <label class="cms-size-label">높이 <input type="number" class="cms-size" data-key="${esc(key)}__h" value="${esc(hVal)}" min="8" max="600" placeholder="자동" /> px</label>
+            </div>
+          </div>`;
+        }
+        const def = f.el.innerHTML.trim();
+        const val = overrides[key] !== undefined ? overrides[key] : def;
+        return `<div class="cms-subfield" data-key="${esc(key)}" data-type="rich">
+          <div class="cms-field__label"><span class="microlabel"><span class="cms-role">${esc(role)}</span> ${esc(label)}</span><button type="button" class="btn btn--ghost btn--sm cms-reset" data-default="${esc(def)}">기본값</button></div>
+          <div class="rte-editor cms-input" contenteditable="true">${val}</div>
+        </div>`;
+      }
+      function renderSeo(defaultTitle, defaultDesc, overrides) {
+        return `<section class="cms-section cms-section--seo">
+          <div class="cms-section__head">
+            <div><p class="microlabel">선택</p><h3>검색·공유 미리보기 설정</h3></div>
+          </div>
+          <p class="cms-seo-help" style="margin:0 0 12px;font-size:12px;line-height:1.45;color:var(--color-bark-brown,#31200b)">구글 검색 결과, 카카오톡·메신저로 링크를 보낼 때 보이는 제목·설명·사진입니다. 비워 두면 자동으로 채워집니다.</p>
+          <div class="cms-section__grid cms-section__grid--seo">
+            <div class="cms-field cms-field--wide" data-type="seo">
+              <div class="form__row">
+                <label for="seo-title">검색·공유 제목</label>
+                <input id="seo-title" class="seo-input" data-seo="__seoTitle" type="text" value="${esc(overrides.__seoTitle || defaultTitle)}" placeholder="비워 두면 페이지 제목 사용" />
+              </div>
+              <div class="form__row">
+                <label for="seo-description">검색·공유 설명</label>
+                <input id="seo-description" class="seo-input" data-seo="__seoDescription" type="text" value="${esc(overrides.__seoDescription || defaultDesc)}" placeholder="한두 줄로 짧게 적어 주세요" />
+              </div>
+              <div class="cms-img file-drop" data-dropzone data-seo-image>
+                <input type="file" accept="image/*" class="file-drop__input cms-file-input" />
+                <div class="file-drop__icon" aria-hidden="true">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M12 16V7m0 0l-3.5 3.5M12 7l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M4 16.5V18a2 2 0 002 2h12a2 2 0 002-2v-1.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </div>
+                <p class="file-drop__label">공유할 때 보일 사진을 끌어다 놓으세요</p>
+                <p class="file-drop__sub">또는 클릭해서 선택</p>
+                <img class="cms-img__preview" src="${esc(overrides.__seoImage || '')}" alt="" onerror="this.style.display='none'" />
+                <input type="hidden" class="seo-input" data-seo="__seoImage" value="${esc(overrides.__seoImage || '')}" />
+              </div>
+            </div>
+          </div>
+        </section>`;
+      }
+      function renderField(f, overrides) {
+        const key = f.key, label = f.label;
+        const role = fieldRoleBadge(f);
+        if (f.type === 'image') {
+          const def = f.el.getAttribute('src') || '';
+          const val = overrides[key] !== undefined ? overrides[key] : def;
+          const hVal = overrides[key + '__h'] !== undefined ? overrides[key + '__h'] : '';
+          return `<div class="${fieldClass(f)}" data-key="${esc(key)}" data-type="image">
+            <div class="cms-field__label"><span class="microlabel"><span class="cms-role">${esc(role)}</span> ${esc(label)}</span></div>
+            <div class="cms-img file-drop" data-dropzone>
+              <input type="file" accept="image/*" class="file-drop__input cms-file-input" />
+              <div class="file-drop__icon" aria-hidden="true">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M12 16V7m0 0l-3.5 3.5M12 7l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M4 16.5V18a2 2 0 002 2h12a2 2 0 002-2v-1.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <p class="file-drop__label">이미지를 끌어다 놓으세요</p>
+              <p class="file-drop__sub">또는 클릭해서 탐색기에서 선택</p>
+              <img class="cms-img__preview" src="${esc(val)}" alt="" onerror="this.style.display='none'" />
+              <input type="hidden" class="cms-input" value="${esc(val)}" />
+              <label class="cms-size-label">높이 <input type="number" class="cms-size" data-key="${esc(key)}__h" value="${esc(hVal)}" min="8" max="600" placeholder="자동" /> px</label>
+            </div>
+          </div>`;
+        }
+        const def = f.el.innerHTML.trim();
+        const val = overrides[key] !== undefined ? overrides[key] : def;
+        return `<div class="${fieldClass(f)}" data-key="${esc(key)}" data-type="rich">
+          <div class="cms-field__label"><span class="microlabel"><span class="cms-role">${esc(role)}</span> ${esc(label)}</span><button type="button" class="btn btn--ghost btn--sm cms-reset" data-default="${esc(def)}">기본값</button></div>
+          <div class="rte-editor cms-input" contenteditable="true">${val}</div>
+        </div>`;
+      }
+      function groupFields(fields) {
+        const groups = [];
+        const bySection = new Map();
+        fields.forEach((f) => {
+          const section = f.el.closest('section') || null;
+          if (!bySection.has(section)) {
+            const group = { section, title: sectionTitle(section, groups.length), kind: sectionKind(section), items: [] };
+            bySection.set(section, group);
+            groups.push(group);
+          }
+          bySection.get(section).items.push(f);
+        });
+        return groups;
+      }
+      function itemContainer(f) {
+        if (!f || !f.el || !f.el.closest) return null;
+        const selector = [
+          '.subhero__inner',
+          '.hero__content',
+          '.section-head',
+          '.split__text',
+          '.split__media',
+          '.cta',
+          '.features__grid > .card',
+          '.features__grid > a.card',
+          '.features__grid > article.card',
+          '.channels > .channel',
+          '.channel',
+          '.stats > .stat',
+          '.stat',
+          '.timeline > .tl-row',
+          '.tl-row',
+          '.faq > .faq__item',
+          '.faq__item',
+          '.spec tr',
+          '.trust__logos > li',
+        ].join(',');
+        const item = f.el.closest(selector);
+        if (!item) return null;
+        return item.closest('section') === f.el.closest('section') ? item : null;
+      }
+      function comboSlotClass(container) {
+        if (!container) return '';
+        if (container.matches('.features__grid > .card, .features__grid > a.card, .features__grid > article.card')) return ' cms-slot cms-slot--card';
+        if (container.matches('.channel, .channels > .channel')) return ' cms-slot cms-slot--channel';
+        if (container.matches('.stat, .stats > .stat')) return ' cms-slot cms-slot--stat';
+        if (container.matches('.tl-row, .timeline > .tl-row')) return ' cms-slot cms-slot--timeline';
+        if (container.matches('.faq__item, .faq > .faq__item')) return ' cms-slot cms-slot--faq';
+        if (container.matches('.trust__logos > li')) return ' cms-slot cms-slot--client';
+        if (container.matches('.hero__content, .subhero__inner')) return ' cms-slot cms-slot--hero-inner';
+        if (container.matches('.section-head')) return ' cms-slot cms-slot--head';
+        if (container.matches('.split__text')) return ' cms-slot cms-slot--split-text';
+        if (container.matches('.split__media')) return ' cms-slot cms-slot--split-media';
+        if (container.matches('.cta')) return ' cms-slot cms-slot--cta';
+        if (container.matches('.spec tr')) return ' cms-slot cms-slot--spec-row';
+        return ' cms-slot';
+      }
+      function byDomOrder(a, b) {
+        if (a.el === b.el) return 0;
+        return (a.el.compareDocumentPosition(b.el) & 4) ? -1 : 1;
+      }
+      function baseLabel(label) {
+        return String(label || '')
+          .replace(/\s*(제목|설명|이름|로고|이미지|숫자|라벨|질문|답변|내용|본문)$/g, '')
+          .replace(/([가-힣A-Za-z]+)(\d+)/g, '$1 $2')
+          .trim();
+      }
+      function itemLabel(container, fields) {
+        const fromField = baseLabel((fields.find((f) => /제목|이름|질문|숫자|이미지/.test(f.label)) || fields[0] || {}).label);
+        if (fromField) return fromField;
+        const text = (container.textContent || '').replace(/\s+/g, ' ').trim();
+        return text ? (text.length > 18 ? text.slice(0, 18) + '...' : text) : '묶음 항목';
+      }
+      function renderCompositeField(container, items, overrides, slotIndex) {
+        const ordered = items.slice().sort(byDomOrder);
+        const metaClass = container && container.matches('.section-head, .subhero__inner, .hero__content, .split__text, .cta') ? ' cms-field--section-meta' : '';
+        const slot = comboSlotClass(container);
+        const label = itemLabel(container, ordered);
+        const idx = typeof slotIndex === 'number' ? slotIndex + 1 : '';
+        return `<div class="cms-field cms-field--combo${metaClass}${slot}">
+          <div class="cms-slot__head"><span class="cms-slot__pos">${idx ? idx + '.' : '•'}</span><span class="cms-slot__name">${esc(label)}</span></div>
+          ${ordered.map((f) => renderSubField(f, overrides)).join('')}
+        </div>`;
+      }
+      function renderMergedItems(items, overrides) {
+        const entries = [];
+        const byItem = new Map();
+        items.forEach((f) => {
+          const item = itemContainer(f);
+          if (!item) {
+            entries.push({ type: 'field', field: f });
+            return;
+          }
+          if (!byItem.has(item)) {
+            const entry = { type: 'combo', container: item, items: [] };
+            byItem.set(item, entry);
+            entries.push(entry);
+          }
+          byItem.get(item).items.push(f);
+        });
+        let slotI = 0;
+        return entries.map((entry) => {
+          if (entry.type === 'field') return renderField(entry.field, overrides);
+          if (entry.items.length < 2) return renderField(entry.items[0], overrides);
+          return renderCompositeField(entry.container, entry.items, overrides, slotI++);
+        }).join('');
+      }
+      function renderTrustGroup(group, overrides, order) {
+        const clients = new Map();
+        const rest = [];
+        group.items.forEach((f) => {
+          const n = clientNo(f);
+          if (!n) { rest.push(f); return; }
+          if (!clients.has(n)) clients.set(n, {});
+          if (String(f.key).endsWith('_logo')) clients.get(n).logo = f;
+          else clients.get(n).name = f;
+        });
+        const clientCards = Array.from(clients.entries()).map(([n, pair]) => (
+          `<div class="cms-field cms-field--client cms-slot cms-slot--client">` +
+          `<div class="cms-slot__head"><span class="cms-slot__pos">${esc(n)}</span><span class="cms-slot__name">고객사 ${esc(n)}</span></div>` +
+          `${pair.logo ? renderSubField(pair.logo, overrides) : ''}` +
+          `${pair.name ? renderSubField(pair.name, overrides) : ''}` +
+          `</div>`
+        )).join('');
+        const meta = KIND_META.trust;
+        return sectionShell(group, order, meta, clients.size + '개 고객사',
+          `<div class="cms-wire cms-wire--trust">
+            <div class="cms-wire__label-row">${renderMergedItems(rest, overrides)}</div>
+            <div class="cms-section__grid cms-section__grid--clients">${clientCards}</div>
+          </div>`
+        );
+      }
+      function sectionShell(group, order, meta, countText, bodyHtml) {
+        const id = 'cms-sec-' + order;
+        return `<section class="cms-section cms-section--${group.kind}" id="${id}" data-kind="${esc(group.kind)}">
+          <div class="cms-section__head">
+            <div>
+              <p class="microlabel cms-section__badge"><span class="cms-order">${order}</span> ${esc(meta.badge)} · ${esc(meta.hint)}</p>
+              <h3>${esc(group.title)}</h3>
+            </div>
+            <span class="cms-section__count">${esc(countText)}</span>
+          </div>
+          ${bodyHtml}
+        </section>`;
+      }
+      function renderGroup(group, overrides, order) {
+        const meta = KIND_META[group.kind] || KIND_META.stack;
+        if (group.section && group.section.querySelector('.trust__logos')) {
+          return renderTrustGroup(group, overrides, order);
+        }
+        let wireClass = 'cms-wire cms-wire--' + group.kind;
+        let body = `<div class="${wireClass}"><div class="cms-section__grid cms-section__grid--${group.kind}">${renderMergedItems(group.items, overrides)}</div></div>`;
+        if (group.kind === 'split') {
+          const textItems = [];
+          const mediaItems = [];
+          const other = [];
+          group.items.forEach((f) => {
+            if (f.el.closest('.split__text')) textItems.push(f);
+            else if (f.el.closest('.split__media')) mediaItems.push(f);
+            else other.push(f);
+          });
+          body = `<div class="cms-wire cms-wire--split">
+            <div class="cms-wire__col cms-wire__col--text">
+              <p class="cms-wire__col-label">왼쪽 · 글 영역</p>
+              <div class="cms-section__grid cms-section__grid--split-text">${renderMergedItems(textItems.length ? textItems : other, overrides)}</div>
+            </div>
+            <div class="cms-wire__col cms-wire__col--media">
+              <p class="cms-wire__col-label">오른쪽 · 미디어/표</p>
+              <div class="cms-section__grid cms-section__grid--split-media">${mediaItems.length ? renderMergedItems(mediaItems, overrides) : '<p class="cms-wire__empty">이 영역 편집 항목 없음</p>'}</div>
+            </div>
+          </div>`;
+        } else if (group.kind === 'hero' || group.kind === 'subhero' || group.kind === 'cta') {
+          body = `<div class="cms-wire cms-wire--${group.kind}">
+            <div class="cms-wire__stage">
+              <div class="cms-section__grid cms-section__grid--${group.kind}">${renderMergedItems(group.items, overrides)}</div>
+            </div>
+          </div>`;
+        }
+        return sectionShell(group, order, meta, group.items.length + '개 항목', body);
+      }
+      function renderPageMap(groups) {
+        if (!groups.length) return '';
+        const links = groups.map((g, i) => {
+          const order = i + 1;
+          const meta = KIND_META[g.kind] || KIND_META.stack;
+          return `<button type="button" class="cms-map__item" data-target="cms-sec-${order}">
+            <span class="cms-map__num">${order}</span>
+            <span class="cms-map__meta"><strong>${esc(meta.badge)}</strong><em>${esc(g.title)}</em></span>
+          </button>`;
+        }).join('');
+        return `<aside class="cms-map" aria-label="페이지 구역 지도">
+          <p class="microlabel">PAGE MAP</p>
+          <p class="cms-map__lead">실제 페이지 위→아래 순서입니다. 클릭하면 해당 구역으로 이동합니다.</p>
+          <div class="cms-map__list">${links}</div>
+        </aside>`;
+      }
+
+      function loadPage(file) {
+        currentPage = file;
+        $('preview-link').href = file;
+        $('fields').innerHTML = '<p class="empty-note">불러오는 중…</p>';
+        Promise.all([
+          fetch(file).then((r) => r.text()),
+          fetch('/api/content/' + file).then((r) => r.json()).catch(() => ({})),
+        ]).then(([html, overrides]) => {
+          const doc = new DOMParser().parseFromString(html, 'text/html');
+          const defaultTitle = doc.querySelector('title')?.textContent || '';
+          const defaultDesc = doc.querySelector('meta[name="description"]')?.getAttribute('content') || '';
+          const fields = (window.cmsCollect ? window.cmsCollect(doc) : []);
+          const groups = groupFields(fields);
+          const grouped = groups.map((g, i) => renderGroup(g, overrides, i + 1)).join('');
+          const map = renderPageMap(groups);
+          if (!fields.length) {
+            $('fields').innerHTML = `<div class="cms-layout cms-layout--solo">${renderSeo(defaultTitle, defaultDesc, overrides)}<p class="empty-note">이 페이지에는 아직 편집 가능한 본문 항목이 없습니다.</p></div>`;
+            $('hint').textContent = '';
+            wireFields();
+            return;
+          }
+          $('hint').textContent = '글상자를 클릭하면 서식 도구가 바로 위에 나타납니다. 왼쪽 지도로 구역을 찾을 수 있습니다.';
+          $('fields').innerHTML = `<div class="cms-workspace">
+            ${map}
+            <div class="cms-layout">${renderSeo(defaultTitle, defaultDesc, overrides)}${grouped}</div>
+          </div>`;
+          wireFields();
+          wirePageMap();
+          hideToolbar(true);
+        });
+      }
+      function wirePageMap() {
+        const map = document.querySelector('.cms-map');
+        if (!map) return;
+        map.querySelectorAll('.cms-map__item').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-target');
+            const el = document.getElementById(id);
+            if (!el) return;
+            map.querySelectorAll('.cms-map__item').forEach((b) => b.classList.remove('is-active'));
+            btn.classList.add('is-active');
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            el.classList.add('is-flash');
+            setTimeout(() => el.classList.remove('is-flash'), 1200);
+          });
+        });
+      }
+
+      // 글상자 포커스 → 서식 팝업
+      $('fields').addEventListener('focusin', (e) => {
+        const ed = e.target.closest && e.target.closest('.rte-editor');
+        if (ed) showToolbar(ed);
+      });
+      $('fields').addEventListener('focusout', (e) => {
+        const to = e.relatedTarget;
+        if (to && (toolbar.contains(to) || (to.closest && to.closest('#rte-toolbar')))) return;
+        hideToolbar(false);
+      });
+      $('fields').addEventListener('mousedown', (e) => {
+        const ed = e.target.closest && e.target.closest('.rte-editor');
+        if (ed) showToolbar(ed);
+      });
+
+      function wireFields() {
+        const editBox = (el) => el.closest('.cms-subfield, .cms-field');
+        // 기본값 복원
+        $('fields').querySelectorAll('.cms-reset').forEach((b) => {
+          b.addEventListener('click', () => { editBox(b).querySelector('.cms-input').innerHTML = b.dataset.default; });
+        });
+        // 이미지 높이 조절 (미리보기 실시간 반영)
+        $('fields').querySelectorAll('.cms-size').forEach((el) => {
+          const img = editBox(el).querySelector('.cms-img__preview');
+          const applyH = () => { if (!img) return; if (el.value) { img.style.height = el.value + 'px'; img.style.width = 'auto'; } else { img.style.height = '90px'; img.style.width = '140px'; } };
+          el.addEventListener('input', applyH);
+          if (el.value) applyH();
+        });
+        // 이미지 변경
+        function uploadToField(zone, file) {
+          if (!file) return;
+          const fd = new FormData();
+          fd.append('image', file);
+          const field = editBox(zone) || zone.closest('.cms-field');
+          if (!field) return;
+          fetch('/api/upload', { method: 'POST', body: fd }).then((r) => r.json()).then((d) => {
+            if (!d.url) return;
+            const seo = zone.hasAttribute('data-seo-image');
+            if (seo) {
+              const hid = field.querySelector('[data-seo="__seoImage"]');
+              if (hid) hid.value = d.url;
+            } else {
+              const hid = field.querySelector('.cms-input');
+              if (hid) hid.value = d.url;
+            }
+            const img = field.querySelector('.cms-img__preview');
+            if (img) { img.src = d.url; img.style.display = ''; }
+          });
+        }
+        $('fields').querySelectorAll('[data-dropzone]').forEach((zone) => {
+          const input = zone.querySelector('.cms-file-input');
+          if (!input || zone._dropBound) return;
+          zone._dropBound = true;
+          zone.addEventListener('click', (e) => {
+            if (e.target.closest('.cms-size-label, .cms-size, a, button')) return;
+            input.click();
+          });
+          input.addEventListener('change', () => {
+            uploadToField(zone, input.files[0]);
+            input.value = '';
+          });
+          zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('is-over'); });
+          zone.addEventListener('dragleave', (e) => {
+            if (zone.contains(e.relatedTarget)) return;
+            zone.classList.remove('is-over');
+          });
+          zone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            zone.classList.remove('is-over');
+            const f = e.dataTransfer.files && e.dataTransfer.files[0];
+            uploadToField(zone, f);
+          });
+        });
+      }
+
+      $('save-btn').addEventListener('click', () => {
+        const content = {};
+        $('fields').querySelectorAll('.seo-input').forEach((el) => {
+          content[el.dataset.seo] = (el.value || '').trim();
+        });
+        $('fields').querySelectorAll('.cms-field').forEach((f) => {
+          if (f.dataset.type === 'seo') return;
+          if (!f.dataset.key) return;
+          const key = f.dataset.key;
+          const input = f.querySelector('.cms-input');
+          content[key] = f.dataset.type === 'image' ? input.value : input.innerHTML.trim();
+          const sizeEl = f.querySelector('.cms-size');
+          if (sizeEl) { const v = (sizeEl.value || '').trim(); if (v) content[sizeEl.dataset.key] = v; }
+        });
+        $('fields').querySelectorAll('.cms-subfield').forEach((f) => {
+          const key = f.dataset.key;
+          const input = f.querySelector('.cms-input');
+          content[key] = f.dataset.type === 'image' ? input.value : input.innerHTML.trim();
+          const sizeEl = f.querySelector('.cms-size');
+          if (sizeEl) { const v = (sizeEl.value || '').trim(); if (v) content[sizeEl.dataset.key] = v; }
+        });
+        $('save-msg').textContent = '저장 중…';
+        fetch('/api/content/' + currentPage, {
+          method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content }),
+        }).then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+          .then(() => { $('save-msg').textContent = '저장되었습니다. (페이지 새로고침 시 반영)'; setTimeout(() => ($('save-msg').textContent = ''), 3000); })
+          .catch(() => { $('save-msg').textContent = '저장에 실패했습니다.'; });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>오시는 길 — k.veritas</title>
+  <meta name="description" content="k.veritas 오시는 길 — 주소, 지도, 연락처." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fragment+Mono&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main>
+    <section class="subhero">
+      <div class="subhero__inner">
+        <p class="microlabel">LOCATION</p>
+        <h1 class="subhero__title" data-cms="hero_title" data-cms-label="상단 제목">오시는 길</h1>
+        <p class="subhero__sub" data-cms="hero_sub" data-cms-label="상단 설명">방문 전 연락 주시면 더 빠르게 안내해 드립니다.</p>
+      </div>
+    </section>
+
+    <section class="page">
+      <div style="border:1px solid var(--color-eucalyptus);border-radius:var(--radius-2xl);overflow:hidden;margin-bottom:var(--spacing-40)">
+        <iframe
+          title="오시는 길 지도"
+          data-cms-map="addr"
+          src="https://maps.google.com/maps?q=%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EC%95%88%EC%82%B0%EC%8B%9C%20%EB%8B%A8%EC%9B%90%EA%B5%AC&t=&z=13&ie=UTF8&iwloc=&output=embed"
+          width="100%" height="420" style="border:0;display:block" loading="lazy"></iframe>
+      </div>
+      <div class="channels">
+        <article class="channel">
+          <span class="tag">주소</span>
+          <h3 class="channel__title">본사·공장</h3>
+          <p class="channel__detail" data-cms="addr" data-cms-label="주소">경기도 안산시 단원구 (예시 주소)<br/>※ 실제 주소로 교체 예정</p>
+        </article>
+        <article class="channel">
+          <span class="tag">연락처</span>
+          <h3 class="channel__title">전화·이메일</h3>
+          <p class="channel__detail" data-cms="contact" data-cms-label="전화·이메일"><strong>031-000-0000</strong><br/>sales@kveritas.co.kr</p>
+        </article>
+        <article class="channel">
+          <span class="tag">교통</span>
+          <h3 class="channel__title">찾아오시는 방법</h3>
+          <p class="channel__detail" data-cms="transport" data-cms-label="교통 안내">자가용: 서해안고속도로 이용<br/>대중교통: 안산역 하차 후 택시 10분</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta">
+      <p class="microlabel">CONTACT</p>
+      <h2 class="cta__title">방문 상담을 예약하세요</h2>
+      <div class="hero__actions">
+        <a href="support.html#contact" class="btn btn--primary">상담 예약</a>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="site.js"></script>
+  <script src="cms.js"></script>
+</body>
+</html>

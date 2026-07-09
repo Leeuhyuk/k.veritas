@@ -1,0 +1,74 @@
+/* 파일/이미지 드롭존 */
+.file-drop {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 120px;
+  padding: 18px 14px;
+  border: 1.5px dashed var(--color-lichen, #e0e5d5);
+  border-radius: 6px;
+  background: rgba(239, 242, 232, 0.45);
+  color: var(--color-bark-brown, #31200b);
+  cursor: pointer;
+  transition: border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
+  text-align: center;
+  user-select: none;
+}
+.file-drop:hover,
+.file-drop.is-over {
+  border-color: var(--color-forest-floor, #203b14);
+  background: rgba(215, 232, 181, 0.35);
+  box-shadow: 0 0 0 3px rgba(32, 59, 20, 0.08);
+}
+.file-drop__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.file-drop__icon {
+  color: var(--color-forest-floor, #203b14);
+  opacity: 0.85;
+  line-height: 0;
+}
+.file-drop__label {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-botanical-ink, #0a1d08);
+}
+.file-drop__sub {
+  margin: 0;
+  font-size: 11px;
+  color: var(--color-bark-brown, #31200b);
+}
+.file-drop__names {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  max-width: 100%;
+  font-size: 11px;
+  color: var(--color-forest-floor, #203b14);
+  word-break: break-all;
+}
+.file-drop__names li {
+  padding: 2px 0;
+}
+.file-drop.has-files {
+  border-style: solid;
+}
+.cms-img.file-drop {
+  align-items: center;
+}
+.cms-img.file-drop .cms-img__preview {
+  margin-top: 6px;
+  max-width: 100%;
+}
+.cms-img.file-drop .cms-size-label {
+  margin-top: 4px;
+}

@@ -1,0 +1,43 @@
+# dependencies
+node_modules/
+admin-app/node_modules/
+public-ui/node_modules/
+
+# env & secrets
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+server-out.log
+server-err.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# local uploads (keep folder, ignore content)
+uploads/*
+!uploads/.gitkeep
+private_uploads/*
+!private_uploads/.gitkeep
+
+# optional local data backups
+data/*.bak
+data/*~
+
+# build caches (배포 전 npm run build:ui)
+admin-app/dist/
+public-ui/dist/
+*.tsbuildinfo
+
+# agent / local tooling
+.claude/
+.grok/

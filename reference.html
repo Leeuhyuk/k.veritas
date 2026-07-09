@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>자료실 — k.veritas</title>
+  <meta name="description" content="k.veritas 자료실 — 카탈로그, 사용설명서, 인증서, 도면 등 자료 다운로드." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fragment+Mono&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main>
+    <section class="subhero">
+      <div class="subhero__inner">
+        <p class="microlabel">REFERENCE ROOM</p>
+        <h1 class="subhero__title">자료실</h1>
+        <p class="subhero__sub">제품 카탈로그·사용설명서·인증서·도면 등 자료를 내려받으실 수 있습니다.</p>
+      </div>
+    </section>
+
+    <section class="page">
+      <div id="resources-root">
+        <p class="empty-note">목록을 불러오는 중…</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="site.js"></script>
+  <script type="module" src="/public-ui/assets/resources.js"></script>
+  <script>
+    window.addEventListener('error', function (e) {
+      if (e && e.target && e.target.tagName === 'SCRIPT' && String(e.target.src || '').indexOf('public-ui') !== -1) {
+        var root = document.getElementById('resources-root');
+        if (root) {
+          root.innerHTML = '<p class="empty-note">자료실 UI를 불러오지 못했습니다. <code>npm run build:public</code> 후 <code>npm start</code> 해 주세요.</p>';
+        }
+      }
+    }, true);
+  </script>
+</body>
+</html>

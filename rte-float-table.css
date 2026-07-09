@@ -1,0 +1,172 @@
+/* ============================================================
+   표 편집 UI A+B: 모드 전환 · 그리드 피커 · 셀 하이라이트
+   ============================================================ */
+
+.rte-float__panel { display: flex; flex-direction: column; gap: 6px; min-width: min(520px, calc(100vw - 24px)); }
+
+.rte-float__modes {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 6px 0;
+}
+
+.rte-mode {
+  min-height: 26px;
+  padding: 0 12px;
+  border: 1px solid var(--color-lichen, #e0e5d5);
+  border-radius: 9999px;
+  background: transparent;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-bark-brown, #31200b);
+  cursor: pointer;
+}
+.rte-mode.is-active {
+  background: var(--color-moss-veil, #d7e8b5);
+  border-color: var(--color-forest-floor, #203b14);
+  color: var(--color-botanical-ink, #0a1d08);
+}
+.rte-mode.has-table:not(.is-active)::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 5px;
+  border-radius: 9999px;
+  background: var(--color-forest-floor, #203b14);
+  vertical-align: middle;
+}
+.rte-float__grow { flex: 1; }
+
+.rte-float__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 6px 8px;
+  border: 1px solid var(--color-lichen, #e0e5d5);
+  border-radius: 12px;
+  background: var(--color-cream-paper, #fbfdf6);
+}
+
+.rte-float__pane[data-pane="table"]:not(.is-in-cell) .tt-toolbar,
+.rte-float__pane:not(.is-in-cell) .tt-toolbar {
+  opacity: 0.7;
+}
+
+.rte-float__pane.is-in-cell .tt-toolbar {
+  opacity: 1;
+  border-color: var(--color-forest-floor, #203b14);
+  background: rgba(215, 232, 181, 0.28);
+}
+
+.rte-float__hint {
+  margin: 0;
+  padding: 0 8px 4px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--color-bark-brown, #31200b);
+}
+
+.rte-float__status {
+  min-height: 16px;
+  margin: 0;
+  padding: 0 8px 4px;
+  font-size: 11px;
+  color: var(--color-forest-floor, #203b14);
+}
+.rte-float__status.is-error {
+  color: var(--color-warm-loam, #4a3212);
+  font-weight: 700;
+}
+
+.rte-btn--accent {
+  border-color: var(--color-forest-floor, #203b14) !important;
+  background: var(--color-moss-veil, #d7e8b5) !important;
+}
+.rte-btn--danger {
+  border-color: var(--color-warm-loam, #4a3212) !important;
+  color: var(--color-warm-loam, #4a3212) !important;
+}
+
+.rte-table-wrap { position: relative; display: inline-flex; }
+.rte-table-picker {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 5;
+  padding: 10px;
+  border: 1px solid var(--color-forest-floor, #203b14);
+  border-radius: 12px;
+  background: var(--color-cream-paper, #fbfdf6);
+  box-shadow: 0 10px 28px rgba(10, 29, 8, 0.14);
+  min-width: 160px;
+}
+.rte-table-picker__title {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-botanical-ink, #0a1d08);
+}
+.rte-table-picker__grid {
+  display: grid;
+  gap: 3px;
+}
+.rte-table-picker__cell {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 1px solid var(--color-lichen, #e0e5d5);
+  border-radius: 3px;
+  background: var(--color-cream-paper, #fbfdf6);
+  cursor: pointer;
+}
+.rte-table-picker__cell.is-on {
+  background: var(--color-moss-veil, #d7e8b5);
+  border-color: var(--color-forest-floor, #203b14);
+}
+.rte-table-picker__size {
+  margin: 8px 0 0;
+  font-family: "Fragment Mono", monospace;
+  font-size: 11px;
+  color: var(--color-bark-brown, #31200b);
+}
+
+/* 에디터 안 표/셀 하이라이트 */
+.rte-editor table.tt-table-active {
+  outline: 2px solid var(--color-forest-floor, #203b14);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(32, 59, 20, 0.08);
+}
+.rte-editor td.tt-cell-active,
+.rte-editor th.tt-cell-active {
+  outline: 2px solid var(--color-forest-floor, #203b14);
+  outline-offset: -2px;
+  background: rgba(215, 232, 181, 0.45) !important;
+}
+.rte-editor table {
+  position: relative;
+}
+.rte-editor td,
+.rte-editor th {
+  position: relative;
+}
+.rte-editor td:hover::after,
+.rte-editor th:hover::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: transparent;
+}
+.rte-editor.tt-hint-resize td:hover,
+.rte-editor.tt-hint-resize th:hover {
+  box-shadow: inset -2px 0 0 var(--color-eucalyptus, #c5ccb6);
+}
+
+body.tt-resizing { cursor: col-resize; user-select: none; }

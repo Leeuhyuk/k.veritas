@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>제품 상세 — k.veritas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fragment+Mono&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main>
+    <section class="page">
+      <div class="detail" id="detail">
+        <p class="empty-note">불러오는 중…</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="site.js"></script>
+  <script src="sanitize-html.js"></script>
+  <script src="detail-lightbox.js"></script>
+  <script>
+    (function () {
+      const root = document.getElementById('detail');
+      const esc = (s) => (s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+      const id = new URLSearchParams(location.search).get('id');
+
+      const renderBody = (body) => {
+        const b = body || '';
+        if (/<[a-z][\s\S]*>/i.test(b)) {
+          return typeof sanitizeHtml === 'function' ? sanitizeHtml(b) : b;
+        }
+        return esc(b).split(/\n{2,}/).map((p) => `<p>${p.replace(/\n/g, '<br/>')}</p>`).join('');
+      };
+      const upsertMeta = (selector, attr, name, value) => {
+        if (!value) return;
+        let el = document.querySelector(selector);
+        if (!el) { el = document.createElement('meta'); el.setAttribute(attr, name); document.head.appendChild(el); }
+        el.setAttribute('content', value);
+      };
+
+      if (!id) { root.innerHTML = '<p class="empty-note">잘못된 접근입니다.</p>'; return; }
+
+      fetch('/api/products/' + encodeURIComponent(id))
+        .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+        .then((p) => {
+          document.title = (p.seoTitle || p.title) + ' — k.veritas';
+          upsertMeta('meta[name="description"]', 'name', 'description', p.seoDescription || p.summary || '');
+          upsertMeta('meta[property="og:title"]', 'property', 'og:title', p.seoTitle || p.title);
+          upsertMeta('meta[property="og:description"]', 'property', 'og:description', p.seoDescription || p.summary || '');
+          upsertMeta('meta[property="og:image"]', 'property', 'og:image', p.ogImage || (p.images && p.images[0]) || '');
+          const imgs = p.images || [];
+          const cover = imgs[0]
+            ? `<img class="detail__cover" src="${esc(imgs[0])}" alt="${esc(p.title)} 대표 사진" title="클릭하면 크게 보기" />`
+            : `<div class="detail__cover is-ph"><span class="show-ph">NO IMAGE</span></div>`;
+          const gallery = imgs.length > 1
+            ? `<div class="detail__gallery" aria-label="제품 사진">${imgs.slice(1).map((u, i) =>
+                `<img src="${esc(u)}" alt="${esc(p.title)} 사진 ${i + 2}" title="클릭하면 크게 보기" />`
+              ).join('')}</div>`
+            : '';
+          const meta = [p.industry, p.material, p.process].filter(Boolean)
+            .map((v) => `<span class="show-meta">${esc(v)}</span>`).join('');
+          const tags = [
+            p.category ? `<span class="tag">${esc(p.category)}</span>` : '',
+            meta,
+          ].filter(Boolean).join('');
+          const inquiryHref = 'support.html?productId=' + encodeURIComponent(p.id) + '&productTitle=' + encodeURIComponent(p.title) + '#contact';
+          root.innerHTML = `
+            <a class="detail__back" href="showcase.html">
+              <span class="detail__back-icon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              제품 목록으로
+            </a>
+            ${tags ? `<div class="detail__tags">${tags}</div>` : ''}
+            ${p.summary ? `<p class="detail__date">${esc(p.summary)}</p>` : ''}
+            <h1 class="detail__title">${esc(p.title)}</h1>
+            ${cover}
+            <div class="detail__body">${renderBody(p.body)}</div>
+            ${gallery}
+            <div class="detail__actions">
+              <a href="${inquiryHref}" class="btn btn--primary">이 제품과 유사한 견적 문의</a>
+              <a href="showcase.html" class="btn btn--ghost">목록으로</a>
+            </div>
+          `;
+          if (window.DetailLightbox) window.DetailLightbox.bind(root);
+        })
+        .catch(() => {
+          root.innerHTML = '<p class="empty-note">제품을 찾을 수 없습니다. <a href="showcase.html">목록으로</a></p>';
+        });
+    })();
+  </script>
+</body>
+</html>
