@@ -645,7 +645,7 @@ a.card:hover { border-color: var(--color-forest-floor); background: var(--color-
 .show-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-24);
+  gap: var(--spacing-16);
 }
 .show-card {
   display: block;
@@ -674,51 +674,59 @@ a.card:hover { border-color: var(--color-forest-floor); background: var(--color-
   overflow: hidden;
   border-radius: var(--radius-images);
 }
+/* 카드 상단 이미지는 카드 모서리에 맞춤 (이중 둥글림 방지) */
+.show-card > .show-card__media {
+  border-radius: 0;
+}
 .show-card__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: var(--radius-images);
+  border-radius: 0;
   transition: transform .35s ease;
 }
 .show-card:hover .show-card__media img { transform: scale(1.03); }
 .show-ph {
   font-family: var(--font-fragment-mono);
-  font-size: 14px;
+  font-size: 12px;
   letter-spacing: .02em;
   color: var(--color-eucalyptus);
 }
-.show-card__body { padding: var(--spacing-24); }
-.show-card__body .tag { margin-bottom: var(--spacing-16); }
+.show-card__body { padding: 14px 14px 16px; }
+.show-card__body .tag {
+  margin-bottom: 8px;
+  font-size: 12px;
+  padding: 3px 8px;
+}
 .show-card__meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin: 0 0 var(--spacing-12);
+  gap: 4px;
+  margin: 0 0 8px;
 }
 .show-meta {
   font-family: var(--font-fragment-mono);
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: .02em;
   color: var(--color-bark-brown);
   border: 1px solid var(--color-lichen);
   border-radius: var(--radius-tags);
-  padding: 2px 8px;
+  padding: 1px 6px;
   background: var(--color-cream-paper);
 }
 .show-card__body h3 {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: -0.04em;
-  margin-bottom: var(--spacing-8);
-  line-height: 1.25;
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+  line-height: 1.3;
   transition: color .15s ease;
 }
 .show-card:hover .show-card__body h3 { color: var(--color-forest-floor); }
 .show-card__body p {
-  font-size: var(--text-body-sm);
+  font-size: 13px;
   color: var(--color-bark-brown);
-  line-height: 1.6;
+  line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;

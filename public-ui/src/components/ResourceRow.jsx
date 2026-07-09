@@ -5,7 +5,6 @@ export default function ResourceRow({ item }) {
   if (!item || !item.id) return null;
   const detail = `resource-detail.html?id=${encodeURIComponent(item.id)}`;
   const download = `/api/resources/${encodeURIComponent(item.id)}/download`;
-  const desc = (item.description || '').trim();
 
   return (
     <tr className="res-row">
@@ -16,7 +15,6 @@ export default function ResourceRow({ item }) {
         <a className="res-title" href={detail}>
           {item.title}
         </a>
-        {desc ? <span className="res-desc">{desc}</span> : null}
       </td>
       <td className="res-col-file" data-label="첨부">
         <a className="btn btn--ghost btn--sm" href={detail}>
