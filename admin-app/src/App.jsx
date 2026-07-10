@@ -80,11 +80,78 @@ function AuthedApp({ onLogout }) {
   );
 }
 
+/** GitHub Pages 등 API 없는 정적 호스팅 여부 */
+function isStaticHost() {
+  if (typeof window === 'undefined') return false;
+  const h = window.location.hostname || '';
+  return /\.github\.io$/i.test(h) || window.FORCE_STATIC_ADMIN === true;
+}
+
+/** React Router basename (로컬 /admin · GH /k.veritas/admin) */
+function adminBasename() {
+  if (typeof window === 'undefined') return '/admin';
+  const path = window.location.pathname || '';
+  if (path.indexOf('/k.veritas') === 0) return '/k.veritas/admin';
+  return '/admin';
+}
+
+function siteHomeHref() {
+  if (typeof window === 'undefined') return '/';
+  const path = window.location.pathname || '';
+  if (path.indexOf('/k.veritas') === 0) return '/k.veritas/';
+  return '/';
+}
+
+function StaticAdminNotice() {
+  const home = siteHomeHref();
+  return (
+    <div className="admin-shell">
+      <header className="admin-app-nav">
+        <a className="admin-app-nav__brand" href={home}>
+          k.veritas
+          <span className="admin-app-nav__brand-sub">Admin</span>
+        </a>
+        <a className="admin-app-nav__ext" href={home} style={{ fontSize: 12, textDecoration: 'none', color: 'inherit' }}>
+          사이트로
+        </a>
+      </header>
+      <div className="form" style={{ maxWidth: 560, margin: '48px auto', gap: 16 }}>
+        <h1 className="section-title" style={{ fontSize: 28, textAlign: 'left', marginBottom: 8 }}>
+          관리자는 서버가 필요합니다
+        </h1>
+        <p style={{ color: 'var(--color-bark-brown)', lineHeight: 1.6, margin: 0 }}>
+          지금 보시는 주소는 <strong>GitHub Pages(정적 호스팅)</strong>입니다.
+          로그인·제품 등록·문의 확인 같은 관리 기능은 Node 서버의 API가 있어야 동작합니다.
+        </p>
+        <ul style={{ margin: '8px 0 0', paddingLeft: 20, color: 'var(--color-bark-brown)', lineHeight: 1.7 }}>
+          <li>
+            로컬: 프로젝트 폴더에서 <code>npm start</code> 후{' '}
+            <a href="http://localhost:3000/admin/">http://localhost:3000/admin/</a>
+          </li>
+          <li>
+            공개 사이트(목록·사진)는 Pages에서 볼 수 있습니다 →{' '}
+            <a href={home}>사이트로 이동</a>
+          </li>
+          <li>
+            전체 기능을 인터넷에 올리려면 VPS 등 <strong>Node 호스팅</strong>이 필요합니다 (
+            <code>docs/HOSTING.md</code>)
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 function AuthGate() {
   const [auth, setAuth] = useState(null);
   const navigate = useNavigate();
+  const home = siteHomeHref();
 
   useEffect(() => {
+    if (isStaticHost()) {
+      setAuth(false);
+      return;
+    }
     adminApi
       .me()
       .then((d) => setAuth(!!d.admin))
@@ -101,16 +168,25 @@ function AuthGate() {
     navigate('/');
   }
 
+  if (isStaticHost()) {
+    return <StaticAdminNotice />;
+  }
+
   if (auth === null) {
     return (
       <div className="admin-shell">
         <header className="admin-app-nav">
-          <a className="admin-app-nav__brand" href="/">
+          <a className="admin-app-nav__brand" href={home}>
             k.veritas
             <span className="admin-app-nav__brand-sub">Admin</span>
           </a>
         </header>
-        <p className="empty-note">세션 확인 중…</p>
+        <div className="list-skeleton list-skeleton--list" style={{ maxWidth: 480, margin: '40px auto' }} aria-busy="true">
+          <div className="list-skeleton__news">
+            <span className="list-skeleton__bar list-skeleton__bar--sm" />
+            <span className="list-skeleton__bar list-skeleton__bar--lg" />
+          </div>
+        </div>
       </div>
     );
   }
@@ -119,11 +195,11 @@ function AuthGate() {
     return (
       <div className="admin-shell">
         <header className="admin-app-nav">
-          <a className="admin-app-nav__brand" href="/">
+          <a className="admin-app-nav__brand" href={home}>
             k.veritas
             <span className="admin-app-nav__brand-sub">Admin</span>
           </a>
-          <a className="admin-app-nav__ext" href="/" style={{ fontSize: 12, textDecoration: 'none', color: 'inherit' }}>
+          <a className="admin-app-nav__ext" href={home} style={{ fontSize: 12, textDecoration: 'none', color: 'inherit' }}>
             사이트로
           </a>
         </header>
@@ -136,8 +212,9 @@ function AuthGate() {
 }
 
 export default function App() {
+  const basename = adminBasename();
   return (
-    <BrowserRouter basename="/admin">
+    <BrowserRouter basename={basename}>
       <AuthGate />
     </BrowserRouter>
   );

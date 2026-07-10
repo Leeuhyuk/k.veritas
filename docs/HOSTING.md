@@ -6,9 +6,13 @@ GitHub: https://github.com/Leeuhyuk/k.veritas
 GitHub Pages (미리보기): https://leeuhyuk.github.io/k.veritas/
 
 > **중요:** GitHub Pages는 **정적 파일만** 제공합니다.  
-> Node 서버·관리자·문의 저장·실시간 API는 Pages에서 **동작하지 않습니다.**  
-> 공개 목록/상세는 `static-api/` 스냅샷 + `site-base.js` 로 표시합니다.  
-> 관리자·문의 등 전체 기능은 Node 서버 호스팅이 필요합니다.
+> - 공개 목록/상세: `static-api/` 스냅샷으로 **보기 가능**  
+> - **관리자(`/admin/`)**: 페이지는 열리지만 **로그인은 Node 서버에서만** 가능  
+> - 문의 저장·실시간 등록도 Node API 필요  
+>
+> 관리자 주소  
+> - Pages 안내: https://leeuhyuk.github.io/k.veritas/admin/  
+> - 실제 사용: http://localhost:3000/admin/ (`npm start`)
 
 ### GitHub Pages에 공개 데이터 반영
 
