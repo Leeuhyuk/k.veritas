@@ -3,6 +3,23 @@
 Firebase 프로젝트: **production-management-e70fd**  
 Storage 버킷: **production-management-e70fd-media**  
 GitHub: https://github.com/Leeuhyuk/k.veritas  
+GitHub Pages (미리보기): https://leeuhyuk.github.io/k.veritas/
+
+> **중요:** GitHub Pages는 **정적 파일만** 제공합니다.  
+> Node 서버·관리자·문의 저장·실시간 API는 Pages에서 **동작하지 않습니다.**  
+> 공개 목록/상세는 `static-api/` 스냅샷 + `site-base.js` 로 표시합니다.  
+> 관리자·문의 등 전체 기능은 Node 서버 호스팅이 필요합니다.
+
+### GitHub Pages에 공개 데이터 반영
+
+```bash
+npm run prepare:pages   # public-ui 빌드 + static-api export + 경로 패치
+git add static-api public-ui/dist site-base.js *.html
+git commit -m "chore: GitHub Pages 정적 데이터 갱신"
+git push
+```
+
+수 분 후 https://leeuhyuk.github.io/k.veritas/showcase.html 확인.  
 
 ---
 

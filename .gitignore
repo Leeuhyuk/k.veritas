@@ -38,9 +38,11 @@ private_uploads/*
 data/*.bak
 data/*~
 
-# build caches (배포 전 npm run build:ui)
+# build caches
+# admin SPA 는 서버 필요 — dist 는 로컬 빌드
 admin-app/dist/
-public-ui/dist/
+# public-ui dist 는 GitHub Pages 공개 목록용으로 커밋
+# public-ui/dist/
 *.tsbuildinfo
 
 # agent / local tooling

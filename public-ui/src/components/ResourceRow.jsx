@@ -4,7 +4,9 @@ import { fmtDate } from '../lib/format.js';
 export default function ResourceRow({ item }) {
   if (!item || !item.id) return null;
   const detail = `resource-detail.html?id=${encodeURIComponent(item.id)}`;
-  const download = `/api/resources/${encodeURIComponent(item.id)}/download`;
+  // Storage 직접 URL이 있으면 사용 (GitHub Pages 등 정적 호스팅 대응)
+  const fileUrl = item.file && /^https?:\/\//i.test(item.file) ? item.file : null;
+  const download = fileUrl || `/api/resources/${encodeURIComponent(item.id)}/download`;
 
   return (
     <tr className="res-row">
@@ -20,7 +22,11 @@ export default function ResourceRow({ item }) {
         <a className="btn btn--ghost btn--sm" href={detail}>
           상세보기
         </a>
-        <a className="btn btn--ghost btn--sm" href={download}>
+        <a
+          className="btn btn--ghost btn--sm"
+          href={download}
+          {...(fileUrl ? { target: '_blank', rel: 'noreferrer' } : {})}
+        >
           다운로드
         </a>
       </td>
