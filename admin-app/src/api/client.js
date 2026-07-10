@@ -29,6 +29,9 @@ function formPost(path, formData, method = 'POST') {
 export const adminApi = {
   me: () => api('/api/admin/me'),
   login: (password) => api('/api/admin/login', { method: 'POST', body: { password } }),
+  loginGoogle: (idToken) =>
+    api('/api/admin/login-google', { method: 'POST', body: { idToken } }),
+  firebaseConfig: () => api('/api/admin/firebase-config'),
   logout: () => api('/api/admin/logout', { method: 'POST' }),
   changePassword: (current, next) =>
     api('/api/admin/password', { method: 'POST', body: { current, next } }),

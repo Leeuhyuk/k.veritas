@@ -24,6 +24,7 @@ const path = require('path');
 const { sanitizeHtml } = require('./sanitize-html.js');
 const store = require('./lib/store.js');
 const media = require('./lib/media.js');
+const firebaseLib = require('./lib/firebase.js');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -319,14 +320,76 @@ app.post('/api/admin/login', async (req, res) => {
   if (password && hash && bcrypt.compareSync(password, hash)) {
     clearLoginFailures(req);
     req.session.admin = true;
-    return res.json({ ok: true });
+    req.session.adminEmail = 'password';
+    req.session.adminMethod = 'password';
+    return res.json({ ok: true, method: 'password' });
   }
   recordLoginFailure(req);
   return res.status(401).json({ error: 'invalid_password', message: '비밀번호가 올바르지 않습니다.' });
 });
 
+/* 구글 로그인 (Firebase ID 토큰 → 세션) */
+app.post('/api/admin/login-google', async (req, res) => {
+  if (!assertLoginAllowed(req, res)) return;
+  const { idToken } = req.body || {};
+  if (!idToken) {
+    return res.status(400).json({ error: 'token_required', message: '구글 로그인 토큰이 없습니다.' });
+  }
+  // 토큰 검증을 위해 Firebase Admin 준비
+  if (!firebaseLib.isFirebaseReady()) {
+    firebaseLib.initFirebase();
+  }
+  const result = await firebaseLib.verifyAdminGoogleToken(idToken);
+  if (!result.ok) {
+    recordLoginFailure(req);
+    return res.status(401).json({ error: result.code, message: result.message });
+  }
+  clearLoginFailures(req);
+  req.session.admin = true;
+  req.session.adminEmail = result.email;
+  req.session.adminName = result.name || '';
+  req.session.adminUid = result.uid;
+  req.session.adminMethod = 'google';
+  return res.json({
+    ok: true,
+    method: 'google',
+    email: result.email,
+    name: result.name || '',
+  });
+});
+
+/* 클라이언트용 Firebase 웹 설정 (공개 가능 키만) */
+app.get('/api/admin/firebase-config', async (req, res) => {
+  const apiKey = process.env.FIREBASE_WEB_API_KEY || '';
+  const authDomain =
+    process.env.FIREBASE_AUTH_DOMAIN ||
+    `${process.env.FIREBASE_PROJECT_ID || 'production-management-e70fd'}.firebaseapp.com`;
+  const projectId = process.env.FIREBASE_PROJECT_ID || 'production-management-e70fd';
+  const googleEnabled = firebaseLib.getAdminGoogleEmails().length > 0 && !!apiKey;
+  res.json({
+    enabled: googleEnabled,
+    config: apiKey
+      ? {
+          apiKey,
+          authDomain,
+          projectId,
+          storageBucket:
+            process.env.FIREBASE_STORAGE_BUCKET || 'production-management-e70fd-media',
+          messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || '',
+          appId: process.env.FIREBASE_WEB_APP_ID || '',
+        }
+      : null,
+  });
+});
+
 /* 비밀번호 변경 (현재 비밀번호 확인 후) */
 app.post('/api/admin/password', requireAuth, async (req, res) => {
+  if (req.session.adminMethod === 'google') {
+    return res.status(400).json({
+      error: 'google_account',
+      message: '구글 로그인 계정은 여기서 비밀번호를 바꿀 수 없습니다. Google 계정 설정을 이용하세요.',
+    });
+  }
   const { current, next } = req.body || {};
   const hash = readAdminHash();
   if (!current || !hash || !bcrypt.compareSync(current, hash)) {
@@ -342,7 +405,12 @@ app.post('/api/admin/logout', async (req, res) => {
   req.session.destroy(() => res.json({ ok: true }));
 });
 app.get('/api/admin/me', async (req, res) => {
-  res.json({ admin: !!(req.session && req.session.admin) });
+  res.json({
+    admin: !!(req.session && req.session.admin),
+    email: (req.session && req.session.adminEmail) || '',
+    name: (req.session && req.session.adminName) || '',
+    method: (req.session && req.session.adminMethod) || '',
+  });
 });
 
 /* 관리자 전용 전체 목록/단건 */

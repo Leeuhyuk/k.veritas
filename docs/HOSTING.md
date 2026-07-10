@@ -36,8 +36,33 @@ git push
 - [ ] http://localhost:3000 홈·쇼케이스·자료실·공지
 - [ ] 제품 카드/상세 **이미지 표시**
 - [ ] http://localhost:3000/admin/ 로그인·제품 수정 저장
-- [ ] 관리자 비밀번호 변경 (8자 이상)
+- [ ] (선택) **구글 로그인** 설정 후 관리자 접속
+- [ ] 관리자 비밀번호 변경 (8자 이상) — 비번 로그인 쓸 때
 - [ ] `SESSION_SECRET` 을 긴 임의 문자열로 교체
+
+### A-2. 관리자 구글 로그인 설정
+
+1. [Firebase Authentication](https://console.firebase.google.com/project/production-management-e70fd/authentication/providers)  
+   → **Google** 사용 설정 ON  
+2. **Authentication → Settings → Authorized domains**  
+   → `localhost` 포함 확인  
+3. [프로젝트 설정 → 내 앱](https://console.firebase.google.com/project/production-management-e70fd/settings/general)  
+   → 웹 앱(`</>`) 추가 → 설정 값 복사  
+4. `.env` 예시:
+
+```bash
+ADMIN_GOOGLE_EMAILS=yourname@gmail.com
+FIREBASE_WEB_API_KEY=AIza...
+FIREBASE_AUTH_DOMAIN=production-management-e70fd.firebaseapp.com
+FIREBASE_WEB_APP_ID=1:....:web:....
+FIREBASE_MESSAGING_SENDER_ID=........
+```
+
+5. 서버 재시작 → `/admin/` 에서 **Google 계정으로 로그인**  
+   (`ADMIN_GOOGLE_EMAILS`에 있는 계정만 허용)
+
+> GitHub Pages의 `/admin/` 은 API가 없어 **구글 로그인도 불가**합니다.  
+> 관리자는 반드시 `npm start` (또는 Node 호스팅) 주소에서 사용하세요.
 
 이미지 403이면:
 
