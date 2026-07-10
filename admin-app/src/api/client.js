@@ -1,3 +1,6 @@
+import { isStaticHost } from '../lib/staticMode.js';
+import { staticAdminApi } from './staticAdminApi.js';
+
 async function parseJson(res) {
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
@@ -26,7 +29,8 @@ function formPost(path, formData, method = 'POST') {
   return fetch(path, { method, body: formData, credentials: 'include' }).then(parseJson);
 }
 
-export const adminApi = {
+/** 로컬 Node 서버 API */
+const liveAdminApi = {
   me: () => api('/api/admin/me'),
   login: (password) => api('/api/admin/login', { method: 'POST', body: { password } }),
   loginGoogle: (idToken) =>
@@ -73,6 +77,23 @@ export const adminApi = {
     return formPost('/api/upload', fd);
   },
 };
+
+function pick() {
+  return isStaticHost() ? staticAdminApi : liveAdminApi;
+}
+
+/** 환경에 따라 서버 API 또는 Firestore 직접 사용 */
+export const adminApi = new Proxy(
+  {},
+  {
+    get(_t, prop) {
+      if (prop === 'isStatic') return isStaticHost();
+      const apiImpl = pick();
+      const v = apiImpl[prop];
+      return typeof v === 'function' ? v.bind(apiImpl) : v;
+    },
+  }
+);
 
 export function fmtDate(iso) {
   try {

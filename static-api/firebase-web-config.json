@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "adminEmails": [
+    "lgs79422@gmail.com",
+    "lgs7942@naver.com"
+  ],
+  "config": {
+    "apiKey": "AIzaSyB9LDOKmzXXyR831_BZoy8QhZTUmRxdJPs",
+    "authDomain": "production-management-e70fd.firebaseapp.com",
+    "projectId": "production-management-e70fd",
+    "storageBucket": "production-management-e70fd-media",
+    "messagingSenderId": "979365023422",
+    "appId": "1:979365023422:web:1e2047d25686f39fcd98ef"
+  },
+  "note": "GitHub Pages admin Google login — rules enforce admin emails"
+}

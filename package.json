@@ -18,7 +18,8 @@
     "storage:public": "node scripts/make-storage-public.js",
     "export:static": "node scripts/export-static-api.js",
     "optimize:images": "node scripts/optimize-images.js",
-    "prepare:pages": "npm run build:public && npm run build:admin && node scripts/publish-admin-pages.js && node scripts/export-static-api.js && node scripts/patch-gh-pages-paths.js",
+    "prepare:pages": "npm run build:public && npm run build:admin && node scripts/publish-admin-pages.js && node scripts/export-static-api.js && node scripts/export-firebase-web-config.js && node scripts/patch-gh-pages-paths.js",
+    "deploy:rules": "npx --yes firebase-tools deploy --only firestore:rules,storage --project production-management-e70fd",
     "postinstall": "npm install --prefix admin-app && npm install --prefix public-ui"
   },
   "dependencies": {

@@ -102,60 +102,25 @@ function siteHomeHref() {
   return '/';
 }
 
-function StaticAdminNotice() {
-  const home = siteHomeHref();
-  return (
-    <div className="admin-shell">
-      <header className="admin-app-nav">
-        <a className="admin-app-nav__brand" href={home}>
-          k.veritas
-          <span className="admin-app-nav__brand-sub">Admin</span>
-        </a>
-        <a className="admin-app-nav__ext" href={home} style={{ fontSize: 12, textDecoration: 'none', color: 'inherit' }}>
-          사이트로
-        </a>
-      </header>
-      <div className="form" style={{ maxWidth: 560, margin: '48px auto', gap: 16 }}>
-        <h1 className="section-title" style={{ fontSize: 28, textAlign: 'left', marginBottom: 8 }}>
-          관리자는 서버가 필요합니다
-        </h1>
-        <p style={{ color: 'var(--color-bark-brown)', lineHeight: 1.6, margin: 0 }}>
-          지금 보시는 주소는 <strong>GitHub Pages(정적 호스팅)</strong>입니다.
-          로그인·제품 등록·문의 확인 같은 관리 기능은 Node 서버의 API가 있어야 동작합니다.
-        </p>
-        <ul style={{ margin: '8px 0 0', paddingLeft: 20, color: 'var(--color-bark-brown)', lineHeight: 1.7 }}>
-          <li>
-            로컬: 프로젝트 폴더에서 <code>npm start</code> 후{' '}
-            <a href="http://localhost:3000/admin/">http://localhost:3000/admin/</a>
-          </li>
-          <li>
-            공개 사이트(목록·사진)는 Pages에서 볼 수 있습니다 →{' '}
-            <a href={home}>사이트로 이동</a>
-          </li>
-          <li>
-            전체 기능을 인터넷에 올리려면 VPS 등 <strong>Node 호스팅</strong>이 필요합니다 (
-            <code>docs/HOSTING.md</code>)
-          </li>
-        </ul>
-      </div>
-    </div>
-  );
-}
-
 function AuthGate() {
   const [auth, setAuth] = useState(null);
   const navigate = useNavigate();
   const home = siteHomeHref();
 
   useEffect(() => {
-    if (isStaticHost()) {
-      setAuth(false);
-      return;
-    }
+    let cancelled = false;
+    // 로컬: 서버 세션 / GitHub Pages: Firebase Auth 상태
     adminApi
       .me()
-      .then((d) => setAuth(!!d.admin))
-      .catch(() => setAuth(false));
+      .then((d) => {
+        if (!cancelled) setAuth(!!d.admin);
+      })
+      .catch(() => {
+        if (!cancelled) setAuth(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   async function logout() {
@@ -166,10 +131,6 @@ function AuthGate() {
     }
     setAuth(false);
     navigate('/');
-  }
-
-  if (isStaticHost()) {
-    return <StaticAdminNotice />;
   }
 
   if (auth === null) {

@@ -312,6 +312,28 @@ function requireAuth(req, res, next) {
    API
    ============================================================ */
 
+function establishAdminSession(req, res, payload) {
+  return new Promise((resolve) => {
+    req.session.regenerate((regenErr) => {
+      if (regenErr) console.error('[auth] session regenerate', regenErr);
+      req.session.admin = true;
+      req.session.adminEmail = payload.email || '';
+      req.session.adminName = payload.name || '';
+      req.session.adminUid = payload.uid || '';
+      req.session.adminMethod = payload.method || 'password';
+      req.session.save((saveErr) => {
+        if (saveErr) {
+          console.error('[auth] session save', saveErr);
+          res.status(500).json({ error: 'session_error', message: '세션 저장에 실패했습니다.' });
+          return resolve(false);
+        }
+        res.json(payload.response || { ok: true, method: payload.method });
+        resolve(true);
+      });
+    });
+  });
+}
+
 /* 관리자 로그인/로그아웃/상태 */
 app.post('/api/admin/login', async (req, res) => {
   if (!assertLoginAllowed(req, res)) return;
@@ -319,10 +341,12 @@ app.post('/api/admin/login', async (req, res) => {
   const hash = readAdminHash();
   if (password && hash && bcrypt.compareSync(password, hash)) {
     clearLoginFailures(req);
-    req.session.admin = true;
-    req.session.adminEmail = 'password';
-    req.session.adminMethod = 'password';
-    return res.json({ ok: true, method: 'password' });
+    await establishAdminSession(req, res, {
+      method: 'password',
+      email: 'password',
+      response: { ok: true, method: 'password' },
+    });
+    return;
   }
   recordLoginFailure(req);
   return res.status(401).json({ error: 'invalid_password', message: '비밀번호가 올바르지 않습니다.' });
@@ -335,26 +359,29 @@ app.post('/api/admin/login-google', async (req, res) => {
   if (!idToken) {
     return res.status(400).json({ error: 'token_required', message: '구글 로그인 토큰이 없습니다.' });
   }
-  // 토큰 검증을 위해 Firebase Admin 준비
+  console.log('[auth/google] login attempt tokenLen=', String(idToken).length);
   if (!firebaseLib.isFirebaseReady()) {
     firebaseLib.initFirebase();
   }
   const result = await firebaseLib.verifyAdminGoogleToken(idToken);
   if (!result.ok) {
+    console.warn('[auth/google] denied', result.code, result.message);
     recordLoginFailure(req);
-    return res.status(401).json({ error: result.code, message: result.message });
+    return res.status(401).json({ error: result.code, message: result.message, email: result.email || '' });
   }
   clearLoginFailures(req);
-  req.session.admin = true;
-  req.session.adminEmail = result.email;
-  req.session.adminName = result.name || '';
-  req.session.adminUid = result.uid;
-  req.session.adminMethod = 'google';
-  return res.json({
-    ok: true,
+  console.log('[auth/google] success', result.email);
+  await establishAdminSession(req, res, {
     method: 'google',
     email: result.email,
     name: result.name || '',
+    uid: result.uid,
+    response: {
+      ok: true,
+      method: 'google',
+      email: result.email,
+      name: result.name || '',
+    },
   });
 });
 
@@ -365,9 +392,11 @@ app.get('/api/admin/firebase-config', async (req, res) => {
     process.env.FIREBASE_AUTH_DOMAIN ||
     `${process.env.FIREBASE_PROJECT_ID || 'production-management-e70fd'}.firebaseapp.com`;
   const projectId = process.env.FIREBASE_PROJECT_ID || 'production-management-e70fd';
-  const googleEnabled = firebaseLib.getAdminGoogleEmails().length > 0 && !!apiKey;
+  const adminEmails = firebaseLib.getAdminGoogleEmails();
+  const googleEnabled = adminEmails.length > 0 && !!apiKey;
   res.json({
     enabled: googleEnabled,
+    adminEmails,
     config: apiKey
       ? {
           apiKey,

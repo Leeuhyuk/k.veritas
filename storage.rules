@@ -1,15 +1,27 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    // 공개 에셋
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email is string
+        && request.auth.token.email in [
+          'lgs79422@gmail.com',
+          'lgs7942@naver.com'
+        ];
+    }
+
+    // 공개 에셋: 누구나 읽기, 관리자만 쓰기
     match /public/{allPaths=**} {
       allow read: if true;
-      allow write: if false; // Admin SDK only
+      allow write: if isAdmin()
+        && request.resource.size < 50 * 1024 * 1024;
     }
+
     // 문의 첨부 등 비공개
     match /private/{allPaths=**} {
-      allow read, write: if false;
+      allow read, write: if isAdmin();
     }
+
     match /{allPaths=**} {
       allow read, write: if false;
     }

@@ -3,7 +3,10 @@
   "firestore": {
     "rules": "firestore.rules"
   },
-  "storage": {
-    "rules": "storage.rules"
-  }
+  "storage": [
+    {
+      "bucket": "production-management-e70fd-media",
+      "rules": "storage.rules"
+    }
+  ]
 }

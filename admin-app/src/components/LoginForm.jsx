@@ -35,24 +35,41 @@ export default function LoginForm({ onSuccess }) {
     setMsg('');
     setGoogleLoading(true);
     try {
-      const { idToken } = await signInWithGoogle();
-      await adminApi.loginGoogle(idToken);
-      try {
-        await signOutGoogle();
-      } catch {
-        /* 세션은 서버 쿠키로 유지 */
+      const { idToken, email } = await signInWithGoogle();
+      console.log('[login] google popup ok', email);
+      // 로컬: 서버에 토큰 전달 / Pages: Firebase Auth 유지 + 권한 검사
+      const result = await adminApi.loginGoogle(idToken);
+      console.log('[login] ok', result);
+      // 서버 세션 모드에서만 클라이언트 Firebase 로그아웃 (세션 쿠키 유지)
+      if (!adminApi.isStatic) {
+        try {
+          await signOutGoogle();
+        } catch {
+          /* ignore */
+        }
+      }
+      const me = await adminApi.me();
+      if (!me || !me.admin) {
+        setMsg('로그인은 됐지만 권한이 확인되지 않습니다. 허용 이메일을 확인하세요.');
+        return;
       }
       onSuccess();
     } catch (err) {
-      const code = err && err.code;
-      if (code === 'auth/popup-closed-by-user') {
-        setMsg('구글 로그인 창이 닫혔습니다.');
+      console.error('[login] google failed', err);
+      const code = err && (err.code || (err.data && err.data.error));
+      const serverMsg = (err && err.data && err.data.message) || err.message;
+      if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
+        setMsg('구글 로그인 창이 닫혔습니다. 다시 시도해 주세요.');
       } else if (code === 'auth/unauthorized-domain') {
         setMsg(
-          '이 도메인이 Firebase 승인된 도메인에 없습니다. 콘솔 → Authentication → Settings → Authorized domains 에 localhost 를 추가하세요.'
+          '이 도메인이 Firebase 승인 목록에 없습니다. Authentication → Settings → Authorized domains 에 localhost 를 추가하세요.'
         );
+      } else if (code === 'auth/popup-blocked') {
+        setMsg('팝업이 차단되었습니다. 브라우저에서 팝업을 허용해 주세요.');
+      } else if (code === 'not_allowed') {
+        setMsg(serverMsg || '허용되지 않은 구글 계정입니다. ADMIN_GOOGLE_EMAILS 를 확인하세요.');
       } else {
-        setMsg(err.message || '구글 로그인에 실패했습니다.');
+        setMsg(serverMsg || '구글 로그인에 실패했습니다.');
       }
     } finally {
       setGoogleLoading(false);
