@@ -2,11 +2,6 @@
   {
     "id": "p1783609168385",
     "summary": "",
-    "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/1783609168343-815040331.png",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/1783609168343-5995363.png",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/1783609168343-817457199.png"
-    ],
     "process": "",
     "seoDescription": "",
     "industry": "",
@@ -19,16 +14,21 @@
     "category": "",
     "order": 0,
     "status": "published",
-    "updatedAt": "2026-07-09T14:59:28.385Z"
+    "images": [
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/full-0-1783679159971.webp",
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/full-1-1783679162040.webp",
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/full-2-1783679163420.webp"
+    ],
+    "thumbs": [
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/thumb-0-1783679159971.webp",
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/thumb-1-1783679162040.webp",
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/thumb-2-1783679163420.webp"
+    ],
+    "updatedAt": "2026-07-10T10:26:04.777Z"
   },
   {
     "id": "p1783608946207",
     "summary": "",
-    "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/1783608946160-726234483.png",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/1783608946160-106044505.png",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/1783608946162-88979924.png"
-    ],
     "process": "",
     "seoDescription": "",
     "industry": "",
@@ -41,18 +41,21 @@
     "category": "자동차",
     "order": 1,
     "status": "published",
-    "updatedAt": "2026-07-09T14:55:46.207Z"
+    "images": [
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/full-0-1783679165057.webp",
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/full-1-1783679166370.webp",
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/full-2-1783679167795.webp"
+    ],
+    "thumbs": [
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/thumb-0-1783679165057.webp",
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/thumb-1-1783679166370.webp",
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/thumb-2-1783679167795.webp"
+    ],
+    "updatedAt": "2026-07-10T10:26:09.159Z"
   },
   {
     "id": "p1783608744476",
     "summary": "111111111111111",
-    "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/1783608744358-625593671.png",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/1783608744358-355701838.png",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/1783608744359-735567722.png",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/1783608744359-723843380.png",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/1783608744360-395386741.png"
-    ],
     "process": "",
     "seoDescription": "",
     "industry": "",
@@ -65,14 +68,25 @@
     "category": "자동차",
     "order": 2,
     "status": "published",
-    "updatedAt": "2026-07-09T14:52:24.476Z"
+    "images": [
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-0-1783679169429.webp",
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-1-1783679170729.webp",
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-2-1783679172110.webp",
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-3-1783679173640.webp",
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-4-1783679175309.webp"
+    ],
+    "thumbs": [
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-0-1783679169429.webp",
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-1-1783679170729.webp",
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-2-1783679172110.webp",
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-3-1783679173640.webp",
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-4-1783679175309.webp"
+    ],
+    "updatedAt": "2026-07-10T10:26:16.663Z"
   },
   {
     "id": "p1782823591256",
     "summary": "",
-    "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782823591256/1782823611552-779480686.jpg"
-    ],
     "process": "ㄴㅇㄹㄴㅇㄹㄴㅇ",
     "seoDescription": "",
     "industry": "가공품",
@@ -85,15 +99,17 @@
     "category": "",
     "order": 3,
     "status": "published",
-    "updatedAt": "2026-06-30T12:46:51.793Z"
+    "images": [
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782823591256/full-0-1783679177794.webp"
+    ],
+    "thumbs": [
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782823591256/thumb-0-1783679177794.webp"
+    ],
+    "updatedAt": "2026-07-10T10:26:20.874Z"
   },
   {
     "id": "p1782653407286",
     "summary": "sfsfsdf",
-    "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782653407286/1782653407165-516938583.jpg",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782653407286/1782653407226-827443480.jpg"
-    ],
     "process": "",
     "seoDescription": "",
     "industry": "",
@@ -106,14 +122,19 @@
     "category": "자동차",
     "order": 4,
     "status": "published",
-    "updatedAt": "2026-06-30T12:47:51.447Z"
+    "images": [
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782653407286/full-0-1783679181705.webp",
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782653407286/full-1-1783679184604.webp"
+    ],
+    "thumbs": [
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782653407286/thumb-0-1783679181705.webp",
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782653407286/thumb-1-1783679184604.webp"
+    ],
+    "updatedAt": "2026-07-10T10:26:27.218Z"
   },
   {
     "id": "p1782727484334",
     "summary": "ㄴㅇㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹ",
-    "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782727484334/1782727484196-616559513.jpg"
-    ],
     "process": "",
     "seoDescription": "",
     "industry": "",
@@ -126,14 +147,17 @@
     "category": "자동차",
     "order": 5,
     "status": "published",
-    "updatedAt": "2026-06-30T12:47:58.631Z"
+    "images": [
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782727484334/full-0-1783679188260.webp"
+    ],
+    "thumbs": [
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782727484334/thumb-0-1783679188260.webp"
+    ],
+    "updatedAt": "2026-07-10T10:26:30.964Z"
   },
   {
     "id": "p1782650775270",
     "summary": "234234234",
-    "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782650775270/1782650775260-549525348.jpg"
-    ],
     "process": "",
     "seoDescription": "",
     "industry": "",
@@ -146,7 +170,13 @@
     "category": "234234234",
     "order": 6,
     "status": "published",
-    "updatedAt": "2026-06-30T12:48:09.047Z"
+    "images": [
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782650775270/full-0-1783679191453.webp"
+    ],
+    "thumbs": [
+      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782650775270/thumb-0-1783679191453.webp"
+    ],
+    "updatedAt": "2026-07-10T10:26:34.750Z"
   },
   {
     "id": "p1782823734310",

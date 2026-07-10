@@ -1,13 +1,6 @@
 {
   "id": "p1783608744476",
   "summary": "111111111111111",
-  "images": [
-    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/1783608744358-625593671.png",
-    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/1783608744358-355701838.png",
-    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/1783608744359-735567722.png",
-    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/1783608744359-723843380.png",
-    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/1783608744360-395386741.png"
-  ],
   "process": "",
   "seoDescription": "",
   "industry": "",
@@ -20,5 +13,19 @@
   "category": "자동차",
   "order": 2,
   "status": "published",
-  "updatedAt": "2026-07-09T14:52:24.476Z"
+  "images": [
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-0-1783679169429.webp",
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-1-1783679170729.webp",
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-2-1783679172110.webp",
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-3-1783679173640.webp",
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-4-1783679175309.webp"
+  ],
+  "thumbs": [
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-0-1783679169429.webp",
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-1-1783679170729.webp",
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-2-1783679172110.webp",
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-3-1783679173640.webp",
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-4-1783679175309.webp"
+  ],
+  "updatedAt": "2026-07-10T10:26:16.663Z"
 }

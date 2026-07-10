@@ -1,9 +1,6 @@
 {
   "id": "p1782727484334",
   "summary": "ㄴㅇㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹ",
-  "images": [
-    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782727484334/1782727484196-616559513.jpg"
-  ],
   "process": "",
   "seoDescription": "",
   "industry": "",
@@ -16,5 +13,11 @@
   "category": "자동차",
   "order": 5,
   "status": "published",
-  "updatedAt": "2026-06-30T12:47:58.631Z"
+  "images": [
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782727484334/full-0-1783679188260.webp"
+  ],
+  "thumbs": [
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782727484334/thumb-0-1783679188260.webp"
+  ],
+  "updatedAt": "2026-07-10T10:26:30.964Z"
 }

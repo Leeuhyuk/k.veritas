@@ -17,6 +17,7 @@
     "migrate:firebase:dry": "node scripts/migrate-to-firebase.js --dry-run",
     "storage:public": "node scripts/make-storage-public.js",
     "export:static": "node scripts/export-static-api.js",
+    "optimize:images": "node scripts/optimize-images.js",
     "prepare:pages": "npm run build:public && node scripts/export-static-api.js && node scripts/patch-gh-pages-paths.js",
     "postinstall": "npm install --prefix admin-app && npm install --prefix public-ui"
   },

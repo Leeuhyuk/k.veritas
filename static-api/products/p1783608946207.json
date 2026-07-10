@@ -1,11 +1,6 @@
 {
   "id": "p1783608946207",
   "summary": "",
-  "images": [
-    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/1783608946160-726234483.png",
-    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/1783608946160-106044505.png",
-    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/1783608946162-88979924.png"
-  ],
   "process": "",
   "seoDescription": "",
   "industry": "",
@@ -18,5 +13,15 @@
   "category": "자동차",
   "order": 1,
   "status": "published",
-  "updatedAt": "2026-07-09T14:55:46.207Z"
+  "images": [
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/full-0-1783679165057.webp",
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/full-1-1783679166370.webp",
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/full-2-1783679167795.webp"
+  ],
+  "thumbs": [
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/thumb-0-1783679165057.webp",
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/thumb-1-1783679166370.webp",
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/thumb-2-1783679167795.webp"
+  ],
+  "updatedAt": "2026-07-10T10:26:09.159Z"
 }

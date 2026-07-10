@@ -1,9 +1,6 @@
 {
   "id": "p1782823591256",
   "summary": "",
-  "images": [
-    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782823591256/1782823611552-779480686.jpg"
-  ],
   "process": "ㄴㅇㄹㄴㅇㄹㄴㅇ",
   "seoDescription": "",
   "industry": "가공품",
@@ -16,5 +13,11 @@
   "category": "",
   "order": 3,
   "status": "published",
-  "updatedAt": "2026-06-30T12:46:51.793Z"
+  "images": [
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782823591256/full-0-1783679177794.webp"
+  ],
+  "thumbs": [
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782823591256/thumb-0-1783679177794.webp"
+  ],
+  "updatedAt": "2026-07-10T10:26:20.874Z"
 }

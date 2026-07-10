@@ -78,8 +78,21 @@ async function optimizeImages(files) {
   if (!sharp || !files || !files.length) return;
   for (const f of files) {
     try {
-      const buf = await sharp(f.path).rotate().resize({ width: 1600, withoutEnlargement: true }).toBuffer();
-      fs.writeFileSync(f.path, buf);
+      // 업로드 즉시 WebP 압축 (최대 1400px) — 목록/상세 속도 개선
+      const buf = await sharp(f.path)
+        .rotate()
+        .resize({ width: 1400, withoutEnlargement: true })
+        .webp({ quality: 78 })
+        .toBuffer();
+      const webpPath = f.path.replace(/\.[^.]+$/i, '') + '.webp';
+      fs.writeFileSync(webpPath, buf);
+      try {
+        if (webpPath !== f.path && fs.existsSync(f.path)) fs.unlinkSync(f.path);
+      } catch (e2) { /* ignore */ }
+      f.path = webpPath;
+      f.filename = path.basename(webpPath);
+      f.mimetype = 'image/webp';
+      f.size = buf.length;
     } catch (e) { /* 실패 시 원본 유지 */ }
   }
 }

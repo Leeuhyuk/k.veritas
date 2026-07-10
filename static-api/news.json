@@ -16,9 +16,6 @@
   {
     "id": "n1782819537867",
     "createdAt": "2026-06-30T11:38:57.867Z",
-    "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/news/n1782819537867/1782819537634-631443012.jpg"
-    ],
     "isPopup": true,
     "seoDescription": "",
     "body": "<span style=\"display: block; font-weight: 700; letter-spacing: -0.72px; font-size: 18px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf<span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span></span><table><thead><tr><th>제목1</th><th>제목2</th><th>제목3</th></tr></thead><tbody><tr><td>ㄴㄹㅇㄹㄴㄹ</td><td>ㅇㄹㄴㅇㄹㄴㄴㄴ</td><td>ㅇㄹㄴㅇㄹㄴㄴ</td></tr><tr><td>내용</td><td>내용ㄴㅇㄹㄴ</td><td>내용ㄴㅇㄹ</td></tr><tr><td>내용</td><td>내용ㄴㅇㄹㄹ</td><td>내용</td></tr><tr><td>내용</td><td>내용</td><td>내용</td></tr></tbody></table><p><img src=\"/uploads/1782819522030-495930855.jpg\" style=\"border-radius: 8px;\"></p>",
@@ -27,7 +24,13 @@
     "ogImage": "",
     "order": 1,
     "status": "published",
-    "updatedAt": "2026-06-30T13:15:23.535Z"
+    "images": [
+      "https://storage.googleapis.com/production-management-e70fd-media/public/news/n1782819537867/full-0-1783679195764.webp"
+    ],
+    "thumbs": [
+      "https://storage.googleapis.com/production-management-e70fd-media/public/news/n1782819537867/thumb-0-1783679195764.webp"
+    ],
+    "updatedAt": "2026-07-10T10:26:38.349Z"
   },
   {
     "id": "n1782816193917",

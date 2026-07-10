@@ -6,7 +6,7 @@
   <title>제품 상세 — k.veritas</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fragment+Mono&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -57,11 +57,11 @@
           upsertMeta('meta[property="og:image"]', 'property', 'og:image', p.ogImage || (p.images && p.images[0]) || '');
           const imgs = p.images || [];
           const cover = imgs[0]
-            ? `<img class="detail__cover" src="${esc(imgs[0])}" alt="${esc(p.title)} 대표 사진" title="클릭하면 크게 보기" />`
+            ? `<img class="detail__cover" src="${esc(imgs[0])}" alt="${esc(p.title)} 대표 사진" title="클릭하면 크게 보기" decoding="async" fetchpriority="high" />`
             : `<div class="detail__cover is-ph"><span class="show-ph">NO IMAGE</span></div>`;
           const gallery = imgs.length > 1
             ? `<div class="detail__gallery" aria-label="제품 사진">${imgs.slice(1).map((u, i) =>
-                `<img src="${esc(u)}" alt="${esc(p.title)} 사진 ${i + 2}" title="클릭하면 크게 보기" />`
+                `<img src="${esc(u)}" alt="${esc(p.title)} 사진 ${i + 2}" title="클릭하면 크게 보기" loading="lazy" decoding="async" />`
               ).join('')}</div>`
             : '';
           const meta = [p.industry, p.material, p.process].filter(Boolean)

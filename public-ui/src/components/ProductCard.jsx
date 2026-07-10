@@ -2,7 +2,8 @@
 export default function ProductCard({ product }) {
   if (!product || !product.id) return null;
 
-  const cover = product.images && product.images[0];
+  const cover =
+    (product.thumbs && product.thumbs[0]) || (product.images && product.images[0]);
   const meta = [product.industry, product.material, product.process].filter(Boolean);
   const href = `showcase-detail.html?id=${encodeURIComponent(product.id)}`;
 
@@ -10,7 +11,14 @@ export default function ProductCard({ product }) {
     <a className="show-card" href={href}>
       <div className="show-card__media">
         {cover ? (
-          <img src={cover} alt={product.title || ''} />
+          <img
+            src={cover}
+            alt={product.title || ''}
+            loading="lazy"
+            decoding="async"
+            width={480}
+            height={320}
+          />
         ) : (
           <span className="show-ph">NO IMAGE</span>
         )}

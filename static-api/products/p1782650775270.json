@@ -1,9 +1,6 @@
 {
   "id": "p1782650775270",
   "summary": "234234234",
-  "images": [
-    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782650775270/1782650775260-549525348.jpg"
-  ],
   "process": "",
   "seoDescription": "",
   "industry": "",
@@ -16,5 +13,11 @@
   "category": "234234234",
   "order": 6,
   "status": "published",
-  "updatedAt": "2026-06-30T12:48:09.047Z"
+  "images": [
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782650775270/full-0-1783679191453.webp"
+  ],
+  "thumbs": [
+    "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782650775270/thumb-0-1783679191453.webp"
+  ],
+  "updatedAt": "2026-07-10T10:26:34.750Z"
 }
