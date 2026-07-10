@@ -7,7 +7,9 @@ public-ui/node_modules/
 .env
 .env.*
 !.env.example
-secrets/
+secrets/*
+!secrets/README.md
+!secrets/.gitkeep
 serviceAccount.json
 **/serviceAccount*.json
 

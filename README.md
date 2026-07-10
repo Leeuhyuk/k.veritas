@@ -142,10 +142,12 @@ npm start
 ```bash
 # .env.example 참고 후 .env 작성 또는 셸에 export
 USE_FIREBASE=1
-FIREBASE_PROJECT_ID=your-project-id
-FIREBASE_STORAGE_BUCKET=your-project-id.appspot.com
+FIREBASE_PROJECT_ID=production-management-e70fd
+FIREBASE_STORAGE_BUCKET=production-management-e70fd.appspot.com
 GOOGLE_APPLICATION_CREDENTIALS=./secrets/serviceAccount.json
 ```
+
+프로젝트 ID 기본값: **`production-management-e70fd`**
 
 ### 3) 기존 데이터 이전
 ```bash
@@ -160,7 +162,7 @@ npm run migrate:firebase
 ```bash
 # PowerShell 예
 $env:USE_FIREBASE="1"
-$env:FIREBASE_PROJECT_ID="your-project-id"
+$env:FIREBASE_PROJECT_ID="production-management-e70fd"
 $env:GOOGLE_APPLICATION_CREDENTIALS="./secrets/serviceAccount.json"
 npm start
 ```

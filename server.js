@@ -1,12 +1,19 @@
 /* ============================================================
    k.veritas — 제품 쇼케이스 백엔드
-   - 파일 기반 DB(data/products.json)
-   - 이미지 업로드(uploads/)
+   - 파일 기반 DB(data/products.json) 또는 Firebase
+   - 이미지 업로드(uploads/ 또는 Storage)
    - 관리자 세션 로그인
    실행:  npm install  &&  npm start
    접속:  http://localhost:3000
    관리자: http://localhost:3000/admin/
+   Firebase 프로젝트: production-management-e70fd
    ============================================================ */
+
+try {
+  require('dotenv').config();
+} catch (e) {
+  /* dotenv 미설치 시 무시 */
+}
 
 const express = require('express');
 const session = require('express-session');

@@ -1,0 +1,9 @@
+{
+  "projectId": "production-management-e70fd",
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  }
+}

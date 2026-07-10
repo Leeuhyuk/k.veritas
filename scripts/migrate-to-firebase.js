@@ -19,7 +19,15 @@
 const fs = require('fs');
 const path = require('path');
 
+try {
+  require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+} catch (e) { /* optional */ }
+
 process.env.USE_FIREBASE = process.env.USE_FIREBASE || '1';
+process.env.FIREBASE_PROJECT_ID =
+  process.env.FIREBASE_PROJECT_ID || 'production-management-e70fd';
+process.env.FIREBASE_STORAGE_BUCKET =
+  process.env.FIREBASE_STORAGE_BUCKET || 'production-management-e70fd.appspot.com';
 
 const ROOT = path.join(__dirname, '..');
 const DATA = path.join(ROOT, 'data');
