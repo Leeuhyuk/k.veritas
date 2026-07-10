@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import { siteBase } from '../lib/staticMode.js';
 
 const TABS = [
   { to: '/', end: true, label: '제품' },
@@ -9,11 +10,17 @@ const TABS = [
 ];
 
 export default function AdminShell({ title, subtitle, onLogout, children, extraTab }) {
+  // GitHub Pages: /k.veritas/… · 로컬: /…
+  const root = siteBase() || '';
+  const homeHref = root ? `${root}/` : '/';
+  const pagesHref = `${root}/admin-pages.html`;
+  const showcaseHref = `${root}/showcase.html`;
+
   return (
     <div className="admin-shell">
       <header className="admin-app-nav">
         <div className="admin-app-nav__left">
-          <a className="admin-app-nav__brand" href="/">
+          <a className="admin-app-nav__brand" href={homeHref}>
             k.veritas
             <span className="admin-app-nav__brand-sub">Admin</span>
           </a>
@@ -28,8 +35,8 @@ export default function AdminShell({ title, subtitle, onLogout, children, extraT
                 {t.label}
               </NavLink>
             ))}
-            <a href="/admin-pages.html">페이지 편집</a>
-            <a href="/showcase.html" target="_blank" rel="noreferrer" className="admin-app-nav__ext">
+            <a href={pagesHref}>페이지 편집</a>
+            <a href={showcaseHref} target="_blank" rel="noreferrer" className="admin-app-nav__ext">
               쇼케이스 ↗
             </a>
             {extraTab}
