@@ -13,9 +13,12 @@ secrets/serviceAccount.json
 ```
 USE_FIREBASE=1
 FIREBASE_PROJECT_ID=production-management-e70fd
-FIREBASE_STORAGE_BUCKET=production-management-e70fd.appspot.com
+FIREBASE_STORAGE_BUCKET=production-management-e70fd-media
 GOOGLE_APPLICATION_CREDENTIALS=./secrets/serviceAccount.json
 ```
+
+Storage 버킷 이름: **`production-management-e70fd-media`**  
+(기본 `.appspot.com` 버킷은 도메인 검증이 필요해 커스텀 버킷을 사용합니다.)
 
 5. 마이그레이션 후 서버 실행:
 
