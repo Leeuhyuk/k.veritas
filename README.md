@@ -120,6 +120,65 @@ npm start
 
 ## 데이터 위치
 
+- 기본(로컬): `data/*.json`, 업로드 `uploads/`
+- Firebase 모드: Cloud Firestore + Storage (`USE_FIREBASE=1`)
+
+## Firebase 연동 (k-veritas home)
+
+로컬 JSON 없이도 동작하도록 **저장소 추상화**가 들어가 있습니다.
+
+| 모드 | 조건 | 데이터 |
+|------|------|--------|
+| JSON (기본) | `USE_FIREBASE` 미설정 또는 0 | `data/*.json` + `uploads/` |
+| Firebase | `USE_FIREBASE=1` + 서비스 계정 | Firestore + Storage |
+
+### 1) Firebase 콘솔 준비
+1. 프로젝트 생성/선택 (예: k-veritas home)
+2. **Firestore** · **Storage** 활성화
+3. 프로젝트 설정 → 서비스 계정 → 새 비공개 키 → `secrets/serviceAccount.json` 저장  
+   (`secrets/` 는 git 제외)
+
+### 2) 환경 변수
+```bash
+# .env.example 참고 후 .env 작성 또는 셸에 export
+USE_FIREBASE=1
+FIREBASE_PROJECT_ID=your-project-id
+FIREBASE_STORAGE_BUCKET=your-project-id.appspot.com
+GOOGLE_APPLICATION_CREDENTIALS=./secrets/serviceAccount.json
+```
+
+### 3) 기존 데이터 이전
+```bash
+# 미리보기
+npm run migrate:firebase:dry
+
+# 실제 이전 (JSON + uploads → Firestore/Storage)
+npm run migrate:firebase
+```
+
+### 4) 서버 실행 (Firebase 모드)
+```bash
+# PowerShell 예
+$env:USE_FIREBASE="1"
+$env:FIREBASE_PROJECT_ID="your-project-id"
+$env:GOOGLE_APPLICATION_CREDENTIALS="./secrets/serviceAccount.json"
+npm start
+```
+시작 로그에 `[store] mode=firebase` 가 보이면 연동된 상태입니다.  
+실패 시 자동으로 JSON 폴백하며 경고를 출력합니다.
+
+### 보안 규칙
+- `firestore.rules` · `storage.rules` 예시를 콘솔에 배포하세요.
+- 쓰기는 **Admin SDK(서버)만** 허용하는 구성을 권장합니다.
+
+### 코드 위치
+- `lib/firebase.js` — Admin 초기화
+- `lib/store.js` — products/news/resources/inquiries/categories/pages
+- `lib/media.js` — 로컬 또는 Storage 업로드/삭제
+- `scripts/migrate-to-firebase.js` — 마이그레이션
+
+## 데이터 위치 (로컬 기본)
+
 - 제품 데이터: `data/products.json`
 - 업로드 이미지: `uploads/`
 

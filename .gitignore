@@ -7,6 +7,9 @@ public-ui/node_modules/
 .env
 .env.*
 !.env.example
+secrets/
+serviceAccount.json
+**/serviceAccount*.json
 
 # logs
 *.log

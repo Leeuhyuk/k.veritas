@@ -15,6 +15,8 @@ const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const path = require('path');
 const { sanitizeHtml } = require('./sanitize-html.js');
+const store = require('./lib/store.js');
+const media = require('./lib/media.js');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -42,32 +44,25 @@ fs.mkdirSync(DATA_DIR, { recursive: true });
 fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 fs.mkdirSync(INQUIRY_UPLOAD_DIR, { recursive: true });
 if (!fs.existsSync(DATA_FILE)) fs.writeFileSync(DATA_FILE, '[]', 'utf-8');
+store.boot();
 
 const CAT_FILE = path.join(DATA_DIR, 'categories.json');
 if (!fs.existsSync(CAT_FILE)) {
   fs.writeFileSync(CAT_FILE, JSON.stringify(['자동차', '반도체', '의료기기'], null, 2), 'utf-8');
 }
-function readCats() {
-  try { return JSON.parse(fs.readFileSync(CAT_FILE, 'utf-8')); } catch (e) { return []; }
-}
-function writeCats(list) {
-  fs.writeFileSync(CAT_FILE, JSON.stringify(list, null, 2), 'utf-8');
-}
+/* categories → store.listCategories / saveCategories */
 
 const NEWS_FILE = path.join(DATA_DIR, 'news.json');
 if (!fs.existsSync(NEWS_FILE)) fs.writeFileSync(NEWS_FILE, '[]', 'utf-8');
-function readNews() { try { return JSON.parse(fs.readFileSync(NEWS_FILE, 'utf-8')); } catch (e) { return []; } }
-function writeNews(l) { fs.writeFileSync(NEWS_FILE, JSON.stringify(l, null, 2), 'utf-8'); }
+/* news → store */
 
 const INQ_FILE = path.join(DATA_DIR, 'inquiries.json');
 if (!fs.existsSync(INQ_FILE)) fs.writeFileSync(INQ_FILE, '[]', 'utf-8');
-function readInq() { try { return JSON.parse(fs.readFileSync(INQ_FILE, 'utf-8')); } catch (e) { return []; } }
-function writeInq(l) { fs.writeFileSync(INQ_FILE, JSON.stringify(l, null, 2), 'utf-8'); }
+/* inquiries → store */
 
 const RES_FILE = path.join(DATA_DIR, 'resources.json');
 if (!fs.existsSync(RES_FILE)) fs.writeFileSync(RES_FILE, '[]', 'utf-8');
-function readRes() { try { return JSON.parse(fs.readFileSync(RES_FILE, 'utf-8')); } catch (e) { return []; } }
-function writeRes(l) { fs.writeFileSync(RES_FILE, JSON.stringify(l, null, 2), 'utf-8'); }
+/* resources → store */
 
 /* 이미지 최적화 (sharp 설치 시에만 동작, 미설치면 원본 유지) */
 let sharp = null;
@@ -120,16 +115,7 @@ app.use(
 );
 
 /* ----- 데이터 헬퍼 ----- */
-function readProducts() {
-  try {
-    return JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
-  } catch (e) {
-    return [];
-  }
-}
-function writeProducts(list) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(list, null, 2), 'utf-8');
-}
+/* products → store.listProducts / saveProduct / deleteProduct / replaceProductsOrder */
 
 function isAdminReq(req) {
   return !!(req.session && req.session.admin);
@@ -167,15 +153,11 @@ function resolveUploadUrl(urlPath) {
   if (!name || name === '.' || name === '..' || name.includes('..') || name.includes('\0')) return null;
   return safeJoin(UPLOAD_DIR, name);
 }
-function unlinkUploadUrl(urlPath) {
-  const f = resolveUploadUrl(urlPath);
-  if (f && fs.existsSync(f)) {
-    try { fs.unlinkSync(f); } catch (e) { /* ignore */ }
-  }
+async function unlinkUploadUrl(urlPath) {
+  await media.deleteMediaUrl(urlPath);
 }
 function filterKeptUploadUrls(list) {
-  if (!Array.isArray(list)) return [];
-  return list.filter((u) => !!resolveUploadUrl(u));
+  return media.filterKeptMediaUrls(list);
 }
 function removeUploadedFiles(files) {
   (files || []).forEach((f) => {
@@ -310,7 +292,7 @@ function requireAuth(req, res, next) {
    ============================================================ */
 
 /* 관리자 로그인/로그아웃/상태 */
-app.post('/api/admin/login', (req, res) => {
+app.post('/api/admin/login', async (req, res) => {
   if (!assertLoginAllowed(req, res)) return;
   const { password } = req.body || {};
   const hash = readAdminHash();
@@ -324,7 +306,7 @@ app.post('/api/admin/login', (req, res) => {
 });
 
 /* 비밀번호 변경 (현재 비밀번호 확인 후) */
-app.post('/api/admin/password', requireAuth, (req, res) => {
+app.post('/api/admin/password', requireAuth, async (req, res) => {
   const { current, next } = req.body || {};
   const hash = readAdminHash();
   if (!current || !hash || !bcrypt.compareSync(current, hash)) {
@@ -336,34 +318,34 @@ app.post('/api/admin/password', requireAuth, (req, res) => {
   writeAdminHash(bcrypt.hashSync(String(next), 10));
   res.json({ ok: true });
 });
-app.post('/api/admin/logout', (req, res) => {
+app.post('/api/admin/logout', async (req, res) => {
   req.session.destroy(() => res.json({ ok: true }));
 });
-app.get('/api/admin/me', (req, res) => {
+app.get('/api/admin/me', async (req, res) => {
   res.json({ admin: !!(req.session && req.session.admin) });
 });
 
 /* 관리자 전용 전체 목록/단건 */
-app.get('/api/admin/products', requireAuth, (req, res) => res.json(readProducts()));
-app.get('/api/admin/products/:id', requireAuth, (req, res) => {
-  const p = readProducts().find((x) => x.id === req.params.id);
+app.get('/api/admin/products', requireAuth, async (req, res) => res.json(await store.listProducts()));
+app.get('/api/admin/products/:id', requireAuth, async (req, res) => {
+  const p = await store.getProduct(req.params.id);
   if (!p) return res.status(404).json({ error: 'not_found' });
   res.json(p);
 });
-app.get('/api/admin/news', requireAuth, (req, res) => res.json(readNews()));
-app.get('/api/admin/news/:id', requireAuth, (req, res) => {
-  const n = readNews().find((x) => x.id === req.params.id);
+app.get('/api/admin/news', requireAuth, async (req, res) => res.json(await store.listNews()));
+app.get('/api/admin/news/:id', requireAuth, async (req, res) => {
+  const n = await store.getNews(req.params.id);
   if (!n) return res.status(404).json({ error: 'not_found' });
   res.json(n);
 });
-app.get('/api/admin/resources', requireAuth, (req, res) => res.json(readRes()));
-app.get('/api/admin/resources/:id', requireAuth, (req, res) => {
-  const r = readRes().find((x) => x.id === req.params.id);
+app.get('/api/admin/resources', requireAuth, async (req, res) => res.json(await store.listResources()));
+app.get('/api/admin/resources/:id', requireAuth, async (req, res) => {
+  const r = await store.getResource(req.params.id);
   if (!r) return res.status(404).json({ error: 'not_found' });
   res.json(r);
 });
 
-app.get('/api/search', (req, res) => {
+app.get('/api/search', async (req, res) => {
   const q = String(req.query.q || '').trim().toLowerCase();
   if (!q) return res.json([]);
   const results = [];
@@ -377,15 +359,15 @@ app.get('/api/search', (req, res) => {
     });
   };
 
-  publicList(readProducts()).forEach((p) => {
+  publicList(await store.listProducts()).forEach((p) => {
     const haystack = [p.title, p.summary, p.category, p.industry, p.material, p.process, stripHtml(p.body)].join(' ');
     add('제품', p.title, p.summary || haystack, `/showcase-detail.html?id=${encodeURIComponent(p.id)}`, haystack);
   });
-  publicList(readNews()).forEach((n) => {
+  publicList(await store.listNews()).forEach((n) => {
     const haystack = [n.title, stripHtml(n.body)].join(' ');
     add('공지', n.title, stripHtml(n.body), `/news-detail.html?id=${encodeURIComponent(n.id)}`, haystack);
   });
-  publicList(readRes()).forEach((r) => {
+  publicList(await store.listResources()).forEach((r) => {
     const body = stripHtml(r.body);
     const haystack = [r.title, r.category, r.description, r.originalName, body].join(' ');
     add('자료', r.title, r.description || body || r.originalName, `/resource-detail.html?id=${encodeURIComponent(r.id)}`, haystack);
@@ -401,9 +383,9 @@ app.get('/api/search', (req, res) => {
 });
 
 /* 제품 목록/단건 (공개: 게시 상태만) */
-app.get('/api/products', (req, res) => res.json(publicList(readProducts())));
-app.get('/api/products/:id', (req, res) => {
-  const p = readProducts().find((x) => x.id === req.params.id);
+app.get('/api/products', async (req, res) => res.json(publicList(await store.listProducts())));
+app.get('/api/products/:id', async (req, res) => {
+  const p = await store.getProduct(req.params.id);
   if (!p || !isPublished(p)) return res.status(404).json({ error: 'not_found' });
   res.json(p);
 });
@@ -412,7 +394,7 @@ app.get('/api/products/:id', (req, res) => {
 const MAX_PRODUCTS = 100;
 
 app.post('/api/products', requireAuth, upload.array('images', 8), async (req, res) => {
-  const current = readProducts();
+  const current = await store.listProducts();
   const { title, category, summary, body, status, industry, material, process, seoTitle, seoDescription, ogImage } = req.body;
   if (statusOf(status) === 'published' && publicList(current).length >= MAX_PRODUCTS) {
     removeUploadedFiles(req.files);
@@ -423,7 +405,7 @@ app.post('/api/products', requireAuth, upload.array('images', 8), async (req, re
     return res.status(400).json({ error: 'title_required', message: '제품명을 입력해 주세요.' });
   }
   await optimizeImages(req.files);
-  const images = (req.files || []).map((f) => '/uploads/' + f.filename);
+  const images = await media.publishFiles(req.files, 'uploads');
   const now = new Date().toISOString();
   const product = {
     id: 'p' + Date.now(),
@@ -442,28 +424,26 @@ app.post('/api/products', requireAuth, upload.array('images', 8), async (req, re
     createdAt: now,
     updatedAt: now,
   };
-  const list = readProducts();
-  list.unshift(product);
-  writeProducts(list);
+  await store.saveProduct(product);
   res.json(product);
 });
 
 /* 제품 순서 변경 (관리자) — 반드시 /:id 보다 먼저 정의 */
-app.put('/api/products/order', requireAuth, (req, res) => {
+app.put('/api/products/order', requireAuth, async (req, res) => {
   const ids = req.body && req.body.ids;
   if (!Array.isArray(ids)) return res.status(400).json({ error: 'ids_required', message: '순서 배열(ids)이 필요합니다.' });
-  const list = readProducts();
+  const list = await store.listProducts();
   const byId = new Map(list.map((p) => [p.id, p]));
   const reordered = ids.map((id) => byId.get(id)).filter(Boolean);
   // 목록에서 누락된 항목은 뒤에 그대로 보존
   list.forEach((p) => { if (!ids.includes(p.id)) reordered.push(p); });
-  writeProducts(reordered);
+  await store.replaceProductsOrder(ids);
   res.json(reordered);
 });
 
 /* 제품 수정 (관리자) */
 app.put('/api/products/:id', requireAuth, upload.array('images', 8), async (req, res) => {
-  const list = readProducts();
+  const list = await store.listProducts();
   const idx = list.findIndex((x) => x.id === req.params.id);
   if (idx < 0) {
     removeUploadedFiles(req.files);
@@ -495,51 +475,49 @@ app.put('/api/products/:id', requireAuth, upload.array('images', 8), async (req,
   }
   kept = filterKeptUploadUrls(kept);
   const removed = (p.images || []).filter((u) => !kept.includes(u));
-  removed.forEach((u) => unlinkUploadUrl(u));
+  await media.deleteMediaUrls(removed);
   await optimizeImages(req.files);
-  const added = (req.files || []).map((f) => '/uploads/' + f.filename);
+  const added = await media.publishFiles(req.files, 'products');
   p.images = kept.concat(added);
   p.updatedAt = new Date().toISOString();
 
-  list[idx] = p;
-  writeProducts(list);
+  await store.saveProduct(p);
   res.json(p);
 });
 
 /* 제품 삭제 (관리자) */
-app.delete('/api/products/:id', requireAuth, (req, res) => {
-  let list = readProducts();
+app.delete('/api/products/:id', requireAuth, async (req, res) => {
+  let list = await store.listProducts();
   const p = list.find((x) => x.id === req.params.id);
   if (!p) return res.status(404).json({ error: 'not_found' });
-  (p.images || []).forEach((u) => unlinkUploadUrl(u));
-  list = list.filter((x) => x.id !== req.params.id);
-  writeProducts(list);
+  await media.deleteMediaUrls(p.images || []);
+  await store.deleteProduct(req.params.id);
   res.json({ ok: true });
 });
 
 /* 카테고리 목록 (공개) / 추가·삭제 (관리자) */
-app.get('/api/categories', (req, res) => res.json(readCats()));
-app.post('/api/categories', requireAuth, (req, res) => {
+app.get('/api/categories', async (req, res) => res.json(await store.listCategories()));
+app.post('/api/categories', requireAuth, async (req, res) => {
   const name = (req.body.name || '').trim();
   if (!name) return res.status(400).json({ error: 'name_required', message: '카테고리명을 입력해 주세요.' });
-  const list = readCats();
+  const list = await store.listCategories();
   if (list.includes(name)) return res.status(400).json({ error: 'duplicate', message: '이미 있는 카테고리입니다.' });
   list.push(name);
-  writeCats(list);
+  await store.saveCategories(list);
   res.json(list);
 });
-app.delete('/api/categories/:name', requireAuth, (req, res) => {
-  const list = readCats().filter((c) => c !== req.params.name);
-  writeCats(list);
+app.delete('/api/categories/:name', requireAuth, async (req, res) => {
+  const list = (await store.listCategories()).filter((c) => c !== req.params.name);
+  await store.saveCategories(list);
   res.json(list);
 });
 
 /* ============================================================
    공지/뉴스 (CMS)
    ============================================================ */
-app.get('/api/news', (req, res) => res.json(publicList(readNews())));
-app.get('/api/news/:id', (req, res) => {
-  const n = readNews().find((x) => x.id === req.params.id);
+app.get('/api/news', async (req, res) => res.json(publicList(await store.listNews())));
+app.get('/api/news/:id', async (req, res) => {
+  const n = await store.getNews(req.params.id);
   if (!n || !isPublished(n)) return res.status(404).json({ error: 'not_found' });
   res.json(n);
 });
@@ -550,7 +528,7 @@ app.post('/api/news', requireAuth, upload.array('images', 8), async (req, res) =
     return res.status(400).json({ error: 'title_required', message: '제목을 입력해 주세요.' });
   }
   await optimizeImages(req.files);
-  const images = (req.files || []).map((f) => '/uploads/' + f.filename);
+  const images = await media.publishFiles(req.files, 'uploads');
   const now = new Date().toISOString();
   const item = {
     id: 'n' + Date.now(),
@@ -565,13 +543,11 @@ app.post('/api/news', requireAuth, upload.array('images', 8), async (req, res) =
     createdAt: now,
     updatedAt: now,
   };
-  const list = readNews();
-  list.unshift(item);
-  writeNews(list);
+  await store.saveNews(item);
   res.json(item);
 });
 app.put('/api/news/:id', requireAuth, upload.array('images', 8), async (req, res) => {
-  const list = readNews();
+  const list = await store.listNews();
   const idx = list.findIndex((x) => x.id === req.params.id);
   if (idx < 0) {
     removeUploadedFiles(req.files);
@@ -591,25 +567,24 @@ app.put('/api/news/:id', requireAuth, upload.array('images', 8), async (req, res
   kept = filterKeptUploadUrls(kept);
   (n.images || []).filter((u) => !kept.includes(u)).forEach((u) => unlinkUploadUrl(u));
   await optimizeImages(req.files);
-  n.images = kept.concat((req.files || []).map((f) => '/uploads/' + f.filename));
+  n.images = kept.concat(await media.publishFiles(req.files, 'news'));
   n.updatedAt = new Date().toISOString();
-  list[idx] = n;
-  writeNews(list);
+  await store.saveNews(n);
   res.json(n);
 });
-app.delete('/api/news/:id', requireAuth, (req, res) => {
-  let list = readNews();
+app.delete('/api/news/:id', requireAuth, async (req, res) => {
+  let list = await store.listNews();
   const n = list.find((x) => x.id === req.params.id);
   if (!n) return res.status(404).json({ error: 'not_found' });
   (n.images || []).forEach((u) => unlinkUploadUrl(u));
-  writeNews(list.filter((x) => x.id !== req.params.id));
+  await store.deleteNews(req.params.id);
   res.json({ ok: true });
 });
 
 /* ============================================================
    문의 접수 (공개 등록 / 관리자 조회·삭제)
    ============================================================ */
-app.post('/api/inquiries', inquiryUpload.array('files', 5), (req, res) => {
+app.post('/api/inquiries', inquiryUpload.array('files', 5), async (req, res) => {
   const { name, company, email, phone, type, message, agree, website, productId, productTitle } = req.body;
   if (website) {
     removeUploadedFiles(req.files);
@@ -649,22 +624,20 @@ app.post('/api/inquiries', inquiryUpload.array('files', 5), (req, res) => {
     read: false,
     createdAt: new Date().toISOString(),
   };
-  const list = readInq();
-  list.unshift(item);
-  writeInq(list);
+  await store.saveInquiry(item);
   res.json({ ok: true });
 });
-app.get('/api/inquiries', requireAuth, (req, res) => res.json(readInq()));
-app.put('/api/inquiries/:id/read', requireAuth, (req, res) => {
-  const list = readInq();
+app.get('/api/inquiries', requireAuth, async (req, res) => res.json(await store.listInquiries()));
+app.put('/api/inquiries/:id/read', requireAuth, async (req, res) => {
+  const list = await store.listInquiries();
   const it = list.find((x) => x.id === req.params.id);
   if (!it) return res.status(404).json({ error: 'not_found' });
   it.read = !it.read;
-  writeInq(list);
+  await store.saveInquiry(it);
   res.json(it);
 });
-app.put('/api/inquiries/:id', requireAuth, (req, res) => {
-  const list = readInq();
+app.put('/api/inquiries/:id', requireAuth, async (req, res) => {
+  const list = await store.listInquiries();
   const it = list.find((x) => x.id === req.params.id);
   if (!it) return res.status(404).json({ error: 'not_found' });
   const allowed = new Set(['new', 'reviewing', 'replied', 'hold']);
@@ -673,11 +646,11 @@ app.put('/api/inquiries/:id', requireAuth, (req, res) => {
     it.read = it.status !== 'new';
   }
   if (req.body.memo !== undefined) it.memo = String(req.body.memo || '').trim();
-  writeInq(list);
+  await store.saveInquiry(it);
   res.json(it);
 });
-app.get('/api/inquiries/:id/attachments/:idx', requireAuth, (req, res) => {
-  const it = readInq().find((x) => x.id === req.params.id);
+app.get('/api/inquiries/:id/attachments/:idx', requireAuth, async (req, res) => {
+  const it = await store.getInquiry(req.params.id);
   if (!it) return res.status(404).send('not found');
   const idx = Number(req.params.idx);
   const a = (it.attachments || [])[idx];
@@ -686,8 +659,8 @@ app.get('/api/inquiries/:id/attachments/:idx', requireAuth, (req, res) => {
   if (!f || !fs.existsSync(f)) return res.status(404).send('file missing');
   res.download(f, a.originalName || a.filename);
 });
-app.delete('/api/inquiries/:id', requireAuth, (req, res) => {
-  const list = readInq();
+app.delete('/api/inquiries/:id', requireAuth, async (req, res) => {
+  const list = await store.listInquiries();
   const it = list.find((x) => x.id === req.params.id);
   if (it) {
     (it.attachments || []).forEach((a) => {
@@ -695,46 +668,40 @@ app.delete('/api/inquiries/:id', requireAuth, (req, res) => {
       if (f && fs.existsSync(f)) fs.unlinkSync(f);
     });
   }
-  writeInq(list.filter((x) => x.id !== req.params.id));
+  await store.deleteInquiry(req.params.id);
   res.json({ ok: true });
 });
 
 /* ============================================================
    페이지 콘텐츠 (블록 단위 편집)
    ============================================================ */
-const CONTENT_FILE = path.join(DATA_DIR, 'content.json');
-if (!fs.existsSync(CONTENT_FILE)) fs.writeFileSync(CONTENT_FILE, '{}', 'utf-8');
-function readContent() { try { return JSON.parse(fs.readFileSync(CONTENT_FILE, 'utf-8')); } catch (e) { return {}; } }
-function writeContent(o) { fs.writeFileSync(CONTENT_FILE, JSON.stringify(o, null, 2), 'utf-8'); }
+/* content → store.getPageContent / savePageContent */
 
-app.get('/api/content/:page', (req, res) => {
-  const all = readContent();
-  res.json(all[req.params.page] || {});
+app.get('/api/content/:page', async (req, res) => {
+  res.json(await store.getPageContent(req.params.page));
 });
-app.put('/api/content/:page', requireAuth, (req, res) => {
-  const all = readContent();
-  all[req.params.page] = (req.body && req.body.content) || {};
-  writeContent(all);
-  res.json(all[req.params.page]);
+app.put('/api/content/:page', requireAuth, async (req, res) => {
+  const content = (req.body && req.body.content) || {};
+  res.json(await store.savePageContent(req.params.page, content));
 });
 
 /* 단일 이미지 업로드 (이미지 블록 / 본문 이미지 삽입용) */
 app.post('/api/upload', requireAuth, upload.single('image'), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'no_file', message: '이미지를 선택해 주세요.' });
   await optimizeImages([req.file]);
-  res.json({ url: '/uploads/' + req.file.filename });
+  res.json({ url: await media.publishSingle(req.file, 'cms') });
 });
 
 /* ============================================================
    자료실 (다운로드 자료 게시판)
    ============================================================ */
-app.get('/api/resources', (req, res) => res.json(publicList(readRes())));
-app.get('/api/resources/:id', (req, res) => {
-  const r = readRes().find((x) => x.id === req.params.id);
+app.get('/api/resources', async (req, res) => res.json(publicList(await store.listResources())));
+app.get('/api/resources/:id', async (req, res) => {
+  const r = await store.getResource(req.params.id);
   if (!r || !isPublished(r)) return res.status(404).json({ error: 'not_found' });
   res.json(r);
 });
-app.post('/api/resources', requireAuth, docUpload.single('file'), (req, res) => {
+app.post('/api/resources', requireAuth, docUpload.single('file'), async (req, res) => {
   const { title, category, description, body, status, isBrochure, seoTitle, seoDescription, ogImage } = req.body;
   if (!title || !title.trim()) {
     removeUploadedFiles(req.file ? [req.file] : []);
@@ -751,7 +718,7 @@ app.post('/api/resources', requireAuth, docUpload.single('file'), (req, res) => 
     seoTitle: (seoTitle || '').trim(),
     seoDescription: (seoDescription || '').trim(),
     ogImage: (ogImage || '').trim(),
-    file: '/uploads/' + req.file.filename,
+    file: await media.publishSingle(req.file, 'resources'),
     originalName: decodeOriginalName(req.file.originalname),
     size: req.file.size,
     downloads: 0,
@@ -760,13 +727,11 @@ app.post('/api/resources', requireAuth, docUpload.single('file'), (req, res) => 
     createdAt: now,
     updatedAt: now,
   };
-  const list = readRes();
-  list.unshift(item);
-  writeRes(list);
+  await store.saveResource(item);
   res.json(item);
 });
-app.put('/api/resources/:id', requireAuth, docUpload.single('file'), (req, res) => {
-  const list = readRes();
+app.put('/api/resources/:id', requireAuth, docUpload.single('file'), async (req, res) => {
+  const list = await store.listResources();
   const idx = list.findIndex((x) => x.id === req.params.id);
   if (idx < 0) {
     removeUploadedFiles(req.file ? [req.file] : []);
@@ -784,47 +749,48 @@ app.put('/api/resources/:id', requireAuth, docUpload.single('file'), (req, res) 
   if (seoDescription !== undefined) r.seoDescription = seoDescription.trim();
   if (ogImage !== undefined) r.ogImage = ogImage.trim();
   if (req.file) {
-    unlinkUploadUrl(r.file);
-    r.file = '/uploads/' + req.file.filename;
+    await media.deleteMediaUrl(r.file);
+    r.file = await media.publishSingle(req.file, 'resources');
     r.originalName = decodeOriginalName(req.file.originalname);
     r.size = req.file.size;
   }
   r.updatedAt = new Date().toISOString();
-  list[idx] = r;
-  writeRes(list);
+  await store.saveResource(r);
   res.json(r);
 });
-app.delete('/api/resources/:id', requireAuth, (req, res) => {
-  const list = readRes();
+app.delete('/api/resources/:id', requireAuth, async (req, res) => {
+  const list = await store.listResources();
   const r = list.find((x) => x.id === req.params.id);
   if (!r) return res.status(404).json({ error: 'not_found' });
-  unlinkUploadUrl(r.file);
-  writeRes(list.filter((x) => x.id !== req.params.id));
+  await media.deleteMediaUrl(r.file);
+  await store.deleteResource(req.params.id);
   res.json({ ok: true });
 });
-function sendResourceDownload(req, res, r, list) {
+async function sendResourceDownload(req, res, r) {
   if (!r || (!isAdminReq(req) && !isPublished(r))) return res.status(404).send('not found');
+  r.downloads = (r.downloads || 0) + 1;
+  await store.saveResource(r);
+  if (r.file && /^https?:\/\//i.test(r.file)) {
+    return res.redirect(r.file);
+  }
   const f = resolveUploadUrl(r.file);
   if (!f || !fs.existsSync(f)) return res.status(404).send('file missing');
-  r.downloads = (r.downloads || 0) + 1;
-  writeRes(list);
   res.download(f, r.originalName || path.basename(f));
 }
-app.get('/api/resources/brochure/download', (req, res) => {
-  const list = readRes();
+app.get('/api/resources/brochure/download', async (req, res) => {
+  const list = await store.listResources();
   const r = list.find((x) => isPublished(x) && x.isBrochure) ||
     list.find((x) => isPublished(x) && (/회사소개서|브로슈어|브로셔|카탈로그/i.test((x.title || '') + ' ' + (x.category || ''))));
   if (!r) return res.status(404).send('등록된 회사소개서 파일이 없습니다.');
-  sendResourceDownload(req, res, r, list);
+  await sendResourceDownload(req, res, r);
 });
-app.get('/api/resources/:id/download', (req, res) => {
-  const list = readRes();
-  const r = list.find((x) => x.id === req.params.id);
-  sendResourceDownload(req, res, r, list);
+app.get('/api/resources/:id/download', async (req, res) => {
+  const r = await store.getResource(req.params.id);
+  await sendResourceDownload(req, res, r);
 });
 
 /* ----- 동적 사이트맵 ----- */
-app.get('/sitemap.xml', (req, res) => {
+app.get('/sitemap.xml', async (req, res) => {
   const base = req.protocol + '://' + req.get('host');
   const staticPages = [
     'index.html', 'about.html', 'certifications.html', 'facilities.html', 'location.html',
@@ -833,9 +799,9 @@ app.get('/sitemap.xml', (req, res) => {
     'showcase.html', 'support.html', 'news.html', 'reference.html', 'privacy.html',
   ];
   const urls = staticPages.map((p) => `${base}/${p}`);
-  publicList(readProducts()).forEach((p) => urls.push(`${base}/showcase-detail.html?id=${p.id}`));
-  publicList(readNews()).forEach((n) => urls.push(`${base}/news-detail.html?id=${n.id}`));
-  publicList(readRes()).forEach((r) => urls.push(`${base}/resource-detail.html?id=${r.id}`));
+  publicList(await store.listProducts()).forEach((p) => urls.push(`${base}/showcase-detail.html?id=${p.id}`));
+  publicList(await store.listNews()).forEach((n) => urls.push(`${base}/news-detail.html?id=${n.id}`));
+  publicList(await store.listResources()).forEach((r) => urls.push(`${base}/resource-detail.html?id=${r.id}`));
   const xml =
     '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
     urls.map((u) => `  <url><loc>${u}</loc></url>`).join('\n') +
@@ -864,7 +830,7 @@ const ADMIN_DIST = path.join(ROOT, 'admin-app', 'dist');
 function adminSpaReady() {
   return fs.existsSync(path.join(ADMIN_DIST, 'index.html'));
 }
-app.get('/admin.html', (req, res) => {
+app.get('/admin.html', async (req, res) => {
   if (adminSpaReady()) return res.redirect(302, '/admin/');
   return res.sendFile(path.join(ROOT, 'admin.html'));
 });
@@ -938,6 +904,7 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
+  console.log('[store] mode=' + store.modeLabel());
   console.log(`k.veritas 사이트 실행 중 → http://localhost:${PORT}`);
   console.log(`관리자 페이지 → http://localhost:${PORT}/admin/  (또는 /admin.html)`);
   console.log(`쇼케이스·자료실·공지 → /showcase.html · /reference.html · /news.html`);

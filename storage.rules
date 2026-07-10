@@ -1,0 +1,17 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // 공개 에셋
+    match /public/{allPaths=**} {
+      allow read: if true;
+      allow write: if false; // Admin SDK only
+    }
+    // 문의 첨부 등 비공개
+    match /private/{allPaths=**} {
+      allow read, write: if false;
+    }
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

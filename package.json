@@ -13,12 +13,15 @@
     "dev:admin": "npm run dev --prefix admin-app",
     "dev:public": "npm run dev --prefix public-ui",
     "smoke": "node scripts/smoke-check.js",
+    "migrate:firebase": "node scripts/migrate-to-firebase.js",
+    "migrate:firebase:dry": "node scripts/migrate-to-firebase.js --dry-run",
     "postinstall": "npm install --prefix admin-app && npm install --prefix public-ui"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
+    "firebase-admin": "^14.1.0",
     "multer": "^2.0.0",
     "sharp": "^0.35.2"
   }

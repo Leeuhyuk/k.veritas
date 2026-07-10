@@ -1,0 +1,36 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 서버(Admin SDK)만 쓰기 — 클라이언트 직접 쓰기 금지
+    // 공개 읽기는 서버 API를 통하므로 기본 deny 권장.
+    // (프론트에서 직접 Firestore를 쓸 경우에만 아래 published 규칙 사용)
+
+    function isPublished() {
+      return resource.data.status == 'published';
+    }
+
+    match /products/{id} {
+      allow read: if isPublished();
+      allow write: if false;
+    }
+    match /news/{id} {
+      allow read: if isPublished();
+      allow write: if false;
+    }
+    match /resources/{id} {
+      allow read: if isPublished();
+      allow write: if false;
+    }
+    match /inquiries/{id} {
+      allow read, write: if false;
+    }
+    match /pages/{id} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /settings/{id} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}
