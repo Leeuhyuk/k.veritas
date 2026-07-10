@@ -79,7 +79,8 @@ const FOOTER_COLS = [
       { label: '실제 생산 제품', href: 'showcase.html' },
       { label: '자료실', href: 'reference.html' },
       { label: '공지사항', href: 'news.html' },
-      { label: '관리자', href: '/admin/' },
+      // 상대경로 — GitHub Pages(/k.veritas/)에서도 올바른 admin/ 으로 연결
+      { label: '관리자', href: 'admin/' },
     ],
   },
 ];
