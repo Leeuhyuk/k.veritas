@@ -10,7 +10,12 @@ export default function NewsApp() {
 
   if (status !== 'ready') {
     return (
-      <StatusMessage status={status} emptyText="등록된 공지가 없습니다." errorMsg={errorMsg} />
+      <StatusMessage
+        status={status}
+        variant="list"
+        emptyText="등록된 공지가 없습니다."
+        errorMsg={errorMsg}
+      />
     );
   }
 

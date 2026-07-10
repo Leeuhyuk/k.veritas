@@ -37,7 +37,12 @@ export default function ResourcesApp() {
 
   if (status !== 'ready') {
     return (
-      <StatusMessage status={status} emptyText="등록된 자료가 없습니다." errorMsg={errorMsg} />
+      <StatusMessage
+        status={status}
+        variant="table"
+        emptyText="등록된 자료가 없습니다."
+        errorMsg={errorMsg}
+      />
     );
   }
 

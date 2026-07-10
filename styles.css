@@ -735,6 +735,80 @@ a.card:hover { border-color: var(--color-forest-floor); background: var(--color-
 .show-card__body p:empty { display: none; }
 .empty-note { text-align: center; color: var(--color-bark-brown); padding: var(--spacing-64) 0; }
 
+/* ----- 목록 로딩 스켈레톤 (문구 대신) ----- */
+@keyframes list-skeleton-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+.list-skeleton {
+  width: 100%;
+}
+.list-skeleton__bar,
+.list-skeleton__media {
+  display: block;
+  background: linear-gradient(
+    90deg,
+    var(--color-sage-mist, #eff2e8) 0%,
+    var(--color-lichen, #e0e5d5) 40%,
+    var(--color-sage-mist, #eff2e8) 80%
+  );
+  background-size: 200% 100%;
+  animation: list-skeleton-shimmer 1.2s ease-in-out infinite;
+  border-radius: var(--radius-lg, 8px);
+}
+.list-skeleton__bar {
+  height: 12px;
+  margin-bottom: 8px;
+}
+.list-skeleton__bar--sm { width: 28%; height: 10px; }
+.list-skeleton__bar--md { width: 62%; }
+.list-skeleton__bar--lg { width: 88%; height: 14px; }
+.list-skeleton__card {
+  border: 1px solid var(--color-lichen, #e0e5d5);
+  border-radius: var(--radius-2xl, 12px);
+  overflow: hidden;
+  background: var(--color-cream-paper, #fbfdf6);
+}
+.list-skeleton__media {
+  aspect-ratio: 4 / 3;
+  border-radius: 0;
+  margin: 0;
+}
+.list-skeleton__body {
+  padding: 14px;
+}
+.list-skeleton--table {
+  border: 1px solid var(--color-lichen, #e0e5d5);
+  border-radius: var(--radius-2xl, 12px);
+  overflow: hidden;
+}
+.list-skeleton__row {
+  display: grid;
+  grid-template-columns: 100px 1fr 140px;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--color-lichen, #e0e5d5);
+}
+.list-skeleton__row:last-child { border-bottom: none; }
+.list-skeleton__row .list-skeleton__bar { margin: 0; }
+.list-skeleton--list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.list-skeleton__news {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--color-lichen, #e0e5d5);
+}
+.list-skeleton__news .list-skeleton__bar--sm { margin-bottom: 10px; }
+@media (max-width: 560px) {
+  .list-skeleton__row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
 /* filter / pagination (쇼케이스·자료실 공통) */
 .filter-bar {
   display: flex;

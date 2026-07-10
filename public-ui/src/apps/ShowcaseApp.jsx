@@ -48,8 +48,16 @@ export default function ShowcaseApp() {
     fn();
   }
 
-  const early = <StatusMessage status={status} emptyText="아직 등록된 제품이 없습니다." errorMsg={errorMsg} />;
-  if (status !== 'ready') return early;
+  if (status !== 'ready') {
+    return (
+      <StatusMessage
+        status={status}
+        variant="cards"
+        emptyText="아직 등록된 제품이 없습니다."
+        errorMsg={errorMsg}
+      />
+    );
+  }
 
   return (
     <>
