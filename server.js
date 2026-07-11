@@ -951,17 +951,24 @@ app.get('/admin.html', async (req, res) => {
   if (adminSpaReady()) return res.redirect(302, '/admin/');
   return res.sendFile(path.join(ROOT, 'admin.html'));
 });
-/* 레거시 admin 페이지 → React SPA 라우트 */
+/* 레거시 admin 페이지 → React SPA (HashRouter) */
 const LEGACY_ADMIN_REDIRECTS = {
-  '/admin-news.html': '/admin/news',
-  '/admin-resources.html': '/admin/resources',
-  '/admin-inquiries.html': '/admin/inquiries',
-  '/admin-settings.html': '/admin/settings',
+  '/admin-news.html': '/admin/#/news',
+  '/admin-resources.html': '/admin/#/resources',
+  '/admin-inquiries.html': '/admin/#/inquiries',
+  '/admin-settings.html': '/admin/#/settings',
 };
 Object.entries(LEGACY_ADMIN_REDIRECTS).forEach(([from, to]) => {
   app.get(from, (req, res, next) => {
     if (adminSpaReady()) return res.redirect(302, to);
     next();
+  });
+});
+/* 예전 path 라우트 → hash 라우트 (북마크·외부 링크 호환) */
+const ADMIN_HASH_SEGMENTS = ['news', 'resources', 'inquiries', 'settings'];
+ADMIN_HASH_SEGMENTS.forEach((seg) => {
+  app.get(['/admin/' + seg, '/admin/' + seg + '/'], (req, res) => {
+    res.redirect(302, '/admin/#/' + seg);
   });
 });
 if (adminSpaReady()) {

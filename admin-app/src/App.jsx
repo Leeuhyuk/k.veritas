@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { HashRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { adminApi } from './api/client.js';
 import LoginForm from './components/LoginForm.jsx';
 import AdminShell from './components/AdminShell.jsx';
@@ -87,14 +87,10 @@ function isStaticHost() {
   return /\.github\.io$/i.test(h) || window.FORCE_STATIC_ADMIN === true;
 }
 
-/** React Router basename (로컬 /admin · GH /k.veritas/admin) */
-function adminBasename() {
-  if (typeof window === 'undefined') return '/admin';
-  const path = window.location.pathname || '';
-  if (path.indexOf('/k.veritas') === 0) return '/k.veritas/admin';
-  return '/admin';
-}
-
+/**
+ * GitHub Pages는 /admin/news 같은 SPA 하위 경로를 파일로 찾지 못해 404가 납니다.
+ * HashRouter → /admin/#/news 형태로 항상 admin/index.html 을 로드합니다.
+ */
 function siteHomeHref() {
   if (typeof window === 'undefined') return '/';
   const path = window.location.pathname || '';
@@ -173,10 +169,9 @@ function AuthGate() {
 }
 
 export default function App() {
-  const basename = adminBasename();
   return (
-    <BrowserRouter basename={basename}>
+    <HashRouter>
       <AuthGate />
-    </BrowserRouter>
+    </HashRouter>
   );
 }

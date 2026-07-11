@@ -39,8 +39,31 @@ if (!index.includes('../styles.css') && !index.includes('href="/styles.css"')) {
     '    <link rel="stylesheet" href="../styles.css" />\n  </head>'
   );
 }
-// GitHub Pages SPA: 없는 경로 → index.html
+// GitHub Pages: HashRouter 사용 — 항상 admin/index.html 로드
+// (admin/news 등 path 라우트는 Pages에서 404 → App 은 #/news 사용)
 fs.writeFileSync(path.join(DEST, 'index.html'), index);
 fs.writeFileSync(path.join(DEST, '404.html'), index);
 
-console.log('[publish-admin] copied to admin/ (+ 404.html SPA fallback)');
+// path URL 호환: /admin/news → 디렉터리 index 가 해시로 넘김
+const SPA_SEGMENTS = ['news', 'resources', 'inquiries', 'settings'];
+for (const seg of SPA_SEGMENTS) {
+  const dir = path.join(DEST, seg);
+  fs.mkdirSync(dir, { recursive: true });
+  const bounce =
+    '<!doctype html><html lang="ko"><head><meta charset="UTF-8"/>' +
+    '<meta http-equiv="refresh" content="0;url=../#/' +
+    seg +
+    '"/>' +
+    '<script>location.replace("../#/' +
+    seg +
+    '");</script>' +
+    '<title>Redirect…</title></head><body>' +
+    '<p><a href="../#/' +
+    seg +
+    '">관리자 ' +
+    seg +
+    '</a></p></body></html>\n';
+  fs.writeFileSync(path.join(dir, 'index.html'), bounce);
+}
+
+console.log('[publish-admin] copied to admin/ (+ hash routes + path bounce)');
