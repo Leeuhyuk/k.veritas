@@ -474,23 +474,30 @@ a.card:hover { border-color: var(--color-forest-floor); background: var(--color-
 .card .tag { margin-bottom: var(--spacing-24); }
 .card__title { font-size: 24px; font-weight: 700; letter-spacing: -0.04em; margin-bottom: var(--spacing-16); line-height: 1.2; }
 .card__body { font-size: var(--text-body-sm); line-height: 1.6; color: var(--color-bark-brown); }
-/* 카드 본문 삽입 이미지 (메인 사업영역·인증 등과 동일) */
+/* 카드 본문 삽입 이미지 — 영역 전체 cover (여백 없이 채움) */
 .card__body img {
   display: block;
   width: 100%;
   max-width: 100%;
   height: auto;
+  min-height: 200px;
   border-radius: 8px;
   margin: 0 0 12px;
   object-fit: cover;
-  aspect-ratio: 16 / 10;
+  object-position: center;
+  aspect-ratio: 4 / 3;
   background: var(--color-cream-paper);
 }
+/* 인증 전용 이미지 필드 (레거시 data-cms-img) — 카드 폭 꽉 채움 */
 .cert-image {
   display: none;
   width: 100%;
+  max-width: 100%;
+  height: auto;
+  min-height: 220px;
   aspect-ratio: 4 / 3;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
   border-radius: var(--radius-lg);
   background: var(--color-cream-paper);
   border: 1px solid var(--color-eucalyptus);
@@ -499,6 +506,17 @@ a.card:hover { border-color: var(--color-forest-floor); background: var(--color-
 .cert-image[src]:not([src=""]) { display: block; }
 .cert-image[src]:not([src=""]) + .cert-image__ph { display: none; }
 .cert-image__ph { display: block; text-align: center; padding: var(--spacing-40) 0; }
+
+/* 인증 페이지: 카드 안 이미지 더 크게·꽉 채움 */
+.page .features__grid .card__body img,
+.page .features__grid .cert-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  min-height: 240px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: var(--radius-lg);
+}
 
 /* ---------- Split ---------- */
 .split {
