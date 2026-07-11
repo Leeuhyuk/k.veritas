@@ -21,6 +21,7 @@
   <div id="site-footer"></div>
   <script src="site-base.js"></script>
   <script src="site.js"></script>
+  <script src="force-download.js"></script>
   <script src="sanitize-html.js"></script>
   <script src="detail-lightbox.js"></script>
   <script>
@@ -88,9 +89,9 @@
             || ((window.withSiteBase
               ? window.withSiteBase('/api/resources/' + encodeURIComponent(r.id) + '/download')
               : '/api/resources/' + encodeURIComponent(r.id) + '/download'));
-          const dlAttrs = fileUrl
-            ? ` href="${esc(downloadHref)}" target="_blank" rel="noopener noreferrer" download="${esc(fname)}"`
-            : ` href="${esc(downloadHref)}" download="${esc(fname)}"`;
+          // data-force-download: 크로스 오리진도 blob 저장 (미리보기/실행 방지)
+          const dlAttrs =
+            ` href="${esc(downloadHref)}" data-force-download="1" data-download-name="${esc(fname)}" download="${esc(fname)}"`;
           const sizeLabel = r.size ? sizeStr(r.size) : '';
           const dlCount = r.downloads || 0;
 
@@ -138,7 +139,7 @@
                   </svg>
                   다운로드
                 </a>
-                <p class="resource-detail__hint">${fileUrl ? '파일을 새 탭에서 열거나 저장할 수 있습니다' : '저장 후 열어 확인해 주세요'}</p>
+                <p class="resource-detail__hint">클릭 시 파일 저장 창이 열립니다</p>
               </div>
             </div>
 

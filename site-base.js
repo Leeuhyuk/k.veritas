@@ -129,6 +129,10 @@
           })
           .then(function (data) {
             if (data && data.file && /^https?:\/\//i.test(data.file)) {
+              var name = data.originalName || data.title || 'download';
+              if (typeof window.forceDownload === 'function') {
+                return window.forceDownload(data.file, name);
+              }
               window.open(data.file, '_blank', 'noopener,noreferrer');
               return;
             }

@@ -32,7 +32,14 @@ export default function ResourceRow({ item }) {
           className="btn btn--ghost btn--sm"
           href={download}
           download={fname}
-          {...(fileUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          data-force-download="1"
+          data-download-name={fname}
+          onClick={(e) => {
+            if (typeof window !== 'undefined' && typeof window.forceDownload === 'function') {
+              e.preventDefault();
+              window.forceDownload(download, fname);
+            }
+          }}
         >
           다운로드
         </a>
