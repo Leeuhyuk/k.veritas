@@ -94,4 +94,51 @@
   };
 
   window.withSiteBase = withBase;
+
+  /**
+   * 정적 호스팅: a[href*="/api/resources/"][href$="/download"] 클릭 시
+   * static-api 메타의 file(공개 Storage URL)로 연결
+   */
+  if (preferStatic && typeof document !== 'undefined') {
+    document.addEventListener(
+      'click',
+      function (e) {
+        var a = e.target && e.target.closest && e.target.closest('a[href]');
+        if (!a) return;
+        var href = a.getAttribute('href') || '';
+        var path = href;
+        try {
+          if (/^https?:\/\//i.test(href)) {
+            var u = new URL(href, location.href);
+            if (u.origin !== location.origin) return;
+            path = u.pathname;
+          }
+        } catch (err) {
+          return;
+        }
+        // /k.veritas/api/... or /api/...
+        var m = path.match(/\/api\/resources\/([^/]+)\/download\/?$/);
+        if (!m) return;
+        e.preventDefault();
+        var id = decodeURIComponent(m[1]);
+        var metaUrl = withBase('/static-api/resources/' + encodeURIComponent(id) + '.json');
+        fetch(metaUrl, { cache: 'no-store' })
+          .then(function (r) {
+            if (!r.ok) throw new Error('not found');
+            return r.json();
+          })
+          .then(function (data) {
+            if (data && data.file && /^https?:\/\//i.test(data.file)) {
+              window.open(data.file, '_blank', 'noopener,noreferrer');
+              return;
+            }
+            throw new Error('no file');
+          })
+          .catch(function () {
+            alert('다운로드할 파일을 찾을 수 없습니다. 잠시 후 다시 시도해 주세요.');
+          });
+      },
+      true
+    );
+  }
 })();

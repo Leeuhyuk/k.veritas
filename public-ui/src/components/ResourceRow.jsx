@@ -4,9 +4,15 @@ import { fmtDate } from '../lib/format.js';
 export default function ResourceRow({ item }) {
   if (!item || !item.id) return null;
   const detail = `resource-detail.html?id=${encodeURIComponent(item.id)}`;
-  // Storage 직접 URL이 있으면 사용 (GitHub Pages 등 정적 호스팅 대응)
+  // Storage 직접 URL 우선 (GitHub Pages에는 /api/.../download 없음)
   const fileUrl = item.file && /^https?:\/\//i.test(item.file) ? item.file : null;
-  const download = fileUrl || `/api/resources/${encodeURIComponent(item.id)}/download`;
+  const apiDl = `/api/resources/${encodeURIComponent(item.id)}/download`;
+  const download =
+    fileUrl ||
+    (typeof window !== 'undefined' && typeof window.withSiteBase === 'function'
+      ? window.withSiteBase(apiDl)
+      : apiDl);
+  const fname = item.originalName || item.title || 'download';
 
   return (
     <tr className="res-row">
@@ -25,7 +31,8 @@ export default function ResourceRow({ item }) {
         <a
           className="btn btn--ghost btn--sm"
           href={download}
-          {...(fileUrl ? { target: '_blank', rel: 'noreferrer' } : {})}
+          download={fname}
+          {...(fileUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
         >
           다운로드
         </a>
