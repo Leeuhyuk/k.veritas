@@ -457,60 +457,59 @@ ul { list-style: none; }
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: var(--spacing-16) var(--spacing-20);
+  gap: var(--spacing-48);
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.trust-item {
+.trust-item,
+.trust__logos li {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.04em;
+  opacity: 0.8;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  min-height: 48px;
   margin: 0;
 }
-/* URL 없을 때: 회사명 로고 배지 (항상 표시) */
+/* URL 없을 때: 회사명 텍스트 (테두리·배경 없음) */
 .trust-name {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 112px;
-  min-height: 44px;
-  padding: 10px 18px;
-  border: 1px solid var(--color-eucalyptus);
-  border-radius: var(--radius-lg);
-  background: var(--color-cream-paper);
-  box-shadow: var(--shadow-subtle);
-  color: var(--color-botanical-ink);
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: -0.03em;
-  line-height: 1.2;
+  display: inline;
+  border: none;
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
   white-space: nowrap;
 }
-/* 이미지 로고: 기본 숨김, 로드 성공 시에만 표시 */
+/* 이미지 로고: 기본 숨김, 로드 성공 시에만 표시 (원래 크기) */
 .trust-logo {
   display: none;
-  height: 40px;
+  height: 28px;
   width: auto;
   max-width: 160px;
   object-fit: contain;
   vertical-align: middle;
-  padding: 6px 12px;
-  border: 1px solid var(--color-eucalyptus);
-  border-radius: var(--radius-lg);
-  background: var(--color-cream-paper);
-  box-shadow: var(--shadow-subtle);
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
 }
 .trust-logo.is-on {
   display: inline-block;
 }
-/* 실제 로고 이미지가 보이면 이름 배지는 숨김 */
+/* 실제 로고 이미지가 보이면 이름 텍스트 숨김 */
 .trust-item.has-logo .trust-name {
   display: none;
 }
 .trust-item.has-logo .trust-logo.is-on {
   display: inline-block;
+}
+.trust-item.has-logo {
+  opacity: 1;
 }
 
 /* ---------- Features ---------- */
