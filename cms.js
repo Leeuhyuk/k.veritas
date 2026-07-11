@@ -80,6 +80,27 @@
     );
   }
 
+  function wireTrustLogo(img) {
+    if (!img || img._trustWired) return;
+    img._trustWired = true;
+    var item = img.closest('.trust-item') || img.parentElement;
+    function showImage() {
+      img.classList.add('is-on');
+      if (item) item.classList.add('has-logo');
+      if (!img.getAttribute('alt')) {
+        var nameEl = item && item.querySelector('.trust-name');
+        if (nameEl) img.setAttribute('alt', (nameEl.textContent || '').replace(/\s+/g, ' ').trim());
+      }
+    }
+    function showName() {
+      img.classList.remove('is-on');
+      if (item) item.classList.remove('has-logo');
+      img.removeAttribute('src');
+    }
+    img.addEventListener('load', showImage);
+    img.addEventListener('error', showName);
+  }
+
   function apply(data) {
     if (!data) return;
     collect(document).forEach(function (f) {
@@ -87,6 +108,19 @@
       var val = data[f.key];
       if (val === undefined || val === null) return;
       if (f.type === 'image') {
+        if (f.el.tagName === 'IMG' && f.el.classList.contains('trust-logo')) {
+          wireTrustLogo(f.el);
+          var url = String(val || '').trim();
+          if (!url) {
+            f.el.classList.remove('is-on');
+            var itemEmpty = f.el.closest('.trust-item');
+            if (itemEmpty) itemEmpty.classList.remove('has-logo');
+            f.el.removeAttribute('src');
+            return;
+          }
+          f.el.src = fixMediaUrl(url);
+          return;
+        }
         if (!val) return;
         var imgUrl = fixMediaUrl(val);
         if (f.el.tagName === 'IMG') { f.el.src = imgUrl; }
@@ -104,6 +138,19 @@
         el.style.height = v + 'px';
         if (el.tagName === 'IMG') el.style.width = 'auto';
       });
+    });
+    // 고객사: URL 없는 항목도 이름 배지로 로고 영역 표시
+    document.querySelectorAll('.trust-item .trust-logo').forEach(function (img) {
+      wireTrustLogo(img);
+      if (!img.getAttribute('src')) {
+        img.classList.remove('is-on');
+        var item = img.closest('.trust-item');
+        if (item) item.classList.remove('has-logo');
+      } else if (img.complete && img.naturalWidth > 0) {
+        img.classList.add('is-on');
+        var item2 = img.closest('.trust-item');
+        if (item2) item2.classList.add('has-logo');
+      }
     });
   }
 
