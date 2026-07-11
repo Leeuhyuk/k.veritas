@@ -62,6 +62,24 @@
     return fields;
   }
 
+  /** /uploads/... · /static-api/... 절대경로 → SITE_BASE 보정 (GitHub Pages) */
+  function fixMediaUrl(url) {
+    if (!url || typeof url !== 'string') return url;
+    if (/^https?:\/\//i.test(url) || url.indexOf('//') === 0 || url.charAt(0) === 'data:') return url;
+    if (window.withSiteBase && url.charAt(0) === '/') return window.withSiteBase(url);
+    return url;
+  }
+
+  /** HTML 안 img/src·a/href 의 /uploads/ 경로 보정 */
+  function fixHtmlMedia(html) {
+    return String(html || '').replace(
+      /\b(src|href)=(["'])(\/uploads\/[^"']+)\2/gi,
+      function (_m, attr, q, path) {
+        return attr + '=' + q + fixMediaUrl(path) + q;
+      }
+    );
+  }
+
   function apply(data) {
     if (!data) return;
     collect(document).forEach(function (f) {
@@ -70,10 +88,11 @@
       if (val === undefined || val === null) return;
       if (f.type === 'image') {
         if (!val) return;
-        if (f.el.tagName === 'IMG') { f.el.src = val; }
-        else { f.el.style.backgroundImage = 'url(' + val + ')'; f.el.style.backgroundSize = 'cover'; f.el.style.backgroundPosition = 'center'; }
+        var imgUrl = fixMediaUrl(val);
+        if (f.el.tagName === 'IMG') { f.el.src = imgUrl; }
+        else { f.el.style.backgroundImage = 'url(' + imgUrl + ')'; f.el.style.backgroundSize = 'cover'; f.el.style.backgroundPosition = 'center'; }
       } else {
-        f.el.innerHTML = val;
+        f.el.innerHTML = fixHtmlMedia(val);
       }
     });
     // 이미지 표시 크기: "<키>__h" (높이 px)
@@ -132,10 +151,19 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     var page = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    if (!page || page === 'k.veritas') page = 'index.html';
     fetch('/api/content/' + page).then(function (r) { return r.json(); }).then(function (data) {
       apply(data);
       applyMaps(data);
       applySeo(data);
+      // SEO og:image 절대경로 보정
+      if (data && data.__seoImage) {
+        var fixed = fixMediaUrl(data.__seoImage);
+        if (fixed !== data.__seoImage) {
+          var el = document.querySelector('meta[property="og:image"]');
+          if (el) el.setAttribute('content', fixed);
+        }
+      }
     }).catch(function () {});
   });
 })();
