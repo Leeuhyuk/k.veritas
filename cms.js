@@ -146,19 +146,25 @@
         f.el.innerHTML = fixHtmlMedia(val);
       }
     });
-    // 이미지 표시 크기: "<키>__h" (높이 px)
+    // 이미지 표시 크기: "<키>__h" (높이 px) — 고객사 로고는 CSS 고정(56px) 유지
     Object.keys(data).forEach(function (k) {
       if (k.slice(-3) !== '__h') return;
       var base = k.slice(0, -3), v = data[k];
       if (!v) return;
+      if (/^client\d+_logo$/.test(base)) return;
       document.querySelectorAll('[data-cms-img="' + base + '"]').forEach(function (el) {
         el.style.height = v + 'px';
         if (el.tagName === 'IMG') el.style.width = 'auto';
       });
     });
-    // 고객사: URL 없는 항목도 이름 배지로 로고 영역 표시
-    document.querySelectorAll('.trust-item .trust-logo').forEach(function (img) {
+    // 고객사 로고: 표시 상태 + 인라인 높이 제거(CSS 56px 적용)
+    document.querySelectorAll('.trust-logo, .trust-item .trust-logo').forEach(function (img) {
       wireTrustLogo(img);
+      img.style.height = '';
+      img.style.width = '';
+      img.style.maxHeight = '';
+      img.style.border = '';
+      img.style.padding = '';
       if (!img.getAttribute('src')) {
         img.classList.remove('is-on');
         var item = img.closest('.trust-item');
