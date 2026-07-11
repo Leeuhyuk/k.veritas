@@ -406,7 +406,7 @@ function injectHeadMeta() {
   // CSS 캐시 갱신 (로고 크기 등 스타일 변경 반영)
   document.querySelectorAll('link[rel="stylesheet"][href*="styles.css"]').forEach((link) => {
     const base = (link.getAttribute('href') || '').split('?')[0];
-    link.setAttribute('href', base + '?v=trust-logo-112');
+    link.setAttribute('href', base + '?v=trust-logo-112-gap20');
   });
   const og = { 'og:site_name': 'k.veritas', 'og:type': 'website', 'og:title': document.title };
   Object.keys(og).forEach((k) => {

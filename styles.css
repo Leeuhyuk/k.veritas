@@ -457,7 +457,7 @@ ul { list-style: none; }
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 10px !important;
+  gap: 20px !important;
   list-style: none;
   margin: 0;
   padding: 0;
