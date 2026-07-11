@@ -75,15 +75,21 @@ if (!fs.existsSync(RES_FILE)) fs.writeFileSync(RES_FILE, '[]', 'utf-8');
 /* 이미지 최적화 (sharp 설치 시에만 동작, 미설치면 원본 유지) */
 let sharp = null;
 try { sharp = require('sharp'); } catch (e) { console.log('sharp 미설치 — 이미지 최적화는 건너뜁니다.'); }
-async function optimizeImages(files) {
+/**
+ * 업로드 즉시 WebP 압축
+ * @param {Express.Multer.File[]} files
+ * @param {{ maxWidth?: number, quality?: number }} [opts]
+ */
+async function optimizeImages(files, opts = {}) {
   if (!sharp || !files || !files.length) return;
+  const maxWidth = opts.maxWidth || 1400;
+  const quality = opts.quality || 78;
   for (const f of files) {
     try {
-      // 업로드 즉시 WebP 압축 (최대 1400px) — 목록/상세 속도 개선
       const buf = await sharp(f.path)
         .rotate()
-        .resize({ width: 1400, withoutEnlargement: true })
-        .webp({ quality: 78 })
+        .resize({ width: maxWidth, withoutEnlargement: true })
+        .webp({ quality })
         .toBuffer();
       const webpPath = f.path.replace(/\.[^.]+$/i, '') + '.webp';
       fs.writeFileSync(webpPath, buf);
@@ -805,7 +811,8 @@ app.put('/api/content/:page', requireAuth, async (req, res) => {
 /* 단일 이미지 업로드 (이미지 블록 / 본문 이미지 삽입용) */
 app.post('/api/upload', requireAuth, upload.single('image'), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'no_file', message: '이미지를 선택해 주세요.' });
-  await optimizeImages([req.file]);
+  // CMS/카드용: 가로 1200px WebP (제품 상세 1400보다 가볍게)
+  await optimizeImages([req.file], { maxWidth: 1200, quality: 78 });
   res.json({ url: await media.publishSingle(req.file, 'cms') });
 });
 

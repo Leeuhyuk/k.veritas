@@ -335,9 +335,97 @@
     });
   }
 
+  /**
+   * 브라우저에서 업로드 전 리사이즈·압축 (GitHub Pages Storage 직업로드용)
+   * 최대 가로 1200px, WebP(지원 시) 또는 JPEG q≈0.78
+   */
+  function compressImageFile(file, maxWidth, quality) {
+    maxWidth = maxWidth || 1200;
+    quality = quality || 0.78;
+    if (!file || !/^image\//.test(file.type || '')) return Promise.resolve(file);
+    // GIF 애니메이션 유지
+    if ((file.type || '') === 'image/gif') return Promise.resolve(file);
+
+    return new Promise(function (resolve) {
+      var url = URL.createObjectURL(file);
+      var img = new Image();
+      img.onload = function () {
+        URL.revokeObjectURL(url);
+        var w = img.naturalWidth || img.width;
+        var h = img.naturalHeight || img.height;
+        if (!w || !h) {
+          resolve(file);
+          return;
+        }
+        var scale = Math.min(1, maxWidth / w);
+        var tw = Math.max(1, Math.round(w * scale));
+        var th = Math.max(1, Math.round(h * scale));
+        var canvas = document.createElement('canvas');
+        canvas.width = tw;
+        canvas.height = th;
+        var ctx = canvas.getContext('2d');
+        if (!ctx) {
+          resolve(file);
+          return;
+        }
+        ctx.drawImage(img, 0, 0, tw, th);
+
+        function toBlob(type, q) {
+          return new Promise(function (res) {
+            if (canvas.toBlob) {
+              canvas.toBlob(function (b) {
+                res(b);
+              }, type, q);
+            } else {
+              try {
+                var data = canvas.toDataURL(type, q);
+                var bin = atob(data.split(',')[1] || '');
+                var arr = new Uint8Array(bin.length);
+                for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+                res(new Blob([arr], { type: type }));
+              } catch (e) {
+                res(null);
+              }
+            }
+          });
+        }
+
+        toBlob('image/webp', quality)
+          .then(function (webp) {
+            if (webp && webp.size > 0 && webp.type === 'image/webp') return webp;
+            return toBlob('image/jpeg', quality);
+          })
+          .then(function (blob) {
+            if (!blob || !blob.size) {
+              resolve(file);
+              return;
+            }
+            // 압축이 더 커지면 원본 사용 (이미 작은 파일)
+            if (blob.size >= file.size && scale >= 0.99) {
+              resolve(file);
+              return;
+            }
+            var ext = blob.type === 'image/webp' ? '.webp' : '.jpg';
+            var base = String(file.name || 'image').replace(/\.[^.]+$/, '').replace(/[^\w.\-]+/g, '_').slice(0, 60);
+            resolve(new File([blob], base + ext, { type: blob.type, lastModified: Date.now() }));
+          })
+          .catch(function () {
+            resolve(file);
+          });
+      };
+      img.onerror = function () {
+        URL.revokeObjectURL(url);
+        resolve(file);
+      };
+      img.src = url;
+    });
+  }
+
   async function uploadImage(file) {
     if (!file) throw new Error('파일을 선택해 주세요.');
     await loadMeta();
+    var optimized = await compressImageFile(file, 1200, 0.78);
+
     if (isStaticHost()) {
       ensureFirebase();
       var user = auth.currentUser || (await waitForUser(3000));
@@ -351,17 +439,20 @@
         e2.status = 403;
         throw e2;
       }
-      var safe = String(file.name || 'image')
+      var safe = String(optimized.name || 'image')
         .replace(/[^\w.\-]+/g, '_')
         .slice(0, 80);
       var path = 'public/cms/' + Date.now() + '-' + Math.round(Math.random() * 1e9) + '-' + safe;
       var ref = storage.ref(path);
-      var snap = await ref.put(file, { contentType: file.type || 'application/octet-stream' });
+      var snap = await ref.put(optimized, {
+        contentType: optimized.type || 'image/webp',
+        cacheControl: 'public,max-age=31536000',
+      });
       var url = await snap.ref.getDownloadURL();
       return { url: url };
     }
     var fd = new FormData();
-    fd.append('image', file);
+    fd.append('image', optimized);
     return fetchJson('/api/upload', { method: 'POST', credentials: 'include', body: fd });
   }
 
