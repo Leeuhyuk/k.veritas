@@ -41,7 +41,7 @@ export default function ResourceRow({ item }) {
             }
           }}
         >
-          다운로드
+          원본 다운로드
         </a>
       </td>
       <td className="res-col-date" data-label="등록일">
