@@ -474,6 +474,18 @@ a.card:hover { border-color: var(--color-forest-floor); background: var(--color-
 .card .tag { margin-bottom: var(--spacing-24); }
 .card__title { font-size: 24px; font-weight: 700; letter-spacing: -0.04em; margin-bottom: var(--spacing-16); line-height: 1.2; }
 .card__body { font-size: var(--text-body-sm); line-height: 1.6; color: var(--color-bark-brown); }
+/* 카드 본문 삽입 이미지 (메인 사업영역·인증 등과 동일) */
+.card__body img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 0 0 12px;
+  object-fit: cover;
+  aspect-ratio: 16 / 10;
+  background: var(--color-cream-paper);
+}
 .cert-image {
   display: none;
   width: 100%;
