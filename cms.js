@@ -149,10 +149,65 @@
 
   window.cmsCollect = collect;
 
+  /** Firestore REST (공개 읽기) — 관리자 저장 직후 static-api 없이도 반영 */
+  function fetchFirestorePage(page) {
+    var projectId = 'production-management-e70fd';
+    var url =
+      'https://firestore.googleapis.com/v1/projects/' +
+      projectId +
+      '/databases/(default)/documents/pages/' +
+      encodeURIComponent(page);
+    return fetch(url, { cache: 'no-store' }).then(function (r) {
+      if (!r.ok) return null;
+      return r.json().then(function (doc) {
+        if (!doc || !doc.fields) return null;
+        return firestoreFieldsToObject(doc.fields);
+      });
+    }).catch(function () { return null; });
+  }
+
+  function firestoreValue(v) {
+    if (!v || typeof v !== 'object') return null;
+    if (Object.prototype.hasOwnProperty.call(v, 'stringValue')) return v.stringValue;
+    if (Object.prototype.hasOwnProperty.call(v, 'integerValue')) return Number(v.integerValue);
+    if (Object.prototype.hasOwnProperty.call(v, 'doubleValue')) return v.doubleValue;
+    if (Object.prototype.hasOwnProperty.call(v, 'booleanValue')) return v.booleanValue;
+    if (Object.prototype.hasOwnProperty.call(v, 'nullValue')) return null;
+    if (v.mapValue && v.mapValue.fields) return firestoreFieldsToObject(v.mapValue.fields);
+    if (v.arrayValue && v.arrayValue.values) {
+      return (v.arrayValue.values || []).map(firestoreValue);
+    }
+    return null;
+  }
+
+  function firestoreFieldsToObject(fields) {
+    var o = {};
+    Object.keys(fields || {}).forEach(function (k) {
+      o[k] = firestoreValue(fields[k]);
+    });
+    return o;
+  }
+
+  function loadPageContent(page) {
+    // 1) API (로컬 서버 / site-base 가 static-api 로 폴백)
+    return fetch('/api/content/' + page)
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { return null; })
+      .then(function (data) {
+        if (data && typeof data === 'object' && Object.keys(data).length) return data;
+        // 2) GitHub Pages: Firestore 라이브 (관리자 저장 즉시 반영)
+        var host = (location.hostname || '');
+        if (!/\.github\.io$/i.test(host) && globalThis.FORCE_STATIC_API !== true) return data || {};
+        return fetchFirestorePage(page).then(function (live) {
+          return (live && Object.keys(live).length) ? live : (data || {});
+        });
+      });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     var page = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
     if (!page || page === 'k.veritas') page = 'index.html';
-    fetch('/api/content/' + page).then(function (r) { return r.json(); }).then(function (data) {
+    loadPageContent(page).then(function (data) {
       apply(data);
       applyMaps(data);
       applySeo(data);
