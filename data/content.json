@@ -134,11 +134,11 @@
     "hero_title": "인증·특허",
     "hero_sub": "품질 시스템 인증과 기술 특허로 검증된 제조 역량을 갖추고 있습니다.",
     "cert1_title": "ISO 9001",
-    "cert1_body": "<img loading=\"lazy\" decoding=\"async\"  src=\"https://storage.googleapis.com/production-management-e70fd-media/public/cms/opt/1783748080530-public_cms_1783737918913-132161639-wallpapertip_imac-5k-wall.webp\" alt=\"ISO 9001\" loading=\"lazy\" decoding=\"async\">품질경영시스템 국제 표준 인증.",
+    "cert1_body": "품질경영시스템 국제 표준 인증.",
     "cert2_title": "IATF 16949",
-    "cert2_body": "<img loading=\"lazy\" decoding=\"async\"  src=\"https://storage.googleapis.com/production-management-e70fd-media/public/cms/opt/1783748083911-public_cms_1783737921022-941183904-wallpapertip_5k-wallpaper.webp\" alt=\"IATF 16949\" loading=\"lazy\" decoding=\"async\">자동차 산업 품질경영시스템 인증.",
+    "cert2_body": "자동차 산업 품질경영시스템 인증.",
     "cert3_title": "ISO 14001",
-    "cert3_body": "<img loading=\"lazy\" decoding=\"async\"  src=\"https://storage.googleapis.com/production-management-e70fd-media/public/cms/opt/1783748086309-public_cms_1783737922779-740610676-wallpaperbetter.com_5760x.webp\" alt=\"ISO 14001\" loading=\"lazy\" decoding=\"async\">환경경영시스템 인증.",
+    "cert3_body": "환경경영시스템 인증.",
     "auto:eyebrow:2": "QUALITY",
     "auto:sectitle:1": "보유 인증",
     "auto:eyebrow:3": "PATENTS",
@@ -156,6 +156,9 @@
     "auto:spec_cell:11": "벤처기업 확인",
     "auto:spec_cell:12": "2023",
     "auto:eyebrow:4": "CONTACT",
-    "auto:cta_title:1": "검증된 품질로 시작하세요"
+    "auto:cta_title:1": "검증된 품질로 시작하세요",
+    "cert1_image": "https://storage.googleapis.com/production-management-e70fd-media/public/cms/opt/1783748080530-public_cms_1783737918913-132161639-wallpapertip_imac-5k-wall.webp",
+    "cert2_image": "https://storage.googleapis.com/production-management-e70fd-media/public/cms/opt/1783748083911-public_cms_1783737921022-941183904-wallpapertip_5k-wallpaper.webp",
+    "cert3_image": "https://storage.googleapis.com/production-management-e70fd-media/public/cms/opt/1783748086309-public_cms_1783737922779-740610676-wallpaperbetter.com_5760x.webp"
   }
 }

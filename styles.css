@@ -474,49 +474,57 @@ a.card:hover { border-color: var(--color-forest-floor); background: var(--color-
 .card .tag { margin-bottom: var(--spacing-24); }
 .card__title { font-size: 24px; font-weight: 700; letter-spacing: -0.04em; margin-bottom: var(--spacing-16); line-height: 1.2; }
 .card__body { font-size: var(--text-body-sm); line-height: 1.6; color: var(--color-bark-brown); }
-/* 카드 본문 삽입 이미지 — 영역 전체 cover (여백 없이 채움) */
+/* 카드 본문 삽입 이미지 (메인 사업영역 등) */
 .card__body img {
-  display: block;
+  display: block !important;
   width: 100%;
   max-width: 100%;
   height: auto;
-  min-height: 200px;
   border-radius: 8px;
   margin: 0 0 12px;
   object-fit: cover;
   object-position: center;
   aspect-ratio: 4 / 3;
-  background: var(--color-cream-paper);
+  background: var(--color-sage-mist);
+  vertical-align: middle;
 }
-/* 인증 전용 이미지 필드 (레거시 data-cms-img) — 카드 폭 꽉 채움 */
-.cert-image {
-  display: none;
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  min-height: 220px;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  object-position: center;
-  border-radius: var(--radius-lg);
-  background: var(--color-cream-paper);
-  border: 1px solid var(--color-eucalyptus);
-  margin-bottom: var(--spacing-24);
-}
-.cert-image[src]:not([src=""]) { display: block; }
-.cert-image[src]:not([src=""]) + .cert-image__ph { display: none; }
-.cert-image__ph { display: block; text-align: center; padding: var(--spacing-40) 0; }
 
-/* 인증 페이지: 카드 안 이미지 더 크게·꽉 채움 */
-.page .features__grid .card__body img,
-.page .features__grid .cert-image {
+/* 인증 카드: 상단 미디어 박스 — 영역 꽉 채움 (항상 표시) */
+.card__media {
+  display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
-  min-height: 240px;
+  margin: 0 0 var(--spacing-24);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-sage-mist);
+  border: 1px solid var(--color-eucalyptus);
+}
+.card__media img,
+.cert-image {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none;
+  min-height: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
   object-fit: cover;
   object-position: center;
-  border-radius: var(--radius-lg);
+  background: var(--color-sage-mist);
 }
+/* 미디어 박스 밖 단독 .cert-image 폴백 */
+img.cert-image:not(.card__media img) {
+  width: 100%;
+  height: auto;
+  min-height: 200px;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-24);
+  border: 1px solid var(--color-eucalyptus);
+}
+.cert-image__ph { display: none; }
 
 /* ---------- Split ---------- */
 .split {
