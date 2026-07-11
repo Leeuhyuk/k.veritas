@@ -92,6 +92,9 @@ const SEARCH_SVG =
   '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
   '<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>' +
   '<path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+const ARROW_UP_RIGHT_SVG =
+  '<svg class="icon-arrow-ur" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+  '<path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 /* 현재 페이지가 속한 그룹 키 (활성 메뉴 표시용) */
 function currentGroupKey() {
@@ -108,7 +111,7 @@ function currentGroupKey() {
 function renderNav() {
   const active = currentGroupKey();
 
-  /* 데스크톱 드롭다운 */
+  /* 데스크톱 드롭다운 (커머스형 바 안) */
   const groups = NAV_GROUPS.map((g) => {
     const items = g.children
       .map((c) => `<li><a href="${c.href}">${c.label}</a></li>`)
@@ -135,23 +138,31 @@ function renderNav() {
     );
   }).join('');
 
+  /* C안: CommerceHero 스타일 네비 — 좌측 브랜드+메뉴 패널, 우측 견적 CTA */
   return (
-    `<header class="nav" id="site-header"><nav class="nav__inner">` +
-    `<ul class="nav__links nav__links--left">${groups}</ul>` +
-    `<a href="index.html" class="logo" aria-label="회사 홈">${LOGO_SVG}<span>k.veritas</span></a>` +
-    `<ul class="nav__links nav__links--right">` +
-    `<li><button type="button" class="icon-btn nav-search-btn" aria-label="사이트 검색 열기" title="검색">${SEARCH_SVG}</button></li>` +
-    `<li><a href="index.html" class="btn btn--ghost">회사소개</a></li>` +
-    `<li><a href="support.html#contact" class="btn btn--primary">견적 문의</a></li>` +
-    `</ul>` +
+    `<header class="nav nav--commerce" id="site-header">` +
+    `<div class="nav-c">` +
+    `<div class="nav-c__brand-panel">` +
+    `<a href="index.html" class="logo nav-c__logo" aria-label="회사 홈">${LOGO_SVG}<span>k.veritas</span></a>` +
+    `<nav class="nav-c__menu" aria-label="주 메뉴">` +
+    `<ul class="nav__links nav__links--commerce">${groups}</ul>` +
+    `</nav>` +
+    `<div class="nav-c__tools">` +
+    `<button type="button" class="icon-btn nav-search-btn" aria-label="사이트 검색 열기" title="검색">${SEARCH_SVG}</button>` +
     `<button class="nav__burger" aria-label="메뉴" aria-expanded="false" aria-controls="mobile-menu">` +
     `<span></span><span></span><span></span></button>` +
-    `</nav>` +
+    `</div></div>` +
+    `<div class="nav-c__cta-wrap">` +
+    `<a href="support.html#contact" class="nav-c__cta">` +
+    `<span class="nav-c__cta-label">견적 문의</span>` +
+    `<span class="nav-c__cta-icon">${ARROW_UP_RIGHT_SVG}</span>` +
+    `</a></div>` +
+    `</div>` +
     `<div class="mobile-menu" id="mobile-menu">${mobileGroups}` +
     `<div class="mobile-menu__cta">` +
     `<button type="button" class="btn btn--ghost nav-search-btn">${SEARCH_SVG}<span>검색</span></button>` +
-    `<a href="index.html" class="btn btn--ghost">회사소개</a>` +
-    `<a href="support.html#contact" class="btn btn--primary">견적 문의</a>` +
+    `<a href="about.html" class="btn btn--ghost">회사소개</a>` +
+    `<a href="support.html#contact" class="btn btn--primary">견적 문의 ${ARROW_UP_RIGHT_SVG}</a>` +
     `</div></div>` +
     `<div class="site-search" id="site-search" hidden>` +
     `<div class="site-search__panel" role="dialog" aria-modal="true" aria-labelledby="site-search-title">` +
@@ -414,6 +425,10 @@ function injectHeadMeta() {
 
 document.addEventListener('DOMContentLoaded', () => {
   injectHeadMeta();
+  const file = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  if (file === 'index.html' || file === '' || file === 'k.veritas') {
+    document.body.classList.add('is-home');
+  }
   const navMount = document.getElementById('site-nav');
   const footMount = document.getElementById('site-footer');
   if (navMount) navMount.innerHTML = renderNav();
