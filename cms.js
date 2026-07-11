@@ -111,14 +111,31 @@
         if (f.el.tagName === 'IMG' && f.el.classList.contains('trust-logo')) {
           wireTrustLogo(f.el);
           var url = String(val || '').trim();
-          if (!url) {
+          // HTML 태그가 섞인 경우 src 추출
+          if (url && url.indexOf('<') !== -1) {
+            var mSrc = url.match(/src\s*=\s*["']([^"']+)["']/i);
+            if (mSrc) url = mSrc[1];
+          }
+          if (!url || url === 'null' || url === 'undefined') {
             f.el.classList.remove('is-on');
             var itemEmpty = f.el.closest('.trust-item');
             if (itemEmpty) itemEmpty.classList.remove('has-logo');
-            f.el.removeAttribute('src');
+            try { f.el.removeAttribute('src'); } catch (e0) { /* ignore */ }
             return;
           }
-          f.el.src = fixMediaUrl(url);
+          var fixedLogo = fixMediaUrl(url);
+          // 캐시된 이미지는 load 이벤트가 안 올 수 있음
+          f.el.onload = function () {
+            f.el.classList.add('is-on');
+            var it = f.el.closest('.trust-item');
+            if (it) it.classList.add('has-logo');
+          };
+          f.el.src = fixedLogo;
+          if (f.el.complete && f.el.naturalWidth > 0) {
+            f.el.classList.add('is-on');
+            var it2 = f.el.closest('.trust-item');
+            if (it2) it2.classList.add('has-logo');
+          }
           return;
         }
         if (!val) return;
@@ -241,12 +258,19 @@
       .then(function (r) { return r.ok ? r.json() : null; })
       .catch(function () { return null; })
       .then(function (data) {
-        if (data && typeof data === 'object' && Object.keys(data).length) return data;
-        // 2) GitHub Pages: Firestore 라이브 (관리자 저장 즉시 반영)
-        var host = (location.hostname || '');
-        if (!/\.github\.io$/i.test(host) && globalThis.FORCE_STATIC_API !== true) return data || {};
+        var host = location.hostname || '';
+        var onStaticHost =
+          /\.github\.io$/i.test(host) || globalThis.FORCE_STATIC_API === true;
+        // 로컬 Express 등: API 결과만 사용
+        if (!onStaticHost) return data || {};
+        // GitHub Pages: static-api 스냅샷 + Firestore 최신본 병합
+        // (스냅샷에 로고가 비어 있어도 관리자 저장본 URL이 있으면 표시)
         return fetchFirestorePage(page).then(function (live) {
-          return (live && Object.keys(live).length) ? live : (data || {});
+          var base = data && typeof data === 'object' ? data : {};
+          if (live && typeof live === 'object' && Object.keys(live).length) {
+            return Object.assign({}, base, live);
+          }
+          return base;
         });
       });
   }
