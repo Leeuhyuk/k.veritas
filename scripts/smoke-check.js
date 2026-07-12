@@ -37,12 +37,20 @@ async function main() {
     }
   }
 
-  const adminPaths = ['/admin/', '/admin/news', '/admin/resources', '/admin/inquiries', '/admin/settings'];
-  for (const p of adminPaths) {
+  const adminPaths = [
+    ['/admin/', 200, ''],
+    ['/admin/news', 302, '/admin/#/news'],
+    ['/admin/resources', 302, '/admin/#/resources'],
+    ['/admin/inquiries', 302, '/admin/#/inquiries'],
+    ['/admin/settings', 302, '/admin/#/settings'],
+  ];
+  for (const [p, status, location] of adminPaths) {
     try {
       const r = await check(p);
       results.push(r);
-      if (r.status !== 200) fail.push(r);
+      if (r.status !== status || (location && r.location !== location)) {
+        fail.push({ ...r, expect: location ? `${status}→${location}` : String(status) });
+      }
     } catch (e) {
       fail.push({ path: p, error: e.message });
     }
@@ -50,10 +58,10 @@ async function main() {
 
   const redirects = [
     ['/admin.html', '/admin/'],
-    ['/admin-news.html', '/admin/news'],
-    ['/admin-resources.html', '/admin/resources'],
-    ['/admin-inquiries.html', '/admin/inquiries'],
-    ['/admin-settings.html', '/admin/settings'],
+    ['/admin-news.html', '/admin/#/news'],
+    ['/admin-resources.html', '/admin/#/resources'],
+    ['/admin-inquiries.html', '/admin/#/inquiries'],
+    ['/admin-settings.html', '/admin/#/settings'],
   ];
   for (const [from, to] of redirects) {
     try {
@@ -71,15 +79,15 @@ async function main() {
 
   try {
     const showcase = await (await fetch(BASE + '/showcase.html')).text();
-    if (!showcase.includes('showcase-root') || !showcase.includes('/public-ui/assets/showcase.js')) {
+    if (!showcase.includes('showcase-root') || !/(?:^|["'])\/?public-ui\/dist\/assets\/showcase\.js/.test(showcase)) {
       fail.push({ path: '/showcase.html', error: 'public-ui showcase 마운트 누락' });
     }
     const ref = await (await fetch(BASE + '/reference.html')).text();
-    if (!ref.includes('resources-root') || !ref.includes('/public-ui/assets/resources.js')) {
+    if (!ref.includes('resources-root') || !/(?:^|["'])\/?public-ui\/dist\/assets\/resources\.js/.test(ref)) {
       fail.push({ path: '/reference.html', error: 'public-ui resources 마운트 누락' });
     }
     const news = await (await fetch(BASE + '/news.html')).text();
-    if (!news.includes('news-root') || !news.includes('/public-ui/assets/news.js')) {
+    if (!news.includes('news-root') || !/(?:^|["'])\/?public-ui\/dist\/assets\/news\.js/.test(news)) {
       fail.push({ path: '/news.html', error: 'public-ui news 마운트 누락' });
     }
   } catch (e) {

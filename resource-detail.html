@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body class="resource-detail-page">
   <div id="site-nav"></div>
 
   <main>
@@ -21,7 +21,6 @@
   <div id="site-footer"></div>
   <script src="site-base.js"></script>
   <script src="site.js"></script>
-  <script src="force-download.js"></script>
   <script src="sanitize-html.js"></script>
   <script src="detail-lightbox.js"></script>
   <script>
@@ -83,15 +82,9 @@
           const fname = r.originalName || r.title || '첨부 파일';
           const ext = fileExt(fname);
           const kind = fileKind(ext);
-          // GitHub Pages: /api/.../download 불가 → Storage 공개 URL 우선
-          const fileUrl = r.file && /^https?:\/\//i.test(r.file) ? r.file : '';
-          const downloadHref = fileUrl
-            || ((window.withSiteBase
-              ? window.withSiteBase('/api/resources/' + encodeURIComponent(r.id) + '/download')
-              : '/api/resources/' + encodeURIComponent(r.id) + '/download'));
-          // data-force-download: 크로스 오리진도 blob 저장 (미리보기/실행 방지)
-          const dlAttrs =
-            ` href="${esc(downloadHref)}" data-force-download="1" data-download-name="${esc(fname)}" download="${esc(fname)}"`;
+          const apiDownload = '/api/resources/' + encodeURIComponent(r.id) + '/download';
+          const downloadHref = window.withSiteBase ? window.withSiteBase(apiDownload) : apiDownload;
+          const dlAttrs = ` href="${esc(downloadHref)}" download="${esc(fname)}"`;
           const sizeLabel = r.size ? sizeStr(r.size) : '';
           const dlCount = r.downloads || 0;
 

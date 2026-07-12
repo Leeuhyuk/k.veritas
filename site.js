@@ -182,6 +182,27 @@ function wireMobileMenu() {
   });
 }
 
+function dialogFocusable(root) {
+  if (!root) return [];
+  return Array.from(root.querySelectorAll(
+    'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+  )).filter((el) => !el.hidden && el.getClientRects().length > 0);
+}
+
+function trapDialogFocus(e, root) {
+  if (e.key !== 'Tab') return;
+  const items = dialogFocusable(root);
+  if (!items.length) return;
+  const first = items[0];
+  const last = items[items.length - 1];
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault();
+    last.focus();
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault();
+    first.focus();
+  }
+}
 function wireSiteSearch() {
   const overlay = document.getElementById('site-search');
   if (!overlay) return;
@@ -193,15 +214,23 @@ function wireSiteSearch() {
   const esc = (s) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   let timer = null;
   let controller = null;
+  let returnFocus = null;
 
   const setMessage = (text) => {
     results.innerHTML = `<p class="site-search__empty">${esc(text)}</p>`;
   };
   const closeSearch = () => {
+    if (overlay.hidden) return;
     overlay.hidden = true;
     document.body.classList.remove('is-search-open');
+    const target = returnFocus;
+    returnFocus = null;
+    window.setTimeout(() => {
+      if (target && target.isConnected && typeof target.focus === 'function') target.focus();
+    }, 0);
   };
-  const openSearch = () => {
+  const openSearch = (trigger) => {
+    returnFocus = trigger || document.activeElement;
     if (header) header.classList.remove('is-open');
     if (burger) burger.setAttribute('aria-expanded', 'false');
     overlay.hidden = false;
@@ -239,7 +268,7 @@ function wireSiteSearch() {
       });
   };
 
-  document.querySelectorAll('.nav-search-btn').forEach((btn) => btn.addEventListener('click', openSearch));
+  document.querySelectorAll('.nav-search-btn').forEach((btn) => btn.addEventListener('click', () => openSearch(btn)));
   closeBtn?.addEventListener('click', closeSearch);
   overlay.addEventListener('click', (e) => { if (e.target === overlay) closeSearch(); });
   results.addEventListener('click', (e) => { if (e.target.closest('a')) closeSearch(); });
@@ -248,7 +277,9 @@ function wireSiteSearch() {
     timer = window.setTimeout(runSearch, 180);
   });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !overlay.hidden) closeSearch();
+    if (overlay.hidden) return;
+    if (e.key === 'Escape') closeSearch();
+    else trapDialogFocus(e, overlay);
   });
 }
 
@@ -338,6 +369,7 @@ function wireNoticePopups() {
       if (!popups.length) return;
 
       const el = document.createElement('div');
+      const returnFocus = document.activeElement;
       el.className = 'notice-popup';
       el.setAttribute('role', 'dialog');
       el.setAttribute('aria-modal', 'true');
@@ -363,17 +395,29 @@ function wireNoticePopups() {
           </div>
         </div>`;
 
+      let isClosed = false;
+      let onKey = null;
       const close = () => {
+        if (isClosed) return;
+        isClosed = true;
         writeClosed(Array.from(new Set(readClosed().concat(popups.map((n) => n.id)))));
+        document.removeEventListener('keydown', onKey);
+        document.body.classList.remove('is-notice-open');
         el.remove();
+        window.setTimeout(() => {
+          if (returnFocus && returnFocus.isConnected && typeof returnFocus.focus === 'function') returnFocus.focus();
+        }, 0);
       };
       el.addEventListener('click', (e) => { if (e.target === el || e.target.closest('.notice-popup__close')) close(); });
-      document.addEventListener('keydown', function onKey(e) {
-        if (e.key !== 'Escape' || !document.body.contains(el)) return;
-        document.removeEventListener('keydown', onKey);
-        close();
-      });
+      onKey = (e) => {
+        if (!document.body.contains(el)) return;
+        if (e.key === 'Escape') close();
+        else trapDialogFocus(e, el);
+      };
+      document.addEventListener('keydown', onKey);
       document.body.appendChild(el);
+      document.body.classList.add('is-notice-open');
+      window.setTimeout(() => el.querySelector('.notice-popup__close')?.focus(), 0);
     })
     .catch(() => {});
 }

@@ -373,6 +373,8 @@ ul { list-style: none; }
   padding: var(--spacing-32);
   background: rgba(10, 29, 8, 0.46);
 }
+body.is-notice-open { overflow: hidden; }
+
 .notice-popup__panel {
   width: min(560px, 100%);
   max-height: calc(100vh - 64px);
@@ -653,6 +655,8 @@ img.cert-image:not(.card__media img) {
 .subhero__sub { max-width: 600px; margin: 0 auto; color: var(--color-bark-brown); }
 
 .page { max-width: var(--page-max-width); margin: 0 auto; padding: var(--spacing-128) var(--spacing-32); }
+.resource-page .page,
+.resource-detail-page .page { padding-top: var(--spacing-64); }
 .page + .page { padding-top: 0; }
 
 /* ---------- Spec table ---------- */
@@ -1385,7 +1389,8 @@ img.detail__cover.is-zoomable:hover,
   letter-spacing: -0.03em;
   line-height: 1.35;
   color: var(--color-botanical-ink, #0a1d08);
-  word-break: break-all;
+  word-break: normal;
+  overflow-wrap: anywhere;
 }
 .resource-detail__meta {
   list-style: none;
@@ -1937,10 +1942,14 @@ a.res-title:hover {
   color: var(--color-bark-brown);
   display: block;
   margin-bottom: 6px;
-  word-break: break-all;
+  word-break: normal;
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 760px) {
+  .resource-page .page,
+  .resource-detail-page .page { padding-top: var(--spacing-40); }
+  .resource-detail__filename { font-size: 14px; }
   #resources-root .filter-bar { justify-content: flex-start; }
   .res-tools { flex-direction: column; align-items: stretch; }
   .res-search input { min-width: 0; width: 100%; }

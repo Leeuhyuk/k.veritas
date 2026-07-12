@@ -4,14 +4,11 @@ import { fmtDate } from '../lib/format.js';
 export default function ResourceRow({ item }) {
   if (!item || !item.id) return null;
   const detail = `resource-detail.html?id=${encodeURIComponent(item.id)}`;
-  // Storage 직접 URL 우선 (GitHub Pages에는 /api/.../download 없음)
-  const fileUrl = item.file && /^https?:\/\//i.test(item.file) ? item.file : null;
   const apiDl = `/api/resources/${encodeURIComponent(item.id)}/download`;
   const download =
-    fileUrl ||
-    (typeof window !== 'undefined' && typeof window.withSiteBase === 'function'
+    typeof window !== 'undefined' && typeof window.withSiteBase === 'function'
       ? window.withSiteBase(apiDl)
-      : apiDl);
+      : apiDl;
   const fname = item.originalName || item.title || 'download';
 
   return (
@@ -32,14 +29,6 @@ export default function ResourceRow({ item }) {
           className="btn btn--ghost btn--sm"
           href={download}
           download={fname}
-          data-force-download="1"
-          data-download-name={fname}
-          onClick={(e) => {
-            if (typeof window !== 'undefined' && typeof window.forceDownload === 'function') {
-              e.preventDefault();
-              window.forceDownload(download, fname);
-            }
-          }}
         >
           다운로드
         </a>

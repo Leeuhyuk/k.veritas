@@ -129,11 +129,9 @@
           })
           .then(function (data) {
             if (data && data.file && /^https?:\/\//i.test(data.file)) {
-              var name = data.originalName || data.title || 'download';
-              if (typeof window.forceDownload === 'function') {
-                return window.forceDownload(data.file, name);
-              }
-              window.open(data.file, '_blank', 'noopener,noreferrer');
+              // 비동기 window.open은 팝업 차단 대상이므로 현재 위치 이동을 사용한다.
+              // Storage 객체의 Content-Disposition: attachment가 저장을 처리한다.
+              window.location.assign(data.file);
               return;
             }
             throw new Error('no file');

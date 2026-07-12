@@ -17,9 +17,9 @@ npm run smoke
 | S2 | 관리자 제품 | `/admin/` 로그인 → 제품 등록/수정/삭제 |
 | S3 | 관리자 제품 | 이미지 keep, ▲▼·드래그 순서, 카테고리 |
 | S4 | 쇼케이스 | 칩·검색·필터·더 보기 (`public-ui` ProductCard) |
-| S5 | 관리자 탭 | `/admin/news` · `/resources` · `/inquiries` · `/settings` 진입 |
+| S5 | 관리자 탭 | `/admin/#/news` · `/admin/#/resources` · `/admin/#/inquiries` · `/admin/#/settings` 진입 |
 | S6 | 페이지 편집 | `/admin-pages.html` 로드·저장 (레거시) |
-| S7 | 리다이렉트 | `admin.html`→`/admin/`, `admin-news.html`→`/admin/news` 등 |
+| S7 | 리다이렉트 | `admin.html`→`/admin/`, `admin-news.html`→`/admin/#/news` 등 |
 
 ## Phase 1 (카드 모듈)
 

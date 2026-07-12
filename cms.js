@@ -101,6 +101,26 @@
     img.addEventListener('error', showName);
   }
 
+  // 제목 영역은 텍스트와 줄바꿈만 허용한다. 이미지/표/임베드가 저장돼도
+  // 공개 화면의 H1 구조와 첫 화면 CTA를 밀어내지 않도록 방어한다.
+  function headingHtml(value) {
+    var box = document.createElement('div');
+    box.innerHTML = fixHtmlMedia(value);
+    box.querySelectorAll('img, picture, video, audio, iframe, table, svg, canvas').forEach(function (el) {
+      el.remove();
+    });
+    box.querySelectorAll('div, p').forEach(function (el) {
+      if (el.previousSibling) el.before(document.createElement('br'));
+      el.replaceWith.apply(el, Array.prototype.slice.call(el.childNodes));
+    });
+    box.querySelectorAll('*').forEach(function (el) {
+      if (el.tagName === 'BR') return;
+      el.replaceWith.apply(el, Array.prototype.slice.call(el.childNodes));
+    });
+    return box.innerHTML
+      .replace(/^(?:\s|<br\s*\/?>)+|(?:\s|<br\s*\/?>)+$/gi, '')
+      .replace(/(?:\s*<br\s*\/?>\s*){2,}/gi, '<br>');
+  }
   function apply(data) {
     if (!data) return;
     collect(document).forEach(function (f) {
@@ -143,7 +163,7 @@
         if (f.el.tagName === 'IMG') { f.el.src = imgUrl; }
         else { f.el.style.backgroundImage = 'url(' + imgUrl + ')'; f.el.style.backgroundSize = 'cover'; f.el.style.backgroundPosition = 'center'; }
       } else {
-        f.el.innerHTML = fixHtmlMedia(val);
+        f.el.innerHTML = f.key === 'hero_headline' ? headingHtml(val) : fixHtmlMedia(val);
       }
     });
     // 이미지 표시 크기: "<키>__h" (높이 px) — 고객사 로고는 CSS 고정(112px) 유지
