@@ -2873,3 +2873,64 @@ body.site-hp .resource-detail__hint{ color:var(--color-bark-brown); opacity:1; }
    ============================================================ */
 body.site-hp #site-nav{ position:sticky; top:0; z-index:60; }
 body.site-hp #site-nav .nav{ position:static; }
+
+/* ============================================================
+   리치에디터(텍스트 편집) 툴바 — 다듬은 디자인 (관리자 admin-hp)
+   무테 아이콘 버튼 · 화이트 플로팅 패널 · 부드러운 그림자 · 필 모드탭
+   ============================================================ */
+body.admin-hp .rte-float{ filter:none; }
+body.admin-hp .rte-float__panel{
+  background:#fff;
+  border:1px solid var(--color-lichen);
+  border-radius:10px;
+  box-shadow:0 14px 34px rgba(22,24,29,.16), 0 1px 3px rgba(22,24,29,.08);
+  padding:6px;
+  gap:4px;
+}
+body.admin-hp .rte-float__inner{
+  background:transparent; border:0; box-shadow:none; border-radius:8px;
+  padding:4px; gap:2px;
+}
+body.admin-hp .rte-toolbar{ gap:2px; }
+
+/* 아이콘 버튼: 무테 · 정사각 · 호버 배경 */
+body.admin-hp .rte-btn{
+  min-width:32px; min-height:32px; padding:0 9px;
+  display:inline-flex; align-items:center; justify-content:center;
+  border:1px solid transparent; border-radius:7px; background:transparent;
+  color:var(--color-ink-70); font-size:13px; font-weight:700; line-height:1;
+  transition:background-color .12s ease, color .12s ease, border-color .12s ease;
+}
+body.admin-hp .rte-btn:hover{ background:var(--color-sage-mist); color:var(--color-botanical-ink); }
+body.admin-hp .rte-btn:active{ background:var(--color-accent-soft); }
+body.admin-hp .rte-btn.is-active,
+body.admin-hp .rte-btn[aria-pressed="true"]{
+  background:var(--color-accent-soft); color:var(--color-forest-floor); border-color:transparent;
+}
+
+/* 구분선: 짧고 은은하게 */
+body.admin-hp .rte-float .rte-sep,
+body.admin-hp .rte-float__inner .rte-sep{
+  width:1px; align-self:center; height:18px; min-height:0; margin:0 5px;
+  background:var(--color-lichen);
+}
+
+/* 모드 탭(서식/표): 깔끔한 필 */
+body.admin-hp .rte-float__modes{
+  padding:4px 4px 6px; gap:4px; margin-bottom:2px;
+  border-bottom:1px solid var(--color-lichen);
+}
+body.admin-hp .rte-mode{
+  border:0; border-radius:7px; padding:6px 14px;
+  font-size:12.5px; font-weight:700; color:var(--color-bark-brown);
+  background:transparent; cursor:pointer; transition:background-color .12s ease, color .12s ease;
+}
+body.admin-hp .rte-mode:hover{ background:var(--color-sage-mist); color:var(--color-botanical-ink); }
+body.admin-hp .rte-mode.is-active{ background:var(--color-botanical-ink); color:#fff; }
+body.admin-hp .rte-float__label{ opacity:1; color:var(--color-bark-brown); }
+body.admin-hp .rte-float__close{ min-width:32px; min-height:32px; border-radius:7px; font-size:15px !important; }
+body.admin-hp .rte-btn--accent{
+  background:var(--color-accent-soft); color:var(--color-forest-floor);
+  border:1px solid var(--color-forest-floor); font-weight:700;
+}
+body.admin-hp .rte-btn--accent:hover{ background:var(--color-forest-floor); color:#fff; }
