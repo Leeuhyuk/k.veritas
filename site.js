@@ -34,7 +34,7 @@ const NAV_GROUPS = [
     label: '제품소개',
     href: 'products.html',
     children: [
-      { label: '실제 생산 제품', href: 'showcase.html' },
+      { label: '생산제품', href: 'showcase.html' },
       { label: '정밀 가공 부품', href: 'product-parts.html' },
       { label: '정밀 금형', href: 'product-mold.html' },
       { label: '조립 모듈', href: 'product-module.html' },
@@ -76,7 +76,7 @@ const FOOTER_COLS = [
   {
     title: '자료',
     links: [
-      { label: '실제 생산 제품', href: 'showcase.html' },
+      { label: '생산제품', href: 'showcase.html' },
       { label: '자료실', href: 'reference.html' },
       { label: '공지사항', href: 'news.html' },
       // 상대경로 — GitHub Pages(/k.veritas/)에서도 올바른 admin/ 으로 연결
@@ -417,6 +417,140 @@ function injectHeadMeta() {
   });
 }
 
+/* 스크롤 리빌 초기화 플래그 — head 인라인 안전장치가 참조 */
+window.__revealInit = true;
+
+/* 스크롤 리빌 애니메이션 (공개 페이지) — 스크롤 위치 기반(모든 환경에서 동작) */
+function wireScrollReveal() {
+  try {
+    if (!document.body.classList.contains('site-hp')) return;
+    /* 모션 최소화 선호 시: 숨김 해제하고 종료 */
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('reveal-off');
+      return;
+    }
+
+    var sel = '.hero__content > *, .hero__media, .hero-stat, .section-head, .cat-row, .card,'
+      + '.split__text, .split__media, .cta > *, .subhero__inner > *, .channel, .faq__item,'
+      + '.pdp-figure, .pdp-sec__head, .pdp-highlight, .pdp-feat, .pdp-step, .spec, .stat, .tl-row';
+    var els = Array.prototype.slice.call(document.querySelectorAll(sel));
+    if (!els.length) return;
+
+    var vh = window.innerHeight || document.documentElement.clientHeight || 800;
+    var trigger = vh * 0.9;   /* 뷰포트 하단 근처에 들어오면 등장 */
+
+    /* 초기 화면에 보이는(위쪽) 요소는 건드리지 않음 → 항상 보임.
+       스크롤해야 나오는(아래쪽) 요소만 arm(숨김) 처리해 애니메이션 대상으로 */
+    var pending = [];
+    els.forEach(function (el) {
+      if (el.getBoundingClientRect().top >= trigger) {
+        el.classList.add('reveal-armed');
+        pending.push(el);
+      }
+    });
+    if (!pending.length) return;   /* 전부 화면 안 → 숨길 것 없음 */
+
+    /* 같은 부모의 형제 요소는 순차 지연(stagger) — animation-delay만 사용해 호버와 무충돌 */
+    var seen = new Map();
+    pending.forEach(function (el) {
+      var p = el.parentElement || document.body;
+      var i = seen.get(p) || 0; seen.set(p, i + 1);
+      var d = Math.min(i * 70, 300);
+      if (d) el.style.animationDelay = d + 'ms';
+    });
+
+    var ticking = false;
+    var raf = window.requestAnimationFrame || function (f) { return setTimeout(f, 16); };
+
+    function check() {
+      ticking = false;
+      var h = window.innerHeight || document.documentElement.clientHeight || 800;
+      var t = h * 0.9;
+      for (var i = pending.length - 1; i >= 0; i--) {
+        var el = pending[i];
+        if (el.getBoundingClientRect().top < t) {
+          el.classList.add('reveal-in');
+          /* 안전장치: 애니메이션이 진행되지 않는 환경에서도 확실히 표시 */
+          (function (node) { setTimeout(function () { node.classList.add('reveal-shown'); }, 1500); })(el);
+          pending.splice(i, 1);
+        }
+      }
+      if (!pending.length) {
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onScroll);
+      }
+    }
+    function onScroll() { if (!ticking) { ticking = true; raf(check); } }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+
+    /* 레이아웃/뷰포트 안정화 후 자동 보정 — 초기에 잘못 숨겨진 상단 요소를 즉시 표시 */
+    raf(check);
+    setTimeout(check, 200);
+    window.addEventListener('load', check);
+
+    /* 최종 안전장치: 혹시 스크롤 이벤트가 오지 않아도 5초 뒤 남은 요소 모두 표시 */
+    setTimeout(function () {
+      pending.forEach(function (el) { el.classList.add('reveal-in', 'reveal-shown'); });
+      pending.length = 0;
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    }, 5000);
+  } catch (err) {
+    /* 어떤 이유로든 실패하면 숨김 상태를 해제해 콘텐츠가 항상 보이도록 */
+    document.documentElement.classList.add('reveal-off');
+  }
+}
+
+/* 제품 상세(PDP) — 목차 스크롤 스파이 + 툴바 액션 */
+function wireProductPage() {
+  const pdp = document.querySelector('.pdp');
+  if (!pdp) return;
+
+  /* 목차 스크롤 스파이 */
+  const links = Array.from(pdp.querySelectorAll('.pdp-toc a[href^="#"]'));
+  const sections = links
+    .map((a) => document.getElementById(a.getAttribute('href').slice(1)))
+    .filter(Boolean);
+  if (sections.length) {
+    const setActive = (id) => {
+      links.forEach((a) => a.classList.toggle('is-active', a.getAttribute('href') === '#' + id));
+    };
+    const spy = new IntersectionObserver((entries) => {
+      const vis = entries
+        .filter((e) => e.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+      if (vis) setActive(vis.target.id);
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    sections.forEach((s) => spy.observe(s));
+    setActive(sections[0].id);
+    /* 부드러운 스크롤 */
+    links.forEach((a) => a.addEventListener('click', (e) => {
+      const el = document.getElementById(a.getAttribute('href').slice(1));
+      if (!el) return;
+      e.preventDefault();
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', a.getAttribute('href'));
+    }));
+  }
+
+  /* 툴바 액션: 인쇄 / 공유 */
+  const printBtn = pdp.querySelector('[data-pdp-action="print"]');
+  if (printBtn) printBtn.addEventListener('click', () => window.print());
+
+  const shareBtn = pdp.querySelector('[data-pdp-action="share"]');
+  if (shareBtn) shareBtn.addEventListener('click', async () => {
+    const shareData = { title: document.title, url: location.href };
+    try {
+      if (navigator.share) { await navigator.share(shareData); return; }
+      await navigator.clipboard.writeText(location.href);
+      const label = shareBtn.querySelector('span');
+      if (label) { const t = label.textContent; label.textContent = '링크 복사됨'; setTimeout(() => { label.textContent = t; }, 1600); }
+    } catch (_) { /* 사용자 취소 등 무시 */ }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   injectHeadMeta();
   const navMount = document.getElementById('site-nav');
@@ -427,4 +561,6 @@ document.addEventListener('DOMContentLoaded', () => {
   wireSiteSearch();
   wireInquiryForm();
   wireNoticePopups();
+  wireProductPage();
+  wireScrollReveal();
 });

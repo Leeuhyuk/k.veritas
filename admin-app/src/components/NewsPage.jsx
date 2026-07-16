@@ -7,6 +7,7 @@ import SeoFields from './SeoFields.jsx';
 
 const empty = {
   title: '',
+  category: '',
   status: 'published',
   isPopup: false,
   body: '',
@@ -54,6 +55,7 @@ export default function NewsPage() {
     }
     const fd = new FormData();
     fd.append('title', form.title);
+    fd.append('category', form.category || '');
     fd.append('status', form.status);
     fd.append('isPopup', form.isPopup ? 'true' : 'false');
     fd.append('body', form.body || '');
@@ -81,6 +83,7 @@ export default function NewsPage() {
       setEditId(n.id);
       setForm({
         title: n.title || '',
+        category: n.category || '',
         status: n.status === 'draft' ? 'draft' : 'published',
         isPopup: !!n.isPopup,
         body: n.body || '',
@@ -116,6 +119,23 @@ export default function NewsPage() {
             onChange={(e) => setField('title', e.target.value)}
             placeholder="공지 제목"
           />
+        </div>
+        <div className="form__row">
+          <label htmlFor="n-category">분류 (선택)</label>
+          <input
+            id="n-category"
+            value={form.category}
+            onChange={(e) => setField('category', e.target.value)}
+            placeholder="예: 공지 · 인증 · 설비 · 생산 · 안내"
+            list="n-category-list"
+          />
+          <datalist id="n-category-list">
+            <option value="공지" />
+            <option value="인증" />
+            <option value="설비" />
+            <option value="생산" />
+            <option value="안내" />
+          </datalist>
         </div>
         <div className="form__row">
           <label htmlFor="n-status">공개 상태</label>

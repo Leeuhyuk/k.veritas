@@ -9,55 +9,67 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css?v=trust-logo-112-gap20" />
+  <script>document.documentElement.classList.add("reveal-on");setTimeout(function(){window.__revealInit||document.documentElement.classList.add("reveal-off")},3000);</script>
 </head>
-<body>
+<body class="site-hp">
   <div id="site-nav"></div>
 
   <main>
     <!-- ============ HERO ============ -->
     <section class="hero">
-      <div class="hero__backdrop" aria-hidden="true">
-        <svg viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#fbfdf6"/>
-              <stop offset="100%" stop-color="#eff2e8"/>
-            </linearGradient>
-            <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#e0e5d5"/>
-              <stop offset="100%" stop-color="#c5ccb6"/>
-            </linearGradient>
-          </defs>
-          <rect width="1440" height="600" fill="url(#sky)"/>
-          <path d="M0 430 Q360 360 720 410 T1440 420 V600 H0 Z" fill="#d7e8b5" opacity="0.7"/>
-          <path d="M0 470 Q420 420 860 470 T1440 470 V600 H0 Z" fill="#c5ccb6" opacity="0.8"/>
-          <ellipse cx="720" cy="560" rx="900" ry="80" fill="url(#lake)"/>
-          <g stroke="#31200b" stroke-width="2.5" fill="none" opacity="0.55" stroke-linecap="round">
-            <path d="M250 470 V410"/>
-            <path d="M250 430 q-22 -14 -40 -8 M250 420 q24 -16 44 -6"/>
-            <circle cx="208" cy="418" r="14" fill="#203b14" stroke="none" opacity="0.5"/>
-            <circle cx="296" cy="410" r="16" fill="#203b14" stroke="none" opacity="0.5"/>
-          </g>
-          <g stroke="#31200b" stroke-width="2.5" fill="none" opacity="0.45" stroke-linecap="round">
-            <path d="M1180 480 V415"/>
-            <circle cx="1180" cy="405" r="20" fill="#203b14" stroke="none" opacity="0.45"/>
-          </g>
-          <g stroke="#0a1d08" stroke-width="2" opacity="0.4">
-            <line x1="690" y1="500" x2="750" y2="500"/>
-            <line x1="694" y1="500" x2="694" y2="516"/>
-            <line x1="746" y1="500" x2="746" y2="516"/>
-          </g>
-        </svg>
+      <div class="hero__inner">
+        <div class="hero__content">
+          <p class="microlabel">PRECISION MANUFACTURING</p>
+          <h1 class="hero__headline" data-cms="hero_headline" data-cms-label="히어로 제목">한 치의 오차도<br/><em>허용하지 않습니다</em></h1>
+          <p class="hero__sub" data-cms="hero_sub" data-cms-label="히어로 설명">설계부터 정밀 가공, 검사, 납품까지 — 30년간 축적한 제조 노하우로 고객의 부품을 책임지는 파트너입니다.</p>
+          <div class="hero__actions">
+            <a href="support.html#contact" class="btn btn--primary">견적 문의하기</a>
+            <a href="reference.html" class="btn btn--ghost">회사소개서 · 자료실</a>
+          </div>
+        </div>
+        <div class="hero__media">
+          <img src="images/mfg-cnc.jpg" alt="CNC 정밀 가공 현장" loading="eager" />
+        </div>
       </div>
 
-      <div class="hero__content">
-        <p class="microlabel">PRECISION MANUFACTURING</p>
-        <h1 class="hero__headline" data-cms="hero_headline" data-cms-label="히어로 제목">한 치의 오차도<br/>허용하지 않습니다</h1>
-        <p class="hero__sub" data-cms="hero_sub" data-cms-label="히어로 설명">설계부터 정밀 가공, 검사, 납품까지 — 30년간 축적한 제조 노하우로 고객의 부품을 책임지는 파트너입니다.</p>
-        <div class="hero__actions">
-          <a href="support.html#contact" class="btn btn--primary">견적 문의하기</a>
-          <a href="reference.html" class="btn btn--ghost">회사소개서 · 자료실</a>
+      <div class="hero__stats">
+        <div class="hero-stat"><div class="hero-stat__num">30<span style="font-size:18px">년+</span></div><div class="hero-stat__label">제조 노하우</div></div>
+        <div class="hero-stat"><div class="hero-stat__num">±0.005<span style="font-size:18px">mm</span></div><div class="hero-stat__label">가공 공차</div></div>
+        <div class="hero-stat"><div class="hero-stat__num">99<span style="font-size:18px">%</span></div><div class="hero-stat__label">공정 수율</div></div>
+        <div class="hero-stat"><div class="hero-stat__num">24<span style="font-size:18px">h</span></div><div class="hero-stat__label">견적 회신</div></div>
+      </div>
+    </section>
+
+    <!-- ============ CATEGORY BROWSER (HP 스타일) ============ -->
+    <section class="features" style="padding-bottom:var(--spacing-64)">
+      <div class="section-head" style="text-align:left;max-width:none;margin-bottom:var(--spacing-40);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+        <div>
+          <p class="microlabel" style="margin-bottom:var(--spacing-16)">EXPLORE · 제품 살펴보기</p>
+          <h2 class="section-title" style="text-align:left">무엇을 만드시나요?</h2>
         </div>
+        <a href="products.html" class="btn btn--ghost">전체 제품 보기</a>
+      </div>
+      <div class="cat-browse">
+        <a class="cat-row" href="product-parts.html">
+          <span class="cat-row__thumb"><img src="images/mfg-mold.jpg" alt="정밀 가공 부품" loading="lazy" /></span>
+          <span class="cat-row__t"><b>정밀 가공 부품</b><span>5축 CNC · ±0.005mm 복합 형상 · AL / SUS / Ti</span></span>
+          <span class="cat-row__go">보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+        <a class="cat-row" href="product-mold.html">
+          <span class="cat-row__thumb"><img src="images/mfg-parts.jpg" alt="정밀 금형" loading="lazy" /></span>
+          <span class="cat-row__t"><b>정밀 금형</b><span>사출 · 프레스 · 다이캐스팅 · 시험사출(T0)</span></span>
+          <span class="cat-row__go">보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+        <a class="cat-row" href="product-module.html">
+          <span class="cat-row__thumb"><img src="images/mfg-robot.jpg" alt="조립 모듈" loading="lazy" /></span>
+          <span class="cat-row__t"><b>조립 모듈</b><span>단품 가공을 넘어 조립 · 검사 · 포장까지</span></span>
+          <span class="cat-row__go">보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+        <a class="cat-row" href="showcase.html">
+          <span class="cat-row__thumb"><img src="images/mfg-cnc2.jpg" alt="생산제품" loading="lazy" /></span>
+          <span class="cat-row__t"><b>생산제품</b><span>양산 실적 쇼케이스 · 산업별 적용 사례</span></span>
+          <span class="cat-row__go">보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
       </div>
     </section>
 
@@ -100,16 +112,19 @@
       </div>
       <div class="features__grid">
         <a class="card" href="biz-machining.html">
+          <span class="pcard-media"><img src="images/mfg-cnc.jpg" alt="정밀 가공" loading="lazy" /></span>
           <span class="tag">가공</span>
           <h3 class="card__title" data-cms="card1_title" data-cms-label="카드1 제목">정밀 가공</h3>
           <p class="card__body" data-cms="card1_body" data-cms-label="카드1 설명">5축 CNC와 머시닝 센터로 ±0.005mm 공차의 복합 형상 부품을 가공합니다. 소량 다품종부터 양산까지 대응합니다.</p>
         </a>
         <a class="card" href="biz-mold.html">
+          <span class="pcard-media"><img src="images/mfg-mold.jpg" alt="금형 설계·제작" loading="lazy" /></span>
           <span class="tag">금형</span>
           <h3 class="card__title" data-cms="card2_title" data-cms-label="카드2 제목">금형 설계·제작</h3>
           <p class="card__body" data-cms="card2_body" data-cms-label="카드2 설명">사출·프레스 금형을 설계 단계부터 함께 검토합니다. 양산성을 고려한 설계로 불량과 리드타임을 줄입니다.</p>
         </a>
         <a class="card" href="biz-assembly.html">
+          <span class="pcard-media"><img src="images/mfg-tools.jpg" alt="조립·정밀 검사" loading="lazy" /></span>
           <span class="tag">검사</span>
           <h3 class="card__title" data-cms="card3_title" data-cms-label="카드3 제목">조립·정밀 검사</h3>
           <p class="card__body" data-cms="card3_body" data-cms-label="카드3 설명">3차원 측정기(CMM)와 전수 검사로 품질을 보증합니다. 측정 성적서와 함께 안정적으로 납품합니다.</p>

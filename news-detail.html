@@ -8,8 +8,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script>document.documentElement.classList.add("reveal-on");setTimeout(function(){window.__revealInit||document.documentElement.classList.add("reveal-off")},3000);</script>
 </head>
-<body>
+<body class="site-hp">
   <div id="site-nav"></div>
 
   <main>
@@ -44,7 +45,18 @@
       const id = new URLSearchParams(location.search).get('id');
       if (!id) { root.innerHTML = '<p class="empty-note">잘못된 접근입니다.</p>'; return; }
 
-      fetch('/api/news/' + encodeURIComponent(id)).then((r) => { if (!r.ok) throw new Error(); return r.json(); }).then((n) => {
+      const fetchNews = () => fetch('/api/news/' + encodeURIComponent(id))
+        .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+        .catch(() => fetch('static-api/news.json')
+          .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+          .then((list) => {
+            const arr = Array.isArray(list) ? list : (list.items || list.news || []);
+            const found = arr.filter(Boolean).find((x) => String(x.id) === String(id));
+            if (!found) throw new Error();
+            return found;
+          }));
+
+      fetchNews().then((n) => {
         document.title = (n.seoTitle || n.title) + ' — k.veritas';
         const plain = (n.body || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 120);
         upsertMeta('meta[name="description"]', 'name', 'description', n.seoDescription || plain);
@@ -61,14 +73,6 @@
             ).join('')}</div>`
           : '';
         root.innerHTML = `
-          <a class="detail__back" href="news.html">
-            <span class="detail__back-icon" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            공지 목록으로
-          </a>
           ${n.isPopup ? '<div class="detail__tags"><span class="tag">팝업 공지</span></div>' : ''}
           <p class="detail__date">${fmt(n.createdAt)}</p>
           <h1 class="detail__title">${esc(n.title)}</h1>

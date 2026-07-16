@@ -8,8 +8,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script>document.documentElement.classList.add("reveal-on");setTimeout(function(){window.__revealInit||document.documentElement.classList.add("reveal-off")},3000);</script>
 </head>
-<body>
+<body class="site-hp">
   <div id="site-nav"></div>
 
   <main>
@@ -47,8 +48,19 @@
 
       if (!id) { root.innerHTML = '<p class="empty-note">잘못된 접근입니다.</p>'; return; }
 
-      fetch('/api/products/' + encodeURIComponent(id))
+      // 서버(/api) 우선, 실패 시 정적 export(products.json)에서 조회
+      const fetchProduct = () => fetch('/api/products/' + encodeURIComponent(id))
         .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+        .catch(() => fetch('static-api/products.json')
+          .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+          .then((list) => {
+            const arr = Array.isArray(list) ? list : (list.items || list.products || []);
+            const found = arr.filter(Boolean).find((x) => String(x.id) === String(id));
+            if (!found) throw new Error();
+            return found;
+          }));
+
+      fetchProduct()
         .then((p) => {
           document.title = (p.seoTitle || p.title) + ' — k.veritas';
           upsertMeta('meta[name="description"]', 'name', 'description', p.seoDescription || p.summary || '');
@@ -64,32 +76,37 @@
                 `<img src="${esc(u)}" alt="${esc(p.title)} 사진 ${i + 2}" title="클릭하면 크게 보기" loading="lazy" decoding="async" />`
               ).join('')}</div>`
             : '';
-          const meta = [p.industry, p.material, p.process].filter(Boolean)
-            .map((v) => `<span class="show-meta">${esc(v)}</span>`).join('');
-          const tags = [
-            p.category ? `<span class="tag">${esc(p.category)}</span>` : '',
-            meta,
-          ].filter(Boolean).join('');
+          const specItems = [
+            ['카테고리', p.category],
+            ['소재', p.material],
+            ['가공', p.process],
+            ['산업', p.industry],
+          ].filter((r) => r[1]);
+          const specHtml = specItems.length
+            ? `<dl class="detail__spec">${specItems.map((r) => `<div><dt>${esc(r[0])}</dt><dd>${esc(r[1])}</dd></div>`).join('')}</dl>`
+            : '';
           const inquiryHref = 'support.html?productId=' + encodeURIComponent(p.id) + '&productTitle=' + encodeURIComponent(p.title) + '#contact';
+          const hasBody = renderBody(p.body).replace(/<[^>]*>/g, '').trim().length > 0;
           root.innerHTML = `
-            <a class="detail__back" href="showcase.html">
-              <span class="detail__back-icon" aria-hidden="true">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                  <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              제품 목록으로
-            </a>
-            ${tags ? `<div class="detail__tags">${tags}</div>` : ''}
-            ${p.summary ? `<p class="detail__date">${esc(p.summary)}</p>` : ''}
-            <h1 class="detail__title">${esc(p.title)}</h1>
-            ${cover}
-            <div class="detail__body">${renderBody(p.body)}</div>
-            ${gallery}
-            <div class="detail__actions">
-              <a href="${inquiryHref}" class="btn btn--primary">이 제품과 유사한 견적 문의</a>
-              <a href="showcase.html" class="btn btn--ghost">목록으로</a>
+            <div class="detail__top">
+              <div class="detail__media">${cover}</div>
+              <div class="detail__info">
+                ${p.category ? `<div class="detail__tags"><span class="tag">${esc(p.category)}</span></div>` : ''}
+                <h1 class="detail__title">${esc(p.title)}</h1>
+                ${p.summary ? `<p class="detail__lead">${esc(p.summary)}</p>` : ''}
+                ${specHtml}
+                <div class="detail__actions">
+                  <a href="${inquiryHref}" class="btn btn--primary">이 제품과 유사한 견적 문의</a>
+                  <a href="showcase.html" class="btn btn--ghost">목록으로</a>
+                </div>
+              </div>
             </div>
+            ${(hasBody || gallery) ? `
+            <div class="detail__detail">
+              <h2 class="detail__sec-title">상세 정보</h2>
+              ${hasBody ? `<div class="detail__body">${renderBody(p.body)}</div>` : ''}
+              ${gallery}
+            </div>` : ''}
           `;
           if (window.DetailLightbox) window.DetailLightbox.bind(root);
         })

@@ -4,86 +4,196 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>조립 모듈 — k.veritas</title>
-  <meta name="description" content="단품을 넘어 조립·검사·포장까지 완료한 조립 모듈을 공급합니다." />
+  <meta name="description" content="단품 가공을 넘어 조립·검사·포장까지 완료한 조립 모듈. 사양·공정을 한눈에." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script>document.documentElement.classList.add("reveal-on");setTimeout(function(){window.__revealInit||document.documentElement.classList.add("reveal-off")},3000);</script>
 </head>
-<body>
+<body class="site-hp">
   <div id="site-nav"></div>
 
   <main>
-    <section class="subhero">
-      <div class="subhero__inner">
-        <p class="microlabel">PRODUCT · MODULE</p>
-        <h1 class="subhero__title" data-cms="hero_title" data-cms-label="상단 제목">조립 모듈</h1>
-        <p class="subhero__sub" data-cms="hero_sub" data-cms-label="상단 설명">단품 가공을 넘어 조립·검사·포장까지. 완제품에 가까운 형태로 공급해 고객의 공정을 단축합니다.</p>
-      </div>
-    </section>
-
-    <section class="page">
-      <div class="section-head">
-        <p class="microlabel">TYPE</p>
-        <h2 class="section-title">모듈 유형</h2>
-      </div>
-      <div class="features__grid">
-        <article class="card">
-          <span class="tag">기구</span>
-          <h3 class="card__title">기구 모듈</h3>
-          <p class="card__body">가공 부품과 표준 부품을 결합한 기구 조립 모듈. 토크·체결 관리로 품질을 확보합니다.</p>
-        </article>
-        <article class="card">
-          <span class="tag">복합</span>
-          <h3 class="card__title">복합 조립품</h3>
-          <p class="card__body">금속·플라스틱·전장 부품을 복합 조립합니다. 다품종 부품 통합 관리가 가능합니다.</p>
-        </article>
-        <article class="card">
-          <span class="tag">완제</span>
-          <h3 class="card__title">완제 공급</h3>
-          <p class="card__body">검사·포장·라벨링까지 완료해 입고 즉시 사용 가능한 형태로 납품합니다.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="page" style="padding-top:0">
-      <div class="split">
-        <div class="split__text">
-          <p class="microlabel">FEATURES</p>
-          <h2 class="section-title">제품 특징</h2>
-          <p class="split__body">가공-조립-검사를 한 곳에서 진행해 협력사 관리 부담과 물류 단계를 줄여드립니다.</p>
-          <ul class="split__list">
-            <li>단품 가공부터 최종 조립까지 일괄</li>
-            <li>전수 검사 및 측정 성적서 제공</li>
-            <li>포장·라벨링 등 맞춤 납품 대응</li>
-          </ul>
-          <p style="margin-top:var(--spacing-24)"><a href="support.html#contact" class="btn btn--primary">견적 문의하기</a></p>
+    <div class="pdp">
+      <!-- ============ 사이드바 ============ -->
+      <aside class="pdp__sidebar">
+        <div class="pdp-side__block">
+          <p class="pdp-side__label">제품군</p>
+          <nav class="pdp-switch">
+            <a href="product-parts.html">정밀 가공 부품</a>
+            <a href="product-mold.html">정밀 금형</a>
+            <a href="product-module.html" class="is-current">조립 모듈</a>
+            <a href="showcase.html">생산제품</a>
+          </nav>
         </div>
-        <div class="split__media">
+
+        <div class="pdp-side__block pdp-side__toc-block">
+          <p class="pdp-side__label">목차</p>
+          <nav class="pdp-toc">
+            <a href="#overview">개요</a>
+            <a href="#scope">제공 범위</a>
+            <a href="#features">주요 특징</a>
+            <a href="#spec">상세 사양</a>
+            <a href="#process">제조 공정</a>
+            <a href="#faq">자주 묻는 질문</a>
+          </nav>
+        </div>
+
+        <div class="pdp-side__block pdp-side__cta">
+          <p class="pdp-side__label">빠른 견적</p>
+          <p>필요한 조립 사양과 수량을 보내주시면 24시간 이내 회신드립니다.</p>
+          <a href="support.html#contact" class="btn btn--primary">견적 문의하기</a>
+        </div>
+      </aside>
+
+      <!-- ============ 메인 ============ -->
+      <div class="pdp__main">
+        <!-- 툴바 -->
+        <div class="pdp-toolbar">
+          <div class="pdp-toolbar__id">
+            <div class="pdp-crumb"><a href="products.html">제품소개</a><span>›</span> MODULE</div>
+            <h1 class="pdp-toolbar__title" data-cms="hero_title" data-cms-label="상단 제목">조립 모듈</h1>
+          </div>
+          <div class="pdp-toolbar__actions">
+            <a href="reference.html" class="pdp-tool" title="카탈로그 다운로드">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 12 5 5 5-5"/><path d="M5 21h14"/></svg>
+              <span>카탈로그</span>
+            </a>
+            <button type="button" class="pdp-tool pdp-tool--icon" data-pdp-action="print" title="인쇄" aria-label="인쇄">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="6" y="13" width="12" height="8"/><path d="M6 17H3v-5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5h-3"/></svg>
+            </button>
+            <button type="button" class="pdp-tool" data-pdp-action="share" title="공유">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>
+              <span>공유</span>
+            </button>
+            <a href="support.html#contact" class="pdp-tool pdp-tool--primary">견적 문의</a>
+          </div>
+        </div>
+
+        <!-- 개요 -->
+        <section class="pdp-sec" id="overview">
+          <figure class="pdp-figure"><img src="images/mfg-robot.jpg" alt="조립 모듈" loading="lazy" /></figure>
+          <div class="pdp-sec__head">
+            <p class="pdp-sec__eyebrow">OVERVIEW · 개요</p>
+            <h2 class="pdp-sec__title">완제품에 가까운 형태로 공급</h2>
+            <p class="pdp-sec__lead" data-cms="hero_sub" data-cms-label="상단 설명">단품 가공을 넘어 조립·검사·포장까지 진행합니다. 여러 협력사를 거칠 필요 없이 완제품에 가까운 모듈 형태로 단일 창구에서 공급받으실 수 있습니다.</p>
+          </div>
+          <div class="pdp-highlights">
+            <div class="pdp-highlight"><div class="pdp-highlight__num">1-STOP</div><div class="pdp-highlight__label">가공~포장 일괄</div></div>
+            <div class="pdp-highlight"><div class="pdp-highlight__num">전수</div><div class="pdp-highlight__label">기능·외관 검사</div></div>
+            <div class="pdp-highlight"><div class="pdp-highlight__num">맞춤</div><div class="pdp-highlight__label">포장·라벨링</div></div>
+          </div>
+        </section>
+
+        <!-- 제공 범위 -->
+        <section class="pdp-sec" id="scope">
+          <div class="pdp-sec__head">
+            <p class="pdp-sec__eyebrow">SCOPE · 제공 범위</p>
+            <h2 class="pdp-sec__title">어디까지 맡기실 수 있나요</h2>
+          </div>
+          <div class="pdp-grid">
+            <article class="card">
+              <span class="tag">조립</span>
+              <h3 class="card__title">부품 조립</h3>
+              <p class="card__body">가공 단품과 구매품을 결합해 서브어셈블리·모듈로 조립합니다.</p>
+            </article>
+            <article class="card">
+              <span class="tag">검사</span>
+              <h3 class="card__title">기능·외관 검사</h3>
+              <p class="card__body">조립 후 기능 검사와 외관 검사를 전수로 진행해 불량을 걸러냅니다.</p>
+            </article>
+            <article class="card">
+              <span class="tag">포장</span>
+              <h3 class="card__title">맞춤 포장·납품</h3>
+              <p class="card__body">고객 요구에 맞춘 포장·라벨링으로 라인 투입이 쉬운 상태로 납품합니다.</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- 주요 특징 -->
+        <section class="pdp-sec" id="features">
+          <div class="pdp-sec__head">
+            <p class="pdp-sec__eyebrow">FEATURES · 주요 특징</p>
+            <h2 class="pdp-sec__title">관리 창구를 하나로</h2>
+          </div>
+          <div class="pdp-feats">
+            <div class="pdp-feat">
+              <div class="pdp-feat__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18v13H3zM3 7l3-4h12l3 4"/></svg></div>
+              <div><h4>단일 창구 공급</h4><p>가공·조립·검사·포장을 한 곳에서 관리합니다.</p></div>
+            </div>
+            <div class="pdp-feat">
+              <div class="pdp-feat__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div>
+              <div><h4>전수 기능 검사</h4><p>조립 후 기능·외관을 전수 검사해 품질을 보증합니다.</p></div>
+            </div>
+            <div class="pdp-feat">
+              <div class="pdp-feat__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></div>
+              <div><h4>재고·리드타임 절감</h4><p>중간 물류를 줄여 리드타임과 재고 부담을 낮춥니다.</p></div>
+            </div>
+            <div class="pdp-feat">
+              <div class="pdp-feat__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v6c0 5-4 7-8 8-4-1-8-3-8-8V7z"/></svg></div>
+              <div><h4>추적성 관리</h4><p>로트 단위 추적성으로 품질 이슈에 신속 대응합니다.</p></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 상세 사양 -->
+        <section class="pdp-sec" id="spec">
+          <div class="pdp-sec__head">
+            <p class="pdp-sec__eyebrow">SPECIFICATION · 상세 사양</p>
+            <h2 class="pdp-sec__title">제품 사양</h2>
+          </div>
           <table class="spec">
-            <caption class="microlabel" style="margin-bottom:var(--spacing-16)">사양 SPECIFICATION</caption>
-            <thead><tr><th>항목</th><th>내용</th></tr></thead>
+            <thead><tr><th>항목</th><th>규격</th></tr></thead>
             <tbody>
-              <tr><th>구성</th><td>가공 부품 + 표준 부품 조립</td></tr>
-              <tr><th>조립 관리</th><td>작업 표준서, 토크·체결 관리</td></tr>
-              <tr><th>검사</th><td>전수 검사 / 기능 검사</td></tr>
-              <tr><th>공급 형태</th><td>조립 → 검사 → 포장 → 납품</td></tr>
-              <tr><th>인증</th><td>ISO 9001 · IATF 16949</td></tr>
+              <tr><th>제공 범위</th><td>부품 조립 → 검사 → 포장 → 납품</td></tr>
+              <tr><th>조립 유형</th><td>서브어셈블리 / 모듈 / 완제품 근접</td></tr>
+              <tr><th>검사</th><td>기능 검사 · 외관 검사 (전수)</td></tr>
+              <tr><th>포장</th><td>고객 맞춤 포장 · 라벨링</td></tr>
+              <tr><th>추적성</th><td>로트 단위 추적 관리</td></tr>
             </tbody>
           </table>
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <section class="cta">
-      <p class="microlabel">CONTACT</p>
-      <h2 class="cta__title">조립 모듈이 필요하신가요?</h2>
-      <p class="cta__sub">조립 사양과 수량을 알려주시면 통합 공급 방안을 제안드립니다.</p>
-      <div class="hero__actions">
-        <a href="support.html#contact" class="btn btn--primary">견적 문의하기</a>
-        <a href="biz-assembly.html" class="btn btn--ghost">조립·검사 공정 보기</a>
+        <!-- 제조 공정 -->
+        <section class="pdp-sec" id="process">
+          <div class="pdp-sec__head">
+            <p class="pdp-sec__eyebrow">PROCESS · 제조 공정</p>
+            <h2 class="pdp-sec__title">부품에서 완제품 근접까지</h2>
+          </div>
+          <div class="pdp-steps">
+            <div class="pdp-step"><div class="pdp-step__no">STEP 01</div><h4>부품 준비</h4><p>가공 단품·구매품 입고 및 확인.</p></div>
+            <div class="pdp-step"><div class="pdp-step__no">STEP 02</div><h4>조립</h4><p>서브어셈블리·모듈 조립.</p></div>
+            <div class="pdp-step"><div class="pdp-step__no">STEP 03</div><h4>기능·외관 검사</h4><p>전수 검사로 불량 선별.</p></div>
+            <div class="pdp-step"><div class="pdp-step__no">STEP 04</div><h4>포장·납품</h4><p>맞춤 포장 후 납품.</p></div>
+          </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="pdp-sec" id="faq">
+          <div class="pdp-sec__head">
+            <p class="pdp-sec__eyebrow">FAQ · 자주 묻는 질문</p>
+            <h2 class="pdp-sec__title">궁금하신 점</h2>
+          </div>
+          <div class="faq">
+            <details class="faq__item"><summary>구매품(외주 부품)도 함께 조립해 주나요?</summary><div class="faq__answer">네. 지정 구매품을 입고 관리해 가공 단품과 함께 조립합니다. 필요 시 구매 대행도 협의 가능합니다.</div></details>
+            <details class="faq__item"><summary>고객사 포장·라벨 규격에 맞출 수 있나요?</summary><div class="faq__answer">가능합니다. 포장 사양·라벨 양식을 전달해 주시면 라인 투입이 쉬운 상태로 납품합니다.</div></details>
+            <details class="faq__item"><summary>소량 조립도 의뢰할 수 있나요?</summary><div class="faq__answer">시제품·소량부터 양산까지 대응합니다. 수량과 사양에 따라 단가·납기를 협의드립니다.</div></details>
+          </div>
+        </section>
+
+        <!-- 하단 CTA -->
+        <section class="cta" style="margin-top:0">
+          <p class="microlabel">CONTACT</p>
+          <h2 class="cta__title">조립까지 맡기고 싶으신가요?</h2>
+          <p class="cta__sub">필요한 조립 사양과 수량을 보내주시면 영업일 기준 24시간 이내에 회신드립니다.</p>
+          <div class="hero__actions">
+            <a href="support.html#contact" class="btn btn--primary">견적 문의하기</a>
+            <a href="biz-assembly.html" class="btn btn--ghost">조립·검사 공정 보기</a>
+          </div>
+        </section>
       </div>
-    </section>
+    </div>
   </main>
 
   <div id="site-footer"></div>

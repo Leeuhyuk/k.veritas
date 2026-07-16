@@ -4,7 +4,7 @@
    ============================================================ */
 
 :root {
-  /* Colors */
+  /* Colors — 기본(관리자 등 공용): 원래 botanical 팔레트 유지 */
   --color-cream-paper: #fbfdf6;
   --color-botanical-ink: #0a1d08;
   --color-bark-brown: #31200b;
@@ -15,6 +15,11 @@
   --color-moss-veil: #d7e8b5;
   --color-eucalyptus: #c5ccb6;
   --color-onyx: #000000;
+
+  /* 공개 페이지(body.site-hp)에서 오버라이드되는 보조 토큰 */
+  --surface-canvas: var(--color-cream-paper);
+  --color-accent-soft: #eaf6fc;
+  --color-ink-70: #334155;
 
   /* Type — Akkurat substitute is Inter; Fragment Mono kept */
   --font-akkurat: 'Inter', 'Noto Sans KR', ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -40,6 +45,8 @@
   --radius-images: 20px;
   --radius-tags: 10px;
   --shadow-subtle: rgba(99, 143, 61, 0.1) 0px 0px 0px 1px;
+  --shadow-card: 0 1px 2px rgba(15, 23, 41, 0.05), 0 8px 24px rgba(15, 23, 41, 0.06);
+  --shadow-lift: 0 10px 30px rgba(15, 23, 41, 0.10);
 }
 
 /* ---------- Reset ---------- */
@@ -424,30 +431,70 @@ ul { list-style: none; }
   margin-bottom: var(--spacing-16);
 }
 
-/* ---------- Hero ---------- */
-.hero { position: relative; overflow: hidden; }
-.hero__backdrop { position: absolute; inset: 0; z-index: 0; }
+/* ---------- Hero (Cool Industrial) ---------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 80% -10%, rgba(37, 99, 235, 0.10) 0%, rgba(37, 99, 235, 0) 55%),
+    linear-gradient(180deg, #ffffff 0%, var(--surface-canvas) 100%);
+  border-bottom: 1px solid var(--color-lichen);
+}
+.hero__backdrop { position: absolute; inset: 0; z-index: 0; opacity: 0.9; }
 .hero__backdrop svg { width: 100%; height: 100%; display: block; }
 .hero__content {
   position: relative; z-index: 1;
   max-width: var(--page-max-width);
   margin: 0 auto;
-  padding: var(--spacing-128) var(--spacing-32) var(--spacing-160);
+  padding: var(--spacing-128) var(--spacing-32) var(--spacing-128);
   text-align: center;
 }
-.hero__content .microlabel { margin-bottom: var(--spacing-24); }
+.hero__content .microlabel {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-bottom: var(--spacing-24);
+  color: var(--color-forest-floor);
+}
+.hero__content .microlabel::before {
+  content: ""; width: 22px; height: 1px; background: var(--color-forest-floor); display: inline-block;
+}
 .hero__headline {
   font-size: var(--text-display);
-  font-weight: 400;
-  line-height: 1.0;
-  letter-spacing: -2.12px;
+  font-weight: 700;
+  line-height: 1.03;
+  letter-spacing: -2.4px;
   margin-bottom: var(--spacing-24);
 }
+.hero__headline em { font-style: normal; color: var(--color-forest-floor); }
 .hero__sub {
-  max-width: 560px; margin: 0 auto var(--spacing-40);
-  color: var(--color-bark-brown);
+  max-width: 580px; margin: 0 auto var(--spacing-40);
+  color: var(--color-ink-70);
+  font-size: 19px;
 }
 .hero__actions { display: flex; gap: var(--spacing-16); justify-content: center; flex-wrap: wrap; }
+
+/* 히어로 하단 지표 스트립 */
+.hero__stats {
+  position: relative; z-index: 1;
+  max-width: 860px;
+  margin: var(--spacing-48) auto 0;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-16);
+  padding: var(--spacing-24) var(--spacing-8) 0;
+  border-top: 1px solid var(--color-lichen);
+}
+.hero-stat { text-align: center; }
+.hero-stat__num {
+  font-family: var(--font-fragment-mono);
+  font-size: 30px; font-weight: 400; line-height: 1;
+  letter-spacing: -0.04em; color: var(--color-botanical-ink);
+}
+.hero-stat__label {
+  margin-top: 8px;
+  font-size: 13px; color: var(--color-bark-brown); letter-spacing: -0.02em;
+}
+@media (max-width: 720px) {
+  .hero__stats { grid-template-columns: repeat(2, 1fr); gap: var(--spacing-24) var(--spacing-16); }
+}
 
 /* ---------- Trust strip ---------- */
 .trust { max-width: var(--page-max-width); margin: 0 auto; padding: var(--spacing-48) var(--spacing-32); text-align: center; }
@@ -607,9 +654,20 @@ img.cert-image:not(.card__media img) {
 .split__bar { height: 8px; background: var(--color-lichen); border-radius: var(--radius-tags); margin-bottom: var(--spacing-24); overflow: hidden; }
 .split__bar i { display: block; height: 100%; background: var(--color-forest-floor); border-radius: var(--radius-tags); }
 
-/* ---------- CTA ---------- */
-.cta { max-width: var(--page-max-width); margin: 0 auto; padding: var(--spacing-128) var(--spacing-32); text-align: center; }
-.cta .microlabel { margin-bottom: var(--spacing-16); }
+/* ---------- CTA (Cool Industrial 패널) ---------- */
+.cta {
+  max-width: var(--page-max-width);
+  margin: var(--spacing-64) auto;
+  padding: var(--spacing-128) var(--spacing-32);
+  text-align: center;
+  background:
+    radial-gradient(90% 130% at 50% -20%, var(--color-accent-soft) 0%, rgba(255,255,255,0) 62%),
+    var(--color-cream-paper);
+  border: 1px solid var(--color-lichen);
+  border-radius: 24px;
+  box-shadow: var(--shadow-card);
+}
+.cta .microlabel { margin-bottom: var(--spacing-16); color: var(--color-forest-floor); }
 .cta__title { font-size: var(--text-heading-sm); font-weight: 400; line-height: 0.98; letter-spacing: -1.88px; margin-bottom: var(--spacing-16); }
 .cta__sub { color: var(--color-bark-brown); margin-bottom: var(--spacing-40); }
 .cta .hero__actions { justify-content: center; }
@@ -2238,3 +2296,580 @@ a.res-title:hover {
   .cms-section__grid--seo { grid-template-columns: 1fr; }
   .cms-field--wide { grid-column: auto; }
 }
+
+/* ============================================================
+   제품 상세 (PDP) — 사이드바 + 툴바 상세 레이아웃
+   Cool Industrial
+   ============================================================ */
+:root { --nav-h: 89px; }
+
+.pdp {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: var(--spacing-40) var(--spacing-32) var(--spacing-64);
+  display: grid;
+  grid-template-columns: 248px 1fr;
+  gap: var(--spacing-48);
+  align-items: start;
+}
+
+/* ---------- 사이드바 ---------- */
+.pdp__sidebar {
+  position: sticky;
+  top: calc(var(--nav-h) + var(--spacing-24));
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-24);
+}
+.pdp-side__block {
+  background: var(--color-cream-paper);
+  border: 1px solid var(--color-lichen);
+  border-radius: var(--radius-2xl);
+  padding: var(--spacing-24);
+  box-shadow: var(--shadow-card);
+}
+.pdp-side__label {
+  font-family: var(--font-fragment-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-forest-floor);
+  margin-bottom: var(--spacing-16);
+}
+/* 제품군 스위처 */
+.pdp-switch { display: flex; flex-direction: column; gap: 4px; }
+.pdp-switch a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-lg);
+  font-size: 15px; font-weight: 700; letter-spacing: -0.03em;
+  color: var(--color-ink-70);
+  transition: background-color .15s ease, color .15s ease;
+}
+.pdp-switch a::before {
+  content: ""; width: 8px; height: 8px; border-radius: 3px;
+  background: var(--color-eucalyptus); flex: none; transition: background-color .15s ease;
+}
+.pdp-switch a:hover { background: var(--color-sage-mist); color: var(--color-botanical-ink); }
+.pdp-switch a.is-current {
+  background: var(--color-accent-soft);
+  color: #1e40af;
+}
+.pdp-switch a.is-current::before { background: var(--color-forest-floor); }
+
+/* 목차(스크롤 스파이) */
+.pdp-toc { display: flex; flex-direction: column; gap: 2px; }
+.pdp-toc a {
+  position: relative;
+  padding: 8px 12px 8px 16px;
+  font-size: 14px; letter-spacing: -0.02em;
+  color: var(--color-bark-brown);
+  border-left: 2px solid var(--color-lichen);
+  transition: color .15s ease, border-color .15s ease;
+}
+.pdp-toc a:hover { color: var(--color-botanical-ink); }
+.pdp-toc a.is-active {
+  color: var(--color-forest-floor);
+  border-left-color: var(--color-forest-floor);
+  font-weight: 700;
+}
+/* 사이드바 미니 CTA */
+.pdp-side__cta {
+  background: linear-gradient(155deg, #1b2740 0%, #0f1729 100%);
+  color: #fff;
+}
+.pdp-side__cta .pdp-side__label { color: #93b4ff; }
+.pdp-side__cta p { font-size: 13px; line-height: 1.6; color: #c7d2e5; margin-bottom: var(--spacing-16); }
+.pdp-side__cta .btn { width: 100%; }
+.pdp-side__cta .btn--primary { background: var(--color-forest-floor); border-color: var(--color-forest-floor); }
+.pdp-side__cta .btn--primary:hover { background: #1d4ed8; border-color: #1d4ed8; }
+
+/* ---------- 툴바 ---------- */
+.pdp__main { min-width: 0; }
+.pdp-toolbar {
+  position: static;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--spacing-24);
+  padding: var(--spacing-16) var(--spacing-24);
+  margin-bottom: var(--spacing-32);
+  background: var(--color-cream-paper);
+  border: 1px solid var(--color-lichen);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-card);
+}
+.pdp-toolbar__id { min-width: 0; }
+.pdp-crumb {
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--font-fragment-mono);
+  font-size: 11px; letter-spacing: 0.02em; text-transform: uppercase;
+  color: var(--color-bark-brown);
+  margin-bottom: 4px;
+}
+.pdp-crumb a:hover { color: var(--color-forest-floor); }
+.pdp-crumb span { color: var(--color-eucalyptus); }
+.pdp-toolbar__title {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.04em; line-height: 1.1;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.pdp-toolbar__actions { display: flex; align-items: center; gap: var(--spacing-8); flex: none; }
+.pdp-tool {
+  display: inline-flex; align-items: center; gap: 7px;
+  height: 40px; padding: 0 16px;
+  border-radius: var(--radius-buttons);
+  border: 1px solid var(--color-lichen);
+  background: var(--color-cream-paper);
+  color: var(--color-ink-70);
+  font-size: 13px; font-weight: 700; letter-spacing: -0.03em;
+  cursor: pointer;
+  transition: border-color .15s ease, color .15s ease, background-color .15s ease;
+}
+.pdp-tool svg { width: 15px; height: 15px; flex: none; }
+.pdp-tool:hover { border-color: var(--color-forest-floor); color: var(--color-forest-floor); background: var(--color-accent-soft); }
+.pdp-tool--primary {
+  background: var(--color-warm-loam); border-color: var(--color-warm-loam); color: #fff;
+}
+.pdp-tool--primary:hover { background: var(--color-forest-floor); border-color: var(--color-forest-floor); color: #fff; }
+.pdp-tool--icon { padding: 0; width: 40px; justify-content: center; }
+
+/* ---------- 콘텐츠 섹션 ---------- */
+.pdp-sec { scroll-margin-top: calc(var(--nav-h) + 80px); margin-bottom: var(--spacing-48); }
+.pdp-sec__head { margin-bottom: var(--spacing-24); }
+.pdp-sec__eyebrow {
+  font-family: var(--font-fragment-mono);
+  font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--color-forest-floor);
+  margin-bottom: 10px;
+}
+.pdp-sec__title { font-size: 30px; font-weight: 700; letter-spacing: -1.2px; line-height: 1.1; }
+.pdp-sec__lead { color: var(--color-ink-70); margin-top: var(--spacing-16); max-width: 62ch; }
+
+/* 개요 하이라이트 */
+.pdp-highlights {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-16);
+  margin-top: var(--spacing-24);
+}
+.pdp-highlight {
+  background: var(--color-cream-paper);
+  border: 1px solid var(--color-lichen);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-24);
+}
+.pdp-highlight__num {
+  font-family: var(--font-fragment-mono);
+  font-size: 26px; letter-spacing: -0.04em; color: var(--color-botanical-ink);
+}
+.pdp-highlight__label { margin-top: 6px; font-size: 13px; color: var(--color-bark-brown); }
+
+/* 적용 산업 카드 그리드 (PDP 내부) */
+.pdp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-16); }
+.pdp-grid--2 { grid-template-columns: repeat(2, 1fr); }
+
+/* 특징 리스트 */
+.pdp-feats { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-16); }
+.pdp-feat {
+  display: flex; gap: var(--spacing-16);
+  padding: var(--spacing-24);
+  background: var(--color-cream-paper);
+  border: 1px solid var(--color-lichen);
+  border-radius: var(--radius-lg);
+}
+.pdp-feat__ic {
+  flex: none; width: 40px; height: 40px; border-radius: 10px;
+  background: var(--color-accent-soft); color: var(--color-forest-floor);
+  display: flex; align-items: center; justify-content: center;
+}
+.pdp-feat__ic svg { width: 20px; height: 20px; }
+.pdp-feat h4 { font-size: 16px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 6px; }
+.pdp-feat p { font-size: 14px; line-height: 1.6; color: var(--color-bark-brown); }
+
+/* 공정 스텝 */
+.pdp-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-16); counter-reset: step; }
+.pdp-step {
+  position: relative;
+  padding: var(--spacing-24);
+  background: var(--color-cream-paper);
+  border: 1px solid var(--color-lichen);
+  border-radius: var(--radius-lg);
+}
+.pdp-step__no {
+  font-family: var(--font-fragment-mono);
+  font-size: 13px; color: var(--color-forest-floor); margin-bottom: 10px;
+}
+.pdp-step h4 { font-size: 16px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 6px; }
+.pdp-step p { font-size: 13px; line-height: 1.55; color: var(--color-bark-brown); }
+
+/* PDP 내부 spec 테이블 카드화 */
+.pdp-sec .spec {
+  margin-top: 0;
+  background: var(--color-cream-paper);
+  border: 1px solid var(--color-lichen);
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.pdp-sec .spec th, .pdp-sec .spec td { padding: var(--spacing-16) var(--spacing-24); }
+.pdp-sec .spec tbody tr:last-child th,
+.pdp-sec .spec tbody tr:last-child td { border-bottom: 0; }
+
+/* 반응형 */
+@media (max-width: 960px) {
+  .pdp { grid-template-columns: 1fr; gap: var(--spacing-24); }
+  .pdp__sidebar { position: static; flex-direction: column; }
+  .pdp-side__toc-block { display: none; }        /* 모바일에선 목차 숨김 */
+  .pdp-highlights, .pdp-grid, .pdp-grid--2 { grid-template-columns: 1fr; }
+  .pdp-feats { grid-template-columns: 1fr; }
+  .pdp-steps { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 620px) {
+  .pdp-toolbar { flex-direction: column; align-items: stretch; gap: var(--spacing-16); position: static; }
+  .pdp-toolbar__actions { flex-wrap: wrap; }
+  .pdp-tool span { display: none; }
+  .pdp-tool { padding: 0; width: 40px; justify-content: center; }
+  .pdp-tool--primary { width: auto; padding: 0 16px; }
+  .pdp-tool--primary span { display: inline; }
+  .pdp-steps { grid-template-columns: 1fr; }
+  .pdp-sec__title { font-size: 25px; letter-spacing: -0.8px; }
+}
+
+/* ============================================================
+   HP 스타일 공개 페이지 레이어  —  body.site-hp 스코프
+   (관리자 페이지는 이 클래스가 없으므로 영향 없음)
+   HP: 순백 · 니어블랙 · HP 블루(#0096D6) · 각진 모서리 · 헤어라인
+   ============================================================ */
+body.site-hp,
+body.admin-hp{
+  /* 토큰 오버라이드 → 공개 페이지 + 관리자(admin-hp)가 HP 톤으로 전환.
+     admin-hp 는 토큰만 적용(공개용 컴포넌트/리빌/스티키 부작용 없음) */
+  --color-cream-paper:#ffffff;
+  --surface-canvas:#ffffff;
+  --color-botanical-ink:#16181d;
+  --color-bark-brown:#5b616e;
+  --color-warm-loam:#16181d;      /* 프라이머리 버튼 = 블랙 (HP) */
+  --color-forest-floor:#0096d6;   /* 액센트 = HP 블루 */
+  --color-sage-mist:#f4f6f9;      /* 교차 섹션 서피스 */
+  --color-lichen:#e3e6eb;         /* 보더/헤어라인 */
+  --color-moss-veil:#e6f4fb;      /* 태그/호버 틴트 */
+  --color-eucalyptus:#cfd5dd;
+  --color-accent-soft:#eaf6fc;
+  --color-ink-70:#333a44;
+  /* 각진 모서리 */
+  --radius-sm:0px; --radius-lg:0px; --radius-2xl:2px;
+  --radius-buttons:0px; --radius-images:0px; --radius-tags:2px; --radius-nav:2px;
+  --admin-radius:2px;             /* 관리자 컴포넌트 모서리(HP) */
+  --shadow-subtle:rgba(0,150,214,.16) 0 0 0 1px;
+  --shadow-card:0 1px 2px rgba(22,24,29,.05),0 10px 28px rgba(22,24,29,.07);
+  --shadow-lift:0 14px 36px rgba(22,24,29,.12);
+  background:#ffffff;
+  letter-spacing:-.01em;
+}
+
+/* 타이포 — 헤딩 헤비 (HP 크리스프) */
+body.site-hp .hero__headline,
+body.site-hp .section-title,
+body.site-hp .subhero__title,
+body.site-hp .cta__title{ font-weight:800; letter-spacing:-.03em; line-height:1.0; }
+body.site-hp .hero__headline em{ color:var(--color-forest-floor); font-style:normal; }
+
+/* 액센트 이어브로우 */
+body.site-hp .section-head .microlabel,
+body.site-hp .subhero .microlabel,
+body.site-hp .cta .microlabel,
+body.site-hp .pdp-sec__eyebrow,
+body.site-hp .side__lab{ color:var(--color-forest-floor); }
+
+/* 내비게이션 — 화이트 + 하단 헤어라인 */
+body.site-hp .nav{ background:rgba(255,255,255,.9); border-bottom:1px solid var(--color-lichen); backdrop-filter:blur(10px); }
+body.site-hp .nav__links a:not(.btn):hover,
+body.site-hp .nav__trigger.is-active{ color:var(--color-forest-floor); }
+
+/* 버튼 — 각진 솔리드(블랙) / 호버 블루 (토큰 자동 적용, 미세 보정) */
+body.site-hp .btn{ font-weight:700; }
+body.site-hp .btn--primary{ background:#16181d; border-color:#16181d; color:#fff; }
+body.site-hp .btn--primary:hover{ background:var(--color-forest-floor); border-color:var(--color-forest-floor); color:#fff; }
+body.site-hp .btn--ghost{ border-color:#16181d; color:#16181d; }
+body.site-hp .btn--ghost:hover{ background:#16181d; color:#fff; }
+
+/* 태그 — HP 블루 틴트 + 블루 텍스트, 각진 */
+body.site-hp .tag{ background:var(--color-moss-veil); color:#0071a8; text-transform:uppercase; letter-spacing:.06em; }
+
+/* 카드 — 화이트 + 헤어라인 + 리프트 호버 */
+body.site-hp .card{ background:#ffffff; border:1px solid var(--color-lichen); box-shadow:var(--shadow-card);
+  transition:border-color .18s ease, box-shadow .18s ease, transform .18s ease; }
+body.site-hp a.card:hover{ background:#ffffff; border-color:var(--color-forest-floor); box-shadow:var(--shadow-lift); }
+body.site-hp .card__body{ color:var(--color-bark-brown); }
+
+/* 서브 히어로 — 좌측 정렬 볼드 (HP) */
+body.site-hp .subhero{ background:#ffffff; border-bottom:1px solid var(--color-lichen); }
+body.site-hp .subhero__inner{ text-align:left; }
+body.site-hp .subhero__sub{ margin-left:0; }
+
+/* 섹션 헤더 좌측 정렬 유지 옵션 */
+body.site-hp .split{ background:var(--color-sage-mist); border:1px solid var(--color-lichen); border-radius:2px; }
+body.site-hp .split__panel{ background:#fff; border:1px solid var(--color-lichen); box-shadow:none; }
+body.site-hp .split__bar{ background:#e3e6eb; }
+body.site-hp .split__bar i,
+body.site-hp .split__list li::before{ background:var(--color-forest-floor); }
+
+/* Spec 테이블 — 헤어라인 */
+body.site-hp .spec thead th{ color:var(--color-forest-floor); }
+
+/* CTA — 라이트 패널(각진) */
+body.site-hp .cta{ background:
+  radial-gradient(90% 130% at 50% -20%, var(--color-accent-soft) 0%, rgba(255,255,255,0) 62%), #ffffff;
+  border:1px solid var(--color-lichen); border-radius:2px; box-shadow:none; }
+
+/* ---------- 홈 히어로 (2컬럼 + 이미지) ---------- */
+body.site-hp .hero{ background:#ffffff; border-bottom:1px solid var(--color-lichen); overflow:hidden; }
+body.site-hp .hero__inner{ max-width:var(--page-max-width); margin:0 auto;
+  padding:76px var(--spacing-32) 0; display:grid; grid-template-columns:1.04fr .96fr; gap:48px; align-items:center; }
+body.site-hp .hero__content{ position:static; text-align:left; max-width:none; margin:0; padding:0; }
+body.site-hp .hero__content .microlabel{ color:var(--color-forest-floor); }
+body.site-hp .hero__sub{ margin-left:0; color:var(--color-ink-70); }
+body.site-hp .hero__actions{ justify-content:flex-start; }
+body.site-hp .hero__media{ aspect-ratio:5/4; border:1px solid var(--color-lichen); overflow:hidden; background:var(--color-sage-mist); }
+body.site-hp .hero__media img{ width:100%; height:100%; object-fit:cover; display:block; }
+body.site-hp .hero__stats{ max-width:var(--page-max-width); margin:56px auto 0; padding:0 var(--spacing-32);
+  grid-template-columns:repeat(4,1fr); border-top:1px solid var(--color-lichen); border-bottom:1px solid var(--color-lichen); gap:0; }
+body.site-hp .hero-stat{ padding:26px 8px; border-left:1px solid var(--color-lichen); }
+body.site-hp .hero-stat:first-child{ border-left:0; }
+body.site-hp .hero-stat__num{ font-weight:500; }
+@media (max-width:900px){
+  body.site-hp .hero__inner{ grid-template-columns:1fr; padding-top:56px; }
+  body.site-hp .hero__media{ aspect-ratio:16/9; }
+}
+
+/* ---------- 카테고리 브라우저 (HP 리스트형) ---------- */
+.cat-browse{ max-width:var(--page-max-width); margin:0 auto; border-top:2px solid var(--color-botanical-ink); }
+.cat-row{ display:grid; grid-template-columns:132px 1fr auto; gap:28px; align-items:center;
+  padding:24px 8px; border-bottom:1px solid var(--color-lichen); transition:background-color .16s ease, padding .16s ease; }
+.cat-row:hover{ background:var(--color-sage-mist); padding-left:18px; }
+.cat-row__thumb{ width:132px; height:88px; overflow:hidden; background:var(--color-sage-mist); border:1px solid var(--color-lichen); }
+.cat-row__thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+.cat-row__t b{ display:block; font-size:22px; font-weight:800; letter-spacing:-.025em; }
+.cat-row__t span{ color:var(--color-bark-brown); font-size:14.5px; }
+.cat-row__go{ display:inline-flex; align-items:center; gap:9px; font-family:var(--font-fragment-mono);
+  font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--color-forest-floor); }
+.cat-row__go svg{ width:22px; height:22px; }
+@media (max-width:640px){
+  .cat-row{ grid-template-columns:76px 1fr; gap:16px; }
+  .cat-row__thumb{ width:76px; height:58px; }
+  .cat-row__go{ display:none; }
+}
+
+/* 카드 미디어(이미지) — 사업영역/제품 카드 상단 */
+.pcard-media{ display:block; width:100%; aspect-ratio:4/3; overflow:hidden; background:var(--color-sage-mist); margin:calc(-1 * var(--spacing-32)) calc(-1 * var(--spacing-32)) var(--spacing-24); border-bottom:1px solid var(--color-lichen); width:calc(100% + var(--spacing-32) * 2); }
+.pcard-media img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .35s ease; }
+a.card:hover .pcard-media img{ transform:scale(1.03); }
+
+/* PDP 개요 배너 이미지 */
+body.site-hp .pdp-figure{ margin:0 0 var(--spacing-32); border:1px solid var(--color-lichen); overflow:hidden; aspect-ratio:21/9; background:var(--color-sage-mist); }
+body.site-hp .pdp-figure img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+/* ============================================================
+   스크롤 리빌 애니메이션 (공개 페이지 전용, body.site-hp)
+   - transition이 아닌 animation 사용 → 카드 호버/전환과 무충돌
+   - html.reveal-off (JS 미초기화 안전장치) 또는 reduced-motion 시 즉시 표시
+   ============================================================ */
+@keyframes kv-reveal{ from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:translateY(0); } }
+
+@media (prefers-reduced-motion: no-preference){
+  /* JS가 "아래쪽(스크롤 필요)" 요소에만 .reveal-armed 를 붙임 → 그 요소만 숨김.
+     초기 화면에 보이는 요소는 arm 하지 않으므로 항상 보임 (스크롤 전 빈 화면 방지) */
+  html.reveal-on:not(.reveal-off) body.site-hp .reveal-armed:not(.reveal-in){ opacity:0; }
+  html.reveal-on body.site-hp .reveal-armed.reveal-in{ animation:kv-reveal .62s cubic-bezier(.22,.61,.36,1) both; }
+  /* 안전장치: 등장 후 일정 시간 뒤 애니메이션 제거·표시 확정 (타임라인 미진행 환경 대비) */
+  html.reveal-on body.site-hp .reveal-shown{ animation:none !important; opacity:1 !important; }
+}
+
+/* 인쇄 시에는 항상 표시 (미노출 섹션 인쇄 누락 방지) */
+@media print{
+  body.site-hp .reveal-armed{ opacity:1 !important; animation:none !important; }
+}
+
+/* ============================================================
+   생산제품 카탈로그 (showcase) — 4열 그리드 + 페이지네이션
+   ============================================================ */
+.prodcat-meta{ font-family:var(--font-fragment-mono); font-size:12px; letter-spacing:.02em; color:var(--color-bark-brown); margin-bottom:var(--spacing-16); }
+.prodcat-meta b{ color:var(--color-botanical-ink); font-weight:700; }
+
+.prodcat-grid{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:16px; }
+@media (max-width:1180px){ .prodcat-grid{ grid-template-columns:repeat(3, minmax(0,1fr)); } }
+@media (max-width:760px){ .prodcat-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
+@media (max-width:460px){ .prodcat-grid{ grid-template-columns:1fr; } }
+
+.prod-card{ display:flex; flex-direction:column; border:1px solid var(--color-lichen); background:#fff;
+  text-decoration:none; color:inherit; transition:border-color .16s ease, box-shadow .16s ease; }
+.prod-card:hover{ border-color:var(--color-forest-floor); box-shadow:var(--shadow-lift); }
+.prod-card:focus-visible{ outline:2px solid var(--color-forest-floor); outline-offset:2px; }
+.prod-card__media{ aspect-ratio:4/3; background:var(--color-sage-mist); overflow:hidden; border-bottom:1px solid var(--color-lichen); }
+.prod-card__media img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .35s ease; }
+.prod-card:hover .prod-card__media img{ transform:scale(1.04); }
+.prod-card__ph{ width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-fragment-mono); font-size:11px; letter-spacing:.1em; color:var(--color-eucalyptus); }
+.prod-card__b{ padding:14px 16px 16px; display:flex; flex-direction:column; gap:8px; flex:1; }
+.prod-card__b .tag{ align-self:flex-start; font-size:12px; padding:3px 8px; }
+.prod-card__b h3{ font-size:15px; font-weight:700; letter-spacing:-.02em; line-height:1.35; }
+.prod-card__b p{ font-size:13px; color:var(--color-bark-brown); line-height:1.5;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.prod-card__b p:empty{ display:none; }
+
+/* 페이지네이션 */
+.pager{ display:flex; flex-wrap:wrap; gap:6px; justify-content:center; align-items:center; margin-top:var(--spacing-40); }
+.pager button{ min-width:40px; height:40px; padding:0 12px; border:1px solid var(--color-lichen); background:#fff;
+  font-family:var(--font-fragment-mono); font-size:13px; letter-spacing:.02em; color:var(--color-ink-70);
+  cursor:pointer; display:inline-flex; align-items:center; justify-content:center; border-radius:0;
+  transition:border-color .15s ease, color .15s ease, background-color .15s ease; }
+.pager button:hover:not(:disabled):not(.is-current){ border-color:var(--color-forest-floor); color:var(--color-forest-floor); }
+.pager button.is-current{ background:var(--color-warm-loam); color:#fff; border-color:var(--color-warm-loam); }
+.pager button:disabled{ opacity:.4; cursor:not-allowed; }
+.pager__gap{ padding:0 4px; color:var(--color-eucalyptus); }
+
+/* 사이드바 카테고리(목차 자리) — pdp-toc 스타일 재사용, 링크형 */
+.pdp-cats a{ cursor:pointer; }
+
+/* 생산제품 상세 — 뒤로가기 아이콘 배경(HP 블루 틴트) */
+body.site-hp .detail__back-icon{ background:var(--color-accent-soft); }
+
+/* ============================================================
+   생산제품 상세 — 2단(좌:사진 / 우:요약·사양 / 하단:상세)
+   ============================================================ */
+body.site-hp .detail{ max-width:1080px; }
+body.site-hp .detail__top{
+  display:grid; grid-template-columns:1.05fr 0.95fr; gap:var(--spacing-40);
+  align-items:start; margin-bottom:var(--spacing-48);
+}
+body.site-hp .detail__media{ margin:0; }
+body.site-hp .detail__media .detail__cover{ margin:0; aspect-ratio:4/3; width:100%; }
+body.site-hp .detail__info{ display:flex; flex-direction:column; min-width:0; }
+body.site-hp .detail__info .detail__tags{ margin-bottom:var(--spacing-16); }
+body.site-hp .detail__info .detail__title{ margin:0 0 var(--spacing-16); font-weight:800; }
+body.site-hp .detail__lead{
+  font-size:18px; line-height:1.6; color:var(--color-ink-70); margin:0 0 var(--spacing-24);
+}
+body.site-hp .detail__spec{ margin:0 0 var(--spacing-32); border-top:1px solid var(--color-lichen); }
+body.site-hp .detail__spec > div{
+  display:grid; grid-template-columns:110px 1fr; gap:16px; padding:12px 2px;
+  border-bottom:1px solid var(--color-lichen); font-size:14px;
+}
+body.site-hp .detail__spec dt{
+  font-family:var(--font-fragment-mono); font-size:12px; letter-spacing:.04em;
+  text-transform:uppercase; color:var(--color-forest-floor); margin:0;
+}
+body.site-hp .detail__spec dd{ margin:0; font-weight:700; color:var(--color-botanical-ink); }
+body.site-hp .detail__info .detail__actions{ margin-top:auto; }
+body.site-hp .detail__detail{ border-top:2px solid var(--color-botanical-ink); padding-top:var(--spacing-32); }
+body.site-hp .detail__detail .detail__body{ border-top:0; padding-top:0; }
+body.site-hp .detail__sec-title{ font-size:22px; font-weight:800; letter-spacing:-.03em; margin-bottom:var(--spacing-16); }
+@media (max-width:860px){
+  body.site-hp .detail__top{ grid-template-columns:1fr; gap:var(--spacing-24); }
+  body.site-hp .detail__media .detail__cover{ aspect-ratio:16/9; }
+}
+
+/* ============================================================
+   공지사항(news) · 자료실(resources) 리스트 — HP 스타일
+   ============================================================ */
+/* 필터 칩 (공용) */
+.filter-chips{ max-width:var(--page-max-width); margin:0 auto var(--spacing-24); display:flex; flex-wrap:wrap; gap:8px; }
+.filter-chips button{ border:1px solid var(--color-lichen); background:#fff; padding:8px 16px;
+  font-family:var(--font-akkurat); font-size:13px; font-weight:700; letter-spacing:-.01em; color:var(--color-ink-70);
+  cursor:pointer; border-radius:0; transition:border-color .15s ease, color .15s ease, background-color .15s ease; }
+.filter-chips button:hover:not(.is-active){ border-color:var(--color-forest-floor); color:var(--color-forest-floor); }
+.filter-chips button.is-active{ background:var(--color-warm-loam); color:#fff; border-color:var(--color-warm-loam); }
+
+/* 공지사항 리스트 */
+.news-list{ max-width:var(--page-max-width); margin:0 auto; border-top:2px solid var(--color-botanical-ink); }
+.news-item{ display:grid; grid-template-columns:160px 1fr 28px; gap:24px; align-items:center;
+  padding:24px 8px; border-bottom:1px solid var(--color-lichen); text-decoration:none; color:inherit;
+  transition:background-color .15s ease, padding .15s ease; }
+.news-item:hover{ background:var(--color-sage-mist); padding-left:18px; }
+.news-item__meta{ display:flex; flex-direction:column; gap:10px; align-items:flex-start; }
+.news-item__date{ font-family:var(--font-fragment-mono); font-size:13px; letter-spacing:.02em; color:var(--color-bark-brown); }
+.news-item__b h3{ font-size:19px; font-weight:700; letter-spacing:-.025em; line-height:1.35; margin-bottom:6px; }
+.news-item:hover .news-item__b h3{ color:var(--color-forest-floor); }
+.news-item__b p{ font-size:14px; color:var(--color-bark-brown); line-height:1.55;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.news-item__go{ color:var(--color-eucalyptus); display:flex; justify-content:flex-end; }
+.news-item:hover .news-item__go{ color:var(--color-forest-floor); }
+.news-item__go svg{ width:20px; height:20px; }
+@media (max-width:680px){
+  .news-item{ grid-template-columns:1fr; gap:10px; }
+  .news-item__go{ display:none; }
+}
+
+/* 자료실 리스트 */
+.res-list{ max-width:var(--page-max-width); margin:0 auto; border-top:1px solid var(--color-lichen); }
+.res-item{ display:grid; grid-template-columns:52px 1fr auto auto auto; gap:20px; align-items:center;
+  padding:18px 8px; border-bottom:1px solid var(--color-lichen); }
+.res-item__ic{ width:52px; height:52px; flex:none; border:1px solid var(--color-lichen); background:var(--color-accent-soft);
+  color:var(--color-forest-floor); display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-fragment-mono); font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+.res-item__t{ min-width:0; }
+.res-item__t h3{ font-size:16px; font-weight:700; letter-spacing:-.02em; line-height:1.35; }
+.res-item__t p{ font-size:13px; color:var(--color-bark-brown); line-height:1.5; margin-top:3px;
+  display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
+.res-item__size{ font-family:var(--font-fragment-mono); font-size:12px; letter-spacing:.02em; color:var(--color-bark-brown); white-space:nowrap; }
+.res-item .btn{ white-space:nowrap; }
+.res-item__dl{ display:inline-flex; align-items:center; gap:7px; }
+.res-item__dl svg{ width:15px; height:15px; }
+@media (max-width:720px){
+  .res-item{ grid-template-columns:44px 1fr auto; gap:14px; }
+  .res-item__ic{ width:44px; height:44px; }
+  .res-item > :nth-child(3), .res-item__size{ display:none; }
+}
+@media (max-width:480px){
+  .res-item{ grid-template-columns:44px 1fr; }
+  .res-item__dl{ grid-column:2; justify-self:start; margin-top:8px; }
+}
+
+/* ============================================================
+   푸터 — 검정 배경 + 흰 글자 (공개 페이지, body.site-hp)
+   ============================================================ */
+body.site-hp .footer{ background:#16181d; border-top:0; }
+body.site-hp .footer .logo{ color:#ffffff; }
+body.site-hp .footer__cols .microlabel{ color:#7c8493; }
+body.site-hp .footer__cols a{ color:#c2c8d2; }
+body.site-hp .footer__cols a:hover{ color:#ffffff; }
+body.site-hp .footer__fine{ color:#7c8493; border-top:1px solid rgba(255,255,255,.10); }
+body.site-hp .footer__fine a{ color:#c2c8d2; }
+body.site-hp .footer__fine a:hover{ color:#ffffff; }
+
+/* 자료실 목록 — 제목/아이콘 링크화 */
+.res-item__ic{ text-decoration:none; }
+.res-item__t{ text-decoration:none; color:inherit; }
+.res-item__t:hover h3{ color:var(--color-forest-floor); }
+
+/* ============================================================
+   자료실 첨부 파일 박스 — HP 톤 재디자인 (body.site-hp)
+   ============================================================ */
+body.site-hp .resource-detail__box{
+  background:#ffffff;
+  box-shadow:var(--shadow-card);
+  border-color:var(--color-lichen);
+  border-radius:2px;
+}
+body.site-hp .resource-detail__icon{
+  background:var(--color-sage-mist);
+  box-shadow:none;
+  border-color:var(--color-lichen);
+  border-radius:2px;
+}
+body.site-hp .resource-detail__label{
+  color:var(--color-forest-floor);
+  font-family:var(--font-fragment-mono);
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+body.site-hp .resource-detail__chip{
+  background:#ffffff;
+  border-color:var(--color-lichen);
+  color:var(--color-ink-70);
+}
+body.site-hp .resource-detail__download{ box-shadow:none; }
+body.site-hp .resource-detail__hint{ color:var(--color-bark-brown); opacity:1; }
+
+/* ============================================================
+   상단 네비게이션 고정 — 스크롤해도 항상 보이게 (공개 페이지)
+   #site-nav(래퍼)를 sticky로 → sticky 범위가 페이지 전체가 되어 정상 고정
+   ============================================================ */
+body.site-hp #site-nav{ position:sticky; top:0; z-index:60; }
+body.site-hp #site-nav .nav{ position:static; }

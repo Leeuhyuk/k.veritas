@@ -8,8 +8,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script>document.documentElement.classList.add("reveal-on");setTimeout(function(){window.__revealInit||document.documentElement.classList.add("reveal-off")},3000);</script>
 </head>
-<body>
+<body class="site-hp">
   <div id="site-nav"></div>
 
   <main>
@@ -68,8 +69,18 @@
       const id = new URLSearchParams(location.search).get('id');
       if (!id) { root.innerHTML = '<p class="empty-note">잘못된 접근입니다.</p>'; return; }
 
-      fetch('/api/resources/' + encodeURIComponent(id))
+      const fetchResource = () => fetch('/api/resources/' + encodeURIComponent(id))
         .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+        .catch(() => fetch('static-api/resources.json')
+          .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+          .then((list) => {
+            const arr = Array.isArray(list) ? list : (list.items || list.resources || []);
+            const found = arr.filter(Boolean).find((x) => String(x.id) === String(id));
+            if (!found) throw new Error();
+            return found;
+          }));
+
+      fetchResource()
         .then((r) => {
           const plain = stripTags(r.body).slice(0, 120);
           const desc = r.seoDescription || r.description || plain || r.originalName || '자료실 다운로드 자료입니다.';
@@ -96,14 +107,6 @@
           const dlCount = r.downloads || 0;
 
           root.innerHTML = `
-            <a class="detail__back" href="reference.html">
-              <span class="detail__back-icon" aria-hidden="true">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                  <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              자료실로 돌아가기
-            </a>
             <div class="detail__tags">
               <span class="tag">${esc(r.category || '기타')}</span>
               ${r.isBrochure ? '<span class="tag">회사소개서</span>' : ''}

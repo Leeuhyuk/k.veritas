@@ -1,298 +1,882 @@
 [
   {
-    "id": "p1783609168385",
-    "summary": "",
-    "process": "",
-    "seoDescription": "",
-    "industry": "",
-    "body": "",
-    "seoTitle": "",
-    "title": "33333333333",
-    "ogImage": "",
-    "createdAt": "2026-07-09T14:59:28.385Z",
-    "material": "",
-    "category": "",
-    "order": 0,
-    "status": "published",
-    "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/full-0-1783679159971.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/full-1-1783679162040.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/full-2-1783679163420.webp"
-    ],
-    "thumbs": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/thumb-0-1783679159971.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/thumb-1-1783679162040.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/thumb-2-1783679163420.webp"
-    ],
-    "updatedAt": "2026-07-10T10:26:04.777Z"
-  },
-  {
-    "id": "p1783608946207",
-    "summary": "",
-    "process": "",
-    "seoDescription": "",
-    "industry": "",
-    "body": "22222222222",
-    "seoTitle": "",
-    "title": "22222222222",
-    "ogImage": "",
-    "createdAt": "2026-07-09T14:55:46.207Z",
-    "material": "",
+    "id": "kv001",
+    "title": "구동 샤프트",
     "category": "자동차",
+    "industry": "",
+    "material": "AL7075",
+    "summary": "구동 계통 정밀 샤프트. ±0.005mm 공차 관리.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>구동 계통 정밀 샤프트. ±0.005mm 공차 관리.</p><p>소재: AL7075 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
     "order": 1,
-    "status": "published",
+    "createdAt": "2026-06-02T01:00:00.000Z",
+    "updatedAt": "2026-06-02T01:00:00.000Z",
     "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/full-0-1783679165057.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/full-1-1783679166370.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/full-2-1783679167795.webp"
+      "images/mfg-mold.jpg"
     ],
     "thumbs": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/thumb-0-1783679165057.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/thumb-1-1783679166370.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/thumb-2-1783679167795.webp"
-    ],
-    "updatedAt": "2026-07-10T10:26:09.159Z"
+      "images/mfg-mold.jpg"
+    ]
   },
   {
-    "id": "p1783608744476",
-    "summary": "111111111111111",
-    "process": "",
-    "seoDescription": "",
-    "industry": "",
-    "body": "11111111111111111",
-    "seoTitle": "",
-    "title": "111111111111111",
-    "ogImage": "",
-    "createdAt": "2026-07-09T14:52:24.476Z",
-    "material": "",
+    "id": "kv002",
+    "title": "브레이크 캘리퍼 브래킷",
     "category": "자동차",
+    "industry": "",
+    "material": "주철",
+    "summary": "제동 계통 브래킷. IATF 16949 기준 양산.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>제동 계통 브래킷. IATF 16949 기준 양산.</p><p>소재: 주철 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
     "order": 2,
-    "status": "published",
+    "createdAt": "2026-06-03T02:00:00.000Z",
+    "updatedAt": "2026-06-03T02:00:00.000Z",
     "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-0-1783679169429.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-1-1783679170729.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-2-1783679172110.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-3-1783679173640.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-4-1783679175309.webp"
+      "images/mfg-cnc.jpg"
     ],
     "thumbs": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-0-1783679169429.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-1-1783679170729.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-2-1783679172110.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-3-1783679173640.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-4-1783679175309.webp"
-    ],
-    "updatedAt": "2026-07-10T10:26:16.663Z"
+      "images/mfg-cnc.jpg"
+    ]
   },
   {
-    "id": "p1782823591256",
-    "summary": "",
-    "process": "ㄴㅇㄹㄴㅇㄹㄴㅇ",
-    "seoDescription": "",
-    "industry": "가공품",
-    "body": "ㄴㅇㄻㄴㅇㄻㄴㄻㄴㅇㄹㄴㅇㄹㄴ<img src=\"/uploads/1782823603153-136452148.jpg\" style=\"border-radius: 8px;\">",
-    "seoTitle": "",
-    "title": "ㄴㅇㄹㄴㅇㄹㄴㅇㄹ",
-    "ogImage": "",
-    "createdAt": "2026-06-30T12:46:31.256Z",
-    "material": "ㄴㅇㄹㅇㄹ",
-    "category": "",
+    "id": "kv003",
+    "title": "트랜스미션 기어",
+    "category": "자동차",
+    "industry": "",
+    "material": "SCM420",
+    "summary": "침탄 열처리 기어. 소음·내구 최적화.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>침탄 열처리 기어. 소음·내구 최적화.</p><p>소재: SCM420 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
     "order": 3,
-    "status": "published",
+    "createdAt": "2026-06-04T03:00:00.000Z",
+    "updatedAt": "2026-06-04T03:00:00.000Z",
     "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782823591256/full-0-1783679177794.webp"
+      "images/mfg-cnc2.jpg"
     ],
     "thumbs": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782823591256/thumb-0-1783679177794.webp"
-    ],
-    "updatedAt": "2026-07-10T10:26:20.874Z"
+      "images/mfg-cnc2.jpg"
+    ]
   },
   {
-    "id": "p1782653407286",
-    "summary": "sfsfsdf",
-    "process": "",
-    "seoDescription": "",
-    "industry": "",
-    "body": "ㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹ<table><thead><tr><th>제목1</th><th>제목2</th><th>제목3</th></tr></thead><tbody><tr><td>내용</td><td>내용</td><td>내용</td></tr><tr><td>내용</td><td>내용</td><td>내용</td></tr><tr><td>내용</td><td>내용</td><td>내용</td></tr></tbody></table><p><br></p>",
-    "seoTitle": "",
-    "title": "23424wfsdf",
-    "ogImage": "",
-    "createdAt": "2026-06-28T13:30:07.286Z",
-    "material": "",
+    "id": "kv004",
+    "title": "스티어링 너클",
     "category": "자동차",
+    "industry": "",
+    "material": "단조 AL",
+    "summary": "조향 너클. 5축 복합 가공.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>조향 너클. 5축 복합 가공.</p><p>소재: 단조 AL · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
     "order": 4,
-    "status": "published",
+    "createdAt": "2026-06-05T04:00:00.000Z",
+    "updatedAt": "2026-06-05T04:00:00.000Z",
     "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782653407286/full-0-1783679181705.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782653407286/full-1-1783679184604.webp"
+      "images/mfg-parts.jpg"
     ],
     "thumbs": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782653407286/thumb-0-1783679181705.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782653407286/thumb-1-1783679184604.webp"
-    ],
-    "updatedAt": "2026-07-10T10:26:27.218Z"
+      "images/mfg-parts.jpg"
+    ]
   },
   {
-    "id": "p1782727484334",
-    "summary": "ㄴㅇㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹ",
-    "process": "",
-    "seoDescription": "",
-    "industry": "",
-    "body": "<table><thead><tr><th>제목1</th><th>제목3</th></tr></thead><tbody><tr><td>내용</td><td rowspan=\"2\">내용 내용</td></tr><tr><td>내용</td></tr><tr><td>내용</td><td>내용</td></tr></tbody></table><p>ㄹㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㄹㄴㅇㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ</p>",
-    "seoTitle": "",
-    "title": "ㄴㅇㄹㄴㄹㄴㅇㄹㄴㅇㄹ",
-    "ogImage": "",
-    "createdAt": "2026-06-29T10:04:44.334Z",
-    "material": "",
+    "id": "kv005",
+    "title": "인젝터 하우징",
     "category": "자동차",
+    "industry": "",
+    "material": "SUS303",
+    "summary": "연료계 하우징. 기밀 검사 완료.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>연료계 하우징. 기밀 검사 완료.</p><p>소재: SUS303 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
     "order": 5,
-    "status": "published",
+    "createdAt": "2026-06-06T05:00:00.000Z",
+    "updatedAt": "2026-06-06T05:00:00.000Z",
     "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782727484334/full-0-1783679188260.webp"
+      "images/mfg-tools.jpg"
     ],
     "thumbs": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782727484334/thumb-0-1783679188260.webp"
-    ],
-    "updatedAt": "2026-07-10T10:26:30.964Z"
+      "images/mfg-tools.jpg"
+    ]
   },
   {
-    "id": "p1782650775270",
-    "summary": "234234234",
-    "process": "",
-    "seoDescription": "",
-    "industry": "",
-    "body": "234234234",
-    "seoTitle": "",
-    "title": "324234234",
-    "ogImage": "",
-    "createdAt": "2026-06-28T12:46:15.270Z",
-    "material": "",
-    "category": "234234234",
-    "order": 6,
-    "status": "published",
-    "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782650775270/full-0-1783679191453.webp"
-    ],
-    "thumbs": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782650775270/thumb-0-1783679191453.webp"
-    ],
-    "updatedAt": "2026-07-10T10:26:34.750Z"
-  },
-  {
-    "id": "p1782823734310",
-    "summary": "",
-    "images": [],
-    "process": "",
-    "seoDescription": "",
-    "industry": "",
-    "body": "ㄴㅇㄻㄴㄻㄴㄹㄴㅁㅇㄻㄴㅇㄹㄴㅁㅇㄹㄴㅇㄹㄴㄹㅇ<img src=\"/uploads/1782823732278-859060078.jpg\" style=\"border-radius: 8px;\">",
-    "seoTitle": "",
-    "title": "ㄴㅇㄻㄴㅇㄻㄴㄻㄴ",
-    "ogImage": "",
-    "createdAt": "2026-06-30T12:48:54.310Z",
-    "material": "",
+    "id": "kv006",
+    "title": "모터 엔드 브래킷",
     "category": "자동차",
-    "order": 7,
-    "status": "published",
-    "updatedAt": "2026-06-30T12:48:54.310Z"
-  },
-  {
-    "id": "p1782726609423",
-    "summary": "ㄴㅇㄻㄴㄹ",
-    "images": [],
-    "process": "",
-    "seoDescription": "",
     "industry": "",
-    "body": "ㄴㅁㅇㄹㄴㅁㄹ",
-    "seoTitle": "",
-    "title": "ㄴㄻㄴㄹㄴㄹ",
-    "ogImage": "",
-    "createdAt": "2026-06-29T09:50:09.423Z",
-    "material": "",
-    "category": "ㄴㅇㄹㄴㄹ",
-    "order": 8,
-    "status": "published",
-    "updatedAt": "2026-06-30T12:49:15.672Z"
-  },
-  {
-    "id": "p1782726603145",
-    "summary": "ㄴㅇㄹㄴㅁㅇㄹ",
-    "images": [],
-    "process": "",
-    "seoDescription": "",
-    "industry": "",
-    "body": "ㄴㅇㄹㄴㅁㅇㄹㄴㅇㄹ",
-    "seoTitle": "",
-    "title": "ㄴㅇㄹㄴㄹ",
-    "ogImage": "",
-    "createdAt": "2026-06-29T09:50:03.145Z",
-    "material": "",
-    "category": "ㄴㅇㄹㄴㄹㄴㅇㄹㄴㅇㄹ",
-    "order": 9,
-    "status": "published",
-    "updatedAt": "2026-06-30T12:49:08.822Z"
-  },
-  {
-    "id": "p1782726614155",
-    "summary": "ㄴㅇㄻㄴㄹ",
-    "images": [],
-    "process": "",
-    "seoDescription": "",
-    "industry": "",
-    "body": "ㄴㅇㄻㄴㄹ",
-    "seoTitle": "",
-    "title": "ㅁㄴㅇㄹㄴㅁㄹ",
-    "ogImage": "",
-    "createdAt": "2026-06-29T09:50:14.155Z",
-    "material": "",
-    "category": "ㅇㄹㅇㄹ",
-    "order": 10,
-    "status": "published",
-    "updatedAt": "2026-06-30T12:49:21.410Z"
-  },
-  {
-    "id": "p1000000000003",
-    "summary": "구동 계통에 들어가는 알루미늄 정밀 브라켓. 5축 CNC 가공으로 ±0.005mm 공차를 구현했습니다.",
-    "createdAt": "2026-06-01T00:00:00.000Z",
-    "images": [],
-    "process": "5축 CNC",
     "material": "AL6061",
-    "industry": "자동차",
-    "body": "자동차 구동 계통에 적용되는 알루미늄 브라켓입니다.\n\n경량화를 위해 AL6061 소재를 사용했으며, 5축 CNC 가공으로 복합 형상을 한 번의 셋업에 가공해 누적 공차를 최소화했습니다.\n\n전수 검사 후 측정 성적서와 함께 납품됩니다.",
-    "category": "자동차",
-    "title": "정밀 가공 브라켓",
-    "order": 11,
+    "summary": "구동 모터 엔드 브래킷.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>구동 모터 엔드 브래킷.</p><p>소재: AL6061 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
     "status": "published",
-    "updatedAt": "2026-06-01T00:00:00.000Z"
+    "order": 6,
+    "createdAt": "2026-06-07T06:00:00.000Z",
+    "updatedAt": "2026-06-07T06:00:00.000Z",
+    "images": [
+      "images/mfg-machine.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-machine.jpg"
+    ]
   },
   {
-    "id": "p1000000000002",
-    "summary": "반도체 장비용 고청정 하우징. 미세 공차와 표면 품질을 동시에 만족합니다.",
-    "createdAt": "2026-05-20T00:00:00.000Z",
-    "images": [],
-    "process": "정밀 가공·아노다이징",
-    "material": "알루미늄",
-    "industry": "반도체",
-    "body": "반도체 장비에 사용되는 알루미늄 하우징입니다.\n\n고청정 환경 요구에 맞춰 표면 조도 Ra 0.2 이상으로 가공하고, 아노다이징 처리로 내식성을 확보했습니다.\n\n조립 모듈 형태로도 공급 가능합니다.",
+    "id": "kv007",
+    "title": "챔버 플랜지",
     "category": "반도체",
-    "title": "알루미늄 장비 하우징",
-    "order": 12,
+    "industry": "",
+    "material": "SUS316L",
+    "summary": "진공 챔버 플랜지. 고청정 가공.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>진공 챔버 플랜지. 고청정 가공.</p><p>소재: SUS316L · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
     "status": "published",
-    "updatedAt": "2026-05-20T00:00:00.000Z"
+    "order": 7,
+    "createdAt": "2026-06-08T07:00:00.000Z",
+    "updatedAt": "2026-06-08T07:00:00.000Z",
+    "images": [
+      "images/mfg-robot.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-robot.jpg"
+    ]
   },
   {
-    "id": "p1000000000001",
-    "summary": "생체 적합 소재로 가공한 의료기기용 정밀 커넥터. 추적성 관리로 신뢰성을 보증합니다.",
-    "createdAt": "2026-05-10T00:00:00.000Z",
-    "images": [],
-    "process": "정밀 가공·전수 검사",
-    "material": "SUS316L",
-    "industry": "의료기기",
-    "body": "의료기기에 적용되는 정밀 커넥터입니다.\n\n생체 적합 소재(SUS316L)를 사용했으며, 로트 단위 추적성 관리와 전수 검사로 신뢰성을 확보합니다.\n\nISO 9001 품질 시스템 하에서 생산됩니다.",
-    "category": "의료기기",
-    "title": "의료용 정밀 커넥터",
-    "order": 13,
+    "id": "kv008",
+    "title": "웨이퍼 척 베이스",
+    "category": "반도체",
+    "industry": "",
+    "material": "AL6061",
+    "summary": "웨이퍼 척 베이스. 평면도 관리.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>웨이퍼 척 베이스. 평면도 관리.</p><p>소재: AL6061 · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
     "status": "published",
-    "updatedAt": "2026-05-10T00:00:00.000Z"
+    "order": 8,
+    "createdAt": "2026-06-09T08:00:00.000Z",
+    "updatedAt": "2026-06-09T08:00:00.000Z",
+    "images": [
+      "images/mfg-auto.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-auto.jpg"
+    ]
+  },
+  {
+    "id": "kv009",
+    "title": "가스 매니폴드",
+    "category": "반도체",
+    "industry": "",
+    "material": "SUS316L",
+    "summary": "가스 분배 매니폴드. 헬륨 리크 검사.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>가스 분배 매니폴드. 헬륨 리크 검사.</p><p>소재: SUS316L · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 9,
+    "createdAt": "2026-06-10T00:00:00.000Z",
+    "updatedAt": "2026-06-10T00:00:00.000Z",
+    "images": [
+      "images/mfg-detail.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-detail.jpg"
+    ]
+  },
+  {
+    "id": "kv010",
+    "title": "ESC 전극 베이스",
+    "category": "반도체",
+    "industry": "",
+    "material": "Ti",
+    "summary": "정전척 전극 베이스.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>정전척 전극 베이스.</p><p>소재: Ti · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 10,
+    "createdAt": "2026-06-11T01:00:00.000Z",
+    "updatedAt": "2026-06-11T01:00:00.000Z",
+    "images": [
+      "images/mfg-mold.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-mold.jpg"
+    ]
+  },
+  {
+    "id": "kv011",
+    "title": "리프트 핀 가이드",
+    "category": "반도체",
+    "industry": "",
+    "material": "세라믹/AL",
+    "summary": "리프트 핀 가이드 어셈블리.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>리프트 핀 가이드 어셈블리.</p><p>소재: 세라믹/AL · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 11,
+    "createdAt": "2026-06-12T02:00:00.000Z",
+    "updatedAt": "2026-06-12T02:00:00.000Z",
+    "images": [
+      "images/mfg-cnc.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-cnc.jpg"
+    ]
+  },
+  {
+    "id": "kv012",
+    "title": "쿨링 플레이트",
+    "category": "반도체",
+    "industry": "",
+    "material": "AL6061",
+    "summary": "냉각 유로 가공 플레이트.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>냉각 유로 가공 플레이트.</p><p>소재: AL6061 · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 12,
+    "createdAt": "2026-06-13T03:00:00.000Z",
+    "updatedAt": "2026-06-13T03:00:00.000Z",
+    "images": [
+      "images/mfg-cnc2.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-cnc2.jpg"
+    ]
+  },
+  {
+    "id": "kv013",
+    "title": "임플란트 스크루",
+    "category": "의료기기",
+    "industry": "",
+    "material": "Ti Grade5",
+    "summary": "생체적합 티타늄 스크루. 추적성 관리.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>생체적합 티타늄 스크루. 추적성 관리.</p><p>소재: Ti Grade5 · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 13,
+    "createdAt": "2026-06-14T04:00:00.000Z",
+    "updatedAt": "2026-06-14T04:00:00.000Z",
+    "images": [
+      "images/mfg-parts.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-parts.jpg"
+    ]
+  },
+  {
+    "id": "kv014",
+    "title": "수술기구 핸들",
+    "category": "의료기기",
+    "industry": "",
+    "material": "SUS420",
+    "summary": "수술기구 핸들. 표면 폴리싱.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>수술기구 핸들. 표면 폴리싱.</p><p>소재: SUS420 · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 14,
+    "createdAt": "2026-06-15T05:00:00.000Z",
+    "updatedAt": "2026-06-15T05:00:00.000Z",
+    "images": [
+      "images/mfg-tools.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-tools.jpg"
+    ]
+  },
+  {
+    "id": "kv015",
+    "title": "인퓨전 매니폴드",
+    "category": "의료기기",
+    "industry": "",
+    "material": "PSU",
+    "summary": "약액 매니폴드. 클린룸 조립.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>약액 매니폴드. 클린룸 조립.</p><p>소재: PSU · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 15,
+    "createdAt": "2026-06-16T06:00:00.000Z",
+    "updatedAt": "2026-06-16T06:00:00.000Z",
+    "images": [
+      "images/mfg-machine.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-machine.jpg"
+    ]
+  },
+  {
+    "id": "kv016",
+    "title": "내시경 하우징",
+    "category": "의료기기",
+    "industry": "",
+    "material": "SUS304",
+    "summary": "내시경 하우징. 미세 가공.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>내시경 하우징. 미세 가공.</p><p>소재: SUS304 · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 16,
+    "createdAt": "2026-06-17T07:00:00.000Z",
+    "updatedAt": "2026-06-17T07:00:00.000Z",
+    "images": [
+      "images/mfg-robot.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-robot.jpg"
+    ]
+  },
+  {
+    "id": "kv017",
+    "title": "정형 플레이트",
+    "category": "의료기기",
+    "industry": "",
+    "material": "Ti Grade23",
+    "summary": "정형용 고정 플레이트.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>정형용 고정 플레이트.</p><p>소재: Ti Grade23 · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 17,
+    "createdAt": "2026-06-18T08:00:00.000Z",
+    "updatedAt": "2026-06-18T08:00:00.000Z",
+    "images": [
+      "images/mfg-auto.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-auto.jpg"
+    ]
+  },
+  {
+    "id": "kv018",
+    "title": "액추에이터 바디",
+    "category": "항공·방산",
+    "industry": "",
+    "material": "Ti-6Al-4V",
+    "summary": "비행 제어 액추에이터 바디.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>비행 제어 액추에이터 바디.</p><p>소재: Ti-6Al-4V · 카테고리: 항공·방산</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 18,
+    "createdAt": "2026-06-19T00:00:00.000Z",
+    "updatedAt": "2026-06-19T00:00:00.000Z",
+    "images": [
+      "images/mfg-detail.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-detail.jpg"
+    ]
+  },
+  {
+    "id": "kv019",
+    "title": "브래킷 어셈블리",
+    "category": "항공·방산",
+    "industry": "",
+    "material": "AL7050",
+    "summary": "구조 브래킷 어셈블리.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>구조 브래킷 어셈블리.</p><p>소재: AL7050 · 카테고리: 항공·방산</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 19,
+    "createdAt": "2026-06-20T01:00:00.000Z",
+    "updatedAt": "2026-06-20T01:00:00.000Z",
+    "images": [
+      "images/mfg-mold.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-mold.jpg"
+    ]
+  },
+  {
+    "id": "kv020",
+    "title": "기어박스 하우징",
+    "category": "항공·방산",
+    "industry": "",
+    "material": "AL A356",
+    "summary": "경량 기어박스 하우징.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>경량 기어박스 하우징.</p><p>소재: AL A356 · 카테고리: 항공·방산</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 20,
+    "createdAt": "2026-06-21T02:00:00.000Z",
+    "updatedAt": "2026-06-21T02:00:00.000Z",
+    "images": [
+      "images/mfg-cnc.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-cnc.jpg"
+    ]
+  },
+  {
+    "id": "kv021",
+    "title": "커넥터 백셸",
+    "category": "항공·방산",
+    "industry": "",
+    "material": "AL7075",
+    "summary": "방산 커넥터 백셸.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>방산 커넥터 백셸.</p><p>소재: AL7075 · 카테고리: 항공·방산</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 21,
+    "createdAt": "2026-06-22T03:00:00.000Z",
+    "updatedAt": "2026-06-22T03:00:00.000Z",
+    "images": [
+      "images/mfg-cnc2.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-cnc2.jpg"
+    ]
+  },
+  {
+    "id": "kv022",
+    "title": "히트싱크",
+    "category": "전자",
+    "industry": "",
+    "material": "AL6063",
+    "summary": "고방열 히트싱크. 스카이빙 가공.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>고방열 히트싱크. 스카이빙 가공.</p><p>소재: AL6063 · 카테고리: 전자</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 22,
+    "createdAt": "2026-06-23T04:00:00.000Z",
+    "updatedAt": "2026-06-23T04:00:00.000Z",
+    "images": [
+      "images/mfg-parts.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-parts.jpg"
+    ]
+  },
+  {
+    "id": "kv023",
+    "title": "커넥터 하우징",
+    "category": "전자",
+    "industry": "",
+    "material": "엔지니어링 플라스틱",
+    "summary": "정밀 커넥터 하우징.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>정밀 커넥터 하우징.</p><p>소재: 엔지니어링 플라스틱 · 카테고리: 전자</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 23,
+    "createdAt": "2026-06-24T05:00:00.000Z",
+    "updatedAt": "2026-06-24T05:00:00.000Z",
+    "images": [
+      "images/mfg-tools.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-tools.jpg"
+    ]
+  },
+  {
+    "id": "kv024",
+    "title": "방열 플레이트",
+    "category": "전자",
+    "industry": "",
+    "material": "구리",
+    "summary": "고전력 방열 플레이트.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>고전력 방열 플레이트.</p><p>소재: 구리 · 카테고리: 전자</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 24,
+    "createdAt": "2026-06-25T06:00:00.000Z",
+    "updatedAt": "2026-06-25T06:00:00.000Z",
+    "images": [
+      "images/mfg-machine.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-machine.jpg"
+    ]
+  },
+  {
+    "id": "kv025",
+    "title": "EMI 실드 케이스",
+    "category": "전자",
+    "industry": "",
+    "material": "AL5052",
+    "summary": "EMI 차폐 케이스.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>EMI 차폐 케이스.</p><p>소재: AL5052 · 카테고리: 전자</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 25,
+    "createdAt": "2026-06-26T07:00:00.000Z",
+    "updatedAt": "2026-06-26T07:00:00.000Z",
+    "images": [
+      "images/mfg-robot.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-robot.jpg"
+    ]
+  },
+  {
+    "id": "kv026",
+    "title": "구동 샤프트 · A타입",
+    "category": "자동차",
+    "industry": "",
+    "material": "AL7075",
+    "summary": "구동 계통 정밀 샤프트. ±0.005mm 공차 관리.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>구동 계통 정밀 샤프트. ±0.005mm 공차 관리.</p><p>소재: AL7075 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 26,
+    "createdAt": "2026-06-27T08:00:00.000Z",
+    "updatedAt": "2026-06-27T08:00:00.000Z",
+    "images": [
+      "images/mfg-auto.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-auto.jpg"
+    ]
+  },
+  {
+    "id": "kv027",
+    "title": "브레이크 캘리퍼 브래킷 · A타입",
+    "category": "자동차",
+    "industry": "",
+    "material": "주철",
+    "summary": "제동 계통 브래킷. IATF 16949 기준 양산.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>제동 계통 브래킷. IATF 16949 기준 양산.</p><p>소재: 주철 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 27,
+    "createdAt": "2026-06-28T00:00:00.000Z",
+    "updatedAt": "2026-06-28T00:00:00.000Z",
+    "images": [
+      "images/mfg-detail.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-detail.jpg"
+    ]
+  },
+  {
+    "id": "kv028",
+    "title": "트랜스미션 기어 · A타입",
+    "category": "자동차",
+    "industry": "",
+    "material": "SCM420",
+    "summary": "침탄 열처리 기어. 소음·내구 최적화.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>침탄 열처리 기어. 소음·내구 최적화.</p><p>소재: SCM420 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 28,
+    "createdAt": "2026-06-01T01:00:00.000Z",
+    "updatedAt": "2026-06-01T01:00:00.000Z",
+    "images": [
+      "images/mfg-mold.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-mold.jpg"
+    ]
+  },
+  {
+    "id": "kv029",
+    "title": "스티어링 너클 · A타입",
+    "category": "자동차",
+    "industry": "",
+    "material": "단조 AL",
+    "summary": "조향 너클. 5축 복합 가공.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>조향 너클. 5축 복합 가공.</p><p>소재: 단조 AL · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 29,
+    "createdAt": "2026-06-02T02:00:00.000Z",
+    "updatedAt": "2026-06-02T02:00:00.000Z",
+    "images": [
+      "images/mfg-cnc.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-cnc.jpg"
+    ]
+  },
+  {
+    "id": "kv030",
+    "title": "인젝터 하우징 · A타입",
+    "category": "자동차",
+    "industry": "",
+    "material": "SUS303",
+    "summary": "연료계 하우징. 기밀 검사 완료.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>연료계 하우징. 기밀 검사 완료.</p><p>소재: SUS303 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 30,
+    "createdAt": "2026-06-03T03:00:00.000Z",
+    "updatedAt": "2026-06-03T03:00:00.000Z",
+    "images": [
+      "images/mfg-cnc2.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-cnc2.jpg"
+    ]
+  },
+  {
+    "id": "kv031",
+    "title": "모터 엔드 브래킷 · A타입",
+    "category": "자동차",
+    "industry": "",
+    "material": "AL6061",
+    "summary": "구동 모터 엔드 브래킷.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>구동 모터 엔드 브래킷.</p><p>소재: AL6061 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 31,
+    "createdAt": "2026-06-04T04:00:00.000Z",
+    "updatedAt": "2026-06-04T04:00:00.000Z",
+    "images": [
+      "images/mfg-parts.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-parts.jpg"
+    ]
+  },
+  {
+    "id": "kv032",
+    "title": "챔버 플랜지 · A타입",
+    "category": "반도체",
+    "industry": "",
+    "material": "SUS316L",
+    "summary": "진공 챔버 플랜지. 고청정 가공.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>진공 챔버 플랜지. 고청정 가공.</p><p>소재: SUS316L · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 32,
+    "createdAt": "2026-06-05T05:00:00.000Z",
+    "updatedAt": "2026-06-05T05:00:00.000Z",
+    "images": [
+      "images/mfg-tools.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-tools.jpg"
+    ]
+  },
+  {
+    "id": "kv033",
+    "title": "웨이퍼 척 베이스 · A타입",
+    "category": "반도체",
+    "industry": "",
+    "material": "AL6061",
+    "summary": "웨이퍼 척 베이스. 평면도 관리.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>웨이퍼 척 베이스. 평면도 관리.</p><p>소재: AL6061 · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 33,
+    "createdAt": "2026-06-06T06:00:00.000Z",
+    "updatedAt": "2026-06-06T06:00:00.000Z",
+    "images": [
+      "images/mfg-machine.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-machine.jpg"
+    ]
+  },
+  {
+    "id": "kv034",
+    "title": "가스 매니폴드 · A타입",
+    "category": "반도체",
+    "industry": "",
+    "material": "SUS316L",
+    "summary": "가스 분배 매니폴드. 헬륨 리크 검사.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>가스 분배 매니폴드. 헬륨 리크 검사.</p><p>소재: SUS316L · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 34,
+    "createdAt": "2026-06-07T07:00:00.000Z",
+    "updatedAt": "2026-06-07T07:00:00.000Z",
+    "images": [
+      "images/mfg-robot.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-robot.jpg"
+    ]
+  },
+  {
+    "id": "kv035",
+    "title": "ESC 전극 베이스 · A타입",
+    "category": "반도체",
+    "industry": "",
+    "material": "Ti",
+    "summary": "정전척 전극 베이스.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>정전척 전극 베이스.</p><p>소재: Ti · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 35,
+    "createdAt": "2026-06-08T08:00:00.000Z",
+    "updatedAt": "2026-06-08T08:00:00.000Z",
+    "images": [
+      "images/mfg-auto.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-auto.jpg"
+    ]
+  },
+  {
+    "id": "kv036",
+    "title": "리프트 핀 가이드 · A타입",
+    "category": "반도체",
+    "industry": "",
+    "material": "세라믹/AL",
+    "summary": "리프트 핀 가이드 어셈블리.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>리프트 핀 가이드 어셈블리.</p><p>소재: 세라믹/AL · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 36,
+    "createdAt": "2026-06-09T00:00:00.000Z",
+    "updatedAt": "2026-06-09T00:00:00.000Z",
+    "images": [
+      "images/mfg-detail.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-detail.jpg"
+    ]
+  },
+  {
+    "id": "kv037",
+    "title": "쿨링 플레이트 · A타입",
+    "category": "반도체",
+    "industry": "",
+    "material": "AL6061",
+    "summary": "냉각 유로 가공 플레이트.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>냉각 유로 가공 플레이트.</p><p>소재: AL6061 · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 37,
+    "createdAt": "2026-06-10T01:00:00.000Z",
+    "updatedAt": "2026-06-10T01:00:00.000Z",
+    "images": [
+      "images/mfg-mold.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-mold.jpg"
+    ]
+  },
+  {
+    "id": "kv038",
+    "title": "임플란트 스크루 · A타입",
+    "category": "의료기기",
+    "industry": "",
+    "material": "Ti Grade5",
+    "summary": "생체적합 티타늄 스크루. 추적성 관리.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>생체적합 티타늄 스크루. 추적성 관리.</p><p>소재: Ti Grade5 · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 38,
+    "createdAt": "2026-06-11T02:00:00.000Z",
+    "updatedAt": "2026-06-11T02:00:00.000Z",
+    "images": [
+      "images/mfg-cnc.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-cnc.jpg"
+    ]
+  },
+  {
+    "id": "kv039",
+    "title": "수술기구 핸들 · A타입",
+    "category": "의료기기",
+    "industry": "",
+    "material": "SUS420",
+    "summary": "수술기구 핸들. 표면 폴리싱.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>수술기구 핸들. 표면 폴리싱.</p><p>소재: SUS420 · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 39,
+    "createdAt": "2026-06-12T03:00:00.000Z",
+    "updatedAt": "2026-06-12T03:00:00.000Z",
+    "images": [
+      "images/mfg-cnc2.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-cnc2.jpg"
+    ]
+  },
+  {
+    "id": "kv040",
+    "title": "인퓨전 매니폴드 · A타입",
+    "category": "의료기기",
+    "industry": "",
+    "material": "PSU",
+    "summary": "약액 매니폴드. 클린룸 조립.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>약액 매니폴드. 클린룸 조립.</p><p>소재: PSU · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 40,
+    "createdAt": "2026-06-13T04:00:00.000Z",
+    "updatedAt": "2026-06-13T04:00:00.000Z",
+    "images": [
+      "images/mfg-parts.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-parts.jpg"
+    ]
+  },
+  {
+    "id": "kv041",
+    "title": "내시경 하우징 · A타입",
+    "category": "의료기기",
+    "industry": "",
+    "material": "SUS304",
+    "summary": "내시경 하우징. 미세 가공.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>내시경 하우징. 미세 가공.</p><p>소재: SUS304 · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 41,
+    "createdAt": "2026-06-14T05:00:00.000Z",
+    "updatedAt": "2026-06-14T05:00:00.000Z",
+    "images": [
+      "images/mfg-tools.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-tools.jpg"
+    ]
+  },
+  {
+    "id": "kv042",
+    "title": "정형 플레이트 · A타입",
+    "category": "의료기기",
+    "industry": "",
+    "material": "Ti Grade23",
+    "summary": "정형용 고정 플레이트.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>정형용 고정 플레이트.</p><p>소재: Ti Grade23 · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 42,
+    "createdAt": "2026-06-15T06:00:00.000Z",
+    "updatedAt": "2026-06-15T06:00:00.000Z",
+    "images": [
+      "images/mfg-machine.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-machine.jpg"
+    ]
+  },
+  {
+    "id": "kv043",
+    "title": "액추에이터 바디 · A타입",
+    "category": "항공·방산",
+    "industry": "",
+    "material": "Ti-6Al-4V",
+    "summary": "비행 제어 액추에이터 바디.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>비행 제어 액추에이터 바디.</p><p>소재: Ti-6Al-4V · 카테고리: 항공·방산</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 43,
+    "createdAt": "2026-06-16T07:00:00.000Z",
+    "updatedAt": "2026-06-16T07:00:00.000Z",
+    "images": [
+      "images/mfg-robot.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-robot.jpg"
+    ]
+  },
+  {
+    "id": "kv044",
+    "title": "브래킷 어셈블리 · A타입",
+    "category": "항공·방산",
+    "industry": "",
+    "material": "AL7050",
+    "summary": "구조 브래킷 어셈블리.",
+    "process": "5축 CNC / 정밀 가공",
+    "body": "<p>구조 브래킷 어셈블리.</p><p>소재: AL7050 · 카테고리: 항공·방산</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "status": "published",
+    "order": 44,
+    "createdAt": "2026-06-17T08:00:00.000Z",
+    "updatedAt": "2026-06-17T08:00:00.000Z",
+    "images": [
+      "images/mfg-auto.jpg"
+    ],
+    "thumbs": [
+      "images/mfg-auto.jpg"
+    ]
   }
 ]

@@ -4,87 +4,199 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>정밀 가공 부품 — k.veritas</title>
-  <meta name="description" content="자동차·반도체·의료기기 산업에 공급하는 정밀 가공 부품 사양과 적용 사례." />
+  <meta name="description" content="자동차·반도체·의료기기 산업에 공급하는 정밀 가공 부품. 사양·적용 산업·제조 공정을 한눈에." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script>document.documentElement.classList.add("reveal-on");setTimeout(function(){window.__revealInit||document.documentElement.classList.add("reveal-off")},3000);</script>
 </head>
-<body>
+<body class="site-hp">
   <div id="site-nav"></div>
 
   <main>
-    <section class="subhero">
-      <div class="subhero__inner">
-        <p class="microlabel">PRODUCT · MACHINED PARTS</p>
-        <h1 class="subhero__title" data-cms="hero_title" data-cms-label="상단 제목">정밀 가공 부품</h1>
-        <p class="subhero__sub" data-cms="hero_sub" data-cms-label="상단 설명">도면 기반 맞춤 제작. ±0.005mm 공차의 복합 형상 부품을 소량 다품종부터 양산까지 공급합니다.</p>
-      </div>
-    </section>
-
-    <section class="page">
-      <div class="section-head">
-        <p class="microlabel">APPLICATION</p>
-        <h2 class="section-title">적용 산업</h2>
-      </div>
-      <div class="features__grid">
-        <article class="card">
-          <span class="tag">자동차</span>
-          <h3 class="card__title">자동차 부품</h3>
-          <p class="card__body">구동·제동 계통의 정밀 부품. IATF 16949 기준의 품질 관리로 양산 안정성을 확보합니다.</p>
-        </article>
-        <article class="card">
-          <span class="tag">반도체</span>
-          <h3 class="card__title">반도체 부품</h3>
-          <p class="card__body">장비용 고청정 부품. 미세 공차와 표면 품질이 요구되는 부품을 가공합니다.</p>
-        </article>
-        <article class="card">
-          <span class="tag">의료</span>
-          <h3 class="card__title">의료기기 부품</h3>
-          <p class="card__body">생체 적합 소재 가공과 추적성 관리로 의료기기용 정밀 부품을 공급합니다.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="page" style="padding-top:0">
-      <div class="split">
-        <div class="split__text">
-          <p class="microlabel">FEATURES</p>
-          <h2 class="section-title">제품 특징</h2>
-          <p class="split__body">소재 선정부터 후처리, 검사까지 일괄 대응해 단일 창구로 납품받으실 수 있습니다.</p>
-          <ul class="split__list">
-            <li>±0.005mm 정밀 공차</li>
-            <li>다양한 소재·표면 처리 대응</li>
-            <li>측정 성적서 동봉 납품</li>
-          </ul>
-          <p style="margin-top:var(--spacing-24)"><a href="support.html#contact" class="btn btn--primary">견적 문의하기</a></p>
+    <div class="pdp">
+      <!-- ============ 사이드바 ============ -->
+      <aside class="pdp__sidebar">
+        <div class="pdp-side__block">
+          <p class="pdp-side__label">제품군</p>
+          <nav class="pdp-switch">
+            <a href="product-parts.html" class="is-current">정밀 가공 부품</a>
+            <a href="product-mold.html">정밀 금형</a>
+            <a href="product-module.html">조립 모듈</a>
+            <a href="showcase.html">생산제품</a>
+          </nav>
         </div>
-        <div class="split__media">
+
+        <div class="pdp-side__block pdp-side__toc-block">
+          <p class="pdp-side__label">목차</p>
+          <nav class="pdp-toc">
+            <a href="#overview">개요</a>
+            <a href="#applications">적용 산업</a>
+            <a href="#features">주요 특징</a>
+            <a href="#spec">상세 사양</a>
+            <a href="#process">제조 공정</a>
+            <a href="#faq">자주 묻는 질문</a>
+          </nav>
+        </div>
+
+        <div class="pdp-side__block pdp-side__cta">
+          <p class="pdp-side__label">빠른 견적</p>
+          <p>도면(2D/3D)과 수량을 보내주시면 영업일 기준 24시간 이내 회신드립니다.</p>
+          <a href="support.html#contact" class="btn btn--primary">견적 문의하기</a>
+        </div>
+      </aside>
+
+      <!-- ============ 메인 ============ -->
+      <div class="pdp__main">
+        <!-- 툴바 -->
+        <div class="pdp-toolbar">
+          <div class="pdp-toolbar__id">
+            <div class="pdp-crumb"><a href="products.html">제품소개</a><span>›</span> MACHINED PARTS</div>
+            <h1 class="pdp-toolbar__title" data-cms="hero_title" data-cms-label="상단 제목">정밀 가공 부품</h1>
+          </div>
+          <div class="pdp-toolbar__actions">
+            <a href="reference.html" class="pdp-tool" title="카탈로그 다운로드">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 12 5 5 5-5"/><path d="M5 21h14"/></svg>
+              <span>카탈로그</span>
+            </a>
+            <button type="button" class="pdp-tool pdp-tool--icon" data-pdp-action="print" title="인쇄" aria-label="인쇄">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="6" y="13" width="12" height="8"/><path d="M6 17H3v-5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5h-3"/></svg>
+            </button>
+            <button type="button" class="pdp-tool" data-pdp-action="share" title="공유">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>
+              <span>공유</span>
+            </button>
+            <a href="support.html#contact" class="pdp-tool pdp-tool--primary">견적 문의</a>
+          </div>
+        </div>
+
+        <!-- 개요 -->
+        <section class="pdp-sec" id="overview">
+          <figure class="pdp-figure"><img src="images/mfg-mold.jpg" alt="정밀 가공 부품" loading="lazy" /></figure>
+          <div class="pdp-sec__head">
+            <p class="pdp-sec__eyebrow">OVERVIEW · 개요</p>
+            <h2 class="pdp-sec__title">도면 기반 맞춤 정밀 가공</h2>
+            <p class="pdp-sec__lead" data-cms="hero_sub" data-cms-label="상단 설명">±0.005mm 공차의 복합 형상 부품을 소량 다품종부터 양산까지 공급합니다. 소재 선정·후처리·검사까지 단일 창구로 대응해 관리 부담을 줄입니다.</p>
+          </div>
+          <div class="pdp-highlights">
+            <div class="pdp-highlight"><div class="pdp-highlight__num">±0.005mm</div><div class="pdp-highlight__label">가공 공차</div></div>
+            <div class="pdp-highlight"><div class="pdp-highlight__num">Ra 0.2</div><div class="pdp-highlight__label">표면 조도</div></div>
+            <div class="pdp-highlight"><div class="pdp-highlight__num">2~3주</div><div class="pdp-highlight__label">표준 리드타임</div></div>
+          </div>
+        </section>
+
+        <!-- 적용 산업 -->
+        <section class="pdp-sec" id="applications">
+          <div class="pdp-sec__head">
+            <p class="pdp-sec__eyebrow">APPLICATION · 적용 산업</p>
+            <h2 class="pdp-sec__title">산업별 요구에 맞춘 공급</h2>
+          </div>
+          <div class="pdp-grid">
+            <article class="card">
+              <span class="tag">자동차</span>
+              <h3 class="card__title">자동차 부품</h3>
+              <p class="card__body">구동·제동 계통의 정밀 부품. IATF 16949 기준의 품질 관리로 양산 안정성을 확보합니다.</p>
+            </article>
+            <article class="card">
+              <span class="tag">반도체</span>
+              <h3 class="card__title">반도체 부품</h3>
+              <p class="card__body">장비용 고청정 부품. 미세 공차와 표면 품질이 요구되는 부품을 가공합니다.</p>
+            </article>
+            <article class="card">
+              <span class="tag">의료</span>
+              <h3 class="card__title">의료기기 부품</h3>
+              <p class="card__body">생체 적합 소재 가공과 추적성 관리로 의료기기용 정밀 부품을 공급합니다.</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- 주요 특징 -->
+        <section class="pdp-sec" id="features">
+          <div class="pdp-sec__head">
+            <p class="pdp-sec__eyebrow">FEATURES · 주요 특징</p>
+            <h2 class="pdp-sec__title">단일 창구로 끝내는 정밀 부품</h2>
+          </div>
+          <div class="pdp-feats">
+            <div class="pdp-feat">
+              <div class="pdp-feat__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg></div>
+              <div><h4>±0.005mm 정밀 공차</h4><p>5축 CNC·머시닝 센터로 복합 형상을 고정밀 가공합니다.</p></div>
+            </div>
+            <div class="pdp-feat">
+              <div class="pdp-feat__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg></div>
+              <div><h4>다양한 소재 대응</h4><p>AL·SUS·Ti·엔지니어링 플라스틱까지 폭넓게 가공합니다.</p></div>
+            </div>
+            <div class="pdp-feat">
+              <div class="pdp-feat__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div>
+              <div><h4>전수 검사 · 성적서</h4><p>3차원 측정기(CMM) 전수 검사와 측정 성적서를 동봉합니다.</p></div>
+            </div>
+            <div class="pdp-feat">
+              <div class="pdp-feat__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3"/></svg></div>
+              <div><h4>후처리 일괄 대응</h4><p>아노다이징·도금·열처리까지 표면 처리를 함께 진행합니다.</p></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 상세 사양 -->
+        <section class="pdp-sec" id="spec">
+          <div class="pdp-sec__head">
+            <p class="pdp-sec__eyebrow">SPECIFICATION · 상세 사양</p>
+            <h2 class="pdp-sec__title">제품 사양</h2>
+          </div>
           <table class="spec">
-            <caption class="microlabel" style="margin-bottom:var(--spacing-16)">사양 SPECIFICATION</caption>
             <thead><tr><th>항목</th><th>규격</th></tr></thead>
             <tbody>
-              <tr><th>가공 방식</th><td>5축 CNC / 머시닝 센터</td></tr>
+              <tr><th>가공 방식</th><td>5축 CNC / 머시닝 센터 / 선반</td></tr>
               <tr><th>적용 소재</th><td>AL, SUS, Ti, 엔지니어링 플라스틱</td></tr>
               <tr><th>가공 공차</th><td>±0.005mm</td></tr>
+              <tr><th>표면 조도</th><td>Ra 0.2 이상</td></tr>
               <tr><th>표면 처리</th><td>아노다이징, 도금, 열처리</td></tr>
+              <tr><th>검사 장비</th><td>3차원 측정기(CMM), 조도계, 투영기</td></tr>
               <tr><th>최소 수량</th><td>1 EA (시제품) ~ 양산</td></tr>
               <tr><th>리드타임</th><td>표준 2~3주 (수량별 협의)</td></tr>
             </tbody>
           </table>
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <section class="cta">
-      <p class="microlabel">CONTACT</p>
-      <h2 class="cta__title">필요한 부품 도면을 보내주세요</h2>
-      <p class="cta__sub">영업일 기준 24시간 이내에 견적과 납기를 회신드립니다.</p>
-      <div class="hero__actions">
-        <a href="support.html#contact" class="btn btn--primary">견적 문의하기</a>
-        <a href="biz-machining.html" class="btn btn--ghost">가공 공정 보기</a>
+        <!-- 제조 공정 -->
+        <section class="pdp-sec" id="process">
+          <div class="pdp-sec__head">
+            <p class="pdp-sec__eyebrow">PROCESS · 제조 공정</p>
+            <h2 class="pdp-sec__title">도면 접수부터 납품까지</h2>
+          </div>
+          <div class="pdp-steps">
+            <div class="pdp-step"><div class="pdp-step__no">STEP 01</div><h4>도면 검토·견적</h4><p>2D/3D 도면을 검토해 가공성·소재·납기를 회신합니다.</p></div>
+            <div class="pdp-step"><div class="pdp-step__no">STEP 02</div><h4>정밀 가공</h4><p>5축 CNC로 복합 형상을 고정밀 가공합니다.</p></div>
+            <div class="pdp-step"><div class="pdp-step__no">STEP 03</div><h4>후처리·검사</h4><p>표면 처리 후 CMM 전수 검사를 진행합니다.</p></div>
+            <div class="pdp-step"><div class="pdp-step__no">STEP 04</div><h4>성적서·납품</h4><p>측정 성적서를 동봉해 안정적으로 납품합니다.</p></div>
+          </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="pdp-sec" id="faq">
+          <div class="pdp-sec__head">
+            <p class="pdp-sec__eyebrow">FAQ · 자주 묻는 질문</p>
+            <h2 class="pdp-sec__title">궁금하신 점</h2>
+          </div>
+          <div class="faq">
+            <details class="faq__item"><summary>시제품 1개만도 제작이 가능한가요?</summary><div class="faq__answer">가능합니다. 1 EA 시제품부터 양산까지 수량 제한 없이 대응합니다. 수량에 따라 단가와 납기를 협의드립니다.</div></details>
+            <details class="faq__item"><summary>도면 없이 실물 샘플만으로도 견적이 되나요?</summary><div class="faq__answer">실물 샘플의 3D 스캔·역설계를 통해 도면화 후 제작이 가능합니다. 샘플 상태에 따라 별도 협의가 필요할 수 있습니다.</div></details>
+            <details class="faq__item"><summary>측정 성적서를 받을 수 있나요?</summary><div class="faq__answer">전수 검사 기준의 측정 성적서를 기본 제공하며, 고객사 양식이 있는 경우 해당 양식에 맞춰 발행합니다.</div></details>
+          </div>
+        </section>
+
+        <!-- 하단 CTA -->
+        <section class="cta" style="margin-top:0">
+          <p class="microlabel">CONTACT</p>
+          <h2 class="cta__title">필요한 부품 도면을 보내주세요</h2>
+          <p class="cta__sub">영업일 기준 24시간 이내에 견적과 납기를 회신드립니다.</p>
+          <div class="hero__actions">
+            <a href="support.html#contact" class="btn btn--primary">견적 문의하기</a>
+            <a href="biz-machining.html" class="btn btn--ghost">가공 공정 보기</a>
+          </div>
+        </section>
       </div>
-    </section>
+    </div>
   </main>
 
   <div id="site-footer"></div>

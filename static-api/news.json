@@ -1,48 +1,80 @@
 [
   {
-    "id": "n1783609118972",
-    "createdAt": "2026-07-09T14:58:38.972Z",
-    "images": [],
+    "id": "news001",
+    "title": "홈페이지를 새롭게 단장했습니다",
+    "category": "공지",
+    "summary": "제품 탐색과 견적 문의가 더 쉬워지도록 홈페이지를 전면 개편했습니다. 생산제품 카탈로그와 상세 사양을 확인해 보세요.",
+    "body": "<p>제품 탐색과 견적 문의가 더 쉬워지도록 홈페이지를 전면 개편했습니다. 생산제품 카탈로그와 상세 사양을 확인해 보세요.</p><p>자세한 내용은 고객지원(견적·기술 문의) 채널로 문의해 주세요.</p>",
+    "status": "published",
     "isPopup": false,
-    "seoDescription": "",
-    "body": "<img src=\"/uploads/1783609103199-70159568.png\" style=\"border-radius: 8px;\" alt=\"\"><div>klljlkjlkjlkjlkjlkj</div>",
-    "seoTitle": "",
-    "title": "1111111111",
-    "ogImage": "",
-    "order": 0,
-    "status": "published",
-    "updatedAt": "2026-07-09T14:58:38.972Z"
+    "order": 6,
+    "createdAt": "2026-07-01T09:00:00.000Z",
+    "updatedAt": "2026-07-01T09:00:00.000Z",
+    "images": []
   },
   {
-    "id": "n1782819537867",
-    "createdAt": "2026-06-30T11:38:57.867Z",
-    "isPopup": true,
-    "seoDescription": "",
-    "body": "<span style=\"display: block; font-weight: 700; letter-spacing: -0.72px; font-size: 18px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf<span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdfsfdsdfsdfsfdsdfsdf</span></span><table><thead><tr><th>제목1</th><th>제목2</th><th>제목3</th></tr></thead><tbody><tr><td>ㄴㄹㅇㄹㄴㄹ</td><td>ㅇㄹㄴㅇㄹㄴㄴㄴ</td><td>ㅇㄹㄴㅇㄹㄴㄴ</td></tr><tr><td>내용</td><td>내용ㄴㅇㄹㄴ</td><td>내용ㄴㅇㄹ</td></tr><tr><td>내용</td><td>내용ㄴㅇㄹㄹ</td><td>내용</td></tr><tr><td>내용</td><td>내용</td><td>내용</td></tr></tbody></table><p><img src=\"/uploads/1782819522030-495930855.jpg\" style=\"border-radius: 8px;\"></p>",
-    "seoTitle": "",
-    "title": "ㄴㅇㄹㄴㄹㄴㅇㄹㄴㄹㄴㄹㄴㄹㄴㅇㄹ",
-    "ogImage": "",
-    "order": 1,
+    "id": "news002",
+    "title": "IATF 16949 인증 갱신 완료",
+    "category": "인증",
+    "summary": "자동차 부품 품질경영시스템 IATF 16949 인증을 갱신했습니다. 지속적인 품질 관리로 양산 안정성을 이어갑니다.",
+    "body": "<p>자동차 부품 품질경영시스템 IATF 16949 인증을 갱신했습니다. 지속적인 품질 관리로 양산 안정성을 이어갑니다.</p><p>자세한 내용은 고객지원(견적·기술 문의) 채널로 문의해 주세요.</p>",
     "status": "published",
-    "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/news/n1782819537867/full-0-1783679195764.webp"
-    ],
-    "thumbs": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/news/n1782819537867/thumb-0-1783679195764.webp"
-    ],
-    "updatedAt": "2026-07-10T10:26:38.349Z"
+    "isPopup": false,
+    "order": 5,
+    "createdAt": "2026-06-04T09:00:00.000Z",
+    "updatedAt": "2026-06-04T09:00:00.000Z",
+    "images": []
   },
   {
-    "id": "n1782816193917",
-    "createdAt": "2026-06-30T10:43:13.917Z",
-    "images": [],
-    "seoDescription": "",
-    "body": "<img src=\"/uploads/1782819454867-220342974.jpg\" style=\"border-radius: 8px;\"><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span><span style=\"letter-spacing: -0.72px;\">sfdsdfsdf</span>",
-    "seoTitle": "",
-    "title": "sfdsdfsdfsfdsdfsdfsfdsdfsdf",
-    "ogImage": "",
+    "id": "news003",
+    "title": "5축 가공 라인 증설 완료",
+    "category": "설비",
+    "summary": "복합 형상 부품 대응력을 높이기 위해 5축 머시닝 센터 라인을 증설했습니다. 리드타임 단축이 기대됩니다.",
+    "body": "<p>복합 형상 부품 대응력을 높이기 위해 5축 머시닝 센터 라인을 증설했습니다. 리드타임 단축이 기대됩니다.</p><p>자세한 내용은 고객지원(견적·기술 문의) 채널로 문의해 주세요.</p>",
+    "status": "published",
+    "isPopup": false,
+    "order": 4,
+    "createdAt": "2026-05-07T09:00:00.000Z",
+    "updatedAt": "2026-05-07T09:00:00.000Z",
+    "images": []
+  },
+  {
+    "id": "news004",
+    "title": "신규 반도체 부품 양산을 개시했습니다",
+    "category": "생산",
+    "summary": "고청정 반도체 장비 부품의 양산을 시작했습니다. 미세 공차와 표면 품질 기준을 충족합니다.",
+    "body": "<p>고청정 반도체 장비 부품의 양산을 시작했습니다. 미세 공차와 표면 품질 기준을 충족합니다.</p><p>자세한 내용은 고객지원(견적·기술 문의) 채널로 문의해 주세요.</p>",
+    "status": "published",
+    "isPopup": false,
+    "order": 3,
+    "createdAt": "2026-04-10T09:00:00.000Z",
+    "updatedAt": "2026-04-10T09:00:00.000Z",
+    "images": []
+  },
+  {
+    "id": "news005",
+    "title": "2026년 여름 휴무 안내",
+    "category": "안내",
+    "summary": "8월 첫째 주(8/4~8/8) 하계 휴무를 시행합니다. 긴급 문의는 고객지원 채널로 접수해 주세요.",
+    "body": "<p>8월 첫째 주(8/4~8/8) 하계 휴무를 시행합니다. 긴급 문의는 고객지원 채널로 접수해 주세요.</p><p>자세한 내용은 고객지원(견적·기술 문의) 채널로 문의해 주세요.</p>",
+    "status": "published",
+    "isPopup": false,
     "order": 2,
+    "createdAt": "2026-03-13T09:00:00.000Z",
+    "updatedAt": "2026-03-13T09:00:00.000Z",
+    "images": []
+  },
+  {
+    "id": "news006",
+    "title": "품질경영시스템 정기 심사 통과",
+    "category": "인증",
+    "summary": "ISO 9001 정기 사후 심사를 통과했습니다. 전 공정 수율·불량률 데이터 관리 체계를 인정받았습니다.",
+    "body": "<p>ISO 9001 정기 사후 심사를 통과했습니다. 전 공정 수율·불량률 데이터 관리 체계를 인정받았습니다.</p><p>자세한 내용은 고객지원(견적·기술 문의) 채널로 문의해 주세요.</p>",
     "status": "published",
-    "updatedAt": "2026-06-30T12:50:15.563Z"
+    "isPopup": false,
+    "order": 1,
+    "createdAt": "2026-02-16T09:00:00.000Z",
+    "updatedAt": "2026-02-16T09:00:00.000Z",
+    "images": []
   }
 ]

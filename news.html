@@ -9,8 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script>document.documentElement.classList.add("reveal-on");setTimeout(function(){window.__revealInit||document.documentElement.classList.add("reveal-off")},3000);</script>
 </head>
-<body>
+<body class="site-hp">
   <div id="site-nav"></div>
 
   <main>
@@ -23,7 +24,8 @@
     </section>
 
     <section class="page">
-      <div id="news-root">
+      <div class="filter-chips" id="news-filter"></div>
+      <div id="news-root" aria-live="polite">
         <div class="list-skeleton list-skeleton--list" aria-busy="true" aria-label="불러오는 중">
           <div class="list-skeleton__news"><span class="list-skeleton__bar list-skeleton__bar--sm"></span><span class="list-skeleton__bar list-skeleton__bar--lg"></span><span class="list-skeleton__bar list-skeleton__bar--md"></span></div>
           <div class="list-skeleton__news"><span class="list-skeleton__bar list-skeleton__bar--sm"></span><span class="list-skeleton__bar list-skeleton__bar--lg"></span><span class="list-skeleton__bar list-skeleton__bar--md"></span></div>
@@ -36,16 +38,62 @@
   <div id="site-footer"></div>
   <script src="site-base.js"></script>
   <script src="site.js"></script>
-  <script type="module" src="public-ui/dist/assets/news.js"></script>
   <script>
-    window.addEventListener('error', function (e) {
-      if (e && e.target && e.target.tagName === 'SCRIPT' && String(e.target.src || '').indexOf('public-ui') !== -1) {
-        var root = document.getElementById('news-root');
-        if (root) {
-          root.innerHTML = '<p class="empty-note">공지 UI를 불러오지 못했습니다. <code>npm run build:public</code> 후 <code>npm start</code> 해 주세요.</p>';
-        }
-      }
-    }, true);
+  (function () {
+    var root = document.getElementById('news-root');
+    var filterBar = document.getElementById('news-filter');
+    var all = [], cat = '';
+    var esc = function (s) { return (s || '').replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]); }); };
+    var fmtDate = function (s) { var m = String(s || '').match(/^(\d{4})-(\d{2})-(\d{2})/); return m ? m[1] + '.' + m[2] + '.' + m[3] : ''; };
+    var excerpt = function (n) { return n.summary || (n.body || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim(); };
+    var arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+    function load() {
+      return fetch('/api/news')
+        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .catch(function () { return fetch('static-api/news.json').then(function (r) { return r.json(); }); })
+        .then(function (data) {
+          var list = Array.isArray(data) ? data : (data.items || data.news || []);
+          return list.filter(function (n) { return n && n.status !== 'draft' && n.status !== 'hidden'; })
+            .sort(function (a, b) { return String(b.createdAt || '').localeCompare(String(a.createdAt || '')); });
+        });
+    }
+
+    function renderFilter() {
+      var cats = [];
+      all.forEach(function (n) { if (n.category && cats.indexOf(n.category) === -1) cats.push(n.category); });
+      if (!cats.length) { filterBar.innerHTML = ''; return; }
+      var html = '<button data-cat="" class="' + (cat === '' ? 'is-active' : '') + '">전체</button>';
+      cats.forEach(function (c) { html += '<button data-cat="' + esc(c) + '" class="' + (cat === c ? 'is-active' : '') + '">' + esc(c) + '</button>'; });
+      filterBar.innerHTML = html;
+    }
+
+    function render() {
+      var list = cat ? all.filter(function (n) { return n.category === cat; }) : all;
+      if (!list.length) { root.innerHTML = '<p class="empty-note">등록된 공지가 없습니다.</p>'; return; }
+      root.innerHTML = '<div class="news-list">' + list.map(function (n) {
+        return '<a class="news-item" href="news-detail.html?id=' + encodeURIComponent(n.id) + '">' +
+          '<span class="news-item__meta">' +
+            '<span class="news-item__date">' + fmtDate(n.createdAt) + '</span>' +
+            (n.category ? '<span class="tag">' + esc(n.category) + '</span>' : '') +
+          '</span>' +
+          '<span class="news-item__b"><h3>' + esc(n.title || '(제목 없음)') + '</h3><p>' + esc(excerpt(n)) + '</p></span>' +
+          '<span class="news-item__go">' + arrow + '</span>' +
+        '</a>';
+      }).join('') + '</div>';
+    }
+
+    filterBar.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-cat]'); if (!b) return;
+      cat = b.getAttribute('data-cat') || '';
+      Array.prototype.forEach.call(filterBar.querySelectorAll('button'), function (x) { x.classList.remove('is-active'); });
+      b.classList.add('is-active');
+      render();
+    });
+
+    load().then(function (list) { all = list; renderFilter(); render(); })
+      .catch(function () { filterBar.innerHTML = ''; root.innerHTML = '<p class="empty-note">공지를 불러오지 못했습니다.</p>'; });
+  })();
   </script>
 </body>
 </html>
