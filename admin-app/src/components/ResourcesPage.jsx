@@ -118,14 +118,19 @@ export default function ResourcesPage() {
           </div>
           <div className="form__row">
             <label>분류</label>
-            <select value={form.category} onChange={(e) => setField('category', e.target.value)}>
-              {CATS.map((c) => (
-                <option key={c}>{c}</option>
+            <input
+              list="res-cat-options"
+              value={form.category}
+              onChange={(e) => setField('category', e.target.value)}
+              placeholder="선택하거나 새 분류를 입력하세요"
+              autoComplete="off"
+            />
+            <datalist id="res-cat-options">
+              {Array.from(new Set([...CATS, ...items.map((r) => (r.category || '').trim()).filter(Boolean)])).map((c) => (
+                <option key={c} value={c} />
               ))}
-              {form.category && !CATS.includes(form.category) ? (
-                <option value={form.category}>{form.category}</option>
-              ) : null}
-            </select>
+            </datalist>
+            <span className="admin__msg" style={{ fontSize: '11px' }}>기존 분류를 고르거나 새 분류명을 입력하면 추가됩니다.</span>
           </div>
         </div>
         <div className="form__grid">

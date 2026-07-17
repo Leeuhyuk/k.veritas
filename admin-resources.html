@@ -63,14 +63,16 @@
             </div>
             <div class="form__row">
               <label for="category">분류</label>
-              <select id="category">
-                <option>카탈로그</option>
-                <option>사용설명서</option>
-                <option>인증서</option>
-                <option>도면(CAD)</option>
-                <option>시험성적서</option>
-                <option>기타</option>
-              </select>
+              <input id="category" list="cat-options" autocomplete="off" placeholder="선택하거나 새 분류를 입력하세요 (예: 카탈로그)" />
+              <datalist id="cat-options">
+                <option value="카탈로그"></option>
+                <option value="사용설명서"></option>
+                <option value="인증서"></option>
+                <option value="시험성적서"></option>
+                <option value="도면(CAD)"></option>
+                <option value="기타"></option>
+              </datalist>
+              <span class="admin__msg" style="font-size:11px">기존 분류를 고르거나, 새 분류명을 직접 입력하면 추가됩니다.</span>
             </div>
           </div>
           <div class="form__grid">
@@ -197,8 +199,19 @@
       }
       $('cancel-btn').addEventListener('click', resetForm);
 
+      function refreshCategoryOptions(items) {
+        var dl = $('cat-options'); if (!dl) return;
+        var defaults = ['카탈로그', '사용설명서', '인증서', '시험성적서', '도면(CAD)', '기타'];
+        var seen = {}, list = [];
+        defaults.concat((items || []).map(function (r) { return r.category; })).forEach(function (c) {
+          c = (c || '').trim(); if (!c || seen[c]) return; seen[c] = 1; list.push(c);
+        });
+        dl.innerHTML = list.map(function (c) { return '<option value="' + esc(c) + '"></option>'; }).join('');
+      }
+
       function loadList() {
         fetch('/api/admin/resources').then((r) => r.json()).then((items) => {
+          refreshCategoryOptions(items);
           if (!items.length) { $('admin-list').innerHTML = '<p class="empty-note" style="padding:var(--spacing-32) 0">등록된 자료가 없습니다.</p>'; return; }
           $('admin-list').innerHTML = items.map((r) => `
             <div class="admin__row" data-id="${esc(r.id)}">
