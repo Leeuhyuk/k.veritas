@@ -146,7 +146,6 @@ export default function ResourcesPage() {
               </select>
               <button type="button" className="btn btn--ghost btn--sm" onClick={addCategory}>＋ 새 분류</button>
             </div>
-            <span className="admin__msg" style={{ fontSize: '11px' }}>목록에 없는 분류는 “＋ 새 분류”로 추가할 수 있습니다.</span>
           </div>
         </div>
         <div className="form__grid">
