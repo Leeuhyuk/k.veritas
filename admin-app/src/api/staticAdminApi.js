@@ -148,6 +148,36 @@ export const staticAdminApi = {
     return item;
   },
 
+  // 공개 사이트의 정적 카탈로그(static-api/products.json)를 Firestore로 가져오기
+  async importSampleProducts() {
+    await requireAdminUser();
+    let list = [];
+    try {
+      const res = await fetch('../static-api/products.json', { cache: 'no-store' });
+      list = res.ok ? await res.json() : [];
+    } catch {
+      list = [];
+    }
+    if (!Array.isArray(list) || !list.length) return { added: 0, total: 0 };
+    const existing = await listCollection('products');
+    const existingIds = new Set(existing.map((p) => p.id));
+    const base = existing.length;
+    const now = new Date().toISOString();
+    let added = 0;
+    for (let i = 0; i < list.length; i++) {
+      const p = list[i];
+      if (!p || !p.id || existingIds.has(p.id)) continue;
+      await saveDoc('products', {
+        ...p,
+        order: base + i,
+        createdAt: p.createdAt || now,
+        updatedAt: now,
+      });
+      added += 1;
+    }
+    return { added, total: list.length };
+  },
+
   async updateProduct(id, fd) {
     await requireAdminUser();
     const p = await getDocById('products', id);

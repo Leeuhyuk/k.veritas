@@ -31,6 +31,28 @@ export default function ProductsPage() {
     load().catch(() => setLoading(false));
   }, [load]);
 
+  const [importing, setImporting] = useState(false);
+  const [importMsg, setImportMsg] = useState('');
+
+  async function importSamples() {
+    if (!adminApi.isStatic) {
+      setImportMsg('이 기능은 배포(정적 호스팅) 관리자에서만 동작합니다.');
+      return;
+    }
+    if (!window.confirm('공개 사이트의 시험 장비 카탈로그(38종)를 관리자 DB로 가져올까요?\n(이미 있는 항목은 건너뜁니다)')) return;
+    setImporting(true);
+    setImportMsg('가져오는 중…');
+    try {
+      const r = await adminApi.importSampleProducts();
+      setImportMsg(`완료: ${r.added}개 추가 (전체 ${r.total}개). 이제 목록에서 관리·삭제할 수 있습니다.`);
+      await load();
+    } catch (e) {
+      setImportMsg(e.message || '가져오기에 실패했습니다.');
+    } finally {
+      setImporting(false);
+    }
+  }
+
   async function handleEdit(id) {
     try {
       const p = await adminApi.product(id);
@@ -108,6 +130,12 @@ export default function ProductsPage() {
         onSaved={handleSaved}
         onCancel={handleCancel}
       />
+      <div className="admin__cats" style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+        <button type="button" className="btn btn--ghost btn--sm" onClick={importSamples} disabled={importing}>
+          공개 카탈로그(38종) 가져오기
+        </button>
+        {importMsg ? <span className="admin__msg" style={{ fontSize: '12px' }}>{importMsg}</span> : null}
+      </div>
       <ProductList
         items={products}
         onEdit={handleEdit}
