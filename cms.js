@@ -46,7 +46,8 @@
       parts.unshift(t + i);
       n = n.parentElement;
     }
-    return parts.join('/');
+    // 저장소(예: Firestore) 필드명에 안전하도록 [a-z0-9_] 만 사용
+    return parts.join('_');
   }
   // 항목을 추가/삭제할 수 있는 반복 영역 (컨테이너 · 항목)
   var REPEAT = [
@@ -83,14 +84,14 @@
       // 다른 편집 요소를 감싸는 래퍼는 건너뛰고 잎 요소만 편집 대상
       if (el.querySelector(AUTO_INNER)) return;
       if (!mark(el)) return;
-      var kx = 'p:' + nodePath(el);
+      var kx = 'p_' + nodePath(el);
       try { el.setAttribute('data-cms', kx); } catch (e) { /* ignore */ }
       fields.push({ el: el, key: kx, label: snippet(el) || '텍스트', type: 'rich' });
     });
     // 본문 이미지도 전부 교체 가능하게 — 구조 경로 키
     root.querySelectorAll('main img').forEach(function (el) {
       if (el.hasAttribute('data-cms-img') || el.hasAttribute('data-cms') || inChrome(el) || !mark(el)) return;
-      var ki = 'p:' + nodePath(el);
+      var ki = 'p_' + nodePath(el);
       try { el.setAttribute('data-cms-img', ki); } catch (e) { /* ignore */ }
       fields.push({ el: el, key: ki, label: '이미지', type: 'image' });
     });
