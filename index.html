@@ -144,8 +144,10 @@
           <li>교정 성적서 · 데이터 리포트 제공</li>
         </ul>
       </div>
-      <div class="split__media" aria-hidden="true">
+      <div class="split__media">
         <div class="split__panel" style="padding:24px">
+          <img data-cms-img="quality_media" data-cms-label="정밀도 이미지(선택)" alt="정밀도 이미지" class="quality-media" style="display:none;width:100%;height:auto;border-radius:2px" onload="if(this.getAttribute('src')){this.style.display='block';var c=this.closest('.split__panel').querySelector('.quality-chart');if(c)c.style.display='none';}" />
+          <div class="quality-chart">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
             <span style="font-family:var(--font-fragment-mono,monospace);color:#5b616e;font-size:11px;letter-spacing:.06em">LOAD — DISPLACEMENT</span>
             <span style="display:inline-block;font-size:11px;color:#0067a0;background:#e6f4fb;padding:3px 9px;border-radius:2px;white-space:nowrap">시험 곡선</span>
@@ -173,6 +175,7 @@
             <div style="display:flex;flex-direction:column;gap:2px"><b style="font-size:16px;font-weight:700;color:#16181d;letter-spacing:-.02em">±0.5%</b><span style="font-size:11px;color:#5b616e">하중 정밀도</span></div>
             <div style="display:flex;flex-direction:column;gap:2px"><b style="font-size:16px;font-weight:700;color:#16181d;letter-spacing:-.02em">0.001mm</b><span style="font-size:11px;color:#5b616e">변위 분해능</span></div>
             <div style="display:flex;flex-direction:column;gap:2px"><b style="font-size:16px;font-weight:700;color:#16181d;letter-spacing:-.02em">실시간</b><span style="font-size:11px;color:#5b616e">데이터 기록</span></div>
+          </div>
           </div>
         </div>
       </div>

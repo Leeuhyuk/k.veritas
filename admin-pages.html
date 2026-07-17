@@ -938,6 +938,11 @@
         [data-cms][contenteditable]:focus{ outline:2px solid #0096d6; outline-offset:3px; }
         [data-cms-img]{ cursor:pointer; }
         [data-cms-img]:hover{ outline:2px solid #0096d6; outline-offset:2px; }
+        /* 비어 있는 이미지는 삽입할 수 있도록 점선 자리표시로 표시 */
+        [data-cms-img]:not([src]), [data-cms-img][src=""]{
+          display:block !important; min-height:120px; width:100%; box-sizing:border-box;
+          outline:2px dashed #0096d6; outline-offset:-2px; background:#eaf6fc !important;
+        }
         [class*="reveal"]{ opacity:1 !important; transform:none !important; }
         #kv-edit-bar{ position:fixed; z-index:2147483000; top:10px; left:50%; transform:translateX(-50%);
           display:flex; gap:2px; padding:5px; background:#16181d; border-radius:8px;
@@ -990,8 +995,12 @@
         del.addEventListener('click', () => {
           closeImgMenu(doc);
           changedImages[key] = '';
-          if (imgEl.tagName === 'IMG') { imgEl.removeAttribute('src'); imgEl.style.visibility = 'hidden'; }
+          if (imgEl.tagName === 'IMG') { imgEl.removeAttribute('src'); imgEl.style.display = 'none'; }
           else { imgEl.style.backgroundImage = 'none'; }
+          // 곡선 패널 등 기본 콘텐츠 복원
+          const panel = imgEl.closest && imgEl.closest('.split__panel');
+          const chart = panel && panel.querySelector('.quality-chart');
+          if (chart) chart.style.display = '';
         });
         menu.appendChild(rep); menu.appendChild(del);
         doc.body.appendChild(menu);
