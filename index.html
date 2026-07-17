@@ -145,13 +145,40 @@
         </ul>
       </div>
       <div class="split__media" aria-hidden="true">
-        <div class="split__panel">
-          <div class="split__row"><span class="tag">하중</span><span class="mono">정밀도 · ±0.5%</span></div>
-          <div class="split__bar"><i style="width:99%"></i></div>
-          <div class="split__row"><span class="tag">변위</span><span class="mono">재현성 · ±0.5%</span></div>
-          <div class="split__bar"><i style="width:98%"></i></div>
-          <div class="split__row"><span class="tag">데이터</span><span class="mono">획득 · 실시간</span></div>
-          <div class="split__bar"><i style="width:100%"></i></div>
+        <div class="split__panel tcurve">
+          <div class="tcurve__head">
+            <span class="mono">LOAD — DISPLACEMENT</span>
+            <span class="tag">시험 곡선</span>
+          </div>
+          <svg class="tcurve__svg" viewBox="0 0 340 210" role="img" aria-label="하중-변위 시험 곡선">
+            <!-- grid -->
+            <g class="tcurve__grid">
+              <line x1="46" y1="30" x2="46" y2="176"/>
+              <line x1="46" y1="176" x2="322" y2="176"/>
+              <line x1="46" y1="140" x2="322" y2="140"/>
+              <line x1="46" y1="104" x2="322" y2="104"/>
+              <line x1="46" y1="68" x2="322" y2="68"/>
+              <line x1="115" y1="30" x2="115" y2="176"/>
+              <line x1="184" y1="30" x2="184" y2="176"/>
+              <line x1="253" y1="30" x2="253" y2="176"/>
+            </g>
+            <!-- area fill under curve -->
+            <path class="tcurve__fill" d="M46 176 L104 84 C128 54 150 47 178 48 C214 50 248 92 300 150 L300 176 Z"/>
+            <!-- curve: 탄성 → 항복 → 최대하중 → 파단 -->
+            <path class="tcurve__line" d="M46 176 L104 84 C128 54 150 47 178 48 C214 50 248 92 300 150"/>
+            <!-- 최대하중 마커 -->
+            <line class="tcurve__peakline" x1="178" y1="48" x2="178" y2="176"/>
+            <circle class="tcurve__peak" cx="178" cy="48" r="4.5"/>
+            <text class="tcurve__peaklabel" x="178" y="26" text-anchor="middle">최대하중</text>
+            <!-- 축 라벨 -->
+            <text class="tcurve__ax" x="184" y="200" text-anchor="middle">변위 (mm)</text>
+            <text class="tcurve__ax" x="16" y="103" text-anchor="middle" transform="rotate(-90 16 103)">하중 (kN)</text>
+          </svg>
+          <div class="tcurve__foot">
+            <div><b>±0.5%</b><span>하중 정밀도</span></div>
+            <div><b>0.001mm</b><span>변위 분해능</span></div>
+            <div><b>실시간</b><span>데이터 기록</span></div>
+          </div>
         </div>
       </div>
     </section>
