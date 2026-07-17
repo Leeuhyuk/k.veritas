@@ -34,6 +34,23 @@ export default function ProductsPage() {
   const [importing, setImporting] = useState(false);
   const [importMsg, setImportMsg] = useState('');
 
+  async function publishToPublic() {
+    if (!adminApi.isStatic) {
+      setImportMsg('이 기능은 배포(정적 호스팅) 관리자에서만 동작합니다.');
+      return;
+    }
+    setImporting(true);
+    setImportMsg('공개 사이트에 반영 중…');
+    try {
+      const r = await adminApi.publishProducts();
+      setImportMsg(`공개 반영 완료: ${r.count}개. 생산제품 페이지에 표시됩니다. (잠시 후/새로고침)`);
+    } catch (e) {
+      setImportMsg(e.message || '공개 반영에 실패했습니다.');
+    } finally {
+      setImporting(false);
+    }
+  }
+
   async function importSamples() {
     if (!adminApi.isStatic) {
       setImportMsg('이 기능은 배포(정적 호스팅) 관리자에서만 동작합니다.');
@@ -131,6 +148,9 @@ export default function ProductsPage() {
         onCancel={handleCancel}
       />
       <div className="admin__cats" style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+        <button type="button" className="btn btn--primary btn--sm" onClick={publishToPublic} disabled={importing}>
+          공개 사이트에 반영
+        </button>
         <button type="button" className="btn btn--ghost btn--sm" onClick={importSamples} disabled={importing}>
           공개 카탈로그(38종) 가져오기
         </button>

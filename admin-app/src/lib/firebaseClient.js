@@ -170,6 +170,15 @@ export function isEmailAdmin(email, adminEmails) {
   return !!e && list.includes(e);
 }
 
+/** 고정 경로(public/<path>)에 JSON 을 올려 공개 GCS URL 로 노출 (덮어쓰기) */
+export async function uploadPublicJson(path, data) {
+  ensureFirebaseApp((await loadFirebaseWebConfig()).config);
+  const r = ref(storage, `public/${path}`);
+  const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+  await uploadBytes(r, blob, { contentType: 'application/json', cacheControl: 'public,max-age=60' });
+  return getDownloadURL(r);
+}
+
 export async function uploadPublicFile(file, folder = 'misc') {
   ensureFirebaseApp((await loadFirebaseWebConfig()).config);
   const name = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${(file.name || 'file').replace(

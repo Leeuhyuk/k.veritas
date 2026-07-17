@@ -89,9 +89,11 @@
     }
     function catOf(p) { return p.category || p.industry || ''; }
 
+    var PUB_PRODUCTS = 'https://storage.googleapis.com/production-management-e70fd-media/public/products-index.json';
     function loadProducts() {
-      return fetch('/api/products')
+      return fetch(PUB_PRODUCTS, { cache: 'no-store' })
         .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .catch(function () { return fetch('/api/products').then(function (r) { if (!r.ok) throw 0; return r.json(); }); })
         .catch(function () { return fetch('static-api/products.json').then(function (r) { return r.json(); }); })
         .then(function (data) {
           var list = Array.isArray(data) ? data : (data.items || data.products || []);
