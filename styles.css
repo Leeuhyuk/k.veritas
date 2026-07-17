@@ -2626,23 +2626,6 @@ body.site-hp .split__bar{ background:#e3e6eb; }
 body.site-hp .split__bar i,
 body.site-hp .split__list li::before{ background:var(--color-forest-floor); }
 
-/* 하중-변위 시험 곡선 패널 */
-body.site-hp .tcurve{ padding:var(--spacing-24); }
-.tcurve__head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--spacing-16); }
-.tcurve__head .mono{ color:var(--color-bark-brown); font-size:11px; letter-spacing:.06em; }
-.tcurve__svg{ display:block; width:100%; height:auto; }
-.tcurve__grid line{ stroke:#e3e6eb; stroke-width:1; }
-.tcurve__fill{ fill:var(--color-forest-floor); opacity:.08; }
-.tcurve__line{ fill:none; stroke:var(--color-forest-floor); stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
-.tcurve__peakline{ stroke:var(--color-forest-floor); stroke-width:1; stroke-dasharray:3 3; opacity:.5; }
-.tcurve__peak{ fill:#fff; stroke:var(--color-forest-floor); stroke-width:2.4; }
-.tcurve__peaklabel{ fill:var(--color-botanical-ink); font-size:11px; font-weight:700; font-family:var(--font-akkurat); }
-.tcurve__ax{ fill:var(--color-bark-brown); font-size:10px; letter-spacing:.02em; font-family:var(--font-fragment-mono); }
-.tcurve__foot{ display:grid; grid-template-columns:repeat(3,1fr); gap:var(--spacing-8); margin-top:var(--spacing-16); padding-top:var(--spacing-16); border-top:1px solid var(--color-lichen); }
-.tcurve__foot div{ display:flex; flex-direction:column; gap:2px; }
-.tcurve__foot b{ font-size:16px; font-weight:700; color:var(--color-botanical-ink); letter-spacing:-.02em; }
-.tcurve__foot span{ font-size:11px; color:var(--color-bark-brown); }
-
 /* Spec 테이블 — 헤어라인 */
 body.site-hp .spec thead th{ color:var(--color-forest-floor); }
 
