@@ -62,8 +62,8 @@
       });
     });
     // 나머지 모든 텍스트(블록 단위 잎 요소)도 편집 가능하게 — "모든 항목 편집"
-    var CATCH = 'main h1, main h2, main h3, main h4, main h5, main h6, main p, main li, main caption, main figcaption, main th, main td, main dt, main dd, main blockquote, main .tag, main .btn, main .hero-stat__num, main .hero-stat__label';
-    var CATCH_INNER = 'h1,h2,h3,h4,h5,h6,p,li,caption,figcaption,th,td,dt,dd,blockquote,.tag,.btn,.hero-stat__num,.hero-stat__label,[data-cms],[data-cms-img]';
+    var CATCH = 'main h1, main h2, main h3, main h4, main h5, main h6, main p, main li, main caption, main figcaption, main th, main td, main dt, main dd, main blockquote, main .tag, main .btn, main .hero-stat__num, main .hero-stat__label, main .cat-row__t b, main .cat-row__t span';
+    var CATCH_INNER = 'h1,h2,h3,h4,h5,h6,p,li,caption,figcaption,th,td,dt,dd,blockquote,.tag,.btn,.hero-stat__num,.hero-stat__label,.cat-row__t b,.cat-row__t span,[data-cms],[data-cms-img]';
     var xn = 0;
     root.querySelectorAll(CATCH).forEach(function (el) {
       if (el.hasAttribute('data-cms') || el.hasAttribute('data-cms-img') || inChrome(el)) return;
