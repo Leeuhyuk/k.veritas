@@ -32,9 +32,24 @@ export default function ProductForm({
   const [msg, setMsg] = useState('');
   const [previewOpen, setPreviewOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [extraCats, setExtraCats] = useState([]);
+
+  // 관리 카테고리 + 추가한 분류 + 현재 선택값(목록 외 포함)
+  const catList = Array.from(new Set([
+    ...(categories || []),
+    ...extraCats,
+    ...(form.category ? [form.category] : []),
+  ]));
 
   function setField(key, val) {
     setForm((f) => ({ ...f, [key]: val }));
+  }
+
+  function addCategory() {
+    const name = (window.prompt('추가할 카테고리명을 입력하세요') || '').trim();
+    if (!name) return;
+    setExtraCats((prev) => (prev.includes(name) ? prev : [...prev, name]));
+    setField('category', name);
   }
 
   function resetLocal() {
@@ -100,21 +115,22 @@ export default function ProductForm({
           </div>
           <div className="form__row">
             <label htmlFor="category">카테고리</label>
-            <select
-              id="category"
-              value={form.category}
-              onChange={(e) => setField('category', e.target.value)}
-            >
-              <option value="">(선택 안 함)</option>
-              {categories.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-              {form.category && !categories.includes(form.category) ? (
-                <option value={form.category}>{form.category} (목록 외)</option>
-              ) : null}
-            </select>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <select
+                id="category"
+                value={form.category}
+                onChange={(e) => setField('category', e.target.value)}
+                style={{ flex: 1 }}
+              >
+                <option value="">(선택 안 함)</option>
+                {catList.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+              <button type="button" className="btn btn--ghost btn--sm" onClick={addCategory}>＋ 새 분류</button>
+            </div>
           </div>
         </div>
         <div className="form__grid">

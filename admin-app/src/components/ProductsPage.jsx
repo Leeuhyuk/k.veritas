@@ -94,7 +94,10 @@ export default function ProductsPage() {
     <>
       <ProductForm
         key={formKey}
-        categories={categories}
+        categories={Array.from(new Set([
+          ...(categories || []),
+          ...products.map((p) => (p.category || '').trim()).filter(Boolean),
+        ]))}
         editId={editId}
         initial={editInitial}
         onSaved={handleSaved}
