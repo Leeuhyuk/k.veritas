@@ -1226,6 +1226,79 @@ body.tt-resizing { cursor: col-resize; user-select: none; }
   margin-top: 4px;
 }
 
+/* ===== WYSIWYG 인라인 편집 (실제 화면 그대로 편집) ===== */
+body.admin-pages .wysiwyg {
+  position: relative;
+  border: 1px solid var(--color-lichen);
+  border-radius: var(--admin-radius);
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(22, 24, 29, 0.05), 0 10px 28px rgba(22, 24, 29, 0.06);
+}
+body.admin-pages #live-editor {
+  display: block;
+  width: 100%;
+  height: calc(100vh - var(--admin-header-h) - 200px);
+  min-height: 480px;
+  border: 0;
+  background: #fff;
+}
+body.admin-pages .wysiwyg__loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--admin-text);
+  color: var(--color-bark-brown);
+  background: #fff;
+}
+body.admin-pages .seo-box {
+  margin-top: 16px;
+}
+body.admin-pages .seo-details {
+  border: 1px solid var(--color-lichen);
+  border-radius: var(--admin-radius);
+  background: var(--color-sage-mist);
+  padding: 4px 14px;
+}
+body.admin-pages .seo-details > summary {
+  cursor: pointer;
+  padding: 8px 0;
+  font-size: var(--admin-text-sm);
+  font-weight: 700;
+  color: var(--color-botanical-ink);
+  list-style: revert;
+}
+body.admin-pages .seo-details__body {
+  padding: 6px 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+body.admin-pages .seo-help {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--color-bark-brown);
+}
+body.admin-pages .seo-details .form__row label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: var(--admin-text-sm);
+  font-weight: 600;
+}
+body.admin-pages .seo-details .seo-input {
+  width: 100%;
+  min-height: 36px;
+  padding: 8px 12px;
+  font-size: var(--admin-text);
+  border: 1px solid var(--color-lichen);
+  border-radius: var(--admin-radius);
+  background: #fff;
+  box-sizing: border-box;
+}
+
 /* 사진 제거 버튼 */
 body.admin-pages .cms-img-remove {
   border-color: #e3b7b7;
