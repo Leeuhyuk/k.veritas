@@ -2611,7 +2611,7 @@ body.site-hp .subhero--bg::before{
   background-image:var(--subhero-bg);
   background-size:cover;
   background-position:center right;
-  opacity:var(--subhero-bg-opacity, .1);
+  opacity:var(--subhero-bg-opacity, .15);
   /* 텍스트(좌측) 쪽은 더 투명하게, 우측으로 갈수록 살짝 드러나게 */
   -webkit-mask-image:linear-gradient(100deg, transparent 0%, rgba(0,0,0,.6) 55%, #000 100%);
   mask-image:linear-gradient(100deg, transparent 0%, rgba(0,0,0,.6) 55%, #000 100%);
