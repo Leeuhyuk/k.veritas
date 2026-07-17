@@ -1019,8 +1019,15 @@
       function setupInlineEditing(fr) {
         const doc = fr.contentDocument;
         if (!doc) return;
+        // 모든 편집 가능한 요소에 data-cms/data-cms-img 를 즉시 부여 (레이스 방지)
+        try { if (fr.contentWindow && fr.contentWindow.cmsCollect) fr.contentWindow.cmsCollect(doc); } catch (e) { /* ignore */ }
         const st = doc.createElement('style'); st.textContent = EDIT_CSS; doc.head.appendChild(st);
         buildEditBar(doc);
+        // 편집한 항목만 저장하도록 표시
+        doc.addEventListener('input', (e) => {
+          const t = e.target.closest && e.target.closest('[data-cms]');
+          if (t) t.setAttribute('data-edited', '1');
+        });
         // 링크 클릭으로 페이지 이동 방지 (편집 중)
         doc.addEventListener('click', (e) => {
           if (e.target.closest && e.target.closest('[data-noedit]')) return;
@@ -1192,8 +1199,8 @@
         if (!doc) { $('save-msg').textContent = '편집 화면을 불러오는 중입니다. 잠시 후 다시 시도하세요.'; return; }
         // 기존 저장값을 보존하고 편집한 내용만 덮어씀
         const content = Object.assign({}, currentOverrides);
-        // 텍스트: 현재 화면의 모든 편집 항목
-        doc.querySelectorAll('[data-cms]').forEach((el) => {
+        // 텍스트: 실제로 편집한 항목만
+        doc.querySelectorAll('[data-cms][data-edited]').forEach((el) => {
           content[el.getAttribute('data-cms')] = el.innerHTML.trim();
         });
         // 이미지: 교체·삭제한 항목만
