@@ -2934,3 +2934,22 @@ body.admin-hp .rte-btn--accent{
   border:1px solid var(--color-forest-floor); font-weight:700;
 }
 body.admin-hp .rte-btn--accent:hover{ background:var(--color-forest-floor); color:#fff; }
+
+/* ============================================================
+   k.veritas 워드마크(로고) — 정밀 브랜드 타이포 트리트먼트
+   ============================================================ */
+.logo{ gap:6px; }
+.logo svg{ color:var(--color-forest-floor); }        /* 슬래시 = 액센트(HP 블루) */
+.logo__wm{
+  font-family:var(--font-akkurat);
+  font-weight:800;
+  font-size:19px;
+  letter-spacing:-.035em;
+  line-height:1;
+  color:inherit;                                     /* 헤더=잉크 / 푸터=화이트 상속 */
+  font-feature-settings:"kern" 1;
+}
+.logo__dot{ color:var(--color-forest-floor); font-weight:800; }  /* 정밀 포인트(.) = 액센트 */
+/* 호버 시 슬래시·점 살짝 강조 */
+.logo:hover svg,
+.logo:hover .logo__dot{ color:var(--color-accent-deep, #0071a8); }
