@@ -156,7 +156,7 @@ function renderNav() {
     `<div class="site-search" id="site-search" hidden>` +
     `<div class="site-search__panel" role="dialog" aria-modal="true" aria-labelledby="site-search-title">` +
     `<div class="site-search__head"><h2 id="site-search-title">검색</h2><button type="button" class="icon-btn" id="site-search-close" aria-label="검색 닫기">×</button></div>` +
-    `<label class="site-search__field" for="site-search-input">${SEARCH_SVG}<input id="site-search-input" type="search" placeholder="제품, 소재, 공정, 자료 검색" autocomplete="off" /></label>` +
+    `<label class="site-search__field" for="site-search-input">${SEARCH_SVG}<input id="site-search-input" type="search" placeholder="제품·자료실·인증서·공지 등 전체 검색" autocomplete="off" /></label>` +
     `<div class="site-search__results" id="site-search-results"><p class="site-search__empty">검색어를 입력하세요.</p></div>` +
     `</div></div></header>`
   );
@@ -206,6 +206,7 @@ function wireSiteSearch() {
     if (burger) burger.setAttribute('aria-expanded', 'false');
     overlay.hidden = false;
     document.body.classList.add('is-search-open');
+    buildIndex();
     window.setTimeout(() => input?.focus(), 0);
   };
   const renderResults = (items) => {
@@ -221,22 +222,78 @@ function wireSiteSearch() {
       `</a>`
     )).join('');
   };
+  // ---- 통합 검색 인덱스 (정적 JSON + 주요 페이지, 정적 호스팅에서도 동작) ----
+  const strip = (s) => String(s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  const SOURCES = [
+    { url: 'static-api/products.json', type: '제품', link: (x) => 'showcase-detail.html?id=' + encodeURIComponent(x.id), fields: ['title', 'category', 'summary', 'material', 'process', 'body'] },
+    { url: 'static-api/news.json', type: '공지사항', link: (x) => 'news-detail.html?id=' + encodeURIComponent(x.id), fields: ['title', 'category', 'summary', 'body'] },
+    { url: 'static-api/resources.json', type: '자료실', link: (x) => 'resource-detail.html?id=' + encodeURIComponent(x.id), fields: ['title', 'category', 'description', 'originalName'] },
+  ];
+  const PAGES = [
+    { title: '회사소개', url: 'about.html', kw: '회사소개 인사말 연혁 일반현황 대표 파트너' },
+    { title: '인증·특허', url: 'certifications.html', kw: '인증 특허 인증서 ISO 9001 품질경영 교정 성적서' },
+    { title: '시험·조립 설비', url: 'facilities.html', kw: '설비 시험 조립 장비 UTM 교정' },
+    { title: '오시는 길', url: 'location.html', kw: '오시는길 위치 주소 지도 연락처 전화' },
+    { title: '제품 소개', url: 'products.html', kw: '제품 라인업 시험기 카테고리' },
+    { title: '가구 내구성 시험기', url: 'product-parts.html', kw: '가구 내구성 시험기 BIFMA KS EN 의자 소파 책상 수납 반복 하중' },
+    { title: '금속·재료 시험기', url: 'product-mold.html', kw: '금속 재료 UTM 만능재료시험기 인장 압축 굽힘 경도 ISO ASTM' },
+    { title: '내구성·피로 시험기', url: 'product-module.html', kw: '내구 피로 반복하중 수명 진동 시험' },
+    { title: '시험기 설계·제작', url: 'biz-machining.html', kw: '설계 제작 지그 사양' },
+    { title: '시험 규격 대응', url: 'biz-mold.html', kw: '규격 KS ISO ASTM EN BIFMA 성적서' },
+    { title: '설치·교정·기술지원', url: 'biz-assembly.html', kw: '설치 교정 성적서 유지보수 기술지원' },
+    { title: '생산제품', url: 'showcase.html', kw: '생산제품 카탈로그 목록 시험기' },
+    { title: '공지사항', url: 'news.html', kw: '공지 뉴스 소식' },
+    { title: '자료실', url: 'reference.html', kw: '자료실 카탈로그 인증서 사용설명서 도면 다운로드' },
+    { title: '고객지원', url: 'support.html', kw: '고객지원 문의 FAQ 견적 연락처' },
+  ];
+  const listOf = (d) => Array.isArray(d) ? d : (d.items || d.resources || d.news || d.products || []);
+  let indexData = null, indexPromise = null;
+  function buildIndex() {
+    if (indexData) return Promise.resolve(indexData);
+    if (indexPromise) return indexPromise;
+    const jobs = SOURCES.map((s) =>
+      fetch(s.url).then((r) => (r.ok ? r.json() : [])).catch(() => [])
+        .then((d) => listOf(d)
+          .filter((x) => x && x.status !== 'draft' && x.status !== 'hidden')
+          .map((x) => {
+            const cat = x.category || '';
+            const text = s.fields.map((f) => strip(x[f])).join(' ');
+            return {
+              type: s.type + (cat ? ' · ' + cat : ''),
+              title: x.title || '(제목 없음)',
+              summary: strip(x.summary || x.description || x.body).slice(0, 100),
+              url: s.link(x),
+              hay: ((x.title || '') + ' ' + text).toLowerCase(),
+            };
+          }))
+    );
+    indexPromise = Promise.all(jobs).then((arrs) => {
+      const items = Array.prototype.concat.apply([], arrs);
+      PAGES.forEach((p) => items.push({ type: '페이지', title: p.title, summary: strip(p.kw).slice(0, 100), url: p.url, hay: (p.title + ' ' + p.kw).toLowerCase() }));
+      indexData = items;
+      return items;
+    }).catch(() => { indexData = []; return []; });
+    return indexPromise;
+  }
   const runSearch = () => {
     const q = (input?.value || '').trim();
-    if (!q) {
-      if (controller) controller.abort();
-      setMessage('검색어를 입력하세요.');
-      return;
-    }
-    if (controller) controller.abort();
-    controller = new AbortController();
+    if (!q) { setMessage('검색어를 입력하세요.'); return; }
+    const tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
     setMessage('검색 중입니다.');
-    fetch('/api/search?q=' + encodeURIComponent(q), { signal: controller.signal })
-      .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
-      .then(renderResults)
-      .catch((err) => {
-        if (err.name !== 'AbortError') setMessage('검색을 불러오지 못했습니다.');
+    buildIndex().then((items) => {
+      const scored = [];
+      items.forEach((it) => {
+        let ok = true, score = 0;
+        for (let i = 0; i < tokens.length; i++) {
+          const t = tokens[i];
+          if (it.hay.indexOf(t) === -1) { ok = false; break; }
+          score += it.title.toLowerCase().indexOf(t) !== -1 ? 5 : 1;
+        }
+        if (ok) scored.push({ it: it, score: score });
       });
+      scored.sort((a, b) => b.score - a.score);
+      renderResults(scored.slice(0, 50).map((s) => s.it));
+    }).catch(() => setMessage('검색을 불러오지 못했습니다.'));
   };
 
   document.querySelectorAll('.nav-search-btn').forEach((btn) => btn.addEventListener('click', openSearch));
