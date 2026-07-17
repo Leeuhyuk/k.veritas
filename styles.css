@@ -1116,8 +1116,8 @@ img.cert-image:not(.card__media img) {
 .detail__body p { margin-bottom: var(--spacing-24); }
 .detail__gallery {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--spacing-16);
+  grid-template-columns: repeat(8, 1fr);
+  gap: var(--spacing-12);
   margin-top: var(--spacing-40);
 }
 .detail__gallery img {
@@ -1508,7 +1508,7 @@ img.detail__cover.is-zoomable:hover,
 }
 @media (max-width: 560px) {
   .show-grid { grid-template-columns: 1fr; }
-  .detail__gallery { grid-template-columns: repeat(2, 1fr); }
+  .detail__gallery { grid-template-columns: repeat(4, 1fr); }
   .detail__title { font-size: 26px; }
 }
 
@@ -2269,7 +2269,7 @@ a.res-title:hover {
   .show-grid { grid-template-columns: repeat(2, 1fr); }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .tl-row { grid-template-columns: 80px 1fr; gap: var(--spacing-16); }
-  .detail__gallery { grid-template-columns: repeat(2, 1fr); }
+  .detail__gallery { grid-template-columns: repeat(4, 1fr); }
   .features__grid { grid-template-columns: 1fr; }
   .split { grid-template-columns: 1fr; gap: var(--spacing-32); }
   .split__text .section-title { text-align: center; }
