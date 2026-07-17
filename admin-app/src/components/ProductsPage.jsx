@@ -2,20 +2,17 @@ import { useCallback, useEffect, useState } from 'react';
 import { adminApi } from '../api/client.js';
 import ProductForm from './ProductForm.jsx';
 import ProductList from './ProductList.jsx';
-import CategoryManager from './CategoryManager.jsx';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [editId, setEditId] = useState(null);
   const [editInitial, setEditInitial] = useState(null);
   const [formKey, setFormKey] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
-    const [prods, cats] = await Promise.all([adminApi.products(), adminApi.categories()]);
+    const prods = await adminApi.products();
     setProducts(Array.isArray(prods) ? prods : []);
-    setCategories(Array.isArray(cats) ? cats : []);
     setLoading(false);
   }, []);
 
@@ -94,16 +91,14 @@ export default function ProductsPage() {
     <>
       <ProductForm
         key={formKey}
-        categories={Array.from(new Set([
-          ...(categories || []),
-          ...products.map((p) => (p.category || '').trim()).filter(Boolean),
-        ]))}
+        categories={Array.from(new Set(
+          products.map((p) => (p.category || '').trim()).filter(Boolean),
+        ))}
         editId={editId}
         initial={editInitial}
         onSaved={handleSaved}
         onCancel={handleCancel}
       />
-      <CategoryManager categories={categories} onChange={setCategories} />
       <ProductList
         items={products}
         onEdit={handleEdit}
