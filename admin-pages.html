@@ -79,7 +79,23 @@
           <p class="admin__msg pages-hint" id="hint">글상자를 클릭하면 위에 서식 도구가 나타납니다.</p>
           <a class="btn btn--ghost btn--sm pages-preview-link" id="preview-link" href="#" target="_blank" rel="noreferrer">미리보기 ↗</a>
         </div>
-        <div id="fields"></div>
+        <div class="pages-split">
+          <div class="pages-preview-pane" id="preview-pane">
+            <div class="pages-preview-head">
+              <span class="pages-preview-title">실제 화면 미리보기</span>
+              <div class="pages-preview-devs" role="group" aria-label="미리보기 화면 크기">
+                <button type="button" class="pages-preview-dev is-active" data-w="1280">데스크톱</button>
+                <button type="button" class="pages-preview-dev" data-w="768">태블릿</button>
+                <button type="button" class="pages-preview-dev" data-w="390">모바일</button>
+              </div>
+            </div>
+            <div class="pages-preview-frame" id="preview-frame-wrap">
+              <iframe id="live-preview" title="실제 페이지 미리보기" scrolling="yes"></iframe>
+            </div>
+            <p class="pages-preview-foot">수정하면 이 화면에 바로 반영됩니다. 실제 공개 페이지와 동일한 레이아웃입니다.</p>
+          </div>
+          <div id="fields"></div>
+        </div>
 
         <div class="pages-save-bar">
           <button type="button" class="btn btn--primary" id="save-btn">저장하기</button>
@@ -174,15 +190,15 @@
         { file: 'index.html', label: '홈(메인)' },
         { file: 'about.html', label: '회사소개' },
         { file: 'certifications.html', label: '인증·특허' },
-        { file: 'facilities.html', label: '생산설비' },
+        { file: 'facilities.html', label: '시험·조립 설비' },
         { file: 'location.html', label: '오시는 길' },
-        { file: 'biz-machining.html', label: '사업영역 · 정밀 가공' },
-        { file: 'biz-mold.html', label: '사업영역 · 금형 제작' },
-        { file: 'biz-assembly.html', label: '사업영역 · 조립·검사' },
+        { file: 'biz-machining.html', label: '사업영역 · 시험기 설계·제작' },
+        { file: 'biz-mold.html', label: '사업영역 · 시험 규격 대응' },
+        { file: 'biz-assembly.html', label: '사업영역 · 설치·교정·지원' },
         { file: 'products.html', label: '제품소개' },
-        { file: 'product-parts.html', label: '제품 · 정밀 가공 부품' },
-        { file: 'product-mold.html', label: '제품 · 정밀 금형' },
-        { file: 'product-module.html', label: '제품 · 조립 모듈' },
+        { file: 'product-parts.html', label: '제품 · 가구 내구성 시험기' },
+        { file: 'product-mold.html', label: '제품 · 금속·재료 시험기' },
+        { file: 'product-module.html', label: '제품 · 내구성·피로 시험기' },
         { file: 'support.html', label: '고객지원(FAQ/채널)' },
       ];
 
@@ -916,9 +932,74 @@
         </aside>`;
       }
 
+      // ===== 실제 화면 라이브 미리보기 (iframe) =====
+      const LivePreview = (function () {
+        let logicalW = 1280;
+        function frame() { return document.getElementById('live-preview'); }
+        function wrap() { return document.getElementById('preview-frame-wrap'); }
+        function cssEsc(s) { return String(s == null ? '' : s).replace(/["\\]/g, '\\$&'); }
+        function doc() { const f = frame(); try { return f && f.contentDocument; } catch (e) { return null; } }
+        function fit() {
+          const f = frame(), w = wrap();
+          if (!f || !w) return;
+          const scale = Math.min(1, w.clientWidth / logicalW);
+          f.style.width = logicalW + 'px';
+          f.style.height = Math.round(w.clientHeight / scale) + 'px';
+          f.style.transformOrigin = 'top left';
+          f.style.transform = 'scale(' + scale + ')';
+        }
+        function load(file) {
+          const f = frame();
+          if (!f) return;
+          f.onload = fit;
+          f.src = file + (file.indexOf('?') >= 0 ? '&' : '?') + 'inpreview=1&t=' + (Date.now ? Date.now() : Math.floor(new Date() / 1)); // eslint-disable-line
+        }
+        function setWidth(w) { logicalW = w; fit(); }
+        function updateText(key, html) {
+          const d = doc(); if (!d) return;
+          d.querySelectorAll('[data-cms="' + cssEsc(key) + '"]').forEach((el) => { el.innerHTML = html; });
+        }
+        function updateImage(key, src) {
+          const d = doc(); if (!d || !src) return;
+          d.querySelectorAll('[data-cms-img="' + cssEsc(key) + '"]').forEach((el) => { el.src = src; el.style.display = ''; });
+        }
+        function scrollToKey(key) {
+          const d = doc(); if (!d) return;
+          const el = d.querySelector('[data-cms="' + cssEsc(key) + '"], [data-cms-img="' + cssEsc(key) + '"]');
+          if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        window.addEventListener('resize', fit);
+        return { load: load, setWidth: setWidth, updateText: updateText, updateImage: updateImage, scrollToKey: scrollToKey, fit: fit };
+      })();
+      // 미리보기 화면 크기 토글
+      (function () {
+        const devs = document.querySelector('.pages-preview-devs');
+        if (!devs) return;
+        devs.addEventListener('click', (e) => {
+          const b = e.target.closest('.pages-preview-dev');
+          if (!b) return;
+          devs.querySelectorAll('.pages-preview-dev').forEach((x) => x.classList.remove('is-active'));
+          b.classList.add('is-active');
+          LivePreview.setWidth(parseInt(b.dataset.w, 10) || 1280);
+        });
+      })();
+      // 필드 편집 → 미리보기 실시간 반영
+      $('fields').addEventListener('input', (e) => {
+        const ed = e.target.closest && e.target.closest('.rte-editor.cms-input');
+        if (!ed) return;
+        const box = ed.closest('.cms-field, .cms-subfield');
+        if (box && box.dataset.key) LivePreview.updateText(box.dataset.key, ed.innerHTML);
+      });
+      // 필드 포커스 → 미리보기 해당 위치로 스크롤
+      $('fields').addEventListener('focusin', (e) => {
+        const box = e.target.closest && e.target.closest('.cms-field, .cms-subfield');
+        if (box && box.dataset.key) LivePreview.scrollToKey(box.dataset.key);
+      });
+
       function loadPage(file) {
         currentPage = file;
         $('preview-link').href = file;
+        LivePreview.load(file);
         $('fields').innerHTML = '<p class="empty-note">불러오는 중…</p>';
         Promise.all([
           fetch(file).then((r) => r.text()),
@@ -983,7 +1064,11 @@
         const editBox = (el) => el.closest('.cms-subfield, .cms-field');
         // 기본값 복원
         $('fields').querySelectorAll('.cms-reset').forEach((b) => {
-          b.addEventListener('click', () => { editBox(b).querySelector('.cms-input').innerHTML = b.dataset.default; });
+          b.addEventListener('click', () => {
+            const box = editBox(b);
+            box.querySelector('.cms-input').innerHTML = b.dataset.default;
+            if (box.dataset.key) LivePreview.updateText(box.dataset.key, b.dataset.default);
+          });
         });
         // 이미지 높이 조절 (미리보기 실시간 반영)
         $('fields').querySelectorAll('.cms-size').forEach((el) => {
@@ -1006,6 +1091,7 @@
             } else {
               const hid = field.querySelector('.cms-input');
               if (hid) hid.value = d.url;
+              if (field.dataset.key) LivePreview.updateImage(field.dataset.key, d.url);
             }
             const img = field.querySelector('.cms-img__preview');
             if (img) { img.src = d.url; img.style.display = ''; }

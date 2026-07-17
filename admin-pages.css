@@ -1226,3 +1226,100 @@ body.tt-resizing { cursor: col-resize; user-select: none; }
   margin-top: 4px;
 }
 
+/* ===== 실제 화면 라이브 미리보기 · 2단 레이아웃 ===== */
+body.admin-pages .pages-split {
+  display: grid;
+  grid-template-columns: minmax(0, 46fr) minmax(0, 54fr);
+  gap: 24px;
+  align-items: start;
+}
+/* 미리보기가 있으면 우측 필드 영역의 페이지 지도는 숨겨 폭 확보 */
+body.admin-pages .pages-split .cms-workspace {
+  display: block;
+}
+body.admin-pages .pages-split .cms-map {
+  display: none;
+}
+body.admin-pages .pages-preview-pane {
+  position: sticky;
+  top: calc(var(--admin-header-h) + 12px);
+  border: 1px solid var(--color-lichen);
+  border-radius: var(--admin-radius);
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(22, 24, 29, 0.05), 0 10px 28px rgba(22, 24, 29, 0.06);
+}
+body.admin-pages .pages-preview-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--color-lichen);
+  background: #f7f9fc;
+}
+body.admin-pages .pages-preview-title {
+  font-family: var(--font-fragment-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--color-bark-brown);
+  text-transform: uppercase;
+}
+body.admin-pages .pages-preview-devs {
+  display: inline-flex;
+  gap: 2px;
+  background: #e9edf3;
+  border-radius: 999px;
+  padding: 2px;
+}
+body.admin-pages .pages-preview-dev {
+  border: 0;
+  background: transparent;
+  font-size: 12px;
+  color: var(--color-bark-brown);
+  padding: 4px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  line-height: 1;
+}
+body.admin-pages .pages-preview-dev.is-active {
+  background: #fff;
+  color: var(--color-botanical-ink);
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(22, 24, 29, 0.12);
+}
+body.admin-pages .pages-preview-frame {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - var(--admin-header-h) - 150px);
+  min-height: 420px;
+  overflow: hidden;
+  background: #fff;
+}
+body.admin-pages #live-preview {
+  display: block;
+  border: 0;
+  background: #fff;
+}
+body.admin-pages .pages-preview-foot {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--color-bark-brown);
+  border-top: 1px solid var(--color-lichen);
+  background: #f7f9fc;
+}
+@media (max-width: 1024px) {
+  body.admin-pages .pages-split {
+    grid-template-columns: 1fr;
+  }
+  body.admin-pages .pages-preview-pane {
+    position: static;
+    order: -1;
+  }
+  body.admin-pages .pages-preview-frame {
+    height: 58vh;
+  }
+}
+
