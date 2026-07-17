@@ -63,16 +63,18 @@
             </div>
             <div class="form__row">
               <label for="category">분류</label>
-              <input id="category" list="cat-options" autocomplete="off" placeholder="선택하거나 새 분류를 입력하세요 (예: 카탈로그)" />
-              <datalist id="cat-options">
-                <option value="카탈로그"></option>
-                <option value="사용설명서"></option>
-                <option value="인증서"></option>
-                <option value="시험성적서"></option>
-                <option value="도면(CAD)"></option>
-                <option value="기타"></option>
-              </datalist>
-              <span class="admin__msg" style="font-size:11px">기존 분류를 고르거나, 새 분류명을 직접 입력하면 추가됩니다.</span>
+              <div style="display:flex;gap:8px;align-items:center">
+                <select id="category" style="flex:1">
+                  <option>카탈로그</option>
+                  <option>사용설명서</option>
+                  <option>인증서</option>
+                  <option>도면(CAD)</option>
+                  <option>시험성적서</option>
+                  <option>기타</option>
+                </select>
+                <button type="button" class="btn btn--ghost btn--sm" id="add-cat-btn">＋ 새 분류</button>
+              </div>
+              <span class="admin__msg" style="font-size:11px">목록에 없는 분류는 “＋ 새 분류”로 추가할 수 있습니다.</span>
             </div>
           </div>
           <div class="form__grid">
@@ -200,14 +202,26 @@
       $('cancel-btn').addEventListener('click', resetForm);
 
       function refreshCategoryOptions(items) {
-        var dl = $('cat-options'); if (!dl) return;
-        var defaults = ['카탈로그', '사용설명서', '인증서', '시험성적서', '도면(CAD)', '기타'];
-        var seen = {}, list = [];
-        defaults.concat((items || []).map(function (r) { return r.category; })).forEach(function (c) {
-          c = (c || '').trim(); if (!c || seen[c]) return; seen[c] = 1; list.push(c);
+        var sel = $('category'); if (!sel) return;
+        var have = {};
+        Array.prototype.forEach.call(sel.options, function (o) { have[o.value] = 1; });
+        (items || []).forEach(function (r) {
+          var c = (r.category || '').trim();
+          if (c && !have[c]) {
+            var o = document.createElement('option'); o.value = c; o.textContent = c;
+            sel.appendChild(o); have[c] = 1;
+          }
         });
-        dl.innerHTML = list.map(function (c) { return '<option value="' + esc(c) + '"></option>'; }).join('');
       }
+      function addCategoryOption() {
+        var sel = $('category');
+        var name = (window.prompt('추가할 분류명을 입력하세요') || '').trim();
+        if (!name) return;
+        var exists = Array.prototype.some.call(sel.options, function (o) { return o.value === name; });
+        if (!exists) { var o = document.createElement('option'); o.value = name; o.textContent = name; sel.appendChild(o); }
+        sel.value = name;
+      }
+      if ($('add-cat-btn')) $('add-cat-btn').addEventListener('click', addCategoryOption);
 
       function loadList() {
         fetch('/api/admin/resources').then((r) => r.json()).then((items) => {

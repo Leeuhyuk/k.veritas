@@ -28,6 +28,12 @@ export default function RichEditor({ value, onChange, placeholder }) {
     }
   }, [value]);
 
+  // 본문 이미지 클릭 → 크기/정렬 조절 (rte-image.js 의 wireImageResize 재사용)
+  useEffect(() => {
+    ensureImageResize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (!open) return undefined;
     const tick = () => {
@@ -44,6 +50,19 @@ export default function RichEditor({ value, onChange, placeholder }) {
       document.removeEventListener('selectionchange', refreshTableState);
     };
   }, [open, mode]);
+
+  function ensureImageResize() {
+    const el = editorRef.current;
+    if (!el) return;
+    if (window.wireImageResize) { window.wireImageResize(el); return; }
+    if (!window.__rteImageLoading) {
+      window.__rteImageLoading = true;
+      const s = document.createElement('script');
+      s.src = '../rte-image.js';
+      s.onload = () => { window.__rteImageLoading = false; ensureImageResize(); };
+      document.head.appendChild(s);
+    }
+  }
 
   function ensureTableEditor() {
     const editor = editorRef.current;

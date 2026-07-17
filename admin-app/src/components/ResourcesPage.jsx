@@ -25,6 +25,22 @@ export default function ResourcesPage() {
   const [fileHint, setFileHint] = useState('');
   const [msg, setMsg] = useState('');
   const [formKey, setFormKey] = useState(0);
+  const [extraCats, setExtraCats] = useState([]);
+
+  // 기본 분류(고정) + 실제 사용 중인 분류 + 사용자가 추가한 분류 + 현재 선택값
+  const catOptions = Array.from(new Set([
+    ...CATS,
+    ...items.map((r) => (r.category || '').trim()).filter(Boolean),
+    ...extraCats,
+    ...(form.category ? [form.category] : []),
+  ]));
+
+  function addCategory() {
+    const name = (window.prompt('추가할 분류명을 입력하세요') || '').trim();
+    if (!name) return;
+    setExtraCats((prev) => (prev.includes(name) ? prev : [...prev, name]));
+    setField('category', name);
+  }
 
   const load = useCallback(async () => {
     const list = await adminApi.resources();
@@ -118,19 +134,19 @@ export default function ResourcesPage() {
           </div>
           <div className="form__row">
             <label>분류</label>
-            <input
-              list="res-cat-options"
-              value={form.category}
-              onChange={(e) => setField('category', e.target.value)}
-              placeholder="선택하거나 새 분류를 입력하세요"
-              autoComplete="off"
-            />
-            <datalist id="res-cat-options">
-              {Array.from(new Set([...CATS, ...items.map((r) => (r.category || '').trim()).filter(Boolean)])).map((c) => (
-                <option key={c} value={c} />
-              ))}
-            </datalist>
-            <span className="admin__msg" style={{ fontSize: '11px' }}>기존 분류를 고르거나 새 분류명을 입력하면 추가됩니다.</span>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <select
+                value={form.category}
+                onChange={(e) => setField('category', e.target.value)}
+                style={{ flex: 1 }}
+              >
+                {catOptions.map((c) => (
+                  <option key={c}>{c}</option>
+                ))}
+              </select>
+              <button type="button" className="btn btn--ghost btn--sm" onClick={addCategory}>＋ 새 분류</button>
+            </div>
+            <span className="admin__msg" style={{ fontSize: '11px' }}>목록에 없는 분류는 “＋ 새 분류”로 추가할 수 있습니다.</span>
           </div>
         </div>
         <div className="form__grid">
