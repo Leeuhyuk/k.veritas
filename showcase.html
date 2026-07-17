@@ -209,6 +209,8 @@
 
     Promise.all([loadProducts(), loadCategories()]).then(function (res) {
       all = res[0] || [];
+      var qpCat = new URLSearchParams(location.search).get('cat');
+      if (qpCat) state.cat = qpCat;
       renderCats(res[1] || []);
       render();
     }).catch(function () {
