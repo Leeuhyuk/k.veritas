@@ -2603,6 +2603,22 @@ body.site-hp .subhero{ background:#ffffff; border-bottom:1px solid var(--color-l
 body.site-hp .subhero__inner{ text-align:left; }
 body.site-hp .subhero__sub{ margin-left:0; }
 
+/* 서브 히어로 배경 이미지 (은은한 10% 오버레이) */
+body.site-hp .subhero--bg{ position:relative; overflow:hidden; }
+body.site-hp .subhero--bg::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image:var(--subhero-bg);
+  background-size:cover;
+  background-position:center right;
+  opacity:.1;
+  /* 텍스트(좌측) 쪽은 더 투명하게, 우측으로 갈수록 살짝 드러나게 */
+  -webkit-mask-image:linear-gradient(100deg, transparent 0%, rgba(0,0,0,.6) 55%, #000 100%);
+  mask-image:linear-gradient(100deg, transparent 0%, rgba(0,0,0,.6) 55%, #000 100%);
+  pointer-events:none;
+}
+body.site-hp .subhero--bg .subhero__inner{ position:relative; z-index:1; }
+
 /* 섹션 헤더 좌측 정렬 유지 옵션 */
 body.site-hp .split{ background:var(--color-sage-mist); border:1px solid var(--color-lichen); border-radius:2px; }
 body.site-hp .split__panel{ background:#fff; border:1px solid var(--color-lichen); box-shadow:none; }
