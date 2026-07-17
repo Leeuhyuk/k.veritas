@@ -36,6 +36,28 @@
     var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
     return t.length > 22 ? t.slice(0, 22) + '…' : t;
   }
+  // 요소의 구조 경로(안정 키) — 항목 추가/삭제에도 다른 요소 키가 밀리지 않음
+  function nodePath(el) {
+    var parts = [];
+    var n = el;
+    while (n && n.nodeType === 1 && n.tagName !== 'BODY' && n.tagName !== 'HTML') {
+      var t = n.tagName.toLowerCase(), i = 1, s = n;
+      while (s.previousElementSibling) { s = s.previousElementSibling; if (s.tagName === n.tagName) i++; }
+      parts.unshift(t + i);
+      n = n.parentElement;
+    }
+    return parts.join('/');
+  }
+  // 항목을 추가/삭제할 수 있는 반복 영역 (컨테이너 · 항목)
+  var REPEAT = [
+    { c: '.features__grid', i: '.card' },
+    { c: '.cat-browse', i: '.cat-row' },
+    { c: '.timeline', i: '.tl-row' },
+    { c: '.faq', i: '.faq__item' },
+    { c: '.channels', i: '.channel' },
+    { c: '.stats', i: '.stat' },
+  ];
+  function listKey(container) { return '__list__' + nodePath(container); }
 
   // 편집 가능한 요소 목록을 결정적 순서로 수집 (공개페이지/관리자 동일)
   function collect(root) {
@@ -51,38 +73,26 @@
       if (inChrome(el) || !mark(el)) return;
       fields.push({ el: el, key: el.getAttribute('data-cms-img'), label: el.getAttribute('data-cms-label') || el.getAttribute('data-cms-img'), type: 'image' });
     });
-    BUCKETS.forEach(function (b) {
-      var n = 0;
-      root.querySelectorAll(b.sel).forEach(function (el) {
-        if (el.hasAttribute('data-cms') || inChrome(el) || !mark(el)) return;
-        n++;
-        var k = 'auto:' + b.name + ':' + n;
-        try { el.setAttribute('data-cms', k); } catch (e) { /* ignore */ }
-        fields.push({ el: el, key: k, label: b.label + (n > 1 ? ' ' + n : ''), type: 'rich' });
-      });
-    });
-    // 나머지 모든 텍스트(블록 단위 잎 요소)도 편집 가능하게 — "모든 항목 편집"
-    var CATCH = 'main h1, main h2, main h3, main h4, main h5, main h6, main p, main li, main caption, main figcaption, main th, main td, main dt, main dd, main blockquote, main .tag, main .btn, main .hero-stat__num, main .hero-stat__label, main .cat-row__t b, main .cat-row__t span';
-    var CATCH_INNER = 'h1,h2,h3,h4,h5,h6,p,li,caption,figcaption,th,td,dt,dd,blockquote,.tag,.btn,.hero-stat__num,.hero-stat__label,.cat-row__t b,.cat-row__t span,[data-cms],[data-cms-img]';
-    var xn = 0;
-    root.querySelectorAll(CATCH).forEach(function (el) {
+    // 모든 텍스트(잎 요소) — 구조 경로 기반 안정 키로 stamp
+    var AUTOSEL = 'main h1, main h2, main h3, main h4, main h5, main h6, main p, main li, main caption, main figcaption, main th, main td, main dt, main dd, main blockquote, main summary, main .tag, main .btn, main .faq__answer, main .hero-stat__num, main .hero-stat__label, main .cat-row__t b, main .cat-row__t span, main .stat strong, main .stat span, main .tl-year, main .channel__detail';
+    var AUTO_INNER = 'h1,h2,h3,h4,h5,h6,p,li,caption,figcaption,th,td,dt,dd,blockquote,summary,.tag,.btn,.faq__answer,.hero-stat__num,.hero-stat__label,.cat-row__t b,.cat-row__t span,.stat strong,.stat span,.tl-year,.channel__detail,[data-cms],[data-cms-img]';
+    root.querySelectorAll(AUTOSEL).forEach(function (el) {
       if (el.hasAttribute('data-cms') || el.hasAttribute('data-cms-img') || inChrome(el)) return;
       if (used.indexOf(el) !== -1) return;
       if (!(el.textContent || '').trim()) return;
       // 다른 편집 요소를 감싸는 래퍼는 건너뛰고 잎 요소만 편집 대상
-      if (el.querySelector(CATCH_INNER)) return;
+      if (el.querySelector(AUTO_INNER)) return;
       if (!mark(el)) return;
-      var kx = 'auto:x:' + (++xn);
+      var kx = 'p:' + nodePath(el);
       try { el.setAttribute('data-cms', kx); } catch (e) { /* ignore */ }
       fields.push({ el: el, key: kx, label: snippet(el) || '텍스트', type: 'rich' });
     });
-    // 본문 이미지도 전부 교체 가능하게
-    var imn = 0;
+    // 본문 이미지도 전부 교체 가능하게 — 구조 경로 키
     root.querySelectorAll('main img').forEach(function (el) {
       if (el.hasAttribute('data-cms-img') || el.hasAttribute('data-cms') || inChrome(el) || !mark(el)) return;
-      var ki = 'auto:img:' + (++imn);
+      var ki = 'p:' + nodePath(el);
       try { el.setAttribute('data-cms-img', ki); } catch (e) { /* ignore */ }
-      fields.push({ el: el, key: ki, label: '이미지 ' + imn, type: 'image' });
+      fields.push({ el: el, key: ki, label: '이미지', type: 'image' });
     });
     // 실제 페이지(DOM) 순서로 정렬 → 편집기 섹션 순서가 페이지와 일치
     // (명시 data-cms 를 먼저 모은 뒤 자동감지를 뒤에 붙여 순서가 어긋나던 문제 해결)
@@ -251,7 +261,31 @@
     upsertMeta('meta[property="og:image"]', 'property', 'og:image', image);
   }
 
+  // 관리자에서 추가한 항목을 공개 페이지에 이어붙임 (base 항목 뒤에 append)
+  function applyLists(data) {
+    if (!data) return;
+    REPEAT.forEach(function (r) {
+      document.querySelectorAll(r.c).forEach(function (cont) {
+        if (inChrome(cont)) return;
+        var arr = data[listKey(cont)];
+        if (!arr || !arr.length) return;
+        arr.forEach(function (html) {
+          var s = String(html || '').trim();
+          if (!s) return;
+          var tmp = document.createElement('div');
+          tmp.innerHTML = s;
+          var node = tmp.firstElementChild;
+          if (node) { node.setAttribute('data-cms-added', '1'); cont.appendChild(node); }
+        });
+      });
+    });
+  }
+
   window.cmsCollect = collect;
+  window.cmsNodePath = nodePath;
+  window.cmsListKey = listKey;
+  window.cmsRepeat = REPEAT;
+  window.cmsApplyLists = applyLists;
 
   /** Firestore REST (공개 읽기) — 관리자 저장 직후 static-api 없이도 반영 */
   function fetchFirestorePage(page) {
@@ -320,6 +354,8 @@
     if (!page || page === 'k.veritas') page = 'index.html';
     loadPageContent(page).then(function (data) {
       apply(data);
+      // 편집기(?edit=1)에서는 추가 항목을 편집기가 직접 이어붙이며 관리 → 여기선 건너뜀
+      if (!/[?&]edit=1\b/.test(location.search || '')) applyLists(data);
       applyMaps(data);
       applySeo(data);
       // SEO og:image 절대경로 보정

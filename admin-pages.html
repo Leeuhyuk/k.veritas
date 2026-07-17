@@ -957,7 +957,16 @@
         #kv-img-menu button{ height:30px; padding:0 12px; border:0; border-radius:6px; background:#2b2f39;
           color:#fff; font-size:12px; cursor:pointer; }
         #kv-img-menu button.del{ background:#7a2b25; }
-        #kv-img-menu button:hover{ filter:brightness(1.15); }`;
+        #kv-img-menu button:hover{ filter:brightness(1.15); }
+        .kv-add-btn{ display:inline-flex; align-items:center; gap:6px; margin:14px 0 4px; padding:9px 16px;
+          border:1px dashed #0096d6; border-radius:8px; background:#eaf6fc; color:#0067a0;
+          font-size:13px; font-weight:700; cursor:pointer; font-family:'Noto Sans KR',sans-serif; }
+        .kv-add-btn:hover{ background:#d9eefb; }
+        [data-cms-added]{ position:relative; outline:1px dashed rgba(0,150,214,.4); outline-offset:3px; }
+        .kv-item-del{ position:absolute; top:6px; right:6px; z-index:6; width:26px; height:26px;
+          border:0; border-radius:50%; background:#16181d; color:#fff; font-size:15px; line-height:1;
+          cursor:pointer; opacity:.9; }
+        .kv-item-del:hover{ opacity:1; background:#7a2b25; }`;
 
       function buildEditBar(doc) {
         if (doc.getElementById('kv-edit-bar')) return;
@@ -1046,11 +1055,11 @@
           if (img) { e.preventDefault(); openImgMenu(doc, img, img.getAttribute('data-cms-img')); return; }
           if (!e.target.closest || !e.target.closest('[data-cms], #kv-img-menu, #kv-edit-bar')) closeImgMenu(doc);
         }, true);
-        // 텍스트 편집 활성화
-        doc.querySelectorAll('[data-cms]').forEach((el) => {
-          el.setAttribute('contenteditable', 'true');
-          el.setAttribute('spellcheck', 'false');
-        });
+        // 저장된 추가 항목을 이어붙임 → 다시 stamp → 편집 활성화 → 추가/삭제 버튼
+        editorAppendAdded(fr);
+        try { if (fr.contentWindow && fr.contentWindow.cmsCollect) fr.contentWindow.cmsCollect(doc); } catch (e) { /* ignore */ }
+        makeEditable(doc);
+        wireRepeatables(fr);
         // 편집 툴바 표시/숨김 (focusin/out은 버블링되어 안정적)
         doc.addEventListener('focusin', (e) => {
           if (e.target.closest && e.target.closest('[data-cms]')) showEditBar(doc);
@@ -1058,6 +1067,93 @@
         doc.addEventListener('focusout', () => {
           setTimeout(() => { if (!doc.querySelector('[data-cms]:focus')) hideEditBar(doc); }, 80);
         });
+      }
+
+      function makeEditable(doc) {
+        doc.querySelectorAll('[data-cms]').forEach((el) => {
+          if (el.getAttribute('contenteditable') !== 'true') {
+            el.setAttribute('contenteditable', 'true');
+            el.setAttribute('spellcheck', 'false');
+          }
+        });
+      }
+      function editorAppendAdded(fr) {
+        const doc = fr.contentDocument;
+        const REP = (fr.contentWindow && fr.contentWindow.cmsRepeat) || [];
+        const listKeyFn = fr.contentWindow && fr.contentWindow.cmsListKey;
+        if (!listKeyFn) return;
+        REP.forEach((r) => {
+          doc.querySelectorAll(r.c).forEach((cont) => {
+            if (cont.closest('#site-nav, #site-footer')) return;
+            const arr = currentOverrides[listKeyFn(cont)];
+            if (!arr || !arr.length) return;
+            arr.forEach((html) => {
+              const tmp = doc.createElement('div'); tmp.innerHTML = String(html || '').trim();
+              const node = tmp.firstElementChild;
+              if (node) { node.setAttribute('data-cms-added', '1'); cont.appendChild(node); }
+            });
+          });
+        });
+      }
+      function addDelBtn(doc, item) {
+        if (item.querySelector(':scope > .kv-item-del')) return;
+        if (getComputedStyle(item).position === 'static') item.style.position = 'relative';
+        const b = doc.createElement('button');
+        b.type = 'button'; b.className = 'kv-item-del'; b.title = '이 항목 삭제';
+        b.textContent = '×'; b.setAttribute('data-noedit', '1');
+        b.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); item.remove(); });
+        item.appendChild(b);
+      }
+      function wireRepeatables(fr) {
+        const doc = fr.contentDocument;
+        const REP = (fr.contentWindow && fr.contentWindow.cmsRepeat) || [];
+        REP.forEach((r) => {
+          doc.querySelectorAll(r.c).forEach((cont) => {
+            if (cont.closest('#site-nav, #site-footer') || cont._kvWired) return;
+            cont._kvWired = true;
+            cont.querySelectorAll(':scope > ' + r.i + '[data-cms-added]').forEach((it) => addDelBtn(doc, it));
+            const items = cont.querySelectorAll(':scope > ' + r.i);
+            const tmpl = items[items.length - 1];
+            if (!tmpl) return;
+            const btn = doc.createElement('button');
+            btn.type = 'button'; btn.className = 'kv-add-btn'; btn.setAttribute('data-noedit', '1');
+            btn.textContent = '＋ 항목 추가';
+            btn.addEventListener('click', (e) => {
+              e.preventDefault();
+              const clone = tmpl.cloneNode(true);
+              clone.removeAttribute('data-edited');
+              clone.querySelectorAll('.kv-item-del').forEach((x) => x.remove());
+              clone.querySelectorAll('[data-cms], [data-cms-img]').forEach((x) => {
+                x.removeAttribute('data-cms'); x.removeAttribute('data-cms-img');
+                x.removeAttribute('contenteditable'); x.removeAttribute('spellcheck'); x.removeAttribute('data-edited');
+              });
+              clone.removeAttribute('data-cms'); clone.removeAttribute('data-cms-img');
+              clone.setAttribute('data-cms-added', '1');
+              cont.appendChild(clone);
+              try { fr.contentWindow.cmsCollect(doc); } catch (_) { /* ignore */ }
+              makeEditable(doc);
+              addDelBtn(doc, clone);
+              clone.querySelectorAll('[data-cms]').forEach((x) => x.setAttribute('data-edited', '1'));
+              clone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+            cont.parentNode.insertBefore(btn, cont.nextSibling);
+          });
+        });
+      }
+      function serializeAddedItem(node) {
+        const c = node.cloneNode(true);
+        c.removeAttribute('data-cms-added'); c.removeAttribute('data-edited');
+        c.removeAttribute('data-cms'); c.removeAttribute('data-cms-img');
+        c.removeAttribute('contenteditable'); c.removeAttribute('spellcheck');
+        c.querySelectorAll('.kv-item-del').forEach((x) => x.remove());
+        c.querySelectorAll('[contenteditable]').forEach((x) => { x.removeAttribute('contenteditable'); x.removeAttribute('spellcheck'); x.removeAttribute('data-edited'); });
+        c.querySelectorAll('[data-cms]').forEach((x) => x.removeAttribute('data-cms'));
+        c.querySelectorAll('[data-cms-img]').forEach((x) => x.removeAttribute('data-cms-img'));
+        [c].concat([].slice.call(c.querySelectorAll('[class*="reveal"]'))).forEach((x) => {
+          if (x.className) x.className = x.className.replace(/\breveal[\w-]*/g, '').replace(/\s+/g, ' ').trim();
+        });
+        if (c.style) { c.style.removeProperty('animation-delay'); if (c.style.position === 'relative') c.style.removeProperty('position'); }
+        return c.outerHTML;
       }
 
       function renderSeoBox(overrides, defaultTitle, defaultDesc) {
@@ -1214,6 +1310,23 @@
         });
         // 이미지: 교체·삭제한 항목만
         Object.keys(changedImages).forEach((k) => { content[k] = changedImages[k]; });
+        // 추가/삭제한 반복 항목
+        try {
+          const win = $('live-editor').contentWindow;
+          const REP = (win && win.cmsRepeat) || [];
+          const listKeyFn = win && win.cmsListKey;
+          if (listKeyFn) {
+            REP.forEach((r) => {
+              doc.querySelectorAll(r.c).forEach((cont) => {
+                if (cont.closest('#site-nav, #site-footer')) return;
+                const key = listKeyFn(cont);
+                const added = [].slice.call(cont.querySelectorAll(':scope > ' + r.i + '[data-cms-added]'));
+                if (added.length) content[key] = added.map(serializeAddedItem);
+                else if (key in content) content[key] = [];
+              });
+            });
+          }
+        } catch (e) { console.warn(e); }
         // SEO
         document.querySelectorAll('#seo-box .seo-input').forEach((el) => {
           content[el.dataset.seo] = (el.value || '').trim();
