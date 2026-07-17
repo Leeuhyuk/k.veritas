@@ -37,7 +37,7 @@
   --spacing-64: 64px; --spacing-128: 128px; --spacing-160: 160px;
 
   /* Layout / radius (중간 톤 — 너무 둥글지 않게) */
-  --page-max-width: 1920px;
+  --page-max-width: 1600px;
   --radius-sm: 4px;
   --radius-lg: 8px;
   --radius-2xl: 12px;
