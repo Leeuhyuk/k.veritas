@@ -15,7 +15,7 @@ const NAV_GROUPS = [
       { label: '회사소개', href: 'about.html' },
       { label: '연혁', href: 'about.html#history' },
       { label: '인증·특허', href: 'certifications.html' },
-      { label: '생산설비', href: 'facilities.html' },
+      { label: '시험·조립 설비', href: 'facilities.html' },
       { label: '오시는 길', href: 'location.html' },
     ],
   },
@@ -24,9 +24,9 @@ const NAV_GROUPS = [
     label: '사업영역',
     href: 'index.html#business',
     children: [
-      { label: '정밀 가공', href: 'biz-machining.html' },
-      { label: '금형 제작', href: 'biz-mold.html' },
-      { label: '조립·검사', href: 'biz-assembly.html' },
+      { label: '시험기 설계·제작', href: 'biz-machining.html' },
+      { label: '시험 규격 대응', href: 'biz-mold.html' },
+      { label: '설치·교정·지원', href: 'biz-assembly.html' },
     ],
   },
   {
@@ -35,9 +35,9 @@ const NAV_GROUPS = [
     href: 'products.html',
     children: [
       { label: '생산제품', href: 'showcase.html' },
-      { label: '정밀 가공 부품', href: 'product-parts.html' },
-      { label: '정밀 금형', href: 'product-mold.html' },
-      { label: '조립 모듈', href: 'product-module.html' },
+      { label: '가구 내구성 시험기', href: 'product-parts.html' },
+      { label: '금속·재료 시험기', href: 'product-mold.html' },
+      { label: '내구성·피로 시험기', href: 'product-module.html' },
     ],
   },
   {
@@ -59,9 +59,9 @@ const FOOTER_COLS = [
   {
     title: '사업영역',
     links: [
-      { label: '정밀 가공', href: 'biz-machining.html' },
-      { label: '금형 제작', href: 'biz-mold.html' },
-      { label: '조립·검사', href: 'biz-assembly.html' },
+      { label: '시험기 설계·제작', href: 'biz-machining.html' },
+      { label: '시험 규격 대응', href: 'biz-mold.html' },
+      { label: '설치·교정·지원', href: 'biz-assembly.html' },
     ],
   },
   {
@@ -69,7 +69,7 @@ const FOOTER_COLS = [
     links: [
       { label: '회사소개', href: 'about.html' },
       { label: '인증·특허', href: 'certifications.html' },
-      { label: '생산설비', href: 'facilities.html' },
+      { label: '시험·조립 설비', href: 'facilities.html' },
       { label: '오시는 길', href: 'location.html' },
     ],
   },

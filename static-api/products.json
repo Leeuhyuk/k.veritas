@@ -1,882 +1,762 @@
 [
   {
     "id": "kv001",
-    "title": "구동 샤프트",
-    "category": "자동차",
+    "title": "의자 등받이 내구 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "material": "AL7075",
-    "summary": "구동 계통 정밀 샤프트. ±0.005mm 공차 관리.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>구동 계통 정밀 샤프트. ±0.005mm 공차 관리.</p><p>소재: AL7075 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "BIFMA X5.1 · 반복하중",
+    "summary": "등받이에 반복 하중을 가해 내구성을 검증하는 시험기.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>등받이에 반복 하중을 가해 내구성을 검증하는 시험기.</p><p>대응 규격·사양: BIFMA X5.1 · 반복하중 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 1,
     "createdAt": "2026-06-02T01:00:00.000Z",
     "updatedAt": "2026-06-02T01:00:00.000Z",
     "images": [
-      "images/mfg-mold.jpg"
+      "images/test-durability.jpg"
     ],
     "thumbs": [
-      "images/mfg-mold.jpg"
+      "images/test-durability.jpg"
     ]
   },
   {
     "id": "kv002",
-    "title": "브레이크 캘리퍼 브래킷",
-    "category": "자동차",
+    "title": "의자 좌면 반복하중 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "material": "주철",
-    "summary": "제동 계통 브래킷. IATF 16949 기준 양산.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>제동 계통 브래킷. IATF 16949 기준 양산.</p><p>소재: 주철 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "KS G · EN 1728",
+    "summary": "좌면 반복 하중으로 착좌 내구 수명을 시험.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>좌면 반복 하중으로 착좌 내구 수명을 시험.</p><p>대응 규격·사양: KS G · EN 1728 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 2,
     "createdAt": "2026-06-03T02:00:00.000Z",
     "updatedAt": "2026-06-03T02:00:00.000Z",
     "images": [
-      "images/mfg-cnc.jpg"
+      "images/test-lab.jpg"
     ],
     "thumbs": [
-      "images/mfg-cnc.jpg"
+      "images/test-lab.jpg"
     ]
   },
   {
     "id": "kv003",
-    "title": "트랜스미션 기어",
-    "category": "자동차",
+    "title": "의자 다리 강도 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "material": "SCM420",
-    "summary": "침탄 열처리 기어. 소음·내구 최적화.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>침탄 열처리 기어. 소음·내구 최적화.</p><p>소재: SCM420 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "정하중 · 충격",
+    "summary": "의자 다리에 정하중·충격을 가해 강도를 평가.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>의자 다리에 정하중·충격을 가해 강도를 평가.</p><p>대응 규격·사양: 정하중 · 충격 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 3,
     "createdAt": "2026-06-04T03:00:00.000Z",
     "updatedAt": "2026-06-04T03:00:00.000Z",
     "images": [
-      "images/mfg-cnc2.jpg"
+      "images/test-hero.jpg"
     ],
     "thumbs": [
-      "images/mfg-cnc2.jpg"
+      "images/test-hero.jpg"
     ]
   },
   {
     "id": "kv004",
-    "title": "스티어링 너클",
-    "category": "자동차",
+    "title": "소파 좌면 내구 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "material": "단조 AL",
-    "summary": "조향 너클. 5축 복합 가공.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>조향 너클. 5축 복합 가공.</p><p>소재: 단조 AL · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "반복 착좌 · 수명",
+    "summary": "소파 좌면 반복 착좌로 쿠션·프레임 내구를 시험.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>소파 좌면 반복 착좌로 쿠션·프레임 내구를 시험.</p><p>대응 규격·사양: 반복 착좌 · 수명 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 4,
     "createdAt": "2026-06-05T04:00:00.000Z",
     "updatedAt": "2026-06-05T04:00:00.000Z",
     "images": [
-      "images/mfg-parts.jpg"
+      "images/test-durability.jpg"
     ],
     "thumbs": [
-      "images/mfg-parts.jpg"
+      "images/test-durability.jpg"
     ]
   },
   {
     "id": "kv005",
-    "title": "인젝터 하우징",
-    "category": "자동차",
+    "title": "책상 하중 처짐 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "material": "SUS303",
-    "summary": "연료계 하우징. 기밀 검사 완료.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>연료계 하우징. 기밀 검사 완료.</p><p>소재: SUS303 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "정하중 · 처짐량",
+    "summary": "상판에 하중을 가해 처짐과 변형을 측정.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>상판에 하중을 가해 처짐과 변형을 측정.</p><p>대응 규격·사양: 정하중 · 처짐량 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 5,
     "createdAt": "2026-06-06T05:00:00.000Z",
     "updatedAt": "2026-06-06T05:00:00.000Z",
     "images": [
-      "images/mfg-tools.jpg"
+      "images/test-lab.jpg"
     ],
     "thumbs": [
-      "images/mfg-tools.jpg"
+      "images/test-lab.jpg"
     ]
   },
   {
     "id": "kv006",
-    "title": "모터 엔드 브래킷",
-    "category": "자동차",
+    "title": "서랍 개폐 반복 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "material": "AL6061",
-    "summary": "구동 모터 엔드 브래킷.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>구동 모터 엔드 브래킷.</p><p>소재: AL6061 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "개폐 수명 · 사이클",
+    "summary": "서랍 레일의 개폐 반복 수명을 사이클로 시험.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>서랍 레일의 개폐 반복 수명을 사이클로 시험.</p><p>대응 규격·사양: 개폐 수명 · 사이클 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 6,
     "createdAt": "2026-06-07T06:00:00.000Z",
     "updatedAt": "2026-06-07T06:00:00.000Z",
     "images": [
-      "images/mfg-machine.jpg"
+      "images/test-hero.jpg"
     ],
     "thumbs": [
-      "images/mfg-machine.jpg"
+      "images/test-hero.jpg"
     ]
   },
   {
     "id": "kv007",
-    "title": "챔버 플랜지",
-    "category": "반도체",
+    "title": "도어 힌지 개폐 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "material": "SUS316L",
-    "summary": "진공 챔버 플랜지. 고청정 가공.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>진공 챔버 플랜지. 고청정 가공.</p><p>소재: SUS316L · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "개폐 내구 · 수명",
+    "summary": "가구 도어 힌지의 개폐 내구 수명을 검증.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>가구 도어 힌지의 개폐 내구 수명을 검증.</p><p>대응 규격·사양: 개폐 내구 · 수명 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 7,
     "createdAt": "2026-06-08T07:00:00.000Z",
     "updatedAt": "2026-06-08T07:00:00.000Z",
     "images": [
-      "images/mfg-robot.jpg"
+      "images/test-durability.jpg"
     ],
     "thumbs": [
-      "images/mfg-robot.jpg"
+      "images/test-durability.jpg"
     ]
   },
   {
     "id": "kv008",
-    "title": "웨이퍼 척 베이스",
-    "category": "반도체",
+    "title": "캐스터 주행 내구 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "material": "AL6061",
-    "summary": "웨이퍼 척 베이스. 평면도 관리.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>웨이퍼 척 베이스. 평면도 관리.</p><p>소재: AL6061 · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "주행 · 하중",
+    "summary": "하중 상태에서 캐스터 주행 내구를 시험.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>하중 상태에서 캐스터 주행 내구를 시험.</p><p>대응 규격·사양: 주행 · 하중 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 8,
     "createdAt": "2026-06-09T08:00:00.000Z",
     "updatedAt": "2026-06-09T08:00:00.000Z",
     "images": [
-      "images/mfg-auto.jpg"
+      "images/test-lab.jpg"
     ],
     "thumbs": [
-      "images/mfg-auto.jpg"
+      "images/test-lab.jpg"
     ]
   },
   {
     "id": "kv009",
-    "title": "가스 매니폴드",
-    "category": "반도체",
+    "title": "사무의자 회전 내구 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "material": "SUS316L",
-    "summary": "가스 분배 매니폴드. 헬륨 리크 검사.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>가스 분배 매니폴드. 헬륨 리크 검사.</p><p>소재: SUS316L · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "회전 · 반복",
+    "summary": "사무의자 회전부의 반복 내구를 평가.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>사무의자 회전부의 반복 내구를 평가.</p><p>대응 규격·사양: 회전 · 반복 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 9,
     "createdAt": "2026-06-10T00:00:00.000Z",
     "updatedAt": "2026-06-10T00:00:00.000Z",
     "images": [
-      "images/mfg-detail.jpg"
+      "images/test-hero.jpg"
     ],
     "thumbs": [
-      "images/mfg-detail.jpg"
+      "images/test-hero.jpg"
     ]
   },
   {
     "id": "kv010",
-    "title": "ESC 전극 베이스",
-    "category": "반도체",
+    "title": "침대 프레임 하중 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "material": "Ti",
-    "summary": "정전척 전극 베이스.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>정전척 전극 베이스.</p><p>소재: Ti · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "정하중 · 반복",
+    "summary": "침대 프레임에 반복 하중을 가해 내구를 검증.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>침대 프레임에 반복 하중을 가해 내구를 검증.</p><p>대응 규격·사양: 정하중 · 반복 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 10,
     "createdAt": "2026-06-11T01:00:00.000Z",
     "updatedAt": "2026-06-11T01:00:00.000Z",
     "images": [
-      "images/mfg-mold.jpg"
+      "images/test-durability.jpg"
     ],
     "thumbs": [
-      "images/mfg-mold.jpg"
+      "images/test-durability.jpg"
     ]
   },
   {
     "id": "kv011",
-    "title": "리프트 핀 가이드",
-    "category": "반도체",
+    "title": "수납장 선반 하중 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "material": "세라믹/AL",
-    "summary": "리프트 핀 가이드 어셈블리.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>리프트 핀 가이드 어셈블리.</p><p>소재: 세라믹/AL · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "정하중 · 처짐",
+    "summary": "선반의 적재 하중과 처짐을 측정.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>선반의 적재 하중과 처짐을 측정.</p><p>대응 규격·사양: 정하중 · 처짐 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 11,
     "createdAt": "2026-06-12T02:00:00.000Z",
     "updatedAt": "2026-06-12T02:00:00.000Z",
     "images": [
-      "images/mfg-cnc.jpg"
+      "images/test-lab.jpg"
     ],
     "thumbs": [
-      "images/mfg-cnc.jpg"
+      "images/test-lab.jpg"
     ]
   },
   {
     "id": "kv012",
-    "title": "쿨링 플레이트",
-    "category": "반도체",
+    "title": "만능재료시험기 UTM 100kN",
+    "category": "금속·재료",
     "industry": "",
-    "material": "AL6061",
-    "summary": "냉각 유로 가공 플레이트.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>냉각 유로 가공 플레이트.</p><p>소재: AL6061 · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "KS B 0801 · ISO 6892",
+    "summary": "인장·압축·굽힘을 하나의 장비로 시험하는 UTM.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>인장·압축·굽힘을 하나의 장비로 시험하는 UTM.</p><p>대응 규격·사양: KS B 0801 · ISO 6892 · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 12,
     "createdAt": "2026-06-13T03:00:00.000Z",
     "updatedAt": "2026-06-13T03:00:00.000Z",
     "images": [
-      "images/mfg-cnc2.jpg"
+      "images/test-metal.jpg"
     ],
     "thumbs": [
-      "images/mfg-cnc2.jpg"
+      "images/test-metal.jpg"
     ]
   },
   {
     "id": "kv013",
-    "title": "임플란트 스크루",
-    "category": "의료기기",
+    "title": "만능재료시험기 UTM 300kN",
+    "category": "금속·재료",
     "industry": "",
-    "material": "Ti Grade5",
-    "summary": "생체적합 티타늄 스크루. 추적성 관리.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>생체적합 티타늄 스크루. 추적성 관리.</p><p>소재: Ti Grade5 · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "ASTM E8 · Class 0.5",
+    "summary": "중대형 시편의 인장·압축 시험용 UTM.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>중대형 시편의 인장·압축 시험용 UTM.</p><p>대응 규격·사양: ASTM E8 · Class 0.5 · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 13,
     "createdAt": "2026-06-14T04:00:00.000Z",
     "updatedAt": "2026-06-14T04:00:00.000Z",
     "images": [
-      "images/mfg-parts.jpg"
+      "images/test-measure.jpg"
     ],
     "thumbs": [
-      "images/mfg-parts.jpg"
+      "images/test-measure.jpg"
     ]
   },
   {
     "id": "kv014",
-    "title": "수술기구 핸들",
-    "category": "의료기기",
+    "title": "만능재료시험기 UTM 600kN",
+    "category": "금속·재료",
     "industry": "",
-    "material": "SUS420",
-    "summary": "수술기구 핸들. 표면 폴리싱.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>수술기구 핸들. 표면 폴리싱.</p><p>소재: SUS420 · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "고하중 · 유압식",
+    "summary": "고하중 금속 시편의 강도 시험용 유압식 UTM.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>고하중 금속 시편의 강도 시험용 유압식 UTM.</p><p>대응 규격·사양: 고하중 · 유압식 · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 14,
     "createdAt": "2026-06-15T05:00:00.000Z",
     "updatedAt": "2026-06-15T05:00:00.000Z",
     "images": [
-      "images/mfg-tools.jpg"
+      "images/test-hero.jpg"
     ],
     "thumbs": [
-      "images/mfg-tools.jpg"
+      "images/test-hero.jpg"
     ]
   },
   {
     "id": "kv015",
-    "title": "인퓨전 매니폴드",
-    "category": "의료기기",
+    "title": "유압식 인장 시험기",
+    "category": "금속·재료",
     "industry": "",
-    "material": "PSU",
-    "summary": "약액 매니폴드. 클린룸 조립.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>약액 매니폴드. 클린룸 조립.</p><p>소재: PSU · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "인장 · 항복강도",
+    "summary": "금속의 인장·항복·연신율을 측정하는 시험기.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>금속의 인장·항복·연신율을 측정하는 시험기.</p><p>대응 규격·사양: 인장 · 항복강도 · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 15,
     "createdAt": "2026-06-16T06:00:00.000Z",
     "updatedAt": "2026-06-16T06:00:00.000Z",
     "images": [
-      "images/mfg-machine.jpg"
+      "images/test-metal.jpg"
     ],
     "thumbs": [
-      "images/mfg-machine.jpg"
+      "images/test-metal.jpg"
     ]
   },
   {
     "id": "kv016",
-    "title": "내시경 하우징",
-    "category": "의료기기",
+    "title": "압축 강도 시험기",
+    "category": "금속·재료",
     "industry": "",
-    "material": "SUS304",
-    "summary": "내시경 하우징. 미세 가공.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>내시경 하우징. 미세 가공.</p><p>소재: SUS304 · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "압축 · 좌굴",
+    "summary": "재료의 압축 강도와 좌굴 거동을 평가.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>재료의 압축 강도와 좌굴 거동을 평가.</p><p>대응 규격·사양: 압축 · 좌굴 · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 16,
     "createdAt": "2026-06-17T07:00:00.000Z",
     "updatedAt": "2026-06-17T07:00:00.000Z",
     "images": [
-      "images/mfg-robot.jpg"
+      "images/test-measure.jpg"
     ],
     "thumbs": [
-      "images/mfg-robot.jpg"
+      "images/test-measure.jpg"
     ]
   },
   {
     "id": "kv017",
-    "title": "정형 플레이트",
-    "category": "의료기기",
+    "title": "굽힘 시험기",
+    "category": "금속·재료",
     "industry": "",
-    "material": "Ti Grade23",
-    "summary": "정형용 고정 플레이트.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>정형용 고정 플레이트.</p><p>소재: Ti Grade23 · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "3점·4점 굽힘",
+    "summary": "3점·4점 굽힘으로 재료의 굽힘 특성을 시험.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>3점·4점 굽힘으로 재료의 굽힘 특성을 시험.</p><p>대응 규격·사양: 3점·4점 굽힘 · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 17,
     "createdAt": "2026-06-18T08:00:00.000Z",
     "updatedAt": "2026-06-18T08:00:00.000Z",
     "images": [
-      "images/mfg-auto.jpg"
+      "images/test-hero.jpg"
     ],
     "thumbs": [
-      "images/mfg-auto.jpg"
+      "images/test-hero.jpg"
     ]
   },
   {
     "id": "kv018",
-    "title": "액추에이터 바디",
-    "category": "항공·방산",
+    "title": "브리넬 경도 시험기",
+    "category": "금속·재료",
     "industry": "",
-    "material": "Ti-6Al-4V",
-    "summary": "비행 제어 액추에이터 바디.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>비행 제어 액추에이터 바디.</p><p>소재: Ti-6Al-4V · 카테고리: 항공·방산</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "KS B 0805 · HB",
+    "summary": "압입 자국 지름으로 브리넬 경도를 측정.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>압입 자국 지름으로 브리넬 경도를 측정.</p><p>대응 규격·사양: KS B 0805 · HB · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 18,
     "createdAt": "2026-06-19T00:00:00.000Z",
     "updatedAt": "2026-06-19T00:00:00.000Z",
     "images": [
-      "images/mfg-detail.jpg"
+      "images/test-metal.jpg"
     ],
     "thumbs": [
-      "images/mfg-detail.jpg"
+      "images/test-metal.jpg"
     ]
   },
   {
     "id": "kv019",
-    "title": "브래킷 어셈블리",
-    "category": "항공·방산",
+    "title": "로크웰 경도 시험기",
+    "category": "금속·재료",
     "industry": "",
-    "material": "AL7050",
-    "summary": "구조 브래킷 어셈블리.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>구조 브래킷 어셈블리.</p><p>소재: AL7050 · 카테고리: 항공·방산</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "ISO 6508 · HRC",
+    "summary": "압입 깊이로 로크웰 경도를 신속 측정.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>압입 깊이로 로크웰 경도를 신속 측정.</p><p>대응 규격·사양: ISO 6508 · HRC · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 19,
     "createdAt": "2026-06-20T01:00:00.000Z",
     "updatedAt": "2026-06-20T01:00:00.000Z",
     "images": [
-      "images/mfg-mold.jpg"
+      "images/test-measure.jpg"
     ],
     "thumbs": [
-      "images/mfg-mold.jpg"
+      "images/test-measure.jpg"
     ]
   },
   {
     "id": "kv020",
-    "title": "기어박스 하우징",
-    "category": "항공·방산",
+    "title": "비커스 경도 시험기",
+    "category": "금속·재료",
     "industry": "",
-    "material": "AL A356",
-    "summary": "경량 기어박스 하우징.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>경량 기어박스 하우징.</p><p>소재: AL A356 · 카테고리: 항공·방산</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "ISO 6507 · HV",
+    "summary": "미소 압입으로 비커스 경도를 정밀 측정.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>미소 압입으로 비커스 경도를 정밀 측정.</p><p>대응 규격·사양: ISO 6507 · HV · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 20,
     "createdAt": "2026-06-21T02:00:00.000Z",
     "updatedAt": "2026-06-21T02:00:00.000Z",
     "images": [
-      "images/mfg-cnc.jpg"
+      "images/test-hero.jpg"
     ],
     "thumbs": [
-      "images/mfg-cnc.jpg"
+      "images/test-hero.jpg"
     ]
   },
   {
     "id": "kv021",
-    "title": "커넥터 백셸",
-    "category": "항공·방산",
+    "title": "샤르피 충격 시험기",
+    "category": "금속·재료",
     "industry": "",
-    "material": "AL7075",
-    "summary": "방산 커넥터 백셸.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>방산 커넥터 백셸.</p><p>소재: AL7075 · 카테고리: 항공·방산</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "KS B 0810 · 충격",
+    "summary": "노치 시편의 충격 흡수 에너지를 측정.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>노치 시편의 충격 흡수 에너지를 측정.</p><p>대응 규격·사양: KS B 0810 · 충격 · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 21,
     "createdAt": "2026-06-22T03:00:00.000Z",
     "updatedAt": "2026-06-22T03:00:00.000Z",
     "images": [
-      "images/mfg-cnc2.jpg"
+      "images/test-metal.jpg"
     ],
     "thumbs": [
-      "images/mfg-cnc2.jpg"
+      "images/test-metal.jpg"
     ]
   },
   {
     "id": "kv022",
-    "title": "히트싱크",
-    "category": "전자",
+    "title": "에릭센 컵핑 시험기",
+    "category": "금속·재료",
     "industry": "",
-    "material": "AL6063",
-    "summary": "고방열 히트싱크. 스카이빙 가공.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>고방열 히트싱크. 스카이빙 가공.</p><p>소재: AL6063 · 카테고리: 전자</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "성형성 · 컵핑",
+    "summary": "박판의 성형성을 컵핑으로 평가.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>박판의 성형성을 컵핑으로 평가.</p><p>대응 규격·사양: 성형성 · 컵핑 · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 22,
     "createdAt": "2026-06-23T04:00:00.000Z",
     "updatedAt": "2026-06-23T04:00:00.000Z",
     "images": [
-      "images/mfg-parts.jpg"
+      "images/test-measure.jpg"
     ],
     "thumbs": [
-      "images/mfg-parts.jpg"
+      "images/test-measure.jpg"
     ]
   },
   {
     "id": "kv023",
-    "title": "커넥터 하우징",
-    "category": "전자",
+    "title": "반복하중 피로 시험기",
+    "category": "내구·피로",
     "industry": "",
-    "material": "엔지니어링 플라스틱",
-    "summary": "정밀 커넥터 하우징.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>정밀 커넥터 하우징.</p><p>소재: 엔지니어링 플라스틱 · 카테고리: 전자</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "S-N · 10⁶ 사이클",
+    "summary": "반복 하중으로 부품의 피로 수명을 평가.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>반복 하중으로 부품의 피로 수명을 평가.</p><p>대응 규격·사양: S-N · 10⁶ 사이클 · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 23,
     "createdAt": "2026-06-24T05:00:00.000Z",
     "updatedAt": "2026-06-24T05:00:00.000Z",
     "images": [
-      "images/mfg-tools.jpg"
+      "images/test-press.jpg"
     ],
     "thumbs": [
-      "images/mfg-tools.jpg"
+      "images/test-press.jpg"
     ]
   },
   {
     "id": "kv024",
-    "title": "방열 플레이트",
-    "category": "전자",
+    "title": "굽힘 피로 시험기",
+    "category": "내구·피로",
     "industry": "",
-    "material": "구리",
-    "summary": "고전력 방열 플레이트.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>고전력 방열 플레이트.</p><p>소재: 구리 · 카테고리: 전자</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "굽힘 · 반복",
+    "summary": "반복 굽힘으로 재료·부품의 피로를 시험.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>반복 굽힘으로 재료·부품의 피로를 시험.</p><p>대응 규격·사양: 굽힘 · 반복 · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 24,
     "createdAt": "2026-06-25T06:00:00.000Z",
     "updatedAt": "2026-06-25T06:00:00.000Z",
     "images": [
-      "images/mfg-machine.jpg"
+      "images/test-lab.jpg"
     ],
     "thumbs": [
-      "images/mfg-machine.jpg"
+      "images/test-lab.jpg"
     ]
   },
   {
     "id": "kv025",
-    "title": "EMI 실드 케이스",
-    "category": "전자",
+    "title": "진동 내구 시험기",
+    "category": "내구·피로",
     "industry": "",
-    "material": "AL5052",
-    "summary": "EMI 차폐 케이스.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>EMI 차폐 케이스.</p><p>소재: AL5052 · 카테고리: 전자</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "진동 · 환경결합",
+    "summary": "진동 조건에서 부품의 내구성을 검증.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>진동 조건에서 부품의 내구성을 검증.</p><p>대응 규격·사양: 진동 · 환경결합 · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 25,
     "createdAt": "2026-06-26T07:00:00.000Z",
     "updatedAt": "2026-06-26T07:00:00.000Z",
     "images": [
-      "images/mfg-robot.jpg"
+      "images/test-hero.jpg"
     ],
     "thumbs": [
-      "images/mfg-robot.jpg"
+      "images/test-hero.jpg"
     ]
   },
   {
     "id": "kv026",
-    "title": "구동 샤프트 · A타입",
-    "category": "자동차",
+    "title": "버튼 수명 시험기",
+    "category": "내구·피로",
     "industry": "",
-    "material": "AL7075",
-    "summary": "구동 계통 정밀 샤프트. ±0.005mm 공차 관리.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>구동 계통 정밀 샤프트. ±0.005mm 공차 관리.</p><p>소재: AL7075 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "누름 · 사이클",
+    "summary": "버튼·키의 누름 반복 수명을 시험.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>버튼·키의 누름 반복 수명을 시험.</p><p>대응 규격·사양: 누름 · 사이클 · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 26,
     "createdAt": "2026-06-27T08:00:00.000Z",
     "updatedAt": "2026-06-27T08:00:00.000Z",
     "images": [
-      "images/mfg-auto.jpg"
+      "images/test-press.jpg"
     ],
     "thumbs": [
-      "images/mfg-auto.jpg"
+      "images/test-press.jpg"
     ]
   },
   {
     "id": "kv027",
-    "title": "브레이크 캘리퍼 브래킷 · A타입",
-    "category": "자동차",
+    "title": "커넥터 삽발 수명 시험기",
+    "category": "내구·피로",
     "industry": "",
-    "material": "주철",
-    "summary": "제동 계통 브래킷. IATF 16949 기준 양산.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>제동 계통 브래킷. IATF 16949 기준 양산.</p><p>소재: 주철 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "삽입·발거 · 수명",
+    "summary": "커넥터 삽입·발거 반복 수명을 검증.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>커넥터 삽입·발거 반복 수명을 검증.</p><p>대응 규격·사양: 삽입·발거 · 수명 · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 27,
-    "createdAt": "2026-06-28T00:00:00.000Z",
-    "updatedAt": "2026-06-28T00:00:00.000Z",
+    "createdAt": "2026-06-01T00:00:00.000Z",
+    "updatedAt": "2026-06-01T00:00:00.000Z",
     "images": [
-      "images/mfg-detail.jpg"
+      "images/test-lab.jpg"
     ],
     "thumbs": [
-      "images/mfg-detail.jpg"
+      "images/test-lab.jpg"
     ]
   },
   {
     "id": "kv028",
-    "title": "트랜스미션 기어 · A타입",
-    "category": "자동차",
+    "title": "힌지 개폐 수명 시험기",
+    "category": "내구·피로",
     "industry": "",
-    "material": "SCM420",
-    "summary": "침탄 열처리 기어. 소음·내구 최적화.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>침탄 열처리 기어. 소음·내구 최적화.</p><p>소재: SCM420 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "개폐 · 사이클",
+    "summary": "힌지의 개폐 반복 수명을 사이클로 시험.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>힌지의 개폐 반복 수명을 사이클로 시험.</p><p>대응 규격·사양: 개폐 · 사이클 · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 28,
-    "createdAt": "2026-06-01T01:00:00.000Z",
-    "updatedAt": "2026-06-01T01:00:00.000Z",
+    "createdAt": "2026-06-02T01:00:00.000Z",
+    "updatedAt": "2026-06-02T01:00:00.000Z",
     "images": [
-      "images/mfg-mold.jpg"
+      "images/test-hero.jpg"
     ],
     "thumbs": [
-      "images/mfg-mold.jpg"
+      "images/test-hero.jpg"
     ]
   },
   {
     "id": "kv029",
-    "title": "스티어링 너클 · A타입",
-    "category": "자동차",
+    "title": "스위치 반복 시험기",
+    "category": "내구·피로",
     "industry": "",
-    "material": "단조 AL",
-    "summary": "조향 너클. 5축 복합 가공.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>조향 너클. 5축 복합 가공.</p><p>소재: 단조 AL · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "동작 · 수명",
+    "summary": "스위치 반복 동작 수명을 평가.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>스위치 반복 동작 수명을 평가.</p><p>대응 규격·사양: 동작 · 수명 · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 29,
-    "createdAt": "2026-06-02T02:00:00.000Z",
-    "updatedAt": "2026-06-02T02:00:00.000Z",
+    "createdAt": "2026-06-03T02:00:00.000Z",
+    "updatedAt": "2026-06-03T02:00:00.000Z",
     "images": [
-      "images/mfg-cnc.jpg"
+      "images/test-press.jpg"
     ],
     "thumbs": [
-      "images/mfg-cnc.jpg"
+      "images/test-press.jpg"
     ]
   },
   {
     "id": "kv030",
-    "title": "인젝터 하우징 · A타입",
-    "category": "자동차",
+    "title": "케이블 굴곡 시험기",
+    "category": "내구·피로",
     "industry": "",
-    "material": "SUS303",
-    "summary": "연료계 하우징. 기밀 검사 완료.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>연료계 하우징. 기밀 검사 완료.</p><p>소재: SUS303 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "굴곡 · 단선",
+    "summary": "케이블의 반복 굴곡 내구와 단선을 시험.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>케이블의 반복 굴곡 내구와 단선을 시험.</p><p>대응 규격·사양: 굴곡 · 단선 · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 30,
-    "createdAt": "2026-06-03T03:00:00.000Z",
-    "updatedAt": "2026-06-03T03:00:00.000Z",
+    "createdAt": "2026-06-04T03:00:00.000Z",
+    "updatedAt": "2026-06-04T03:00:00.000Z",
     "images": [
-      "images/mfg-cnc2.jpg"
+      "images/test-lab.jpg"
     ],
     "thumbs": [
-      "images/mfg-cnc2.jpg"
+      "images/test-lab.jpg"
     ]
   },
   {
     "id": "kv031",
-    "title": "모터 엔드 브래킷 · A타입",
-    "category": "자동차",
+    "title": "회전 굽힘 피로 시험기",
+    "category": "내구·피로",
     "industry": "",
-    "material": "AL6061",
-    "summary": "구동 모터 엔드 브래킷.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>구동 모터 엔드 브래킷.</p><p>소재: AL6061 · 카테고리: 자동차</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "회전굽힘 · S-N",
+    "summary": "회전 굽힘으로 축·봉재의 피로를 평가.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>회전 굽힘으로 축·봉재의 피로를 평가.</p><p>대응 규격·사양: 회전굽힘 · S-N · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 31,
-    "createdAt": "2026-06-04T04:00:00.000Z",
-    "updatedAt": "2026-06-04T04:00:00.000Z",
+    "createdAt": "2026-06-05T04:00:00.000Z",
+    "updatedAt": "2026-06-05T04:00:00.000Z",
     "images": [
-      "images/mfg-parts.jpg"
+      "images/test-hero.jpg"
     ],
     "thumbs": [
-      "images/mfg-parts.jpg"
+      "images/test-hero.jpg"
     ]
   },
   {
     "id": "kv032",
-    "title": "챔버 플랜지 · A타입",
-    "category": "반도체",
+    "title": "열충격 내구 시험기",
+    "category": "내구·피로",
     "industry": "",
-    "material": "SUS316L",
-    "summary": "진공 챔버 플랜지. 고청정 가공.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>진공 챔버 플랜지. 고청정 가공.</p><p>소재: SUS316L · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "온도 · 반복",
+    "summary": "급격한 온도 변화로 내구성을 검증.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>급격한 온도 변화로 내구성을 검증.</p><p>대응 규격·사양: 온도 · 반복 · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 32,
-    "createdAt": "2026-06-05T05:00:00.000Z",
-    "updatedAt": "2026-06-05T05:00:00.000Z",
+    "createdAt": "2026-06-06T05:00:00.000Z",
+    "updatedAt": "2026-06-06T05:00:00.000Z",
     "images": [
-      "images/mfg-tools.jpg"
+      "images/test-press.jpg"
     ],
     "thumbs": [
-      "images/mfg-tools.jpg"
+      "images/test-press.jpg"
     ]
   },
   {
     "id": "kv033",
-    "title": "웨이퍼 척 베이스 · A타입",
-    "category": "반도체",
+    "title": "맞춤형 지그 시험 장비",
+    "category": "맞춤 시험",
     "industry": "",
-    "material": "AL6061",
-    "summary": "웨이퍼 척 베이스. 평면도 관리.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>웨이퍼 척 베이스. 평면도 관리.</p><p>소재: AL6061 · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "전용 지그 · 규격",
+    "summary": "시편에 맞춘 전용 지그로 규격을 재현.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>시편에 맞춘 전용 지그로 규격을 재현.</p><p>대응 규격·사양: 전용 지그 · 규격 · 분야: 맞춤 시험</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 33,
-    "createdAt": "2026-06-06T06:00:00.000Z",
-    "updatedAt": "2026-06-06T06:00:00.000Z",
+    "createdAt": "2026-06-07T06:00:00.000Z",
+    "updatedAt": "2026-06-07T06:00:00.000Z",
     "images": [
-      "images/mfg-machine.jpg"
+      "images/test-custom.jpg"
     ],
     "thumbs": [
-      "images/mfg-machine.jpg"
+      "images/test-custom.jpg"
     ]
   },
   {
     "id": "kv034",
-    "title": "가스 매니폴드 · A타입",
-    "category": "반도체",
+    "title": "다채널 동시 시험 장비",
+    "category": "맞춤 시험",
     "industry": "",
-    "material": "SUS316L",
-    "summary": "가스 분배 매니폴드. 헬륨 리크 검사.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>가스 분배 매니폴드. 헬륨 리크 검사.</p><p>소재: SUS316L · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "다채널 · 동시시험",
+    "summary": "여러 시편을 동시에 시험하는 다채널 장비.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>여러 시편을 동시에 시험하는 다채널 장비.</p><p>대응 규격·사양: 다채널 · 동시시험 · 분야: 맞춤 시험</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 34,
-    "createdAt": "2026-06-07T07:00:00.000Z",
-    "updatedAt": "2026-06-07T07:00:00.000Z",
+    "createdAt": "2026-06-08T07:00:00.000Z",
+    "updatedAt": "2026-06-08T07:00:00.000Z",
     "images": [
-      "images/mfg-robot.jpg"
+      "images/test-design.jpg"
     ],
     "thumbs": [
-      "images/mfg-robot.jpg"
+      "images/test-design.jpg"
     ]
   },
   {
     "id": "kv035",
-    "title": "ESC 전극 베이스 · A타입",
-    "category": "반도체",
+    "title": "환경 결합 복합 시험 장비",
+    "category": "맞춤 시험",
     "industry": "",
-    "material": "Ti",
-    "summary": "정전척 전극 베이스.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>정전척 전극 베이스.</p><p>소재: Ti · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "온도·진동 결합",
+    "summary": "온도·진동 등 환경을 결합한 복합 시험 장비.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>온도·진동 등 환경을 결합한 복합 시험 장비.</p><p>대응 규격·사양: 온도·진동 결합 · 분야: 맞춤 시험</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 35,
-    "createdAt": "2026-06-08T08:00:00.000Z",
-    "updatedAt": "2026-06-08T08:00:00.000Z",
+    "createdAt": "2026-06-09T08:00:00.000Z",
+    "updatedAt": "2026-06-09T08:00:00.000Z",
     "images": [
-      "images/mfg-auto.jpg"
+      "images/test-hero.jpg"
     ],
     "thumbs": [
-      "images/mfg-auto.jpg"
+      "images/test-hero.jpg"
     ]
   },
   {
     "id": "kv036",
-    "title": "리프트 핀 가이드 · A타입",
-    "category": "반도체",
+    "title": "특수 하중 시험 장비",
+    "category": "맞춤 시험",
     "industry": "",
-    "material": "세라믹/AL",
-    "summary": "리프트 핀 가이드 어셈블리.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>리프트 핀 가이드 어셈블리.</p><p>소재: 세라믹/AL · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "맞춤 하중 · 행정",
+    "summary": "요구 하중·행정에 맞춘 특수 시험 장비.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>요구 하중·행정에 맞춘 특수 시험 장비.</p><p>대응 규격·사양: 맞춤 하중 · 행정 · 분야: 맞춤 시험</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 36,
-    "createdAt": "2026-06-09T00:00:00.000Z",
-    "updatedAt": "2026-06-09T00:00:00.000Z",
+    "createdAt": "2026-06-10T00:00:00.000Z",
+    "updatedAt": "2026-06-10T00:00:00.000Z",
     "images": [
-      "images/mfg-detail.jpg"
+      "images/test-custom.jpg"
     ],
     "thumbs": [
-      "images/mfg-detail.jpg"
+      "images/test-custom.jpg"
     ]
   },
   {
     "id": "kv037",
-    "title": "쿨링 플레이트 · A타입",
-    "category": "반도체",
+    "title": "자동 반복 시험 시스템",
+    "category": "맞춤 시험",
     "industry": "",
-    "material": "AL6061",
-    "summary": "냉각 유로 가공 플레이트.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>냉각 유로 가공 플레이트.</p><p>소재: AL6061 · 카테고리: 반도체</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "무인 · 자동화",
+    "summary": "무인 자동 반복 시험이 가능한 시스템.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>무인 자동 반복 시험이 가능한 시스템.</p><p>대응 규격·사양: 무인 · 자동화 · 분야: 맞춤 시험</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 37,
-    "createdAt": "2026-06-10T01:00:00.000Z",
-    "updatedAt": "2026-06-10T01:00:00.000Z",
+    "createdAt": "2026-06-11T01:00:00.000Z",
+    "updatedAt": "2026-06-11T01:00:00.000Z",
     "images": [
-      "images/mfg-mold.jpg"
+      "images/test-design.jpg"
     ],
     "thumbs": [
-      "images/mfg-mold.jpg"
+      "images/test-design.jpg"
     ]
   },
   {
     "id": "kv038",
-    "title": "임플란트 스크루 · A타입",
-    "category": "의료기기",
+    "title": "제품 전용 내구 시험기",
+    "category": "맞춤 시험",
     "industry": "",
-    "material": "Ti Grade5",
-    "summary": "생체적합 티타늄 스크루. 추적성 관리.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>생체적합 티타늄 스크루. 추적성 관리.</p><p>소재: Ti Grade5 · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
+    "material": "제품맞춤 · 내구",
+    "summary": "고객 제품에 특화된 전용 내구 시험기.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>고객 제품에 특화된 전용 내구 시험기.</p><p>대응 규격·사양: 제품맞춤 · 내구 · 분야: 맞춤 시험</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
     "order": 38,
-    "createdAt": "2026-06-11T02:00:00.000Z",
-    "updatedAt": "2026-06-11T02:00:00.000Z",
+    "createdAt": "2026-06-12T02:00:00.000Z",
+    "updatedAt": "2026-06-12T02:00:00.000Z",
     "images": [
-      "images/mfg-cnc.jpg"
+      "images/test-hero.jpg"
     ],
     "thumbs": [
-      "images/mfg-cnc.jpg"
-    ]
-  },
-  {
-    "id": "kv039",
-    "title": "수술기구 핸들 · A타입",
-    "category": "의료기기",
-    "industry": "",
-    "material": "SUS420",
-    "summary": "수술기구 핸들. 표면 폴리싱.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>수술기구 핸들. 표면 폴리싱.</p><p>소재: SUS420 · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
-    "status": "published",
-    "order": 39,
-    "createdAt": "2026-06-12T03:00:00.000Z",
-    "updatedAt": "2026-06-12T03:00:00.000Z",
-    "images": [
-      "images/mfg-cnc2.jpg"
-    ],
-    "thumbs": [
-      "images/mfg-cnc2.jpg"
-    ]
-  },
-  {
-    "id": "kv040",
-    "title": "인퓨전 매니폴드 · A타입",
-    "category": "의료기기",
-    "industry": "",
-    "material": "PSU",
-    "summary": "약액 매니폴드. 클린룸 조립.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>약액 매니폴드. 클린룸 조립.</p><p>소재: PSU · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
-    "status": "published",
-    "order": 40,
-    "createdAt": "2026-06-13T04:00:00.000Z",
-    "updatedAt": "2026-06-13T04:00:00.000Z",
-    "images": [
-      "images/mfg-parts.jpg"
-    ],
-    "thumbs": [
-      "images/mfg-parts.jpg"
-    ]
-  },
-  {
-    "id": "kv041",
-    "title": "내시경 하우징 · A타입",
-    "category": "의료기기",
-    "industry": "",
-    "material": "SUS304",
-    "summary": "내시경 하우징. 미세 가공.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>내시경 하우징. 미세 가공.</p><p>소재: SUS304 · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
-    "status": "published",
-    "order": 41,
-    "createdAt": "2026-06-14T05:00:00.000Z",
-    "updatedAt": "2026-06-14T05:00:00.000Z",
-    "images": [
-      "images/mfg-tools.jpg"
-    ],
-    "thumbs": [
-      "images/mfg-tools.jpg"
-    ]
-  },
-  {
-    "id": "kv042",
-    "title": "정형 플레이트 · A타입",
-    "category": "의료기기",
-    "industry": "",
-    "material": "Ti Grade23",
-    "summary": "정형용 고정 플레이트.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>정형용 고정 플레이트.</p><p>소재: Ti Grade23 · 카테고리: 의료기기</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
-    "status": "published",
-    "order": 42,
-    "createdAt": "2026-06-15T06:00:00.000Z",
-    "updatedAt": "2026-06-15T06:00:00.000Z",
-    "images": [
-      "images/mfg-machine.jpg"
-    ],
-    "thumbs": [
-      "images/mfg-machine.jpg"
-    ]
-  },
-  {
-    "id": "kv043",
-    "title": "액추에이터 바디 · A타입",
-    "category": "항공·방산",
-    "industry": "",
-    "material": "Ti-6Al-4V",
-    "summary": "비행 제어 액추에이터 바디.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>비행 제어 액추에이터 바디.</p><p>소재: Ti-6Al-4V · 카테고리: 항공·방산</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
-    "status": "published",
-    "order": 43,
-    "createdAt": "2026-06-16T07:00:00.000Z",
-    "updatedAt": "2026-06-16T07:00:00.000Z",
-    "images": [
-      "images/mfg-robot.jpg"
-    ],
-    "thumbs": [
-      "images/mfg-robot.jpg"
-    ]
-  },
-  {
-    "id": "kv044",
-    "title": "브래킷 어셈블리 · A타입",
-    "category": "항공·방산",
-    "industry": "",
-    "material": "AL7050",
-    "summary": "구조 브래킷 어셈블리.",
-    "process": "5축 CNC / 정밀 가공",
-    "body": "<p>구조 브래킷 어셈블리.</p><p>소재: AL7050 · 카테고리: 항공·방산</p><p>±0.005mm 공차, 전수 검사 및 측정 성적서 제공. 소량 다품종부터 양산까지 대응합니다.</p>",
-    "status": "published",
-    "order": 44,
-    "createdAt": "2026-06-17T08:00:00.000Z",
-    "updatedAt": "2026-06-17T08:00:00.000Z",
-    "images": [
-      "images/mfg-auto.jpg"
-    ],
-    "thumbs": [
-      "images/mfg-auto.jpg"
+      "images/test-hero.jpg"
     ]
   }
 ]
