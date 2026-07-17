@@ -37,7 +37,7 @@
   --spacing-64: 64px; --spacing-128: 128px; --spacing-160: 160px;
 
   /* Layout / radius (중간 톤 — 너무 둥글지 않게) */
-  --page-max-width: 1200px;
+  --page-max-width: 1920px;
   --radius-sm: 4px;
   --radius-lg: 8px;
   --radius-2xl: 12px;
@@ -2625,6 +2625,11 @@ body.site-hp .split__panel{ background:#fff; border:1px solid var(--color-lichen
 body.site-hp .split__bar{ background:#e3e6eb; }
 body.site-hp .split__bar i,
 body.site-hp .split__list li::before{ background:var(--color-forest-floor); }
+
+/* 카드 선택 이미지(없으면 숨김, 첨부하면 표시) */
+.card__optimg{ display:none; }
+.card__optimg.is-on{ display:block; margin-bottom:14px; }
+.card__optimg img{ width:100%; height:auto; display:block; border-radius:2px; }
 
 /* Spec 테이블 — 헤어라인 */
 body.site-hp .spec thead th{ color:var(--color-forest-floor); }
