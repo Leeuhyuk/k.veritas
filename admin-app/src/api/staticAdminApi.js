@@ -13,7 +13,6 @@ import {
   saveDoc,
   removeDoc,
   uploadPublicFile,
-  uploadPublicJson,
   getClientAuth,
 } from '../lib/firebaseClient.js';
 
@@ -149,14 +148,20 @@ export const staticAdminApi = {
     return item;
   },
 
-  // 관리자 제품(Firestore)을 공개 사이트가 읽는 파일(GCS)로 내보내기
+  // 관리자 제품(Firestore)을 공개 사이트가 읽는 곳으로 내보내기
+  // → 공개 읽기가 되는 pages 컬렉션의 문서에 JSON 문자열로 저장(CORS·권한 안전)
   async publishProducts() {
     await requireAdminUser();
     const all = await listCollection('products');
     const pub = (all || [])
       .filter((p) => p && p.status !== 'draft' && p.status !== 'hidden')
       .sort((a, b) => (a.order || 0) - (b.order || 0));
-    await uploadPublicJson('products-index.json', pub);
+    await saveDoc('pages', {
+      id: 'products-index',
+      json: JSON.stringify(pub),
+      count: pub.length,
+      updatedAt: new Date().toISOString(),
+    });
     return { count: pub.length };
   },
 

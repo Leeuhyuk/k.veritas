@@ -48,16 +48,21 @@
 
       if (!id) { root.innerHTML = '<p class="empty-note">잘못된 접근입니다.</p>'; return; }
 
-      // 관리자 공개 내보내기(GCS) 우선 → 서버(/api) → 정적 export 순으로 조회
-      const PUB = 'https://storage.googleapis.com/production-management-e70fd-media/public/products-index.json';
+      // 관리자 공개 내보내기(pages/__products_index__) 우선 → 서버(/api) → 정적 export 순으로 조회
+      const PUB_INDEX = 'https://firestore.googleapis.com/v1/projects/production-management-e70fd/databases/(default)/documents/pages/products-index';
       const findIn = (list) => {
         const arr = Array.isArray(list) ? list : (list.items || list.products || []);
         const found = arr.filter(Boolean).find((x) => String(x.id) === String(id));
         if (!found) throw new Error();
         return found;
       };
-      const fetchProduct = () => fetch(PUB, { cache: 'no-store' })
+      const fetchProduct = () => fetch(PUB_INDEX, { cache: 'no-store' })
         .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+        .then((doc) => {
+          const s = doc && doc.fields && doc.fields.json && doc.fields.json.stringValue;
+          if (!s) throw new Error();
+          return JSON.parse(s);
+        })
         .then(findIn)
         .catch(() => fetch('/api/products/' + encodeURIComponent(id))
           .then((r) => { if (!r.ok) throw new Error(); return r.json(); }))
