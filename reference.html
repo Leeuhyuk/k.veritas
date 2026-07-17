@@ -24,7 +24,17 @@
     </section>
 
     <section class="page">
-      <div class="filter-chips" id="res-filter"></div>
+      <div class="res-toolbar">
+        <div class="filter-chips" id="res-filter"></div>
+        <div class="view-toggle" id="view-toggle" role="group" aria-label="보기 방식">
+          <button type="button" data-view="card" title="카드 보기" aria-label="카드 보기">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>카드</span>
+          </button>
+          <button type="button" data-view="list" title="목록 보기" aria-label="목록 보기">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span>목록</span>
+          </button>
+        </div>
+      </div>
       <div id="resources-root" aria-live="polite">
         <div class="list-skeleton list-skeleton--table" aria-busy="true" aria-label="불러오는 중">
           <div class="list-skeleton__row"><span class="list-skeleton__bar list-skeleton__bar--sm"></span><span class="list-skeleton__bar list-skeleton__bar--lg"></span><span class="list-skeleton__bar list-skeleton__bar--md"></span></div>
@@ -60,6 +70,9 @@
     var docIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>';
     var PER = 32; /* 4열 × 8행 */
     var page = 1;
+    var view = 'card';
+    try { view = localStorage.getItem('res-view') || 'card'; } catch (e) { /* ignore */ }
+    var viewToggle = document.getElementById('view-toggle');
 
     function load() {
       return fetch('/api/resources')
@@ -92,38 +105,78 @@
       return h + '</nav>';
     }
 
+    function cardHtml(r) {
+      var href = r.file && r.file !== '#' ? r.file : '#';
+      var canDl = href !== '#';
+      var dlName = r.originalName ? ' download="' + esc(r.originalName) + '"' : '';
+      var detailHref = 'resource-detail.html?id=' + encodeURIComponent(r.id);
+      var thumb = (r.thumb || r.image)
+        ? '<img src="' + esc(r.thumb || r.image) + '" alt="" loading="lazy" onerror="this.remove()" />'
+        : docIcon;
+      return '<div class="res-card">' +
+        '<a class="res-card__main" href="' + detailHref + '">' +
+          '<span class="res-card__thumb"><span class="res-card__ext">' + esc(extOf(r)) + '</span>' + thumb + '</span>' +
+          '<span class="res-card__b">' +
+            (r.category ? '<span class="tag">' + esc(r.category) + '</span>' : '') +
+            '<h3>' + esc(r.title || '(제목 없음)') + '</h3>' +
+            (r.description ? '<p>' + esc(r.description) + '</p>' : '') +
+          '</span>' +
+        '</a>' +
+        '<div class="res-card__foot">' +
+          '<span class="res-card__size">' + (fmtSize(r.size) || '&nbsp;') + '</span>' +
+          (canDl
+            ? '<a class="btn btn--primary btn--sm res-card__dl" href="' + esc(href) + '"' + dlName + ' rel="noopener">' + dlIcon + '<span>다운로드</span></a>'
+            : '<a class="btn btn--ghost btn--sm res-card__dl" href="' + detailHref + '">자세히</a>') +
+        '</div>' +
+      '</div>';
+    }
+    function listHtml(r) {
+      var href = r.file && r.file !== '#' ? r.file : '#';
+      var canDl = href !== '#';
+      var dlName = r.originalName ? ' download="' + esc(r.originalName) + '"' : '';
+      var detailHref = 'resource-detail.html?id=' + encodeURIComponent(r.id);
+      return '<div class="res-item">' +
+        '<a class="res-item__ic" href="' + detailHref + '" aria-label="상세 보기">' + esc(extOf(r)) + '</a>' +
+        '<a class="res-item__t" href="' + detailHref + '"><h3>' + esc(r.title || '(제목 없음)') + '</h3>' +
+          (r.description ? '<p>' + esc(r.description) + '</p>' : '') + '</a>' +
+        (r.category ? '<span class="tag">' + esc(r.category) + '</span>' : '<span></span>') +
+        '<span class="res-item__size">' + fmtSize(r.size) + '</span>' +
+        (canDl
+          ? '<a class="btn btn--primary btn--sm res-item__dl" href="' + esc(href) + '"' + dlName + ' rel="noopener">' + dlIcon + '<span>다운로드</span></a>'
+          : '<a class="btn btn--ghost btn--sm res-item__dl" href="' + detailHref + '">자세히</a>') +
+      '</div>';
+    }
+
+    function syncToggle() {
+      if (!viewToggle) return;
+      Array.prototype.forEach.call(viewToggle.querySelectorAll('button'), function (b) {
+        b.classList.toggle('is-active', b.getAttribute('data-view') === view);
+      });
+    }
+
     function render() {
+      syncToggle();
       var list = filtered();
       if (!list.length) { root.innerHTML = '<p class="empty-note">등록된 자료가 없습니다.</p>'; return; }
       var pages = Math.max(1, Math.ceil(list.length / PER));
       if (page > pages) page = pages;
       var slice = list.slice((page - 1) * PER, page * PER);
-      var cards = slice.map(function (r) {
-        var href = r.file && r.file !== '#' ? r.file : '#';
-        var canDl = href !== '#';
-        var dlName = r.originalName ? ' download="' + esc(r.originalName) + '"' : '';
-        var detailHref = 'resource-detail.html?id=' + encodeURIComponent(r.id);
-        var thumb = (r.thumb || r.image)
-          ? '<img src="' + esc(r.thumb || r.image) + '" alt="" loading="lazy" onerror="this.remove()" />'
-          : docIcon;
-        return '<div class="res-card">' +
-          '<a class="res-card__main" href="' + detailHref + '">' +
-            '<span class="res-card__thumb"><span class="res-card__ext">' + esc(extOf(r)) + '</span>' + thumb + '</span>' +
-            '<span class="res-card__b">' +
-              (r.category ? '<span class="tag">' + esc(r.category) + '</span>' : '') +
-              '<h3>' + esc(r.title || '(제목 없음)') + '</h3>' +
-              (r.description ? '<p>' + esc(r.description) + '</p>' : '') +
-            '</span>' +
-          '</a>' +
-          '<div class="res-card__foot">' +
-            '<span class="res-card__size">' + (fmtSize(r.size) || '&nbsp;') + '</span>' +
-            (canDl
-              ? '<a class="btn btn--primary btn--sm res-card__dl" href="' + esc(href) + '"' + dlName + ' rel="noopener">' + dlIcon + '<span>다운로드</span></a>'
-              : '<a class="btn btn--ghost btn--sm res-card__dl" href="' + detailHref + '">자세히</a>') +
-          '</div>' +
-        '</div>';
-      }).join('');
-      root.innerHTML = '<div class="res-grid">' + cards + '</div>' + renderPager(pages);
+      if (view === 'list') {
+        root.innerHTML = '<div class="res-list">' + slice.map(listHtml).join('') + '</div>' + renderPager(pages);
+      } else {
+        root.innerHTML = '<div class="res-grid">' + slice.map(cardHtml).join('') + '</div>' + renderPager(pages);
+      }
+    }
+
+    if (viewToggle) {
+      viewToggle.addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-view]'); if (!b) return;
+        var v = b.getAttribute('data-view');
+        if (v === view) return;
+        view = v;
+        try { localStorage.setItem('res-view', view); } catch (e2) { /* ignore */ }
+        render();
+      });
     }
 
     filterBar.addEventListener('click', function (e) {
