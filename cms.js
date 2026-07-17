@@ -57,6 +57,9 @@
     { c: '.faq', i: '.faq__item' },
     { c: '.channels', i: '.channel' },
     { c: '.stats', i: '.stat' },
+    { c: '.pdp-grid', i: '.card' },
+    { c: '.pdp-feats', i: '.pdp-feat' },
+    { c: '.pdp-steps', i: '.pdp-step' },
   ];
   function listKey(container) { return '__list__' + nodePath(container); }
 
