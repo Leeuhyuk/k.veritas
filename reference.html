@@ -57,6 +57,9 @@
       return b ? b + ' B' : '';
     };
     var dlIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 12 5 5 5-5"/><path d="M5 21h14"/></svg>';
+    var docIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>';
+    var PER = 32; /* 4열 × 8행 */
+    var page = 1;
 
     function load() {
       return fetch('/api/resources')
@@ -78,30 +81,66 @@
       filterBar.innerHTML = html;
     }
 
+    function filtered() { return cat ? all.filter(function (r) { return r.category === cat; }) : all; }
+
+    function renderPager(pages) {
+      if (pages <= 1) return '';
+      var h = '<nav class="pager" aria-label="페이지">';
+      h += '<button data-pg="' + (page - 1) + '"' + (page <= 1 ? ' disabled' : '') + '>이전</button>';
+      for (var i = 1; i <= pages; i++) h += '<button data-pg="' + i + '" class="' + (i === page ? 'is-current' : '') + '">' + i + '</button>';
+      h += '<button data-pg="' + (page + 1) + '"' + (page >= pages ? ' disabled' : '') + '>다음</button>';
+      return h + '</nav>';
+    }
+
     function render() {
-      var list = cat ? all.filter(function (r) { return r.category === cat; }) : all;
+      var list = filtered();
       if (!list.length) { root.innerHTML = '<p class="empty-note">등록된 자료가 없습니다.</p>'; return; }
-      root.innerHTML = '<div class="res-list">' + list.map(function (r) {
+      var pages = Math.max(1, Math.ceil(list.length / PER));
+      if (page > pages) page = pages;
+      var slice = list.slice((page - 1) * PER, page * PER);
+      var cards = slice.map(function (r) {
         var href = r.file && r.file !== '#' ? r.file : '#';
+        var canDl = href !== '#';
         var dlName = r.originalName ? ' download="' + esc(r.originalName) + '"' : '';
         var detailHref = 'resource-detail.html?id=' + encodeURIComponent(r.id);
-        return '<div class="res-item">' +
-          '<a class="res-item__ic" href="' + detailHref + '" aria-label="상세 보기">' + esc(extOf(r)) + '</a>' +
-          '<a class="res-item__t" href="' + detailHref + '"><h3>' + esc(r.title || '(제목 없음)') + '</h3>' +
-            (r.description ? '<p>' + esc(r.description) + '</p>' : '') + '</a>' +
-          (r.category ? '<span class="tag">' + esc(r.category) + '</span>' : '<span></span>') +
-          '<span class="res-item__size">' + fmtSize(r.size) + '</span>' +
-          '<a class="btn btn--primary res-item__dl" href="' + esc(href) + '"' + dlName + ' rel="noopener">' + dlIcon + '<span>다운로드</span></a>' +
+        var thumb = (r.thumb || r.image)
+          ? '<img src="' + esc(r.thumb || r.image) + '" alt="" loading="lazy" onerror="this.remove()" />'
+          : docIcon;
+        return '<div class="res-card">' +
+          '<a class="res-card__main" href="' + detailHref + '">' +
+            '<span class="res-card__thumb"><span class="res-card__ext">' + esc(extOf(r)) + '</span>' + thumb + '</span>' +
+            '<span class="res-card__b">' +
+              (r.category ? '<span class="tag">' + esc(r.category) + '</span>' : '') +
+              '<h3>' + esc(r.title || '(제목 없음)') + '</h3>' +
+              (r.description ? '<p>' + esc(r.description) + '</p>' : '') +
+            '</span>' +
+          '</a>' +
+          '<div class="res-card__foot">' +
+            '<span class="res-card__size">' + (fmtSize(r.size) || '&nbsp;') + '</span>' +
+            (canDl
+              ? '<a class="btn btn--primary btn--sm res-card__dl" href="' + esc(href) + '"' + dlName + ' rel="noopener">' + dlIcon + '<span>다운로드</span></a>'
+              : '<a class="btn btn--ghost btn--sm res-card__dl" href="' + detailHref + '">자세히</a>') +
+          '</div>' +
         '</div>';
-      }).join('') + '</div>';
+      }).join('');
+      root.innerHTML = '<div class="res-grid">' + cards + '</div>' + renderPager(pages);
     }
 
     filterBar.addEventListener('click', function (e) {
       var b = e.target.closest('button[data-cat]'); if (!b) return;
       cat = b.getAttribute('data-cat') || '';
+      page = 1;
       Array.prototype.forEach.call(filterBar.querySelectorAll('button'), function (x) { x.classList.remove('is-active'); });
       b.classList.add('is-active');
       render();
+    });
+
+    root.addEventListener('click', function (e) {
+      var b = e.target.closest('.pager button[data-pg]'); if (!b || b.disabled) return;
+      page = parseInt(b.getAttribute('data-pg'), 10) || 1;
+      render();
+      var top = document.querySelector('.page');
+      if (top) top.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
     load().then(function (list) { all = list; renderFilter(); render(); })
