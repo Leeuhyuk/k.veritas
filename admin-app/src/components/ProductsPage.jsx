@@ -3,8 +3,11 @@ import { adminApi } from '../api/client.js';
 import ProductForm from './ProductForm.jsx';
 import ProductList from './ProductList.jsx';
 
+const DEFAULT_CATS = ['가구 내구성', '금속·재료', '내구·피로', '맞춤 시험'];
+
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState(DEFAULT_CATS);
   const [editId, setEditId] = useState(null);
   const [editInitial, setEditInitial] = useState(null);
   const [formKey, setFormKey] = useState(0);
@@ -13,6 +16,14 @@ export default function ProductsPage() {
   const load = useCallback(async () => {
     const prods = await adminApi.products();
     setProducts(Array.isArray(prods) ? prods : []);
+    // 카테고리 옵션 = 공개 사이트의 현재 카테고리(정적 스냅샷) 기준
+    try {
+      const r = await fetch('../static-api/categories.json', { cache: 'no-store' });
+      const cats = r.ok ? await r.json() : [];
+      setCategories(Array.isArray(cats) && cats.length ? cats : DEFAULT_CATS);
+    } catch {
+      setCategories(DEFAULT_CATS);
+    }
     setLoading(false);
   }, []);
 
@@ -91,9 +102,7 @@ export default function ProductsPage() {
     <>
       <ProductForm
         key={formKey}
-        categories={Array.from(new Set(
-          products.map((p) => (p.category || '').trim()).filter(Boolean),
-        ))}
+        categories={categories}
         editId={editId}
         initial={editInitial}
         onSaved={handleSaved}
