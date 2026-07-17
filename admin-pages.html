@@ -598,7 +598,7 @@
       function sectionTitle(section, index) {
         if (!section) return '기타 편집 항목';
         const kind = sectionKind(section);
-        const label = ownText(section, ['.subhero__title', '.hero__headline', '.section-title', '.cta__title', '.microlabel']);
+        const label = ownText(section, ['.subhero__title', '.hero__headline', '.pdp-sec__title', '.pdp-toolbar__title', '.section-title', '.cta__title', '.microlabel']);
         const badge = (KIND_META[kind] || KIND_META.stack).badge;
         return label || `${badge} 영역`;
       }
@@ -607,8 +607,8 @@
         let cls = 'cms-field';
         if (f.type === 'image') cls += ' cms-field--image';
         if (f.key === 'trust_label') cls += ' cms-field--wide cms-field--role-label';
-        if (el.matches('.hero__headline, .subhero__title, .section-title, .cta__title')) cls += ' cms-field--wide cms-field--title cms-field--role-title';
-        else if (el.matches('.hero__sub, .subhero__sub, .split__body, .cta__sub, .faq__answer, .prose p')) cls += ' cms-field--wide cms-field--role-body';
+        if (el.matches('.hero__headline, .subhero__title, .section-title, .cta__title, .pdp-toolbar__title, .pdp-sec__title')) cls += ' cms-field--wide cms-field--title cms-field--role-title';
+        else if (el.matches('.hero__sub, .subhero__sub, .split__body, .cta__sub, .faq__answer, .prose p, .pdp-sec__lead')) cls += ' cms-field--wide cms-field--role-body';
         else if (el.matches('.microlabel, .stat strong, .stat span, .tl-row .tl-year')) cls += ' cms-field--compact cms-field--role-meta';
         else if (el.matches('.card__title, .channel__title')) cls += ' cms-field--role-title';
         else if (el.matches('.card__body, .channel__detail')) cls += ' cms-field--role-body';
@@ -617,8 +617,8 @@
       function fieldRoleBadge(f) {
         const el = f.el;
         if (f.type === 'image') return '이미지';
-        if (el.matches('.hero__headline, .subhero__title, .section-title, .cta__title, .card__title, .channel__title')) return '제목';
-        if (el.matches('.hero__sub, .subhero__sub, .split__body, .cta__sub, .card__body, .channel__detail, .faq__answer')) return '설명';
+        if (el.matches('.hero__headline, .subhero__title, .section-title, .cta__title, .card__title, .channel__title, .pdp-toolbar__title, .pdp-sec__title')) return '제목';
+        if (el.matches('.hero__sub, .subhero__sub, .split__body, .cta__sub, .card__body, .channel__detail, .faq__answer, .pdp-sec__lead')) return '설명';
         if (el.matches('.microlabel')) return '말머리';
         if (el.matches('.faq__item summary')) return '질문';
         if (el.matches('.tl-row .tl-year, .stat strong')) return '강조';

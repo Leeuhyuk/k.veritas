@@ -59,6 +59,12 @@
         fields.push({ el: el, key: 'auto:' + b.name + ':' + n, label: b.label + (n > 1 ? ' ' + n : ''), type: 'rich' });
       });
     });
+    // 실제 페이지(DOM) 순서로 정렬 → 편집기 섹션 순서가 페이지와 일치
+    // (명시 data-cms 를 먼저 모은 뒤 자동감지를 뒤에 붙여 순서가 어긋나던 문제 해결)
+    fields.sort(function (a, b) {
+      if (a.el === b.el) return 0;
+      return (a.el.compareDocumentPosition(b.el) & 4) ? -1 : 1; /* 4 = FOLLOWING */
+    });
     return fields;
   }
 
