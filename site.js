@@ -63,6 +63,29 @@
   }
 })();
 
+/* ------------------------------------------------------------
+   브랜드 자산 — IBM Plex Mono 웹폰트 + 파비콘 (전 페이지 자동 주입)
+   ------------------------------------------------------------ */
+(function injectBrandAssets() {
+  var head = document.head || document.getElementsByTagName('head')[0];
+  if (!head) return;
+  function addLink(attrs) {
+    for (var i = 0; i < head.children.length; i++) {
+      var c = head.children[i];
+      if (c.tagName === 'LINK' && c.getAttribute('href') === attrs.href && c.getAttribute('rel') === attrs.rel) return;
+    }
+    var l = document.createElement('link');
+    Object.keys(attrs).forEach(function (k) { l.setAttribute(k, attrs[k]); });
+    head.appendChild(l);
+  }
+  // IBM Plex Mono — 워드마크·데이터·라벨 타이포
+  addLink({ rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap' });
+  // 파비콘 / 앱 아이콘 (시그널 스퀘어 심볼)
+  addLink({ rel: 'icon', type: 'image/png', sizes: '32x32', href: 'brand/kveritas-favicon-32.png' });
+  addLink({ rel: 'icon', type: 'image/png', sizes: '16x16', href: 'brand/kveritas-favicon-16.png' });
+  addLink({ rel: 'apple-touch-icon', href: 'brand/kveritas-appicon-1024.png' });
+})();
+
 /* 상단 드롭다운 메뉴 정의 — 항목 추가는 children 배열에 한 줄 추가 */
 const NAV_GROUPS = [
   {
@@ -196,7 +219,7 @@ function renderNav() {
   return (
     `<header class="nav" id="site-header"><nav class="nav__inner">` +
     `<ul class="nav__links nav__links--left">${groups}</ul>` +
-    `<a href="index.html" class="logo" aria-label="회사 홈"><span class="logo__wm">k<span class="logo__dot">.</span>veritas</span></a>` +
+    `<a href="index.html" class="logo" aria-label="k.veritas 홈"><span class="logo__wm">k<span class="logo__tick" aria-hidden="true"></span>veritas</span><span class="logo__tag">Precision Test Systems</span></a>` +
     `<ul class="nav__links nav__links--right">` +
     `<li><button type="button" class="icon-btn nav-search-btn" aria-label="사이트 검색 열기" title="검색">${SEARCH_SVG}</button></li>` +
     `<li><a href="index.html" class="btn btn--ghost">회사소개</a></li>` +
@@ -503,7 +526,7 @@ function renderFooter() {
 
   return (
     `<footer class="footer"><div class="footer__inner">` +
-    `<a href="index.html" class="logo"><span class="logo__wm">k<span class="logo__dot">.</span>veritas</span></a>` +
+    `<a href="index.html" class="logo"><span class="logo__wm">k<span class="logo__tick" aria-hidden="true"></span>veritas</span><span class="logo__tag">Precision Test Systems</span></a>` +
     `<nav class="footer__cols">${cols}</nav>` +
     `</div>` +
     `<p class="footer__fine mono">© 2026 k.veritas · 경기도 안산시 단원구 · 대표전화 031-000-0000 · <a href="privacy.html">개인정보처리방침</a></p>` +

@@ -23,7 +23,7 @@
 
   /* Type — Akkurat substitute is Inter; Fragment Mono kept */
   --font-akkurat: 'Inter', 'Noto Sans KR', ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-fragment-mono: 'Fragment Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-fragment-mono: 'IBM Plex Mono', 'Fragment Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --text-caption: 12px;
   --text-body-sm: 14px;
@@ -455,7 +455,7 @@ ul { list-style: none; }
   color: var(--color-forest-floor);
 }
 .hero__content .microlabel::before {
-  content: ""; width: 22px; height: 1px; background: var(--color-forest-floor); display: inline-block;
+  content: ""; width: 9px; height: 9px; background: var(--color-forest-floor); display: inline-block;
 }
 .hero__headline {
   font-size: var(--text-display);
@@ -2540,18 +2540,20 @@ body.site-hp,
 body.admin-hp{
   /* 토큰 오버라이드 → 공개 페이지 + 관리자(admin-hp)가 HP 톤으로 전환.
      admin-hp 는 토큰만 적용(공개용 컴포넌트/리빌/스티키 부작용 없음) */
+  /* Engineer Graphite — Graphite Ink #16181D · Signal Orange #E4572E · Paper #F4F4F2 · Steel #6B7180 */
   --color-cream-paper:#ffffff;
-  --surface-canvas:#ffffff;
-  --color-botanical-ink:#16181d;
-  --color-bark-brown:#5b616e;
-  --color-warm-loam:#16181d;      /* 프라이머리 버튼 = 블랙 (HP) */
-  --color-forest-floor:#0096d6;   /* 액센트 = HP 블루 */
-  --color-sage-mist:#f4f6f9;      /* 교차 섹션 서피스 */
-  --color-lichen:#e3e6eb;         /* 보더/헤어라인 */
-  --color-moss-veil:#e6f4fb;      /* 태그/호버 틴트 */
-  --color-eucalyptus:#cfd5dd;
-  --color-accent-soft:#eaf6fc;
-  --color-ink-70:#333a44;
+  --surface-canvas:#f4f4f2;        /* 페이퍼 캔버스 */
+  --color-botanical-ink:#16181d;   /* 그래파이트 잉크 */
+  --color-bark-brown:#6b7180;      /* 스틸 그레이 = 보조 텍스트 */
+  --color-warm-loam:#16181d;       /* 프라이머리 버튼 = 그래파이트 잉크 */
+  --color-forest-floor:#e4572e;    /* 액센트 = 시그널 오렌지 */
+  --color-accent-deep:#c8431f;     /* 액센트 딥(호버) */
+  --color-sage-mist:#f4f4f2;       /* 교차 섹션 서피스 = 페이퍼 */
+  --color-lichen:#e4e4e0;          /* 보더/헤어라인 (페이퍼 톤) */
+  --color-moss-veil:#fbe9e3;       /* 태그/호버 틴트 = 오렌지 소프트 */
+  --color-eucalyptus:#d6d6d0;
+  --color-accent-soft:#fbe9e3;
+  --color-ink-70:#3a3f48;
   /* 각진 모서리 */
   --radius-sm:0px; --radius-lg:0px; --radius-2xl:2px;
   --radius-buttons:0px; --radius-images:0px; --radius-tags:2px; --radius-nav:2px;
@@ -2989,21 +2991,44 @@ body.admin-hp .rte-btn--accent:hover{ background:var(--color-forest-floor); colo
 /* ============================================================
    k.veritas 워드마크(로고) — 정밀 브랜드 타이포 트리트먼트
    ============================================================ */
-.logo{ gap:0; }
+.logo{ gap:0; display:inline-flex; flex-direction:column; align-items:flex-start; }
 .logo svg{ color:var(--color-forest-floor); }
+/* Engineer Graphite 워드마크 — IBM Plex Mono + 시그널 스퀘어 틱 */
 .logo__wm{
-  font-family:var(--font-akkurat);
-  font-weight:900;
-  font-size:26px;
-  letter-spacing:-.05em;
+  font-family:var(--font-fragment-mono);             /* IBM Plex Mono */
+  font-weight:600;                                   /* Medium/SemiBold */
+  font-size:25px;
+  letter-spacing:-.045em;
   line-height:1;
   color:inherit;                                     /* 헤더=잉크 / 푸터=화이트 상속 */
   font-feature-settings:"kern" 1;
   text-transform:none;
+  display:inline-flex;
+  align-items:baseline;
 }
-.logo__dot{ color:var(--color-forest-floor); font-weight:900; margin:0 -.02em; }  /* 정밀 포인트(.) = 액센트 */
-/* 호버 시 점 살짝 강조 */
-.logo:hover .logo__dot{ color:var(--color-accent-deep, #0071a8); }
+/* k 와 veritas 사이 시그널 오렌지 스퀘어 (원본 로고의 정밀 포인트) */
+.logo__tick{
+  display:inline-block;
+  width:.2em; height:.2em;
+  background:var(--color-forest-floor);
+  margin:0 .1em .02em;
+  vertical-align:baseline;
+  flex:0 0 auto;
+  transition:transform .15s ease;
+}
+.logo:hover .logo__tick{ transform:translateY(-.12em); }
+/* 태그라인 — PRECISION TEST SYSTEMS */
+.logo__tag{
+  font-family:var(--font-fragment-mono);
+  font-size:9px;
+  font-weight:500;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--color-bark-brown);
+  margin-top:3px;
+  line-height:1;
+}
+.footer .logo__tag{ color:rgba(255,255,255,.55); }
 
 /* 모바일에선 살짝 축소 */
-@media (max-width:720px){ .logo__wm{ font-size:22px; } }
+@media (max-width:720px){ .logo__wm{ font-size:21px; } .logo__tag{ font-size:8px; letter-spacing:.2em; } }
