@@ -2565,6 +2565,9 @@ body.admin-hp{
   letter-spacing:-.01em;
 }
 
+/* 페이지 배경 = 페이퍼(#F4F4F2). 카드·네비·서브히어로는 흰색 유지로 대비 확보 */
+body.site-hp{ background:#f4f4f2; }
+
 /* 타이포 — 헤딩 헤비 (HP 크리스프) */
 body.site-hp .hero__headline,
 body.site-hp .section-title,
