@@ -977,7 +977,9 @@
         /* 표 행: 핸들을 셀 왼쪽 바깥 여백으로 이동 → 셀 내용 가리지 않음 */
         .kv-item-drag--row{ top:50%; left:-30px; transform:translateY(-50%); width:24px; height:24px; }
         .kv-dragging{ opacity:.45; outline:2px solid #0096d6 !important; outline-offset:2px; }
-        tr.kv-dragging{ outline:0 !important; background:rgba(0,150,214,.12); }`;
+        tr.kv-dragging{ outline:0 !important; background:rgba(0,150,214,.12); }
+        /* 정렬(드래그) 중에는 텍스트 선택·캐럿 방지 */
+        .kv-sorting, .kv-sorting *{ cursor:grabbing !important; -webkit-user-select:none !important; user-select:none !important; }`;
 
       function buildEditBar(doc) {
         if (doc.getElementById('kv-edit-bar')) return;
@@ -1125,7 +1127,47 @@
         b.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); item.remove(); });
         host.appendChild(b);
       }
-      // 드래그 핸들(⠿) — 항목 순서 변경. contenteditable 오작동 방지 위해 핸들로만 draggable 활성화
+      // 포인터 기반 순서 변경 — 커서를 따라 실시간 재배치 (커서가 항목 위 + 위치가 바뀔 때만)
+      function startPointerDrag(doc, item) {
+        const cont = item.parentElement;
+        if (!cont) return;
+        const sel = cont._kvSel || '*';
+        item.classList.add('kv-dragging');
+        if (doc.body) doc.body.classList.add('kv-sorting');
+        function onMove(e) {
+          const x = e.clientX, y = e.clientY;
+          const items = [].slice.call(cont.querySelectorAll(':scope > ' + sel));
+          let over = null;
+          for (const it of items) {
+            if (it === item) continue;
+            const b = it.getBoundingClientRect();
+            if (x >= b.left && x <= b.right && y >= b.top && y <= b.bottom) { over = it; break; }
+          }
+          if (!over) return;
+          const b = over.getBoundingClientRect();
+          // 같은 행에 다른 항목이 있으면 그리드(가로), 없으면 목록·표(세로) 기준
+          const grid = items.some((it) => {
+            if (it === over) return false;
+            const r2 = it.getBoundingClientRect();
+            return Math.abs(r2.top - b.top) < b.height * 0.5;
+          });
+          const after = grid ? (x > b.left + b.width / 2) : (y > b.top + b.height / 2);
+          const ref = after ? over.nextElementSibling : over;
+          if (ref === item) return;
+          if (!after && over.previousElementSibling === item) return;
+          if (after && over === item.previousElementSibling) return;
+          cont.insertBefore(item, ref);
+        }
+        function onUp() {
+          item.classList.remove('kv-dragging');
+          if (doc.body) doc.body.classList.remove('kv-sorting');
+          doc.removeEventListener('mousemove', onMove, true);
+          doc.removeEventListener('mouseup', onUp, true);
+        }
+        doc.addEventListener('mousemove', onMove, true);
+        doc.addEventListener('mouseup', onUp, true);
+      }
+      // 드래그 핸들(⠿) — 항목 순서 변경
       function addDragHandle(doc, item) {
         const host = item.tagName === 'TR' ? (item.firstElementChild || item) : item;
         if (host.querySelector && host.querySelector(':scope > .kv-item-drag')) return;
@@ -1133,18 +1175,11 @@
         const h = doc.createElement('button');
         // 표 행은 셀이 좁아 핸들을 셀 밖(왼쪽 여백)에 배치 → 내용 가림 방지
         h.type = 'button'; h.className = 'kv-item-drag' + (item.tagName === 'TR' ? ' kv-item-drag--row' : ''); h.title = '드래그하여 순서 변경';
-        h.textContent = '⠿'; h.setAttribute('data-noedit', '1'); h.setAttribute('draggable', 'false');
-        h.addEventListener('mousedown', () => { item.setAttribute('draggable', 'true'); item._kvDrag = true; });
-        const off = () => { item.removeAttribute('draggable'); item._kvDrag = false; };
-        h.addEventListener('mouseup', off);
+        h.textContent = '⠿'; h.setAttribute('data-noedit', '1');
+        h.setAttribute('contenteditable', 'false'); h.setAttribute('draggable', 'false');
+        // mousedown에서 preventDefault → contenteditable 캐럿/텍스트 선택 차단, 드래그 시작
+        h.addEventListener('mousedown', (e) => { e.preventDefault(); e.stopPropagation(); startPointerDrag(doc, item); });
         h.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); });
-        item.addEventListener('dragstart', (e) => {
-          if (!item._kvDrag) { e.preventDefault(); return; }
-          item.classList.add('kv-dragging');
-          e.dataTransfer.effectAllowed = 'move';
-          try { e.dataTransfer.setData('text/plain', ''); } catch (_) { /* ignore */ }
-        });
-        item.addEventListener('dragend', () => { item.classList.remove('kv-dragging'); off(); });
         host.appendChild(h);
       }
       function wireRepeatables(fr) {
@@ -1157,40 +1192,12 @@
             cont._kvWired = true;
             cont._kvManaged = !!(fullKeyFn && currentOverrides[fullKeyFn(cont)]);
             cont._kvAddSeq = 1000;
+            cont._kvSel = r.i;
             cont.querySelectorAll(':scope > ' + r.i + '[data-cms-added]').forEach((it) => addDelBtn(doc, it));
             // 정렬 기준(로드 순서) 기록 + 모든 항목에 드래그 핸들
             cont.querySelectorAll(':scope > ' + r.i).forEach((it, i) => {
               it.setAttribute('data-kv-cid', String(i));
               addDragHandle(doc, it);
-            });
-            // 컨테이너 단위 드롭 처리 (깜박임 방지: 커서가 항목 위 + 위치가 실제로 바뀔 때만 이동)
-            cont.addEventListener('dragover', (e) => {
-              const dragging = cont.querySelector('.kv-dragging');
-              if (!dragging) return;
-              e.preventDefault();
-              if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
-              const items = [].slice.call(cont.querySelectorAll(':scope > ' + r.i));
-              // 커서 바로 아래 항목 찾기 (간격/드래그중 항목 위면 아무 것도 안 함 → 진동 방지)
-              let over = null;
-              for (const it of items) {
-                if (it === dragging) continue;
-                const b = it.getBoundingClientRect();
-                if (e.clientX >= b.left && e.clientX <= b.right && e.clientY >= b.top && e.clientY <= b.bottom) { over = it; break; }
-              }
-              if (!over) return;
-              const b = over.getBoundingClientRect();
-              // 같은 행에 다른 항목이 있으면 그리드(가로), 없으면 목록·표(세로) 기준
-              const grid = items.some((it) => {
-                if (it === over) return false;
-                const r2 = it.getBoundingClientRect();
-                return Math.abs(r2.top - b.top) < b.height * 0.5;
-              });
-              const after = grid ? (e.clientX > b.left + b.width / 2) : (e.clientY > b.top + b.height / 2);
-              const ref = after ? over.nextElementSibling : over;
-              if (ref === dragging) return;                                     // 이미 그 자리
-              if (!after && over.previousElementSibling === dragging) return;    // 이미 앞
-              if (after && over === dragging.previousElementSibling) return;     // 이미 뒤
-              cont.insertBefore(dragging, ref);
             });
             const items = cont.querySelectorAll(':scope > ' + r.i);
             const tmpl = items[items.length - 1];
@@ -1202,7 +1209,8 @@
               e.preventDefault();
               const clone = tmpl.cloneNode(true);
               clone.removeAttribute('data-edited');
-              clone.querySelectorAll('.kv-item-del').forEach((x) => x.remove());
+              // 복제된 버튼은 이벤트가 없어 죽은 버튼 → 제거 후 새로 배선
+              clone.querySelectorAll('.kv-item-del, .kv-item-drag').forEach((x) => x.remove());
               clone.querySelectorAll('[data-cms], [data-cms-img]').forEach((x) => {
                 x.removeAttribute('data-cms'); x.removeAttribute('data-cms-img');
                 x.removeAttribute('contenteditable'); x.removeAttribute('spellcheck'); x.removeAttribute('data-edited');
