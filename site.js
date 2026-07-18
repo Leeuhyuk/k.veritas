@@ -219,7 +219,7 @@ function renderNav() {
   return (
     `<header class="nav" id="site-header"><nav class="nav__inner">` +
     `<ul class="nav__links nav__links--left">${groups}</ul>` +
-    `<a href="index.html" class="logo" aria-label="k.veritas 홈"><span class="logo__wm">k<span class="logo__tick" aria-hidden="true"></span>veritas</span><span class="logo__tag">Precision Test Systems</span></a>` +
+    `<a href="index.html" class="logo" aria-label="k.veritas 홈"><span class="logo__wm">k<span class="logo__tick" aria-hidden="true"></span>veritas</span></a>` +
     `<ul class="nav__links nav__links--right">` +
     `<li><button type="button" class="icon-btn nav-search-btn" aria-label="사이트 검색 열기" title="검색">${SEARCH_SVG}</button></li>` +
     `<li><a href="index.html" class="btn btn--ghost">회사소개</a></li>` +
@@ -526,7 +526,7 @@ function renderFooter() {
 
   return (
     `<footer class="footer"><div class="footer__inner">` +
-    `<a href="index.html" class="logo"><span class="logo__wm">k<span class="logo__tick" aria-hidden="true"></span>veritas</span><span class="logo__tag">Precision Test Systems</span></a>` +
+    `<a href="index.html" class="logo"><span class="logo__wm">k<span class="logo__tick" aria-hidden="true"></span>veritas</span></a>` +
     `<nav class="footer__cols">${cols}</nav>` +
     `</div>` +
     `<p class="footer__fine mono">© 2026 k.veritas · 경기도 안산시 단원구 · 대표전화 031-000-0000 · <a href="privacy.html">개인정보처리방침</a></p>` +
