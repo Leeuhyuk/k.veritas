@@ -2583,7 +2583,7 @@ body.site-hp .pdp-sec__eyebrow,
 body.site-hp .side__lab{ color:var(--color-forest-floor); }
 
 /* 내비게이션 — 화이트 + 하단 헤어라인 */
-body.site-hp .nav{ background:rgba(255,255,255,.9); border-bottom:1px solid var(--color-lichen); backdrop-filter:blur(10px); }
+body.site-hp .nav{ background:rgba(244,244,242,.92); border-bottom:1px solid var(--color-lichen); backdrop-filter:blur(10px); }
 body.site-hp .nav__links a:not(.btn):hover,
 body.site-hp .nav__trigger.is-active{ color:var(--color-forest-floor); }
 

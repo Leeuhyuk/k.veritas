@@ -541,11 +541,7 @@ function injectHeadMeta() {
     l.rel = 'icon'; l.type = 'image/svg+xml'; l.href = 'favicon.svg';
     document.head.appendChild(l);
   }
-  // CSS 캐시 갱신 — 스타일 변경 시 이 버전 문자열을 올려야 브라우저가 새 CSS를 받는다.
-  document.querySelectorAll('link[rel="stylesheet"][href*="styles.css"]').forEach((link) => {
-    const base = (link.getAttribute('href') || '').split('?')[0];
-    link.setAttribute('href', base + '?v=20260718-paper-bg');
-  });
+  // CSS 캐시 버스트는 각 HTML 의 styles.css?v=... 파라미터로 관리 (site.js 재작성 제거)
   const og = { 'og:site_name': 'k.veritas', 'og:type': 'website', 'og:title': document.title };
   Object.keys(og).forEach((k) => {
     if (document.querySelector(`meta[property="${k}"]`)) return;
