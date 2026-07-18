@@ -1299,6 +1299,35 @@ body.admin-pages .seo-details .seo-input {
   box-sizing: border-box;
 }
 
+/* 사이트 공통 설정 — 투명도 조절 */
+body.admin-pages .opacity-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+body.admin-pages .opacity-ctrl input[type="range"] {
+  flex: 1 1 200px;
+  min-width: 160px;
+  accent-color: #0096d6;
+  cursor: pointer;
+}
+body.admin-pages .opacity-ctrl input[type="number"] {
+  width: 70px;
+  min-height: 36px;
+  padding: 8px 10px;
+  font-size: var(--admin-text);
+  border: 1px solid var(--color-lichen);
+  border-radius: var(--admin-radius);
+  background: #fff;
+  box-sizing: border-box;
+}
+body.admin-pages .opacity-ctrl__unit {
+  font-size: var(--admin-text-sm);
+  color: var(--color-bark-brown);
+  margin-left: -4px;
+}
+
 /* 사진 제거 버튼 */
 body.admin-pages .cms-img-remove {
   border-color: #e3b7b7;

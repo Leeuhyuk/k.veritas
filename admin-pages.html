@@ -83,6 +83,24 @@
           <iframe id="live-editor" title="페이지 편집"></iframe>
           <div class="wysiwyg__loading" id="wysiwyg-loading">불러오는 중…</div>
         </div>
+        <div id="global-box" class="seo-box">
+          <details class="seo-details">
+            <summary>사이트 공통 설정 (모든 페이지 일괄 적용)</summary>
+            <div class="seo-details__body">
+              <div class="form__row">
+                <label>상단 배경 이미지 투명도</label>
+                <div class="opacity-ctrl">
+                  <input type="range" id="subhero-opacity" min="0" max="100" step="1" value="15" />
+                  <input type="number" id="subhero-opacity-num" min="0" max="100" step="1" value="15" />
+                  <span class="opacity-ctrl__unit">%</span>
+                  <button type="button" class="btn btn--primary btn--sm" id="save-global-btn">전 페이지에 적용</button>
+                </div>
+                <p class="seo-help">인증·특허 등 상단 배경 이미지가 있는 모든 페이지에 동일하게 적용됩니다. 값이 클수록 이미지가 진하게 보입니다.</p>
+                <span class="admin__msg" id="global-msg"></span>
+              </div>
+            </div>
+          </details>
+        </div>
         <div id="seo-box" class="seo-box"></div>
         <div id="fields" hidden></div>
 
@@ -546,6 +564,57 @@
           selectPage(tab.dataset.page);
         };
         selectPage(PAGES[0].file);
+        wireGlobalSettings();
+      }
+
+      // 사이트 공통(일괄) 설정 — 상단 배경 투명도 등
+      let globalSettings = {};
+      function subheroLivePreview(frac) {
+        const doc = $('live-editor').contentDocument;
+        if (doc && doc.body) doc.body.style.setProperty('--subhero-bg-opacity', String(frac));
+      }
+      function currentOpacityFrac() {
+        const range = $('subhero-opacity');
+        const pct = range ? (parseInt(range.value, 10) || 0) : 15;
+        return Math.max(0, Math.min(100, pct)) / 100;
+      }
+      function wireGlobalSettings() {
+        const range = $('subhero-opacity');
+        const num = $('subhero-opacity-num');
+        const msg = $('global-msg');
+        if (!range || range._wired) return;
+        range._wired = true;
+        Auth.getContent('site-settings').then((g) => {
+          globalSettings = g || {};
+          let pct = 15;
+          const raw = globalSettings.__subheroBgOpacity;
+          if (raw != null && raw !== '') {
+            let v = parseFloat(raw);
+            if (!isNaN(v)) { if (v <= 1) v = v * 100; pct = Math.round(v); }
+          }
+          pct = Math.max(0, Math.min(100, pct));
+          range.value = String(pct); num.value = String(pct);
+          subheroLivePreview(pct / 100);
+        }).catch(() => {});
+        const sync = (val) => {
+          const pct = Math.max(0, Math.min(100, parseInt(val, 10) || 0));
+          range.value = String(pct); num.value = String(pct);
+          subheroLivePreview(pct / 100);
+        };
+        range.addEventListener('input', () => sync(range.value));
+        num.addEventListener('input', () => sync(num.value));
+        $('save-global-btn').addEventListener('click', () => {
+          const pct = Math.max(0, Math.min(100, parseInt(range.value, 10) || 0));
+          const content = Object.assign({}, globalSettings, { __subheroBgOpacity: pct / 100 });
+          msg.textContent = '저장 중…';
+          Auth.saveContent('site-settings', content).then(() => {
+            globalSettings = content;
+            msg.textContent = Auth.isStaticHost()
+              ? '모든 페이지에 적용되었습니다.'
+              : '저장되었습니다. (페이지 새로고침 시 반영)';
+            setTimeout(() => (msg.textContent = ''), 4000);
+          }).catch((err) => { msg.textContent = (err && err.message) || '저장에 실패했습니다.'; });
+        });
       }
 
       let currentPage = null;
@@ -1080,6 +1149,8 @@
         doc.addEventListener('focusout', () => {
           setTimeout(() => { if (!doc.querySelector('[data-cms]:focus')) hideEditBar(doc); }, 80);
         });
+        // 현재 설정한 상단 배경 투명도를 미리보기에 반영 (페이지 전환 시 유지)
+        try { subheroLivePreview(currentOpacityFrac()); } catch (_) { /* ignore */ }
       }
 
       function makeEditable(doc) {

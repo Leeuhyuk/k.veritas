@@ -344,6 +344,21 @@
     return o;
   }
 
+  // 사이트 공통(일괄) 설정 적용 — 모든 페이지에 동일 적용되는 CSS 변수 등
+  function applyGlobal(g) {
+    if (!g) return;
+    var op = g.__subheroBgOpacity;
+    if (op !== undefined && op !== null && op !== '') {
+      var v = parseFloat(op);
+      if (!isNaN(v)) {
+        if (v > 1) v = v / 100; // 퍼센트로 저장된 값 방어
+        v = Math.max(0, Math.min(1, v));
+        if (document.body) document.body.style.setProperty('--subhero-bg-opacity', String(v));
+      }
+    }
+  }
+  window.cmsApplyGlobal = applyGlobal;
+
   function loadPageContent(page) {
     // 1) API (로컬 서버 / site-base 가 static-api 로 폴백)
     return fetch('/api/content/' + page)
@@ -370,6 +385,8 @@
   document.addEventListener('DOMContentLoaded', function () {
     var page = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
     if (!page || page === 'k.veritas') page = 'index.html';
+    // 사이트 공통 설정(모든 페이지 일괄) — 병렬로 로드/적용
+    loadPageContent('site-settings').then(function (g) { applyGlobal(g); }).catch(function () {});
     loadPageContent(page).then(function (data) {
       apply(data);
       // 편집기(?edit=1)에서는 추가 항목을 편집기가 직접 이어붙이며 관리 → 여기선 건너뜀
