@@ -88,6 +88,19 @@
       return (p.thumbs && p.thumbs[0]) || (p.images && p.images[0]) || '';
     }
     function catOf(p) { return p.category || p.industry || ''; }
+    /* 데이터시트 카드 — 모델코드/특징/스펙 파생 */
+    function modelCode(p) {
+      if (p.model) return String(p.model).trim().toUpperCase();
+      var raw = String(p.id || '').trim().toUpperCase();
+      // 짧은 제품코드(kv001 등)만 KV-001 형태로. 타임스탬프 id 는 제외(호출부에서 KV-번호로 대체)
+      var m = raw.match(/^([A-Z]{1,4})[-\s]?(\d{1,4})$/);
+      return m ? (m[1] + '-' + m[2]) : '';
+    }
+    function featTokens(p) {
+      var src = p.material || '';
+      var arr = src.split(/[·,\/]/).map(function (s) { return s.trim(); }).filter(Boolean);
+      return arr.slice(0, 3);
+    }
 
     var PUB_INDEX = 'https://firestore.googleapis.com/v1/projects/production-management-e70fd/databases/(default)/documents/pages/products-index';
     function loadPublished() {
@@ -174,19 +187,41 @@
       if (!slice.length) {
         grid.innerHTML = '<p class="empty-note" style="grid-column:1/-1">표시할 제품이 없습니다.</p>';
       } else {
-        grid.innerHTML = slice.map(function (p) {
+        grid.innerHTML = slice.map(function (p, i) {
           var t = thumbOf(p);
           var media = t
             ? '<span class="prod-card__media"><img src="' + esc(t) + '" alt="' + esc(p.title) + '" loading="lazy" decoding="async" /></span>'
             : '<span class="prod-card__media"><span class="prod-card__ph">NO IMAGE</span></span>';
           var c = catOf(p);
+          var model = modelCode(p);
+          var feats = featTokens(p);
+          var featHtml = feats.length
+            ? '<ul class="prod-card__feats">' + feats.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul>'
+            : (p.summary ? '<p>' + esc(p.summary) + '</p>' : '');
+          var rows = [];
+          if (c) rows.push(['분야', c]);
+          if (p.process) rows.push(['공정', p.process]);
+          var specHtml = rows.length
+            ? '<dl class="prod-card__spec">' + rows.map(function (r) {
+                return '<div><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd></div>';
+              }).join('') + '</dl>'
+            : '';
+          var num = ('0' + (start + i + 1)).slice(-2);
+          var modelText = model || ('KV-' + num);
           return '<a class="prod-card" href="showcase-detail.html?id=' + encodeURIComponent(p.id) + '">' +
+            '<span class="prod-card__head">' +
+              '<span class="prod-card__kicker">정밀 계측</span>' +
+              (c ? '<span class="prod-card__code">' + esc(c) + '</span>' : '') +
+            '</span>' +
             media +
             '<span class="prod-card__b">' +
-            (c ? '<span class="tag">' + esc(c) + '</span>' : '') +
-            '<h3>' + esc(p.title || '(제목 없음)') + '</h3>' +
-            '<p>' + esc(p.summary || '') + '</p>' +
-            '</span></a>';
+              '<span class="prod-card__model">MODEL ' + esc(modelText) + '</span>' +
+              '<h3>' + esc(p.title || '(제목 없음)') + '</h3>' +
+              featHtml +
+              specHtml +
+            '</span>' +
+            '<span class="prod-card__foot"><span>k-veritas.co.kr</span><span>' + num + '</span></span>' +
+          '</a>';
         }).join('');
       }
       renderPager(total);

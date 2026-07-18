@@ -2719,21 +2719,45 @@ body.site-hp .pdp-figure img{ width:100%; height:100%; object-fit:cover; display
 @media (max-width:760px){ .prodcat-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
 @media (max-width:460px){ .prodcat-grid{ grid-template-columns:1fr; } }
 
+/* 생산제품 카드 — 정밀 계측 데이터시트 스타일 (Engineer Graphite) */
 .prod-card{ display:flex; flex-direction:column; border:1px solid var(--color-lichen); background:#fff;
   text-decoration:none; color:inherit; transition:border-color .16s ease, box-shadow .16s ease; }
 .prod-card:hover{ border-color:var(--color-forest-floor); box-shadow:var(--shadow-lift); }
 .prod-card:focus-visible{ outline:2px solid var(--color-forest-floor); outline-offset:2px; }
-.prod-card__media{ aspect-ratio:4/3; background:var(--color-sage-mist); overflow:hidden; border-bottom:1px solid var(--color-lichen); }
+/* 헤더 룰 — 정밀 계측 · 분류 + 오렌지 언더라인 */
+.prod-card__head{ display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:11px 16px; border-bottom:2px solid var(--color-forest-floor); }
+.prod-card__kicker{ font-family:var(--font-fragment-mono); font-size:11px; font-weight:600;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--color-botanical-ink); white-space:nowrap; }
+.prod-card__code{ font-family:var(--font-fragment-mono); font-size:11px; letter-spacing:.04em;
+  color:var(--color-bark-brown); text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.prod-card__media{ aspect-ratio:4/3; background:var(--color-sage-mist); overflow:hidden; }
 .prod-card__media img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .35s ease; }
 .prod-card:hover .prod-card__media img{ transform:scale(1.04); }
 .prod-card__ph{ width:100%; height:100%; display:flex; align-items:center; justify-content:center;
   font-family:var(--font-fragment-mono); font-size:11px; letter-spacing:.1em; color:var(--color-eucalyptus); }
-.prod-card__b{ padding:14px 16px 16px; display:flex; flex-direction:column; gap:8px; flex:1; }
-.prod-card__b .tag{ align-self:flex-start; font-size:12px; padding:3px 8px; }
-.prod-card__b h3{ font-size:15px; font-weight:700; letter-spacing:-.02em; line-height:1.35; }
+.prod-card__b{ padding:15px 16px 6px; display:flex; flex-direction:column; gap:9px; flex:1; }
+.prod-card__model{ font-family:var(--font-fragment-mono); font-size:11px; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--color-forest-floor); }
+.prod-card__b h3{ font-size:17px; font-weight:700; letter-spacing:-.02em; line-height:1.3; margin:-2px 0 0; }
 .prod-card__b p{ font-size:13px; color:var(--color-bark-brown); line-height:1.5;
   display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
 .prod-card__b p:empty{ display:none; }
+/* 핵심 특징 — 오렌지 시그널 스퀘어 불릿 */
+.prod-card__feats{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
+.prod-card__feats li{ position:relative; padding-left:16px; font-size:13px; line-height:1.4; color:var(--color-ink-70); }
+.prod-card__feats li::before{ content:""; position:absolute; left:0; top:.42em; width:7px; height:7px; background:var(--color-forest-floor); }
+/* 스펙 표 — 키/값 헤어라인 */
+.prod-card__spec{ margin:4px 0 0; }
+.prod-card__spec > div{ display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+  padding:8px 0; border-top:1px solid var(--color-lichen); }
+.prod-card__spec dt{ font-size:12px; color:var(--color-bark-brown); white-space:nowrap; }
+.prod-card__spec dd{ margin:0; font-family:var(--font-fragment-mono); font-size:12px;
+  color:var(--color-botanical-ink); text-align:right; line-height:1.4; }
+/* 푸터 — 도메인 + 번호 */
+.prod-card__foot{ display:flex; align-items:center; justify-content:space-between; margin-top:auto;
+  padding:10px 16px; border-top:1px solid var(--color-lichen);
+  font-family:var(--font-fragment-mono); font-size:11px; letter-spacing:.04em; color:var(--color-bark-brown); }
 
 /* 페이지네이션 */
 .pager{ display:flex; flex-wrap:wrap; gap:6px; justify-content:center; align-items:center; margin-top:var(--spacing-40); }
