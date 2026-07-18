@@ -541,10 +541,10 @@ function injectHeadMeta() {
     l.rel = 'icon'; l.type = 'image/svg+xml'; l.href = 'favicon.svg';
     document.head.appendChild(l);
   }
-  // CSS 캐시 갱신 (로고 크기 등 스타일 변경 반영)
+  // CSS 캐시 갱신 — 스타일 변경 시 이 버전 문자열을 올려야 브라우저가 새 CSS를 받는다.
   document.querySelectorAll('link[rel="stylesheet"][href*="styles.css"]').forEach((link) => {
     const base = (link.getAttribute('href') || '').split('?')[0];
-    link.setAttribute('href', base + '?v=trust-logo-112-gap20');
+    link.setAttribute('href', base + '?v=20260718-paper-bg');
   });
   const og = { 'og:site_name': 'k.veritas', 'og:type': 'website', 'og:title': document.title };
   Object.keys(og).forEach((k) => {

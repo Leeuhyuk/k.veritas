@@ -2645,7 +2645,7 @@ body.site-hp .cta{ background:
   border:1px solid var(--color-lichen); border-radius:2px; box-shadow:none; }
 
 /* ---------- 홈 히어로 (2컬럼 + 이미지) ---------- */
-body.site-hp .hero{ background:#ffffff; border-bottom:1px solid var(--color-lichen); overflow:hidden; }
+body.site-hp .hero{ background:#f4f4f2; border-bottom:1px solid var(--color-lichen); overflow:hidden; }
 body.site-hp .hero__inner{ max-width:var(--page-max-width); margin:0 auto;
   padding:76px var(--spacing-32) 0; display:grid; grid-template-columns:1.04fr .96fr; gap:48px; align-items:center; }
 body.site-hp .hero__content{ position:static; text-align:left; max-width:none; margin:0; padding:0; }
