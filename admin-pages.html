@@ -1080,7 +1080,8 @@
         closeImgMenu(doc);
         const menu = doc.createElement('div');
         menu.id = 'kv-img-menu'; menu.setAttribute('data-noedit', '1');
-        const rep = doc.createElement('button'); rep.type = 'button'; rep.textContent = '사진 교체';
+        const isEmpty = imgEl.tagName === 'IMG' && !imgEl.getAttribute('src');
+        const rep = doc.createElement('button'); rep.type = 'button'; rep.textContent = isEmpty ? '사진 추가' : '사진 교체';
         const del = doc.createElement('button'); del.type = 'button'; del.className = 'del'; del.textContent = '사진 삭제';
         rep.addEventListener('click', () => { closeImgMenu(doc); pickImageFor(imgEl, key); });
         del.addEventListener('click', () => {
@@ -1093,7 +1094,8 @@
           const chart = panel && panel.querySelector('.quality-chart');
           if (chart) chart.style.display = '';
         });
-        menu.appendChild(rep); menu.appendChild(del);
+        menu.appendChild(rep);
+        if (!isEmpty) menu.appendChild(del);
         doc.body.appendChild(menu);
         const r = imgEl.getBoundingClientRect();
         const sx = (doc.defaultView.scrollX || 0), sy = (doc.defaultView.scrollY || 0);

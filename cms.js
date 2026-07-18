@@ -66,8 +66,30 @@
   // 순서까지 관리하는(원본 포함 전체 재구성) 반복 영역 표시 키
   function fullKey(container) { return '__full__' + nodePath(container); }
 
+  // 이미지가 없는 카드에 '선택 카드 이미지' 슬롯을 자동 주입 (공개/편집기 동일)
+  //  → 편집기에서 빈 슬롯을 클릭해 사진을 넣을 수 있고, 저장된 사진은 공개 페이지에 표시됨
+  function ensureCardMedia(root) {
+    (root || document).querySelectorAll('.card').forEach(function (card) {
+      if (inChrome(card)) return;
+      if (card.querySelector('img')) return;                        // 이미 이미지 있음(cert 등)
+      if (card.querySelector(':scope > .card__optimg')) return;     // 이미 슬롯 있음(biz 등)
+      var box = document.createElement('div');
+      box.className = 'card__optimg';
+      var img = document.createElement('img');
+      img.setAttribute('alt', '');
+      img.setAttribute('data-cms-label', '카드 이미지(선택)');
+      img.setAttribute('loading', 'lazy');
+      img.style.display = 'none';
+      function show() { if (img.getAttribute('src')) { img.style.display = 'block'; box.classList.add('is-on'); } }
+      img.addEventListener('load', show);
+      box.appendChild(img);
+      card.insertBefore(box, card.firstChild);
+    });
+  }
+
   // 편집 가능한 요소 목록을 결정적 순서로 수집 (공개페이지/관리자 동일)
   function collect(root) {
+    ensureCardMedia(root);
     var fields = [];
     var used = [];
     function mark(el) { if (used.indexOf(el) !== -1) return false; used.push(el); return true; }
