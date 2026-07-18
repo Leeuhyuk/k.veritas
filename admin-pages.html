@@ -1143,21 +1143,6 @@
         item.addEventListener('dragend', () => { item.classList.remove('kv-dragging'); off(); });
         host.appendChild(h);
       }
-      // 그리드/목록/표 모두 대응: 포인터에 가장 가까운 항목과 삽입 위치 계산
-      function dragTarget(cont, sel, x, y) {
-        const els = [].slice.call(cont.querySelectorAll(':scope > ' + sel + ':not(.kv-dragging)'));
-        let ref = null, best = Infinity, before = true;
-        els.forEach((el) => {
-          const b = el.getBoundingClientRect();
-          const cx = b.left + b.width / 2, cy = b.top + b.height / 2;
-          const d = Math.hypot(x - cx, y - cy);
-          if (d < best) {
-            best = d; ref = el;
-            before = (Math.abs(y - cy) < b.height / 2) ? (x < cx) : (y < cy);
-          }
-        });
-        return { ref, before };
-      }
       function wireRepeatables(fr) {
         const doc = fr.contentDocument;
         const REP = (fr.contentWindow && fr.contentWindow.cmsRepeat) || [];
@@ -1174,15 +1159,34 @@
               it.setAttribute('data-kv-cid', String(i));
               addDragHandle(doc, it);
             });
-            // 컨테이너 단위 드롭 처리
+            // 컨테이너 단위 드롭 처리 (깜박임 방지: 커서가 항목 위 + 위치가 실제로 바뀔 때만 이동)
             cont.addEventListener('dragover', (e) => {
               const dragging = cont.querySelector('.kv-dragging');
               if (!dragging) return;
               e.preventDefault();
-              const t = dragTarget(cont, r.i, e.clientX, e.clientY);
-              if (!t.ref) { cont.appendChild(dragging); }
-              else if (t.before) { cont.insertBefore(dragging, t.ref); }
-              else { cont.insertBefore(dragging, t.ref.nextElementSibling); }
+              if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+              const items = [].slice.call(cont.querySelectorAll(':scope > ' + r.i));
+              // 커서 바로 아래 항목 찾기 (간격/드래그중 항목 위면 아무 것도 안 함 → 진동 방지)
+              let over = null;
+              for (const it of items) {
+                if (it === dragging) continue;
+                const b = it.getBoundingClientRect();
+                if (e.clientX >= b.left && e.clientX <= b.right && e.clientY >= b.top && e.clientY <= b.bottom) { over = it; break; }
+              }
+              if (!over) return;
+              const b = over.getBoundingClientRect();
+              // 같은 행에 다른 항목이 있으면 그리드(가로), 없으면 목록·표(세로) 기준
+              const grid = items.some((it) => {
+                if (it === over) return false;
+                const r2 = it.getBoundingClientRect();
+                return Math.abs(r2.top - b.top) < b.height * 0.5;
+              });
+              const after = grid ? (e.clientX > b.left + b.width / 2) : (e.clientY > b.top + b.height / 2);
+              const ref = after ? over.nextElementSibling : over;
+              if (ref === dragging) return;                                     // 이미 그 자리
+              if (!after && over.previousElementSibling === dragging) return;    // 이미 앞
+              if (after && over === dragging.previousElementSibling) return;     // 이미 뒤
+              cont.insertBefore(dragging, ref);
             });
             const items = cont.querySelectorAll(':scope > ' + r.i);
             const tmpl = items[items.length - 1];
