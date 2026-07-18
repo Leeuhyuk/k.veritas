@@ -5,6 +5,64 @@
    를 두고 이 스크립트를 불러오면 자동으로 채워집니다.
    ============================================================ */
 
+/* ------------------------------------------------------------
+   사이트 공통(일괄) 설정 — 상단 배경 투명도 등
+   cms.js 를 불러오지 않는 페이지(자료실·공지사항·개인정보·상세 등)에도
+   전역 설정이 반영되도록 site.js 에서 직접 적용한다.
+   (cms.js 가 있는 페이지는 cms.js 가 처리하므로 중복 실행하지 않음)
+   ------------------------------------------------------------ */
+(function applySiteSettings() {
+  function apply(g) {
+    if (!g) return;
+    var op = g.__subheroBgOpacity;
+    if (op !== undefined && op !== null && op !== '') {
+      var v = parseFloat(op);
+      if (!isNaN(v)) {
+        if (v > 1) v = v / 100; // 퍼센트로 저장된 값 방어
+        v = Math.max(0, Math.min(1, v));
+        if (document.body) document.body.style.setProperty('--subhero-bg-opacity', String(v));
+      }
+    }
+  }
+  function fetchSettings() {
+    var host = location.hostname || '';
+    var onStatic = /\.github\.io$/i.test(host) || window.FORCE_STATIC_API === true;
+    if (!onStatic) {
+      return fetch('/api/content/site-settings')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    }
+    var url = 'https://firestore.googleapis.com/v1/projects/production-management-e70fd/databases/(default)/documents/pages/site-settings';
+    return fetch(url, { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (doc) {
+        if (!doc || !doc.fields) return null;
+        var o = {};
+        Object.keys(doc.fields).forEach(function (k) {
+          var f = doc.fields[k] || {};
+          if (f.doubleValue !== undefined) o[k] = f.doubleValue;
+          else if (f.integerValue !== undefined) o[k] = Number(f.integerValue);
+          else if (f.stringValue !== undefined) o[k] = f.stringValue;
+          else if (f.booleanValue !== undefined) o[k] = f.booleanValue;
+          else o[k] = null;
+        });
+        return o;
+      })
+      .catch(function () { return null; });
+  }
+  function run() {
+    // cms.js 가 이미 처리하는 페이지면 건너뜀 (중복 fetch 방지)
+    if (document.querySelector('script[src*="cms.js"]')) return;
+    fetchSettings().then(apply);
+  }
+  // DOMContentLoaded 시점에 확인 → 모든 <script> 파싱 완료 후 cms.js 존재 여부 판정
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', run);
+  } else {
+    run();
+  }
+})();
+
 /* 상단 드롭다운 메뉴 정의 — 항목 추가는 children 배열에 한 줄 추가 */
 const NAV_GROUPS = [
   {
