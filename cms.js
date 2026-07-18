@@ -60,6 +60,7 @@
     { c: '.pdp-grid', i: '.card' },
     { c: '.pdp-feats', i: '.pdp-feat' },
     { c: '.pdp-steps', i: '.pdp-step' },
+    { c: '.spec tbody', i: 'tr' },
   ];
   function listKey(container) { return '__list__' + nodePath(container); }
 
@@ -276,7 +277,8 @@
         arr.forEach(function (html) {
           var s = String(html || '').trim();
           if (!s) return;
-          var tmp = document.createElement('div');
+          // 표 행(tr)은 div.innerHTML 로 파싱하면 사라지므로 tbody 컨텍스트에서 파싱
+          var tmp = document.createElement(cont.tagName === 'TBODY' ? 'tbody' : 'div');
           tmp.innerHTML = s;
           var node = tmp.firstElementChild;
           if (node) { node.setAttribute('data-cms-added', '1'); cont.appendChild(node); }

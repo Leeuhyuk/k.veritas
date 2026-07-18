@@ -1090,7 +1090,8 @@
             const arr = currentOverrides[listKeyFn(cont)];
             if (!arr || !arr.length) return;
             arr.forEach((html) => {
-              const tmp = doc.createElement('div'); tmp.innerHTML = String(html || '').trim();
+              const tmp = doc.createElement(cont.tagName === 'TBODY' ? 'tbody' : 'div');
+              tmp.innerHTML = String(html || '').trim();
               const node = tmp.firstElementChild;
               if (node) { node.setAttribute('data-cms-added', '1'); cont.appendChild(node); }
             });
@@ -1098,13 +1099,15 @@
         });
       }
       function addDelBtn(doc, item) {
-        if (item.querySelector(':scope > .kv-item-del')) return;
-        if (getComputedStyle(item).position === 'static') item.style.position = 'relative';
+        // 표 행(tr)은 버튼을 직접 자식으로 둘 수 없어 마지막 칸에 배치
+        const host = item.tagName === 'TR' ? (item.lastElementChild || item) : item;
+        if (host.querySelector && host.querySelector(':scope > .kv-item-del')) return;
+        if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
         const b = doc.createElement('button');
         b.type = 'button'; b.className = 'kv-item-del'; b.title = '이 항목 삭제';
         b.textContent = '×'; b.setAttribute('data-noedit', '1');
         b.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); item.remove(); });
-        item.appendChild(b);
+        host.appendChild(b);
       }
       function wireRepeatables(fr) {
         const doc = fr.contentDocument;
@@ -1138,7 +1141,14 @@
               clone.querySelectorAll('[data-cms]').forEach((x) => x.setAttribute('data-edited', '1'));
               clone.scrollIntoView({ behavior: 'smooth', block: 'center' });
             });
-            cont.parentNode.insertBefore(btn, cont.nextSibling);
+            // 표(tbody)는 버튼을 table 밖(다음 형제)에 둠 — table 내부엔 button 불가
+            if (cont.tagName === 'TBODY') {
+              const table = cont.closest('table') || cont;
+              btn.style.marginTop = '10px';
+              table.parentNode.insertBefore(btn, table.nextSibling);
+            } else {
+              cont.parentNode.insertBefore(btn, cont.nextSibling);
+            }
           });
         });
       }
@@ -1155,6 +1165,11 @@
           if (x.className) x.className = x.className.replace(/\breveal[\w-]*/g, '').replace(/\s+/g, ' ').trim();
         });
         if (c.style) { c.style.removeProperty('animation-delay'); if (c.style.position === 'relative') c.style.removeProperty('position'); }
+        // 삭제버튼 배치를 위해 넣은 인라인 position:relative 정리(표 칸 등)
+        [].slice.call(c.querySelectorAll('[style]')).forEach((x) => {
+          if (x.style && x.style.position === 'relative') x.style.removeProperty('position');
+          if (x.getAttribute && x.getAttribute('style') === '') x.removeAttribute('style');
+        });
         return c.outerHTML;
       }
 
