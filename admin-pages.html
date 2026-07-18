@@ -968,7 +968,13 @@
         .kv-item-del{ position:absolute; top:6px; right:6px; z-index:6; width:26px; height:26px;
           border:0; border-radius:50%; background:#16181d; color:#fff; font-size:15px; line-height:1;
           cursor:pointer; opacity:.9; }
-        .kv-item-del:hover{ opacity:1; background:#7a2b25; }`;
+        .kv-item-del:hover{ opacity:1; background:#7a2b25; }
+        .kv-item-drag{ position:absolute; top:6px; left:6px; z-index:6; width:26px; height:26px;
+          border:0; border-radius:6px; background:#0096d6; color:#fff; font-size:14px; line-height:1;
+          cursor:grab; opacity:.85; padding:0; }
+        .kv-item-drag:hover{ opacity:1; background:#0079ad; }
+        .kv-item-drag:active{ cursor:grabbing; }
+        .kv-dragging{ opacity:.45; outline:2px solid #0096d6 !important; outline-offset:2px; }`;
 
       function buildEditBar(doc) {
         if (doc.getElementById('kv-edit-bar')) return;
@@ -1083,12 +1089,19 @@
         const doc = fr.contentDocument;
         const REP = (fr.contentWindow && fr.contentWindow.cmsRepeat) || [];
         const listKeyFn = fr.contentWindow && fr.contentWindow.cmsListKey;
+        const fullKeyFn = fr.contentWindow && fr.contentWindow.cmsFullKey;
         if (!listKeyFn) return;
         REP.forEach((r) => {
           doc.querySelectorAll(r.c).forEach((cont) => {
             if (cont.closest('#site-nav, #site-footer')) return;
             const arr = currentOverrides[listKeyFn(cont)];
-            if (!arr || !arr.length) return;
+            const full = fullKeyFn && currentOverrides[fullKeyFn(cont)];
+            if (full && arr) {
+              // 관리형: 원본 포함 기존 항목 제거 후 저장 순서대로 재구성
+              cont.querySelectorAll(':scope > ' + r.i).forEach((x) => x.remove());
+            } else if (!arr || !arr.length) {
+              return;
+            }
             arr.forEach((html) => {
               const tmp = doc.createElement(cont.tagName === 'TBODY' ? 'tbody' : 'div');
               tmp.innerHTML = String(html || '').trim();
@@ -1109,14 +1122,68 @@
         b.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); item.remove(); });
         host.appendChild(b);
       }
+      // 드래그 핸들(⠿) — 항목 순서 변경. contenteditable 오작동 방지 위해 핸들로만 draggable 활성화
+      function addDragHandle(doc, item) {
+        const host = item.tagName === 'TR' ? (item.firstElementChild || item) : item;
+        if (host.querySelector && host.querySelector(':scope > .kv-item-drag')) return;
+        if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
+        const h = doc.createElement('button');
+        h.type = 'button'; h.className = 'kv-item-drag'; h.title = '드래그하여 순서 변경';
+        h.textContent = '⠿'; h.setAttribute('data-noedit', '1'); h.setAttribute('draggable', 'false');
+        h.addEventListener('mousedown', () => { item.setAttribute('draggable', 'true'); item._kvDrag = true; });
+        const off = () => { item.removeAttribute('draggable'); item._kvDrag = false; };
+        h.addEventListener('mouseup', off);
+        h.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); });
+        item.addEventListener('dragstart', (e) => {
+          if (!item._kvDrag) { e.preventDefault(); return; }
+          item.classList.add('kv-dragging');
+          e.dataTransfer.effectAllowed = 'move';
+          try { e.dataTransfer.setData('text/plain', ''); } catch (_) { /* ignore */ }
+        });
+        item.addEventListener('dragend', () => { item.classList.remove('kv-dragging'); off(); });
+        host.appendChild(h);
+      }
+      // 그리드/목록/표 모두 대응: 포인터에 가장 가까운 항목과 삽입 위치 계산
+      function dragTarget(cont, sel, x, y) {
+        const els = [].slice.call(cont.querySelectorAll(':scope > ' + sel + ':not(.kv-dragging)'));
+        let ref = null, best = Infinity, before = true;
+        els.forEach((el) => {
+          const b = el.getBoundingClientRect();
+          const cx = b.left + b.width / 2, cy = b.top + b.height / 2;
+          const d = Math.hypot(x - cx, y - cy);
+          if (d < best) {
+            best = d; ref = el;
+            before = (Math.abs(y - cy) < b.height / 2) ? (x < cx) : (y < cy);
+          }
+        });
+        return { ref, before };
+      }
       function wireRepeatables(fr) {
         const doc = fr.contentDocument;
         const REP = (fr.contentWindow && fr.contentWindow.cmsRepeat) || [];
+        const fullKeyFn = fr.contentWindow && fr.contentWindow.cmsFullKey;
         REP.forEach((r) => {
           doc.querySelectorAll(r.c).forEach((cont) => {
             if (cont.closest('#site-nav, #site-footer') || cont._kvWired) return;
             cont._kvWired = true;
+            cont._kvManaged = !!(fullKeyFn && currentOverrides[fullKeyFn(cont)]);
+            cont._kvAddSeq = 1000;
             cont.querySelectorAll(':scope > ' + r.i + '[data-cms-added]').forEach((it) => addDelBtn(doc, it));
+            // 정렬 기준(로드 순서) 기록 + 모든 항목에 드래그 핸들
+            cont.querySelectorAll(':scope > ' + r.i).forEach((it, i) => {
+              it.setAttribute('data-kv-cid', String(i));
+              addDragHandle(doc, it);
+            });
+            // 컨테이너 단위 드롭 처리
+            cont.addEventListener('dragover', (e) => {
+              const dragging = cont.querySelector('.kv-dragging');
+              if (!dragging) return;
+              e.preventDefault();
+              const t = dragTarget(cont, r.i, e.clientX, e.clientY);
+              if (!t.ref) { cont.appendChild(dragging); }
+              else if (t.before) { cont.insertBefore(dragging, t.ref); }
+              else { cont.insertBefore(dragging, t.ref.nextElementSibling); }
+            });
             const items = cont.querySelectorAll(':scope > ' + r.i);
             const tmpl = items[items.length - 1];
             if (!tmpl) return;
@@ -1134,10 +1201,12 @@
               });
               clone.removeAttribute('data-cms'); clone.removeAttribute('data-cms-img');
               clone.setAttribute('data-cms-added', '1');
+              clone.setAttribute('data-kv-cid', String(cont._kvAddSeq != null ? cont._kvAddSeq++ : 1000));
               cont.appendChild(clone);
               try { fr.contentWindow.cmsCollect(doc); } catch (_) { /* ignore */ }
               makeEditable(doc);
               addDelBtn(doc, clone);
+              addDragHandle(doc, clone);
               clone.querySelectorAll('[data-cms]').forEach((x) => x.setAttribute('data-edited', '1'));
               clone.scrollIntoView({ behavior: 'smooth', block: 'center' });
             });
@@ -1157,7 +1226,8 @@
         c.removeAttribute('data-cms-added'); c.removeAttribute('data-edited');
         c.removeAttribute('data-cms'); c.removeAttribute('data-cms-img');
         c.removeAttribute('contenteditable'); c.removeAttribute('spellcheck');
-        c.querySelectorAll('.kv-item-del').forEach((x) => x.remove());
+        c.removeAttribute('data-kv-cid'); c.removeAttribute('draggable');
+        c.querySelectorAll('.kv-item-del, .kv-item-drag').forEach((x) => x.remove());
         c.querySelectorAll('[contenteditable]').forEach((x) => { x.removeAttribute('contenteditable'); x.removeAttribute('spellcheck'); x.removeAttribute('data-edited'); });
         c.querySelectorAll('[data-cms]').forEach((x) => x.removeAttribute('data-cms'));
         c.querySelectorAll('[data-cms-img]').forEach((x) => x.removeAttribute('data-cms-img'));
@@ -1332,14 +1402,32 @@
           const win = $('live-editor').contentWindow;
           const REP = (win && win.cmsRepeat) || [];
           const listKeyFn = win && win.cmsListKey;
+          const fullKeyFn = win && win.cmsFullKey;
           if (listKeyFn) {
             REP.forEach((r) => {
               doc.querySelectorAll(r.c).forEach((cont) => {
                 if (cont.closest('#site-nav, #site-footer')) return;
                 const key = listKeyFn(cont);
-                const added = [].slice.call(cont.querySelectorAll(':scope > ' + r.i + '[data-cms-added]'));
-                if (added.length) content[key] = added.map(serializeAddedItem);
-                else if (key in content) content[key] = [];
+                const fkey = fullKeyFn ? fullKeyFn(cont) : null;
+                const items = [].slice.call(cont.querySelectorAll(':scope > ' + r.i));
+                // 로드 순서(data-kv-cid) 대비 순서가 바뀌었는지 판정 (오름차순이면 그대로)
+                let reordered = false, prev = -Infinity;
+                for (const it of items) {
+                  const n = parseInt(it.getAttribute('data-kv-cid'), 10);
+                  const v = isNaN(n) ? Infinity : n;
+                  if (v < prev) { reordered = true; break; }
+                  prev = v;
+                }
+                if (cont._kvManaged || reordered) {
+                  // 관리형: 원본 포함 전체를 현재 순서대로 저장
+                  content[key] = items.map(serializeAddedItem);
+                  if (fkey) content[fkey] = true;
+                } else {
+                  const added = items.filter((it) => it.hasAttribute('data-cms-added'));
+                  if (added.length) content[key] = added.map(serializeAddedItem);
+                  else if (key in content) content[key] = [];
+                  if (fkey && fkey in content) delete content[fkey];
+                }
               });
             });
           }

@@ -63,6 +63,8 @@
     { c: '.spec tbody', i: 'tr' },
   ];
   function listKey(container) { return '__list__' + nodePath(container); }
+  // 순서까지 관리하는(원본 포함 전체 재구성) 반복 영역 표시 키
+  function fullKey(container) { return '__full__' + nodePath(container); }
 
   // 편집 가능한 요소 목록을 결정적 순서로 수집 (공개페이지/관리자 동일)
   function collect(root) {
@@ -266,14 +268,23 @@
     upsertMeta('meta[property="og:image"]', 'property', 'og:image', image);
   }
 
-  // 관리자에서 추가한 항목을 공개 페이지에 이어붙임 (base 항목 뒤에 append)
+  // 관리자에서 추가/정렬한 항목을 공개 페이지에 반영
+  //  · 일반: base 항목 뒤에 추가 항목만 append
+  //  · 관리형(__full__): 원본 포함 전체를 저장 순서대로 재구성
   function applyLists(data) {
     if (!data) return;
     REPEAT.forEach(function (r) {
       document.querySelectorAll(r.c).forEach(function (cont) {
         if (inChrome(cont)) return;
         var arr = data[listKey(cont)];
-        if (!arr || !arr.length) return;
+        var full = !!data[fullKey(cont)];
+        if (full) {
+          if (!arr) return;
+          // 전체 관리: 기존 항목 제거 후 저장 순서대로 재구성
+          [].slice.call(cont.querySelectorAll(':scope > ' + r.i)).forEach(function (x) { x.remove(); });
+        } else if (!arr || !arr.length) {
+          return;
+        }
         arr.forEach(function (html) {
           var s = String(html || '').trim();
           if (!s) return;
@@ -290,6 +301,7 @@
   window.cmsCollect = collect;
   window.cmsNodePath = nodePath;
   window.cmsListKey = listKey;
+  window.cmsFullKey = fullKey;
   window.cmsRepeat = REPEAT;
   window.cmsApplyLists = applyLists;
 
