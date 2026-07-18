@@ -78,7 +78,6 @@
       var img = document.createElement('img');
       img.setAttribute('alt', '');
       img.setAttribute('data-cms-label', '카드 이미지(선택)');
-      img.setAttribute('loading', 'lazy');
       img.style.display = 'none';
       function show() { if (img.getAttribute('src')) { img.style.display = 'block'; box.classList.add('is-on'); } }
       img.addEventListener('load', show);
@@ -210,7 +209,13 @@
         }
         if (!val) return;
         var imgUrl = fixMediaUrl(val);
-        if (f.el.tagName === 'IMG') { f.el.src = imgUrl; }
+        if (f.el.tagName === 'IMG') {
+          // 선택 카드 이미지(.card__optimg)는 load 이벤트에 의존하지 않고 즉시 표시
+          // (loading=lazy + display:none 조합의 교착 방지)
+          var optbox = f.el.closest && f.el.closest('.card__optimg');
+          if (optbox) { f.el.removeAttribute('loading'); f.el.style.display = 'block'; optbox.classList.add('is-on'); }
+          f.el.src = imgUrl;
+        }
         else { f.el.style.backgroundImage = 'url(' + imgUrl + ')'; f.el.style.backgroundSize = 'cover'; f.el.style.backgroundPosition = 'center'; }
       } else {
         f.el.innerHTML = fixHtmlMedia(val);
