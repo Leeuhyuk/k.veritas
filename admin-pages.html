@@ -1112,7 +1112,12 @@
         Auth.uploadImage(file).then((d) => {
           if (!d || !d.url) return;
           changedImages[target.key] = d.url;
-          if (target.el.tagName === 'IMG') { target.el.src = d.url; target.el.style.visibility = ''; }
+          if (target.el.tagName === 'IMG') {
+            // 선택 카드 이미지(.card__optimg)는 업로드 즉시 표시 (load 이벤트/lazy 의존 제거)
+            const optbox = target.el.closest && target.el.closest('.card__optimg');
+            if (optbox) { target.el.removeAttribute('loading'); target.el.style.display = 'block'; optbox.classList.add('is-on'); }
+            target.el.src = d.url; target.el.style.visibility = '';
+          }
           else { target.el.style.backgroundImage = 'url(' + d.url + ')'; target.el.style.backgroundSize = 'cover'; target.el.style.backgroundPosition = 'center'; }
           $('save-msg').textContent = '';
         }).catch((err) => { $('save-msg').textContent = (err && err.message) || '이미지 업로드에 실패했습니다.'; });
