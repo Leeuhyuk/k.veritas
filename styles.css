@@ -2736,7 +2736,7 @@ body.site-hp .pdp-figure img{ width:100%; height:100%; object-fit:cover; display
 .prod-card:hover .prod-card__media img{ transform:scale(1.04); }
 .prod-card__ph{ width:100%; height:100%; display:flex; align-items:center; justify-content:center;
   font-family:var(--font-fragment-mono); font-size:11px; letter-spacing:.1em; color:var(--color-eucalyptus); }
-.prod-card__b{ padding:15px 16px 6px; display:flex; flex-direction:column; gap:9px; flex:1; }
+.prod-card__b{ padding:16px; display:flex; flex-direction:column; gap:9px; flex:1; }
 .prod-card__model{ font-family:var(--font-fragment-mono); font-size:11px; font-weight:600;
   letter-spacing:.12em; text-transform:uppercase; color:var(--color-forest-floor); }
 .prod-card__b h3{ font-size:17px; font-weight:700; letter-spacing:-.02em; line-height:1.3; margin:-2px 0 0; }

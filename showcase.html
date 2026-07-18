@@ -209,10 +209,6 @@
           var num = ('0' + (start + i + 1)).slice(-2);
           var modelText = model || ('KV-' + num);
           return '<a class="prod-card" href="showcase-detail.html?id=' + encodeURIComponent(p.id) + '">' +
-            '<span class="prod-card__head">' +
-              '<span class="prod-card__kicker">정밀 계측</span>' +
-              (c ? '<span class="prod-card__code">' + esc(c) + '</span>' : '') +
-            '</span>' +
             media +
             '<span class="prod-card__b">' +
               '<span class="prod-card__model">MODEL ' + esc(modelText) + '</span>' +
@@ -220,7 +216,6 @@
               featHtml +
               specHtml +
             '</span>' +
-            '<span class="prod-card__foot"><span>k-veritas.co.kr</span><span>' + num + '</span></span>' +
           '</a>';
         }).join('');
       }
