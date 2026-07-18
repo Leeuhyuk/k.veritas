@@ -295,6 +295,20 @@
     upsertMeta('meta[property="og:image"]', 'property', 'og:image', image);
   }
 
+  // 선택 카드 이미지(.card__optimg) 표시 — src 가 있으면 즉시 노출
+  // (추가된 카드는 직렬화 HTML 에 display:none 이 남아 있어 여기서 강제 표시)
+  function revealCardMedia(root) {
+    (root || document).querySelectorAll('.card__optimg').forEach(function (box) {
+      var img = box.querySelector('img');
+      if (img && img.getAttribute('src')) {
+        img.removeAttribute('loading');
+        img.style.display = 'block';
+        box.classList.add('is-on');
+      }
+    });
+  }
+  window.cmsRevealCardMedia = revealCardMedia;
+
   // 관리자에서 추가/정렬한 항목을 공개 페이지에 반영
   //  · 일반: base 항목 뒤에 추가 항목만 append
   //  · 관리형(__full__): 원본 포함 전체를 저장 순서대로 재구성
@@ -319,7 +333,7 @@
           var tmp = document.createElement(cont.tagName === 'TBODY' ? 'tbody' : 'div');
           tmp.innerHTML = s;
           var node = tmp.firstElementChild;
-          if (node) { node.setAttribute('data-cms-added', '1'); cont.appendChild(node); }
+          if (node) { node.setAttribute('data-cms-added', '1'); cont.appendChild(node); revealCardMedia(node); }
         });
       });
     });
@@ -418,6 +432,7 @@
       apply(data);
       // 편집기(?edit=1)에서는 추가 항목을 편집기가 직접 이어붙이며 관리 → 여기선 건너뜀
       if (!/[?&]edit=1\b/.test(location.search || '')) applyLists(data);
+      revealCardMedia();
       applyMaps(data);
       applySeo(data);
       // SEO og:image 절대경로 보정
