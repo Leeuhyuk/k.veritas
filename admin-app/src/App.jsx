@@ -12,7 +12,7 @@ import SettingsPage from './components/SettingsPage.jsx';
 const PAGE_META = {
   products: {
     title: '제품 관리',
-    subtitle: '생산제품을 사진과 함께 등록·수정합니다.',
+    subtitle: '맞춤 시험 장비를 사진과 함께 등록·수정합니다.',
   },
   news: {
     title: '공지 관리',

@@ -43,7 +43,7 @@ export default function ProductsPage() {
     setImportMsg('공개 사이트에 반영 중…');
     try {
       const r = await adminApi.publishProducts();
-      setImportMsg(`공개 반영 완료: ${r.count}개. 생산제품 페이지에 표시됩니다. (잠시 후/새로고침)`);
+      setImportMsg(`공개 반영 완료: ${r.count}개. 맞춤 시험 장비 페이지에 표시됩니다. (잠시 후/새로고침)`);
     } catch (e) {
       setImportMsg(e.message || '공개 반영에 실패했습니다.');
     } finally {

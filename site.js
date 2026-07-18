@@ -115,7 +115,7 @@ const NAV_GROUPS = [
     label: '제품소개',
     href: 'products.html',
     children: [
-      { label: '생산제품', href: 'showcase.html' },
+      { label: '맞춤 시험 장비', href: 'showcase.html' },
       { label: '가구 내구성 시험기', href: 'product-parts.html' },
       { label: '금속·재료 시험기', href: 'product-mold.html' },
       { label: '내구성·피로 시험기', href: 'product-module.html' },
@@ -157,7 +157,7 @@ const FOOTER_COLS = [
   {
     title: '자료',
     links: [
-      { label: '생산제품', href: 'showcase.html' },
+      { label: '맞춤 시험 장비', href: 'showcase.html' },
       { label: '자료실', href: 'reference.html' },
       { label: '공지사항', href: 'news.html' },
       // 상대경로 — GitHub Pages(/k.veritas/)에서도 올바른 admin/ 으로 연결
@@ -322,7 +322,7 @@ function wireSiteSearch() {
     { title: '시험기 설계·제작', url: 'biz-machining.html', kw: '설계 제작 지그 사양' },
     { title: '시험 규격 대응', url: 'biz-mold.html', kw: '규격 KS ISO ASTM EN BIFMA 성적서' },
     { title: '설치·교정·기술지원', url: 'biz-assembly.html', kw: '설치 교정 성적서 유지보수 기술지원' },
-    { title: '생산제품', url: 'showcase.html', kw: '생산제품 카탈로그 목록 시험기' },
+    { title: '맞춤 시험 장비', url: 'showcase.html', kw: '맞춤 시험 장비 생산제품 커스텀 카탈로그 목록 시험기' },
     { title: '공지사항', url: 'news.html', kw: '공지 뉴스 소식' },
     { title: '자료실', url: 'reference.html', kw: '자료실 카탈로그 인증서 사용설명서 도면 다운로드' },
     { title: '고객지원', url: 'support.html', kw: '고객지원 문의 FAQ 견적 연락처' },
