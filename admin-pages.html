@@ -974,7 +974,10 @@
           cursor:grab; opacity:.85; padding:0; }
         .kv-item-drag:hover{ opacity:1; background:#0079ad; }
         .kv-item-drag:active{ cursor:grabbing; }
-        .kv-dragging{ opacity:.45; outline:2px solid #0096d6 !important; outline-offset:2px; }`;
+        /* 표 행: 핸들을 셀 왼쪽 바깥 여백으로 이동 → 셀 내용 가리지 않음 */
+        .kv-item-drag--row{ top:50%; left:-30px; transform:translateY(-50%); width:24px; height:24px; }
+        .kv-dragging{ opacity:.45; outline:2px solid #0096d6 !important; outline-offset:2px; }
+        tr.kv-dragging{ outline:0 !important; background:rgba(0,150,214,.12); }`;
 
       function buildEditBar(doc) {
         if (doc.getElementById('kv-edit-bar')) return;
@@ -1128,7 +1131,8 @@
         if (host.querySelector && host.querySelector(':scope > .kv-item-drag')) return;
         if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
         const h = doc.createElement('button');
-        h.type = 'button'; h.className = 'kv-item-drag'; h.title = '드래그하여 순서 변경';
+        // 표 행은 셀이 좁아 핸들을 셀 밖(왼쪽 여백)에 배치 → 내용 가림 방지
+        h.type = 'button'; h.className = 'kv-item-drag' + (item.tagName === 'TR' ? ' kv-item-drag--row' : ''); h.title = '드래그하여 순서 변경';
         h.textContent = '⠿'; h.setAttribute('data-noedit', '1'); h.setAttribute('draggable', 'false');
         h.addEventListener('mousedown', () => { item.setAttribute('draggable', 'true'); item._kvDrag = true; });
         const off = () => { item.removeAttribute('draggable'); item._kvDrag = false; };
