@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import RichEditor from './RichEditor.jsx';
 import FileDropzone from './FileDropzone.jsx';
 import ImagePreviewList from './ImagePreviewList.jsx';
@@ -30,6 +30,15 @@ export default function ProductForm({
   const [previewOpen, setPreviewOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [extraCats, setExtraCats] = useState([]);
+
+  // 수정 클릭 등으로 initial/editId 가 바뀌면 폼을 기존 등록 내용으로 다시 채움
+  // (key 리마운트에만 의존하지 않도록 보강)
+  useEffect(() => {
+    setForm({ ...emptyForm, ...(initial || {}) });
+    setKeptImages(initial && initial.images ? [...initial.images] : []);
+    setFiles([]);
+    setMsg('');
+  }, [editId, initial]);
 
   // 관리 카테고리 + 추가한 분류 + 현재 선택값(목록 외 포함)
   const catList = Array.from(new Set([

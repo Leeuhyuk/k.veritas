@@ -76,6 +76,7 @@ export default function ProductsPage() {
       setEditId(p.id);
       setEditInitial({
         title: p.title || '',
+        model: p.model || '',
         category: p.category || '',
         status: p.status === 'draft' ? 'draft' : 'published',
         industry: p.industry || '',
