@@ -195,9 +195,11 @@
             : '<span class="prod-card__media"><span class="prod-card__ph">NO IMAGE</span></span>';
           var model = modelCode(p);
           var feats = featTokens(p);
-          var featHtml = feats.length
-            ? '<ul class="prod-card__feats">' + feats.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul>'
-            : (p.summary ? '<p>' + esc(p.summary) + '</p>' : '');
+          var summaryText = (p.summary || '').trim();
+          // 요약이 있으면 카드 설명으로 우선 표시(스펙은 아래 표에 별도 노출), 없을 때만 스펙 기반 특징
+          var featHtml = summaryText
+            ? '<p>' + esc(summaryText).replace(/\n+/g, ' ') + '</p>'
+            : (feats.length ? '<ul class="prod-card__feats">' + feats.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul>' : '');
           // 커스텀 스펙(관리자 편집) 우선, 없으면 기존 필드로 폴백
           var rows = [];
           if (p.category) rows.push(['분야', p.category]);
