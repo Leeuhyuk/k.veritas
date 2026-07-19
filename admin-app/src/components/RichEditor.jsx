@@ -12,7 +12,8 @@ export default function RichEditor({ value, onChange, placeholder }) {
   const editorRef = useRef(null);
   const toolbarRef = useRef(null);
   const savedRange = useRef(null);
-  const lastExternal = useRef(value);
+  // 마운트 시(수정 진입 등) value 가 이미 채워져 있어도 innerHTML 에 반영되도록 null 로 시작
+  const lastExternal = useRef(null);
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState('format'); // format | table
   const [inTable, setInTable] = useState(false);
