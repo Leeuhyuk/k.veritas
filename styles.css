@@ -2913,7 +2913,7 @@ body.site-hp .detail__spec dt{
   font-family:var(--font-fragment-mono); font-size:12px; letter-spacing:.04em;
   text-transform:uppercase; color:var(--color-forest-floor); margin:0;
 }
-body.site-hp .detail__spec dd{ margin:0; font-weight:700; color:var(--color-botanical-ink); }
+body.site-hp .detail__spec dd{ margin:0; font-weight:700; color:var(--color-botanical-ink); text-align:right; word-break:break-word; }
 body.site-hp .detail__info .detail__actions{ margin-top:auto; }
 body.site-hp .detail__detail{ border-top:2px solid var(--color-botanical-ink); padding-top:var(--spacing-32); }
 body.site-hp .detail__detail .detail__body{ border-top:0; padding-top:0; }
