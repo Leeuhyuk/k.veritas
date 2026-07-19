@@ -16,6 +16,26 @@ const emptyForm = {
   body: '',
 };
 
+// 스펙 표 초기값: 저장된 specs 우선, 없으면 기존 필드(소재·가공·산업)에서 이관, 그것도 없으면 기본 행
+function seedSpecs(initial) {
+  if (initial && Array.isArray(initial.specs) && initial.specs.length) {
+    return initial.specs.map((s) => ({ label: s.label || '', value: s.value || '' }));
+  }
+  if (initial) {
+    const legacy = [
+      ['소재', initial.material],
+      ['가공', initial.process],
+      ['산업', initial.industry],
+    ].filter((r) => r[1]);
+    if (legacy.length) return legacy.map(([label, value]) => ({ label, value }));
+  }
+  return [
+    { label: '소재', value: '' },
+    { label: '가공', value: '' },
+    { label: '산업', value: '' },
+  ];
+}
+
 export default function ProductForm({
   categories,
   editId,
@@ -29,15 +49,27 @@ export default function ProductForm({
   const [msg, setMsg] = useState('');
   const [saving, setSaving] = useState(false);
   const [extraCats, setExtraCats] = useState([]);
+  const [specs, setSpecs] = useState(() => seedSpecs(initial));
 
   // 수정 클릭 등으로 initial/editId 가 바뀌면 폼을 기존 등록 내용으로 다시 채움
   // (key 리마운트에만 의존하지 않도록 보강)
   useEffect(() => {
     setForm({ ...emptyForm, ...(initial || {}) });
     setKeptImages(initial && initial.images ? [...initial.images] : []);
+    setSpecs(seedSpecs(initial));
     setFiles([]);
     setMsg('');
   }, [editId, initial]);
+
+  function setSpec(i, key, val) {
+    setSpecs((rows) => rows.map((r, j) => (j === i ? { ...r, [key]: val } : r)));
+  }
+  function addSpec() {
+    setSpecs((rows) => [...rows, { label: '', value: '' }]);
+  }
+  function removeSpec(i) {
+    setSpecs((rows) => rows.filter((_, j) => j !== i));
+  }
 
   // 관리 카테고리 + 추가한 분류 + 현재 선택값(목록 외 포함)
   const catList = Array.from(new Set([
@@ -80,6 +112,7 @@ export default function ProductForm({
     fd.append('process', form.process);
     fd.append('summary', form.summary);
     fd.append('body', form.body || '');
+    fd.append('specs', JSON.stringify(specs.filter((s) => s.label.trim() || s.value.trim())));
     files.forEach((f) => fd.append('images', f));
     if (editId) fd.append('keepImages', JSON.stringify(keptImages));
 
@@ -100,14 +133,6 @@ export default function ProductForm({
   }
 
   const previewThumb = files[0] ? URL.createObjectURL(files[0]) : keptImages[0] || '';
-
-  // 스펙 표(상세 페이지와 동일: 소재·가공·산업 + 모델)
-  const specRows = [
-    ['모델', 'model', 'KV-PT 400'],
-    ['소재', 'material', 'BIFMA X5.1 · 반복하중'],
-    ['가공', 'process', '시험기 설계·제작 / 설치·교정'],
-    ['산업', 'industry', '자동차, 반도체'],
-  ];
 
   return (
     <form className="form pf-detail" onSubmit={handleSubmit}>
@@ -158,6 +183,14 @@ export default function ProductForm({
               ))}
             </select>
             <button type="button" className="btn btn--ghost btn--sm" onClick={addCategory}>＋ 새 분류</button>
+            <input
+              className="pf-detail__model"
+              type="text"
+              placeholder="모델 코드 (예: KV-PT 400)"
+              value={form.model}
+              onChange={(e) => setField('model', e.target.value)}
+              title="카드 상단 MODEL 표시"
+            />
             <span className="pf-detail__grow" />
             <select
               className="pf-detail__status"
@@ -186,21 +219,40 @@ export default function ProductForm({
             onChange={(e) => setField('summary', e.target.value)}
           />
 
-          <dl className="pf-detail__spec">
-            {specRows.map(([label, key, ph]) => (
-              <div key={key}>
-                <dt>{label}</dt>
+          <dl className="pf-detail__spec pf-detail__spec--edit">
+            {specs.map((row, i) => (
+              <div key={i}>
+                <dt>
+                  <input
+                    type="text"
+                    className="pf-detail__spec-label"
+                    placeholder="항목명"
+                    value={row.label}
+                    onChange={(e) => setSpec(i, 'label', e.target.value)}
+                  />
+                </dt>
                 <dd>
                   <input
                     type="text"
-                    placeholder={ph}
-                    value={form[key]}
-                    onChange={(e) => setField(key, e.target.value)}
+                    placeholder="값"
+                    value={row.value}
+                    onChange={(e) => setSpec(i, 'value', e.target.value)}
                   />
+                  <button
+                    type="button"
+                    className="pf-detail__spec-del"
+                    title="이 항목 삭제"
+                    onClick={() => removeSpec(i)}
+                  >
+                    ×
+                  </button>
                 </dd>
               </div>
             ))}
           </dl>
+          <button type="button" className="btn btn--ghost btn--sm pf-detail__spec-add" onClick={addSpec}>
+            ＋ 스펙 항목 추가
+          </button>
         </div>
       </div>
 

@@ -98,6 +98,7 @@
     }
     function featTokens(p) {
       var src = p.material || '';
+      if (!src && Array.isArray(p.specs) && p.specs[0]) src = p.specs[0].value || '';
       var arr = src.split(/[·,\/]/).map(function (s) { return s.trim(); }).filter(Boolean);
       return arr.slice(0, 3);
     }
@@ -192,15 +193,21 @@
           var media = t
             ? '<span class="prod-card__media"><img src="' + esc(t) + '" alt="' + esc(p.title) + '" loading="lazy" decoding="async" /></span>'
             : '<span class="prod-card__media"><span class="prod-card__ph">NO IMAGE</span></span>';
-          var c = catOf(p);
           var model = modelCode(p);
           var feats = featTokens(p);
           var featHtml = feats.length
             ? '<ul class="prod-card__feats">' + feats.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul>'
             : (p.summary ? '<p>' + esc(p.summary) + '</p>' : '');
+          // 커스텀 스펙(관리자 편집) 우선, 없으면 기존 필드로 폴백
           var rows = [];
-          if (c) rows.push(['분야', c]);
-          if (p.process) rows.push(['공정', p.process]);
+          if (p.category) rows.push(['분야', p.category]);
+          if (Array.isArray(p.specs) && p.specs.length) {
+            p.specs.forEach(function (s) { if (s && s.value) rows.push([s.label || '', s.value]); });
+          } else {
+            if (p.industry) rows.push(['산업군', p.industry]);
+            if (p.process) rows.push(['공정', p.process]);
+          }
+          rows = rows.slice(0, 4);
           var specHtml = rows.length
             ? '<dl class="prod-card__spec">' + rows.map(function (r) {
                 return '<div><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd></div>';

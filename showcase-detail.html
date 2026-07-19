@@ -86,12 +86,19 @@
                 `<img src="${esc(u)}" alt="${esc(p.title)} 사진 ${i + 2}" title="클릭하면 크게 보기" loading="lazy" decoding="async" />`
               ).join('')}</div>`
             : '';
-          const specItems = [
-            ['카테고리', p.category],
-            ['소재', p.material],
-            ['가공', p.process],
-            ['산업', p.industry],
-          ].filter((r) => r[1]);
+          // 커스텀 스펙 표(관리자 편집) 우선, 없으면 기존 필드로 폴백
+          const customSpecs = Array.isArray(p.specs)
+            ? p.specs.filter((s) => s && (s.label || s.value)).map((s) => [s.label || '', s.value || ''])
+            : [];
+          const specItems = (customSpecs.length
+            ? [['카테고리', p.category], ...customSpecs]
+            : [
+                ['카테고리', p.category],
+                ['소재', p.material],
+                ['가공', p.process],
+                ['산업', p.industry],
+              ]
+          ).filter((r) => r[1]);
           const specHtml = specItems.length
             ? `<dl class="detail__spec">${specItems.map((r) => `<div><dt>${esc(r[0])}</dt><dd>${esc(r[1])}</dd></div>`).join('')}</dl>`
             : '';

@@ -25,6 +25,19 @@ function fdFiles(fd, key) {
   return fd.getAll(key).filter((f) => f && typeof f === 'object' && f.size > 0);
 }
 
+// 커스텀 스펙 표 [{label, value}] 파싱 (라벨·값 모두 사용자 편집)
+function parseSpecs(fd) {
+  try {
+    const arr = JSON.parse(fdGet(fd, 'specs') || '[]');
+    if (!Array.isArray(arr)) return [];
+    return arr
+      .map((s) => ({ label: String((s && s.label) || '').trim(), value: String((s && s.value) || '').trim() }))
+      .filter((s) => s.label || s.value);
+  } catch {
+    return [];
+  }
+}
+
 async function requireAdminUser() {
   const meta = await loadFirebaseWebConfig();
   ensureFirebaseApp(meta.config);
@@ -143,6 +156,7 @@ export const staticAdminApi = {
       industry: fdGet(fd, 'industry').trim(),
       material: fdGet(fd, 'material').trim(),
       process: fdGet(fd, 'process').trim(),
+      specs: parseSpecs(fd),
       summary: fdGet(fd, 'summary').trim(),
       body: fdGet(fd, 'body'),
       status: fdGet(fd, 'status') === 'draft' ? 'draft' : 'published',
@@ -217,6 +231,7 @@ export const staticAdminApi = {
     if (fd.has('industry')) p.industry = fdGet(fd, 'industry').trim();
     if (fd.has('material')) p.material = fdGet(fd, 'material').trim();
     if (fd.has('process')) p.process = fdGet(fd, 'process').trim();
+    if (fd.has('specs')) p.specs = parseSpecs(fd);
     if (fd.has('summary')) p.summary = fdGet(fd, 'summary').trim();
     if (fd.has('body')) p.body = fdGet(fd, 'body');
     if (fd.has('status')) p.status = fdGet(fd, 'status') === 'draft' ? 'draft' : 'published';
