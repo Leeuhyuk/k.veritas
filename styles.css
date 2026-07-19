@@ -2461,7 +2461,7 @@ a.res-title:hover {
 .pdp-highlight__label { margin-top: 6px; font-size: 13px; color: var(--color-bark-brown); }
 
 /* 적용 산업 카드 그리드 (PDP 내부) */
-.pdp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-16); }
+.pdp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-16); }
 .pdp-grid--2 { grid-template-columns: repeat(2, 1fr); }
 
 /* 특징 리스트 */
@@ -2516,7 +2516,8 @@ a.res-title:hover {
   .pdp { grid-template-columns: 1fr; gap: var(--spacing-24); }
   .pdp__sidebar { position: static; flex-direction: column; }
   .pdp-side__toc-block { display: none; }        /* 모바일에선 목차 숨김 */
-  .pdp-highlights, .pdp-grid, .pdp-grid--2 { grid-template-columns: 1fr; }
+  .pdp-highlights, .pdp-grid--2 { grid-template-columns: 1fr; }
+  .pdp-grid { grid-template-columns: repeat(2, 1fr); }
   .pdp-feats { grid-template-columns: 1fr; }
   .pdp-steps { grid-template-columns: repeat(2, 1fr); }
 }
@@ -2528,6 +2529,7 @@ a.res-title:hover {
   .pdp-tool--primary { width: auto; padding: 0 16px; }
   .pdp-tool--primary span { display: inline; }
   .pdp-steps { grid-template-columns: 1fr; }
+  .pdp-grid { grid-template-columns: 1fr; }
   .pdp-sec__title { font-size: 25px; letter-spacing: -0.8px; }
 }
 
