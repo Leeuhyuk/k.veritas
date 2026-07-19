@@ -50,11 +50,32 @@
 
       // 관리자 공개 내보내기(pages/__products_index__) 우선 → 서버(/api) → 정적 export 순으로 조회
       const PUB_INDEX = 'https://firestore.googleapis.com/v1/projects/production-management-e70fd/databases/(default)/documents/pages/products-index';
+      // 쇼케이스와 동일한 정렬(순번) — 모델 번호를 카드와 일치시키기 위함
+      let fullList = [];
+      const sortLikeShowcase = (arr) => arr.filter((p) => p && p.status !== 'draft' && p.status !== 'hidden')
+        .sort((a, b) => {
+          const o = (a.order || 0) - (b.order || 0);
+          if (o) return o;
+          return String(b.createdAt || '').localeCompare(String(a.createdAt || ''));
+        });
       const findIn = (list) => {
         const arr = Array.isArray(list) ? list : (list.items || list.products || []);
+        fullList = sortLikeShowcase(arr);
         const found = arr.filter(Boolean).find((x) => String(x.id) === String(id));
         if (!found) throw new Error();
         return found;
+      };
+      const modelCodeOf = (p) => {
+        if (p.model) return String(p.model).trim().toUpperCase();
+        const raw = String(p.id || '').trim().toUpperCase();
+        const m = raw.match(/^([A-Z]{1,4})[-\s]?(\d{1,4})$/);
+        return m ? (m[1] + '-' + m[2]) : '';
+      };
+      const modelTextOf = (p) => {
+        const code = modelCodeOf(p);
+        if (code) return code;
+        const idx = fullList.findIndex((x) => String(x.id) === String(p.id));
+        return 'KV-' + ('0' + ((idx < 0 ? 0 : idx) + 1)).slice(-2);
       };
       const fetchProduct = () => fetch(PUB_INDEX, { cache: 'no-store' })
         .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
@@ -113,7 +134,7 @@
             <div class="detail__top">
               <div class="detail__media">${cover}</div>
               <div class="detail__info">
-                ${(p.category || p.model) ? `<div class="detail__tags">${p.category ? `<span class="tag">${esc(p.category)}</span>` : ''}${p.model ? `<span class="detail__model">MODEL ${esc(String(p.model).toUpperCase())}</span>` : ''}</div>` : ''}
+                <div class="detail__tags">${p.category ? `<span class="tag">${esc(p.category)}</span>` : ''}<span class="detail__model">MODEL ${esc(modelTextOf(p))}</span></div>
                 <h1 class="detail__title">${esc(p.title)}</h1>
                 ${leadHtml}
                 ${specHtml}

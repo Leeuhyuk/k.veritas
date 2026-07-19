@@ -216,7 +216,9 @@
                 return '<div><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd></div>';
               }).join('') + '</dl>'
             : '';
-          var num = ('0' + (start + i + 1)).slice(-2);
+          // 전체 목록 순번 기준(필터·페이지 무관) → 상세 페이지와 동일한 모델 번호
+          var seqIdx = all.indexOf(p);
+          var num = ('0' + ((seqIdx < 0 ? (start + i) : seqIdx) + 1)).slice(-2);
           var modelText = model || ('KV-' + num);
           return '<a class="prod-card" href="showcase-detail.html?id=' + encodeURIComponent(p.id) + '">' +
             media +
