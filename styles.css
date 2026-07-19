@@ -797,28 +797,28 @@ img.cert-image:not(.card__media img) {
 .pf-detail input:focus, .pf-detail select:focus, .pf-detail textarea:focus {
   outline: 2px solid var(--color-forest-floor); outline-offset: 3px; background: #fff !important;
 }
-.pf-detail select.pf-detail__cat { align-self: flex-start; width: auto !important; max-width: 220px; flex: 0 0 auto; background: var(--color-moss-veil) !important; color: #0071a8; font-family: var(--font-fragment-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; padding: 6px 10px !important; min-height: 0 !important; border-color: transparent !important; }
+.pf-detail select.pf-detail__cat { align-self: flex-start; width: auto !important; max-width: 220px; flex: 0 0 auto; background: var(--color-moss-veil) !important; color: #0071a8; font-family: var(--font-fragment-mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; padding: 6px 10px !important; min-height: 0 !important; border-color: transparent !important; }
 .pf-detail select.pf-detail__cat:hover { outline: 1px dashed var(--color-forest-floor); outline-offset: 2px; }
-.pf-detail__status { width: auto; min-height: 0 !important; padding: 6px 10px !important; font-size: 11px; }
-.pf-detail__title { font-size: 26px !important; font-weight: 800 !important; letter-spacing: -.03em; line-height: 1.12; padding: 6px 10px !important; margin: 0 0 var(--spacing-16); width: 100%; min-height: 0 !important; }
-.pf-detail__lead { font-size: 15px !important; color: var(--color-ink-70); line-height: 1.5; padding: 6px 10px !important; margin: 0 0 var(--spacing-24); width: 100%; min-height: 0 !important; font-family: var(--font-akkurat); resize: vertical; }
+.pf-detail__status { width: auto; min-height: 0 !important; padding: 6px 10px !important; font-size: 10px; }
+.pf-detail__title { font-size: 24px !important; font-weight: 800 !important; letter-spacing: -.03em; line-height: 1.12; padding: 6px 10px !important; margin: 0 0 var(--spacing-16); width: 100%; min-height: 0 !important; }
+.pf-detail__lead { font-size: 14px !important; color: var(--color-ink-70); line-height: 1.5; padding: 6px 10px !important; margin: 0 0 var(--spacing-24); width: 100%; min-height: 0 !important; font-family: var(--font-akkurat); resize: vertical; }
 .pf-detail__spec { margin: 0; border-top: 1px solid var(--color-lichen); }
 .pf-detail__spec > div { display: grid; grid-template-columns: 84px 1fr; gap: 14px; align-items: center; padding: 8px 2px; border-bottom: 1px solid var(--color-lichen); }
-.pf-detail__spec dt { font-family: var(--font-fragment-mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--color-forest-floor); margin: 0; }
+.pf-detail__spec dt { font-family: var(--font-fragment-mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--color-forest-floor); margin: 0; }
 .pf-detail__spec dd { margin: 0; }
-.pf-detail__spec dd input { width: 100%; font-weight: 700; font-size: 13px; padding: 6px 10px !important; min-height: 0 !important; }
-.pf-detail__model { width: 180px; min-height: 0 !important; padding: 6px 10px !important; font-size: 11px; font-family: var(--font-fragment-mono); }
+.pf-detail__spec dd input { width: 100%; font-weight: 700; font-size: 12px; padding: 6px 10px !important; min-height: 0 !important; }
+.pf-detail__model { width: 180px; min-height: 0 !important; padding: 6px 10px !important; font-size: 10px; font-family: var(--font-fragment-mono); }
 /* 편집형 스펙 표 — 라벨·값 모두 입력 + 삭제/추가 */
 .pf-detail__spec--edit > div { grid-template-columns: 110px 1fr; }
 .pf-detail__spec--edit dt { padding: 0; }
-.pf-detail__spec-label { width: 100%; font-family: var(--font-fragment-mono); font-size: 11px; letter-spacing: .04em; color: var(--color-forest-floor); font-weight: 700; padding: 6px 8px !important; min-height: 0 !important; text-transform: none; }
+.pf-detail__spec-label { width: 100%; font-family: var(--font-fragment-mono); font-size: 10px; letter-spacing: .04em; color: var(--color-forest-floor); font-weight: 700; padding: 6px 8px !important; min-height: 0 !important; text-transform: none; }
 .pf-detail__spec--edit dd { display: flex; align-items: center; gap: 6px; }
 .pf-detail__spec-del { flex: 0 0 auto; width: 24px; height: 24px; border: 0; background: transparent; color: var(--color-bark-brown); font-size: 16px; line-height: 1; cursor: pointer; border-radius: 2px; opacity: 0; transition: opacity .12s ease; }
 .pf-detail__spec--edit > div:hover .pf-detail__spec-del, .pf-detail__spec-del:focus { opacity: .8; }
 .pf-detail__spec-del:hover { background: var(--color-moss-veil); color: #7a2b25; opacity: 1; }
 .pf-detail__spec-add { margin-top: 12px; align-self: flex-start; }
 .pf-detail__body-sec, .pf-detail__gallery-sec { margin-top: var(--spacing-40); border-top: 2px solid var(--color-botanical-ink); padding-top: var(--spacing-24); }
-.pf-detail__sec-title { font-size: 20px; font-weight: 800; letter-spacing: -.03em; margin: 0 0 var(--spacing-16); }
+.pf-detail__sec-title { font-size: 18px; font-weight: 800; letter-spacing: -.03em; margin: 0 0 var(--spacing-16); }
 .pf-detail__actions { display: flex; gap: var(--spacing-16); align-items: center; flex-wrap: wrap; margin-top: var(--spacing-32); }
 @media (max-width: 860px) { .pf-detail__top { grid-template-columns: 1fr; gap: var(--spacing-24); } }
 
