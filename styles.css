@@ -774,6 +774,34 @@ img.cert-image:not(.card__media img) {
 .form__section-label { font-family: var(--font-fragment-mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: var(--color-forest-floor); margin: 0 0 4px; }
 .form__section-desc { font-size: 12px; color: var(--color-bark-brown); margin: 0; line-height: 1.5; }
 .form__hint { font-size: 12px; color: var(--color-bark-brown); line-height: 1.45; margin-top: 2px; text-transform: none; letter-spacing: 0; font-family: var(--font-akkurat); }
+
+/* ── 제품 등록 — 상세 페이지 미러링(WYSIWYG형) 폼 ── */
+.pf-detail { max-width: 1040px; display: block; }
+.pf-detail__hint { font-size: 13px; color: var(--color-bark-brown); margin: 0 0 var(--spacing-24); }
+.pf-detail__top { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: var(--spacing-40); align-items: start; }
+.pf-detail__media { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.pf-detail__cover { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; background: var(--color-sage-mist); border: 1px solid var(--color-lichen); }
+.pf-detail__cover--ph { display: flex; align-items: center; justify-content: center; font-family: var(--font-fragment-mono); font-size: 12px; letter-spacing: .1em; color: var(--color-eucalyptus); }
+.pf-detail__info { display: flex; flex-direction: column; min-width: 0; }
+.pf-detail__grow { flex: 1; }
+.pf-detail__tagrow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: var(--spacing-16); }
+.pf-detail input, .pf-detail select { border: 1px dashed var(--color-lichen); background: #fff; border-radius: 2px; transition: border-color .12s ease; }
+.pf-detail input:hover, .pf-detail select:hover { border-color: var(--color-eucalyptus); }
+.pf-detail input:focus, .pf-detail select:focus { border-style: solid; border-color: var(--color-forest-floor); outline: none; }
+.pf-detail__cat { align-self: flex-start; background: var(--color-moss-veil) !important; color: #0071a8; font-family: var(--font-fragment-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; padding: 6px 10px !important; min-height: 0 !important; border-color: transparent !important; }
+.pf-detail__status { width: auto; min-height: 0 !important; padding: 6px 10px !important; font-size: 12px; }
+.pf-detail__title { font-size: 30px !important; font-weight: 800 !important; letter-spacing: -.03em; line-height: 1.12; padding: 6px 10px !important; margin: 0 0 var(--spacing-16); width: 100%; min-height: 0 !important; }
+.pf-detail__lead { font-size: 17px !important; color: var(--color-ink-70); line-height: 1.5; padding: 6px 10px !important; margin: 0 0 var(--spacing-24); width: 100%; min-height: 0 !important; }
+.pf-detail__spec { margin: 0; border-top: 1px solid var(--color-lichen); }
+.pf-detail__spec > div { display: grid; grid-template-columns: 84px 1fr; gap: 14px; align-items: center; padding: 8px 2px; border-bottom: 1px solid var(--color-lichen); }
+.pf-detail__spec dt { font-family: var(--font-fragment-mono); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--color-forest-floor); margin: 0; }
+.pf-detail__spec dd { margin: 0; }
+.pf-detail__spec dd input { width: 100%; font-weight: 700; font-size: 14px; padding: 6px 10px !important; min-height: 0 !important; }
+.pf-detail__body-sec { margin-top: var(--spacing-40); border-top: 2px solid var(--color-botanical-ink); padding-top: var(--spacing-24); }
+.pf-detail__sec-title { font-size: 22px; font-weight: 800; letter-spacing: -.03em; margin: 0 0 var(--spacing-16); }
+.pf-detail__actions { display: flex; gap: var(--spacing-16); align-items: center; flex-wrap: wrap; margin-top: var(--spacing-32); }
+@media (max-width: 860px) { .pf-detail__top { grid-template-columns: 1fr; gap: var(--spacing-24); } }
+
 .form input, .form textarea, .form select {
   font-family: var(--font-akkurat);
   font-size: var(--text-body-sm);
