@@ -785,10 +785,20 @@ img.cert-image:not(.card__media img) {
 .pf-detail__info { display: flex; flex-direction: column; min-width: 0; }
 .pf-detail__grow { flex: 1; }
 .pf-detail__tagrow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: var(--spacing-16); }
-.pf-detail input, .pf-detail select { border: 1px dashed var(--color-lichen); background: #fff; border-radius: 2px; transition: border-color .12s ease; }
-.pf-detail input:hover, .pf-detail select:hover { border-color: var(--color-eucalyptus); }
-.pf-detail input:focus, .pf-detail select:focus { border-style: solid; border-color: var(--color-forest-floor); outline: none; }
-.pf-detail__cat { align-self: flex-start; background: var(--color-moss-veil) !important; color: #0071a8; font-family: var(--font-fragment-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; padding: 6px 10px !important; min-height: 0 !important; border-color: transparent !important; }
+/* 입력칸을 '출력 화면 그대로'로: 평소엔 테두리·배경 없이 렌더 텍스트처럼, 클릭(호버/포커스) 시에만 편집 표시 */
+.pf-detail input, .pf-detail select {
+  border: 1px solid transparent !important; background: transparent !important; border-radius: 2px;
+  color: inherit; transition: outline-color .12s ease, background-color .12s ease;
+}
+.pf-detail input:hover, .pf-detail select:hover {
+  outline: 1px dashed var(--color-forest-floor); outline-offset: 3px; cursor: text; background: rgba(228, 87, 46, .05) !important;
+}
+.pf-detail select:hover { cursor: pointer; }
+.pf-detail input:focus, .pf-detail select:focus {
+  outline: 2px solid var(--color-forest-floor); outline-offset: 3px; background: #fff !important;
+}
+.pf-detail select.pf-detail__cat { align-self: flex-start; background: var(--color-moss-veil) !important; color: #0071a8; font-family: var(--font-fragment-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; padding: 6px 10px !important; min-height: 0 !important; border-color: transparent !important; }
+.pf-detail select.pf-detail__cat:hover { outline: 1px dashed var(--color-forest-floor); outline-offset: 2px; }
 .pf-detail__status { width: auto; min-height: 0 !important; padding: 6px 10px !important; font-size: 12px; }
 .pf-detail__title { font-size: 30px !important; font-weight: 800 !important; letter-spacing: -.03em; line-height: 1.12; padding: 6px 10px !important; margin: 0 0 var(--spacing-16); width: 100%; min-height: 0 !important; }
 .pf-detail__lead { font-size: 17px !important; color: var(--color-ink-70); line-height: 1.5; padding: 6px 10px !important; margin: 0 0 var(--spacing-24); width: 100%; min-height: 0 !important; }
@@ -803,8 +813,9 @@ img.cert-image:not(.card__media img) {
 .pf-detail__spec--edit dt { padding: 0; }
 .pf-detail__spec-label { width: 100%; font-family: var(--font-fragment-mono); font-size: 12px; letter-spacing: .04em; color: var(--color-forest-floor); font-weight: 700; padding: 6px 8px !important; min-height: 0 !important; text-transform: none; }
 .pf-detail__spec--edit dd { display: flex; align-items: center; gap: 6px; }
-.pf-detail__spec-del { flex: 0 0 auto; width: 24px; height: 24px; border: 0; background: transparent; color: var(--color-bark-brown); font-size: 16px; line-height: 1; cursor: pointer; border-radius: 2px; }
-.pf-detail__spec-del:hover { background: var(--color-moss-veil); color: #7a2b25; }
+.pf-detail__spec-del { flex: 0 0 auto; width: 24px; height: 24px; border: 0; background: transparent; color: var(--color-bark-brown); font-size: 16px; line-height: 1; cursor: pointer; border-radius: 2px; opacity: 0; transition: opacity .12s ease; }
+.pf-detail__spec--edit > div:hover .pf-detail__spec-del, .pf-detail__spec-del:focus { opacity: .8; }
+.pf-detail__spec-del:hover { background: var(--color-moss-veil); color: #7a2b25; opacity: 1; }
 .pf-detail__spec-add { margin-top: 12px; align-self: flex-start; }
 .pf-detail__body-sec { margin-top: var(--spacing-40); border-top: 2px solid var(--color-botanical-ink); padding-top: var(--spacing-24); }
 .pf-detail__sec-title { font-size: 22px; font-weight: 800; letter-spacing: -.03em; margin: 0 0 var(--spacing-16); }
