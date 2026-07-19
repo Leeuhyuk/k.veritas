@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260718t" />
+  <link rel="stylesheet" href="styles.css?v=20260718u" />
   <script>document.documentElement.classList.add("reveal-on");setTimeout(function(){window.__revealInit||document.documentElement.classList.add("reveal-off")},3000);</script>
 </head>
 <body class="site-hp">
@@ -113,7 +113,7 @@
             <div class="detail__top">
               <div class="detail__media">${cover}</div>
               <div class="detail__info">
-                ${p.category ? `<div class="detail__tags"><span class="tag">${esc(p.category)}</span></div>` : ''}
+                ${(p.category || p.model) ? `<div class="detail__tags">${p.category ? `<span class="tag">${esc(p.category)}</span>` : ''}${p.model ? `<span class="detail__model">MODEL ${esc(String(p.model).toUpperCase())}</span>` : ''}</div>` : ''}
                 <h1 class="detail__title">${esc(p.title)}</h1>
                 ${leadHtml}
                 ${specHtml}

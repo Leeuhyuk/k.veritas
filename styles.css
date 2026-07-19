@@ -1131,8 +1131,19 @@ img.cert-image:not(.card__media img) {
 .detail__tags {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: var(--spacing-8);
   margin-bottom: var(--spacing-16);
+}
+.detail__model {
+  margin-left: auto;
+  font-family: var(--font-fragment-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--color-forest-floor);
+  white-space: nowrap;
 }
 .detail__date {
   font-family: var(--font-fragment-mono);
