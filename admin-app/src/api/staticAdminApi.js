@@ -43,6 +43,22 @@ async function requireAdminUser() {
   return { user, email, meta };
 }
 
+// 관리자 제품(Firestore products)을 공개 페이지가 읽는 pages/products-index 로 내보내기
+// (공개 읽기 가능·CORS 안전). 모든 제품 변경 후 자동 호출되어 즉시 반영됨.
+async function publishProductsIndex() {
+  const all = await listCollection('products');
+  const pub = (all || [])
+    .filter((p) => p && p.status !== 'draft' && p.status !== 'hidden')
+    .sort((a, b) => (a.order || 0) - (b.order || 0));
+  await saveDoc('pages', {
+    id: 'products-index',
+    json: JSON.stringify(pub),
+    count: pub.length,
+    updatedAt: new Date().toISOString(),
+  });
+  return { count: pub.length };
+}
+
 export const staticAdminApi = {
   async me() {
     const meta = await loadFirebaseWebConfig();
@@ -122,6 +138,7 @@ export const staticAdminApi = {
     const item = {
       id,
       title: fdGet(fd, 'title').trim(),
+      model: fdGet(fd, 'model').trim(),
       category: fdGet(fd, 'category').trim(),
       industry: fdGet(fd, 'industry').trim(),
       material: fdGet(fd, 'material').trim(),
@@ -145,24 +162,14 @@ export const staticAdminApi = {
       await saveDoc('products', p);
     }
     await saveDoc('products', item);
+    await publishProductsIndex();   // 공개 페이지 즉시 반영
     return item;
   },
 
-  // 관리자 제품(Firestore)을 공개 사이트가 읽는 곳으로 내보내기
-  // → 공개 읽기가 되는 pages 컬렉션의 문서에 JSON 문자열로 저장(CORS·권한 안전)
+  // 수동 공개 반영 버튼용 (자동 반영과 동일)
   async publishProducts() {
     await requireAdminUser();
-    const all = await listCollection('products');
-    const pub = (all || [])
-      .filter((p) => p && p.status !== 'draft' && p.status !== 'hidden')
-      .sort((a, b) => (a.order || 0) - (b.order || 0));
-    await saveDoc('pages', {
-      id: 'products-index',
-      json: JSON.stringify(pub),
-      count: pub.length,
-      updatedAt: new Date().toISOString(),
-    });
-    return { count: pub.length };
+    return publishProductsIndex();
   },
 
   // 공개 사이트의 정적 카탈로그(static-api/products.json)를 Firestore로 가져오기
@@ -192,6 +199,7 @@ export const staticAdminApi = {
       });
       added += 1;
     }
+    await publishProductsIndex();   // 공개 페이지 즉시 반영
     return { added, total: list.length };
   },
 
@@ -204,6 +212,7 @@ export const staticAdminApi = {
       throw err;
     }
     if (fd.has('title')) p.title = fdGet(fd, 'title').trim();
+    if (fd.has('model')) p.model = fdGet(fd, 'model').trim();
     if (fd.has('category')) p.category = fdGet(fd, 'category').trim();
     if (fd.has('industry')) p.industry = fdGet(fd, 'industry').trim();
     if (fd.has('material')) p.material = fdGet(fd, 'material').trim();
@@ -234,12 +243,14 @@ export const staticAdminApi = {
       .concat(added);
     p.updatedAt = new Date().toISOString();
     await saveDoc('products', p);
+    await publishProductsIndex();   // 공개 페이지 즉시 반영
     return p;
   },
 
   async deleteProduct(id) {
     await requireAdminUser();
     await removeDoc('products', id);
+    await publishProductsIndex();   // 공개 페이지 즉시 반영
     return { ok: true };
   },
 
@@ -260,6 +271,7 @@ export const staticAdminApi = {
       p.order = i++;
       await saveDoc('products', p);
     }
+    await publishProductsIndex();   // 공개 페이지 즉시 반영
     return listCollection('products');
   },
 

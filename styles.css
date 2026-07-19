@@ -769,6 +769,11 @@ img.cert-image:not(.card__media img) {
 .form__row { display: grid; gap: var(--spacing-8); }
 .form__row label { font-family: var(--font-fragment-mono); font-size: var(--text-body-sm); letter-spacing: 0.02em; text-transform: uppercase; }
 .form__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-24); }
+/* 등록창 섹션 구분 + 필드 안내 (카드/상세 매핑) */
+.form__section { margin: var(--spacing-8) 0 calc(-1 * var(--spacing-8)); padding-top: var(--spacing-16); border-top: 1px solid var(--color-lichen); }
+.form__section-label { font-family: var(--font-fragment-mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: var(--color-forest-floor); margin: 0 0 4px; }
+.form__section-desc { font-size: 12px; color: var(--color-bark-brown); margin: 0; line-height: 1.5; }
+.form__hint { font-size: 12px; color: var(--color-bark-brown); line-height: 1.45; margin-top: 2px; text-transform: none; letter-spacing: 0; font-family: var(--font-akkurat); }
 .form input, .form textarea, .form select {
   font-family: var(--font-akkurat);
   font-size: var(--text-body-sm);
