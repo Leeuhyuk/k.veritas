@@ -776,7 +776,7 @@ img.cert-image:not(.card__media img) {
 .form__hint { font-size: 12px; color: var(--color-bark-brown); line-height: 1.45; margin-top: 2px; text-transform: none; letter-spacing: 0; font-family: var(--font-akkurat); }
 
 /* ── 제품 등록 — 상세 페이지 미러링(WYSIWYG형) 폼 ── */
-.pf-detail { max-width: 1040px; display: block; }
+.pf-detail { max-width: 1400px; display: block; }
 .pf-detail__hint { font-size: 13px; color: var(--color-bark-brown); margin: 0 0 var(--spacing-24); }
 .pf-detail__top { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: var(--spacing-40); align-items: start; }
 .pf-detail__media { display: flex; flex-direction: column; gap: 14px; min-width: 0; }

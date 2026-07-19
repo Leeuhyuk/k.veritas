@@ -1306,10 +1306,15 @@ body.tt-resizing { cursor: col-resize; user-select: none; }
   max-width: 34%;
   min-width: 360px;
 }
-.admin-shell .admin-list--products .admin-list__index,
+.admin-shell .admin-list--products .admin-list__index {
+  display: none;
+}
+/* 목록 썸네일은 유지하되 컴팩트하게 */
 .admin-shell .admin-list--products .admin-list__thumb,
 .admin-shell .admin-list--products .admin-list__row .admin-list__thumb.ph {
-  display: none !important;
+  width: 44px;
+  height: 40px;
+  border-radius: 8px;
 }
 .admin-shell .admin-list--products .admin-list__row.admin__row {
   align-items: center;
