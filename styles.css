@@ -2817,6 +2817,9 @@ body.site-hp .pdp-figure img{ width:100%; height:100%; object-fit:cover; display
 .prod-card__feats{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
 .prod-card__feats li{ position:relative; padding-left:16px; font-size:13px; line-height:1.4; color:var(--color-ink-70); display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; line-clamp:2; overflow:hidden; }
 .prod-card__feats li::before{ content:""; position:absolute; left:0; top:.42em; width:7px; height:7px; background:var(--color-forest-floor); }
+/* 요약 줄에도 특징과 동일한 사각 불릿 */
+.prod-card__lead{ position:relative; padding-left:16px; }
+.prod-card__lead::before{ content:""; position:absolute; left:0; top:.5em; width:7px; height:7px; background:var(--color-forest-floor); }
 /* 스펙 표 — 키/값 헤어라인 */
 .prod-card__spec{ margin:4px 0 0; }
 .prod-card__spec > div{ display:flex; align-items:baseline; justify-content:space-between; gap:12px;
