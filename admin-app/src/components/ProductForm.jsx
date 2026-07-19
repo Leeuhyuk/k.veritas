@@ -211,10 +211,10 @@ export default function ProductForm({
             value={form.title}
             onChange={(e) => setField('title', e.target.value)}
           />
-          <input
+          <textarea
             className="pf-detail__lead"
-            type="text"
-            placeholder="한 줄 요약 (상세 페이지 부제)"
+            rows={2}
+            placeholder="요약 (상세 페이지 부제 · 여러 줄 가능)"
             value={form.summary}
             onChange={(e) => setField('summary', e.target.value)}
           />

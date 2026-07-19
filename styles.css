@@ -786,22 +786,22 @@ img.cert-image:not(.card__media img) {
 .pf-detail__grow { flex: 1; }
 .pf-detail__tagrow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: var(--spacing-16); }
 /* 입력칸을 '출력 화면 그대로'로: 평소엔 테두리·배경 없이 렌더 텍스트처럼, 클릭(호버/포커스) 시에만 편집 표시 */
-.pf-detail input, .pf-detail select {
+.pf-detail input, .pf-detail select, .pf-detail textarea {
   border: 1px solid transparent !important; background: transparent !important; border-radius: 2px;
   color: inherit; transition: outline-color .12s ease, background-color .12s ease;
 }
-.pf-detail input:hover, .pf-detail select:hover {
+.pf-detail input:hover, .pf-detail select:hover, .pf-detail textarea:hover {
   outline: 1px dashed var(--color-forest-floor); outline-offset: 3px; cursor: text; background: rgba(228, 87, 46, .05) !important;
 }
 .pf-detail select:hover { cursor: pointer; }
-.pf-detail input:focus, .pf-detail select:focus {
+.pf-detail input:focus, .pf-detail select:focus, .pf-detail textarea:focus {
   outline: 2px solid var(--color-forest-floor); outline-offset: 3px; background: #fff !important;
 }
 .pf-detail select.pf-detail__cat { align-self: flex-start; background: var(--color-moss-veil) !important; color: #0071a8; font-family: var(--font-fragment-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; padding: 6px 10px !important; min-height: 0 !important; border-color: transparent !important; }
 .pf-detail select.pf-detail__cat:hover { outline: 1px dashed var(--color-forest-floor); outline-offset: 2px; }
 .pf-detail__status { width: auto; min-height: 0 !important; padding: 6px 10px !important; font-size: 12px; }
 .pf-detail__title { font-size: 30px !important; font-weight: 800 !important; letter-spacing: -.03em; line-height: 1.12; padding: 6px 10px !important; margin: 0 0 var(--spacing-16); width: 100%; min-height: 0 !important; }
-.pf-detail__lead { font-size: 17px !important; color: var(--color-ink-70); line-height: 1.5; padding: 6px 10px !important; margin: 0 0 var(--spacing-24); width: 100%; min-height: 0 !important; }
+.pf-detail__lead { font-size: 17px !important; color: var(--color-ink-70); line-height: 1.5; padding: 6px 10px !important; margin: 0 0 var(--spacing-24); width: 100%; min-height: 0 !important; font-family: var(--font-akkurat); resize: vertical; }
 .pf-detail__spec { margin: 0; border-top: 1px solid var(--color-lichen); }
 .pf-detail__spec > div { display: grid; grid-template-columns: 84px 1fr; gap: 14px; align-items: center; padding: 8px 2px; border-bottom: 1px solid var(--color-lichen); }
 .pf-detail__spec dt { font-family: var(--font-fragment-mono); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--color-forest-floor); margin: 0; }
