@@ -2,7 +2,6 @@ import { useState } from 'react';
 import RichEditor from './RichEditor.jsx';
 import FileDropzone from './FileDropzone.jsx';
 import ImagePreviewList from './ImagePreviewList.jsx';
-import SeoFields from './SeoFields.jsx';
 import { adminApi } from '../api/client.js';
 
 const emptyForm = {
@@ -15,9 +14,6 @@ const emptyForm = {
   process: '',
   summary: '',
   body: '',
-  seoTitle: '',
-  seoDescription: '',
-  ogImage: '',
 };
 
 export default function ProductForm({
@@ -76,9 +72,6 @@ export default function ProductForm({
     fd.append('process', form.process);
     fd.append('summary', form.summary);
     fd.append('body', form.body || '');
-    fd.append('seoTitle', form.seoTitle);
-    fd.append('seoDescription', form.seoDescription);
-    fd.append('ogImage', form.ogImage);
     files.forEach((f) => fd.append('images', f));
     if (editId) fd.append('keepImages', JSON.stringify(keptImages));
 
@@ -229,20 +222,11 @@ export default function ProductForm({
           <span className="form__hint">핵심 특징을 입력하면 카드엔 특징 불릿이 우선 표시됩니다</span>
         </div>
 
-        {/* ── 상세 페이지: 사진 · 소개 · SEO ── */}
+        {/* ── 상세 페이지: 사진 · 소개 ── */}
         <div className="form__section">
           <p className="form__section-label">상세 페이지</p>
-          <p className="form__section-desc">카드 이미지와 상세 페이지 본문·검색 정보입니다.</p>
+          <p className="form__section-desc">카드 이미지와 상세 페이지 본문입니다.</p>
         </div>
-        <SeoFields
-          idPrefix="product-seo"
-          seoTitle={form.seoTitle}
-          seoDescription={form.seoDescription}
-          ogImage={form.ogImage}
-          onChange={setField}
-          titleFallback="제품명"
-          imageFallback="첨부한 대표 사진"
-        />
         <div className="form__row">
           <label>소개 내용</label>
           <RichEditor
