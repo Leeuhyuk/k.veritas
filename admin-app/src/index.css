@@ -338,12 +338,22 @@ body {
 }
 
 .admin-shell .admin-pager {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 6px;
   margin-top: 14px;
+}
+.admin-shell .admin-pager .btn--sm {
+  min-width: 34px;
+  padding: 6px 8px;
 }
 
 .admin-shell .admin-pager__info {
   font-size: 11px;
+  flex-basis: 100%;
+  margin-bottom: 2px;
 }
 
 /* ----- Chips / categories ----- */
@@ -1306,8 +1316,9 @@ body.tt-resizing { cursor: col-resize; user-select: none; }
   max-width: 34%;
   min-width: 360px;
 }
+/* 목록 순번은 표시(컴팩트) */
 .admin-shell .admin-list--products .admin-list__index {
-  display: none;
+  padding-top: 0;
 }
 /* 목록 썸네일은 유지하되 컴팩트하게 */
 .admin-shell .admin-list--products .admin-list__thumb,

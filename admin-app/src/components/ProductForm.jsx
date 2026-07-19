@@ -158,14 +158,6 @@ export default function ProductForm({
             label="사진 추가 (여러 장 · 첫 장이 대표)"
             sublabel="끌어다 놓거나 클릭해서 선택"
           />
-          {keptImages.length ? (
-            <ImagePreviewList
-              urls={keptImages}
-              labelPrefix="기존 사진"
-              ariaLabel="기존 사진"
-              onRemove={(i) => setKeptImages((arr) => arr.filter((_, j) => j !== i))}
-            />
-          ) : null}
         </div>
 
         <div className="pf-detail__info">
@@ -183,6 +175,7 @@ export default function ProductForm({
               ))}
             </select>
             <button type="button" className="btn btn--ghost btn--sm" onClick={addCategory}>＋ 새 분류</button>
+            <span className="pf-detail__grow" />
             <input
               className="pf-detail__model"
               type="text"
@@ -191,7 +184,6 @@ export default function ProductForm({
               onChange={(e) => setField('model', e.target.value)}
               title="카드 상단 MODEL 표시"
             />
-            <span className="pf-detail__grow" />
             <select
               className="pf-detail__status"
               value={form.status}
@@ -265,6 +257,18 @@ export default function ProductForm({
           placeholder="제품 상세 소개를 작성하세요. (표·이미지 삽입 가능)"
         />
       </div>
+
+      {keptImages.length ? (
+        <div className="pf-detail__gallery-sec">
+          <h2 className="pf-detail__sec-title">등록된 사진 (첫 장이 대표)</h2>
+          <ImagePreviewList
+            urls={keptImages}
+            labelPrefix="사진"
+            ariaLabel="등록된 사진"
+            onRemove={(i) => setKeptImages((arr) => arr.filter((_, j) => j !== i))}
+          />
+        </div>
+      ) : null}
 
       <div className="pf-detail__actions">
         <button type="submit" className="btn btn--primary form__submit" disabled={saving}>
