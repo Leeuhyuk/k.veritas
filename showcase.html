@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260718q" />
+  <link rel="stylesheet" href="styles.css?v=20260718r" />
   <script>document.documentElement.classList.add("reveal-on");setTimeout(function(){window.__revealInit||document.documentElement.classList.add("reveal-off")},3000);</script>
 </head>
 <body class="site-hp">
@@ -198,7 +198,7 @@
           var summaryText = (p.summary || '').trim();
           // 요약이 있으면 카드 설명으로 우선 표시(스펙은 아래 표에 별도 노출), 없을 때만 스펙 기반 특징
           var featHtml = summaryText
-            ? '<p class="prod-card__lead">' + esc(summaryText).replace(/\n+/g, ' ') + '</p>'
+            ? '<p class="prod-card__lead">' + esc(summaryText).replace(/\n+/g, '<br>') + '</p>'
             : (feats.length ? '<ul class="prod-card__feats">' + feats.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul>' : '');
           // 커스텀 스펙(관리자 편집) 우선, 없으면 기존 필드로 폴백
           var rows = [];
