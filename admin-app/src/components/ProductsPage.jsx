@@ -43,6 +43,7 @@ export default function ProductsPage() {
         industry: p.industry || '',
         material: p.material || '',
         process: p.process || '',
+        specs: Array.isArray(p.specs) ? p.specs : [],
         summary: p.summary || '',
         body: p.body || '',
         seoTitle: p.seoTitle || '',
