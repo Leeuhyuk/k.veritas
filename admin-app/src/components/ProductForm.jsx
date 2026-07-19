@@ -176,14 +176,6 @@ export default function ProductForm({
             </select>
             <button type="button" className="btn btn--ghost btn--sm" onClick={addCategory}>＋ 새 분류</button>
             <span className="pf-detail__grow" />
-            <input
-              className="pf-detail__model"
-              type="text"
-              placeholder="모델 코드 (예: KV-PT 400)"
-              value={form.model}
-              onChange={(e) => setField('model', e.target.value)}
-              title="카드 상단 MODEL 표시"
-            />
             <select
               className="pf-detail__status"
               value={form.status}
@@ -195,21 +187,47 @@ export default function ProductForm({
             </select>
           </div>
 
-          <input
-            className="pf-detail__title"
-            type="text"
-            required
-            placeholder="제품명을 입력하세요 *"
-            value={form.title}
-            onChange={(e) => setField('title', e.target.value)}
-          />
-          <textarea
-            className="pf-detail__lead"
-            rows={2}
-            placeholder="요약 (상세 페이지 부제 · 여러 줄 가능)"
-            value={form.summary}
-            onChange={(e) => setField('summary', e.target.value)}
-          />
+          {/* 기본 항목: 좌측 항목명 + 우측 입력 (카드/상세 스펙 표와 동일 형식) */}
+          <dl className="pf-detail__spec pf-detail__spec--edit pf-detail__spec--fields">
+            <div>
+              <dt>모델</dt>
+              <dd>
+                <input
+                  className="pf-detail__model"
+                  type="text"
+                  placeholder="모델 코드 (예: KV-PT 400)"
+                  value={form.model}
+                  onChange={(e) => setField('model', e.target.value)}
+                  title="카드 상단 MODEL 표시"
+                />
+              </dd>
+            </div>
+            <div>
+              <dt>제품명 *</dt>
+              <dd>
+                <input
+                  className="pf-detail__title"
+                  type="text"
+                  required
+                  placeholder="제품명을 입력하세요 *"
+                  value={form.title}
+                  onChange={(e) => setField('title', e.target.value)}
+                />
+              </dd>
+            </div>
+            <div>
+              <dt>요약</dt>
+              <dd>
+                <textarea
+                  className="pf-detail__lead"
+                  rows={2}
+                  placeholder="요약 (상세 페이지 부제 · 여러 줄 가능)"
+                  value={form.summary}
+                  onChange={(e) => setField('summary', e.target.value)}
+                />
+              </dd>
+            </div>
+          </dl>
 
           <dl className="pf-detail__spec pf-detail__spec--edit">
             {specs.map((row, i) => (
