@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260718r" />
+  <link rel="stylesheet" href="styles.css?v=20260718s" />
   <script>document.documentElement.classList.add("reveal-on");setTimeout(function(){window.__revealInit||document.documentElement.classList.add("reveal-off")},3000);</script>
 </head>
 <body class="site-hp">
@@ -102,6 +102,11 @@
           const specHtml = specItems.length
             ? `<dl class="detail__spec">${specItems.map((r) => `<div><dt>${esc(r[0])}</dt><dd>${esc(r[1])}</dd></div>`).join('')}</dl>`
             : '';
+          // 요약: 카드처럼 줄마다 좌측 사각 불릿 목록으로 표시
+          const leadLines = String(p.summary || '').split(/\r?\n+/).map((s) => s.trim()).filter(Boolean);
+          const leadHtml = leadLines.length
+            ? `<ul class="detail__lead">${leadLines.map((s) => `<li>${esc(s)}</li>`).join('')}</ul>`
+            : '';
           const inquiryHref = 'support.html?productId=' + encodeURIComponent(p.id) + '&productTitle=' + encodeURIComponent(p.title) + '#contact';
           const hasBody = renderBody(p.body).replace(/<[^>]*>/g, '').trim().length > 0;
           root.innerHTML = `
@@ -110,7 +115,7 @@
               <div class="detail__info">
                 ${p.category ? `<div class="detail__tags"><span class="tag">${esc(p.category)}</span></div>` : ''}
                 <h1 class="detail__title">${esc(p.title)}</h1>
-                ${p.summary ? `<p class="detail__lead">${esc(p.summary)}</p>` : ''}
+                ${leadHtml}
                 ${specHtml}
                 <div class="detail__actions">
                   <a href="${inquiryHref}" class="btn btn--primary">이 제품과 유사한 견적 문의</a>
