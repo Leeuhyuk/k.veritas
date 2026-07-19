@@ -80,9 +80,6 @@ export default function ProductList({ items, onEdit, onDelete, onReorder }) {
         {slice.map((p, idx) => {
           const published = p.status !== 'draft';
           const category = text(p.category) || '미분류';
-          const industry = text(p.industry);
-          const material = text(p.material);
-          const process = text(p.process);
           const summary = text(p.summary);
           const imgCount = p.images ? p.images.length : 0;
           const thumb =
@@ -123,27 +120,9 @@ export default function ProductList({ items, onEdit, onDelete, onReorder }) {
                 {summary ? <p className="admin-list__summary">{summary}</p> : null}
 
                 <div className="admin-list__meta">
-                  <span className="admin-list__chip admin-list__chip--cat" title="카테고리">
+                  <span className="admin-list__chip admin-list__chip--cat" title="분야">
                     {category}
                   </span>
-                  {industry ? (
-                    <span className="admin-list__chip" title="산업군">
-                      <em>산업</em>
-                      {industry}
-                    </span>
-                  ) : null}
-                  {material ? (
-                    <span className="admin-list__chip" title="소재">
-                      <em>소재</em>
-                      {material}
-                    </span>
-                  ) : null}
-                  {process ? (
-                    <span className="admin-list__chip" title="공정">
-                      <em>공정</em>
-                      {process}
-                    </span>
-                  ) : null}
                   <span className="admin-list__chip admin-list__chip--muted" title="이미지 수">
                     이미지 {imgCount}장
                   </span>
