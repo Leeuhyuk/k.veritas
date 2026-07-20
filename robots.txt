@@ -7,3 +7,5 @@ Disallow: /admin-resources.html
 Disallow: /admin-inquiries.html
 Disallow: /admin-pages.html
 Disallow: /admin-settings.html
+
+Sitemap: https://leeuhyuk.github.io/k.veritas/sitemap.xml
