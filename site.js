@@ -462,8 +462,12 @@ function wireInquiryForm() {
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (!d || !d.downloadTokens) return null;
-        return 'https://firebasestorage.googleapis.com/v0/b/' + KV_BUCKET + '/o/' +
-          encodeURIComponent(d.name) + '?alt=media&token=' + d.downloadTokens;
+        return {
+          url: 'https://firebasestorage.googleapis.com/v0/b/' + KV_BUCKET + '/o/' +
+            encodeURIComponent(d.name) + '?alt=media&token=' + d.downloadTokens,
+          name: file.name || '첨부파일',
+          size: file.size || 0,
+        };
       })
       .catch(() => null);
   }
@@ -499,7 +503,13 @@ function wireInquiryForm() {
           phone: S(val('phone')), type: S(val('type')), message: S(val('message')),
           productId: S(productId || val('productId')), productTitle: S(productTitle || val('productTitle')),
           agree: { booleanValue: !!form.querySelector('#agree')?.checked },
-          attachments: { arrayValue: { values: attachments.map((u) => ({ stringValue: u })) } },
+          attachments: { arrayValue: { values: attachments.map((a) => ({
+            mapValue: { fields: {
+              url: { stringValue: a.url },
+              name: { stringValue: a.name || '첨부파일' },
+              size: { integerValue: String(a.size || 0) },
+            } },
+          })) } },
           read: { booleanValue: false }, status: S('new'),
           createdAt: S(now), updatedAt: S(now),
         };

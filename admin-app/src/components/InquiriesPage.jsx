@@ -63,63 +63,59 @@ export default function InquiriesPage() {
       ) : (
         items.map((i) => {
           const st = (drafts[i.id] && drafts[i.id].status) || i.status || 'new';
+          const attachments = i.attachments || [];
           return (
             <div className={`inq-card${i.read ? '' : ' is-unread'}`} key={i.id}>
               <div className="inq-card__head">
-                <div>
-                  <strong>{i.name}</strong>
-                  {i.company ? ` · ${i.company}` : ''}
-                  {i.type ? (
-                    <span className="tag" style={{ marginLeft: 8 }}>
-                      {i.type}
-                    </span>
-                  ) : null}
-                  <span
-                    className="tag"
-                    style={{
-                      marginLeft: 8,
-                      background: st === 'new' ? 'var(--color-moss-veil)' : 'var(--color-lichen)',
-                    }}
-                  >
-                    {STATUS[st] || st}
-                  </span>
+                <div className="inq-card__who">
+                  <span className="inq-card__name">{i.name || '(이름 없음)'}</span>
+                  {i.company ? <span className="inq-card__company">{i.company}</span> : null}
                 </div>
-                <span className="mono" style={{ color: 'var(--color-bark-brown)', fontSize: 12 }}>
-                  {fmtDateTime(i.createdAt)}
-                </span>
+                <time className="inq-card__time">{fmtDateTime(i.createdAt)}</time>
               </div>
-              <div className="inq-card__meta mono">
-                {i.email}
-                {i.phone ? ` · ${i.phone}` : ''}
+
+              <div className="inq-card__chips">
+                {i.type ? <span className="inq-chip inq-chip--type">{i.type}</span> : null}
+                <span className={`inq-chip inq-chip--${st}`}>{STATUS[st] || st}</span>
+                {i.productTitle ? (
+                  <span className="inq-chip inq-chip--product">제품 · {i.productTitle}</span>
+                ) : null}
               </div>
-              {i.productTitle ? (
-                <div className="inq-card__meta mono">
-                  제품 문의: {i.productTitle}
-                  {i.productId ? ` · ${i.productId}` : ''}
-                </div>
-              ) : null}
-              <p className="inq-card__msg">{i.message}</p>
-              {(i.attachments || []).length ? (
-                <div className="inq-card__actions" style={{ marginBottom: 'var(--spacing-16)' }}>
-                  {i.attachments.map((a, idx) => {
-                    // 신규(Firebase): 문자열 Storage URL / 구(서버): {originalName,size}
-                    const url = typeof a === 'string'
-                      ? a
-                      : (a && a.url) || `/api/inquiries/${encodeURIComponent(i.id)}/attachments/${idx}`;
-                    const name = (a && a.originalName)
-                      || (() => { try { return decodeURIComponent(String(url).split('?')[0].split('/').pop()).replace(/^\d+-/, ''); } catch { return '첨부파일'; } })();
-                    const size = a && a.size ? ` · ${sizeStr(a.size)}` : '';
+
+              <div className="inq-card__contact">
+                {i.email ? <a href={`mailto:${i.email}`}>✉ {i.email}</a> : null}
+                {i.phone ? <span>☎ {i.phone}</span> : null}
+              </div>
+
+              <p className="inq-card__msg">{i.message || '(내용 없음)'}</p>
+
+              {attachments.length ? (
+                <div className="inq-card__files">
+                  {attachments.map((a, idx) => {
+                    const url = typeof a === 'string' ? a : (a && (a.url || a.file)) || '#';
+                    let raw = (a && (a.originalName || a.name)) || '';
+                    if (!raw) {
+                      try { raw = decodeURIComponent(String(url).split('?')[0].split('/').pop()).replace(/^\d+-/, ''); }
+                      catch { raw = ''; }
+                    }
+                    const extMatch = String(raw || url).split('?')[0].match(/\.([a-z0-9]{1,5})$/i);
+                    const ext = extMatch ? extMatch[1].toUpperCase() : 'FILE';
+                    const clean = raw && /[^_.\s]/.test(raw.replace(/\.[a-z0-9]+$/i, '')) ? raw : `첨부파일 ${idx + 1}.${ext.toLowerCase()}`;
+                    const size = a && a.size ? sizeStr(a.size) : '';
                     return (
-                      <a key={idx} className="btn btn--ghost btn--sm" href={url} target="_blank" rel="noreferrer">
-                        {name}{size}
+                      <a key={idx} className="inq-file" href={url} target="_blank" rel="noreferrer" title={clean}>
+                        <span className="inq-file__ext">{ext}</span>
+                        <span className="inq-file__name">{clean}</span>
+                        {size ? <span className="inq-file__size">{size}</span> : null}
                       </a>
                     );
                   })}
                 </div>
               ) : null}
-              <div className="form__grid" style={{ marginBottom: 'var(--spacing-16)' }}>
-                <div className="form__row">
-                  <label>처리 상태</label>
+
+              <div className="inq-card__admin">
+                <label>
+                  <span className="microcap">처리 상태</span>
                   <select
                     value={(drafts[i.id] && drafts[i.id].status) || 'new'}
                     onChange={(e) => setDraft(i.id, 'status', e.target.value)}
@@ -129,21 +125,22 @@ export default function InquiriesPage() {
                     <option value="replied">회신완료</option>
                     <option value="hold">보류</option>
                   </select>
-                </div>
-                <div className="form__row">
-                  <label>관리자 메모</label>
+                </label>
+                <label>
+                  <span className="microcap">관리자 메모</span>
                   <input
                     type="text"
                     value={(drafts[i.id] && drafts[i.id].memo) || ''}
                     onChange={(e) => setDraft(i.id, 'memo', e.target.value)}
                     placeholder="내부 메모"
                   />
-                </div>
+                </label>
               </div>
+
               <div className="inq-card__actions">
                 <a
-                  className="btn btn--ghost btn--sm"
-                  href={`mailto:${encodeURIComponent(i.email)}?subject=${encodeURIComponent('[k.veritas] 문의 회신')}`}
+                  className="btn btn--primary btn--sm"
+                  href={`mailto:${i.email || ''}?subject=${encodeURIComponent('[k.veritas] 문의 회신')}`}
                 >
                   메일 회신
                 </a>
