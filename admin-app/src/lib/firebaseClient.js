@@ -231,6 +231,14 @@ export async function listCollection(name) {
   }
 }
 
+/** order 필드 없는 컬렉션(문의 등) — 전체 조회 후 createdAt 최신순 정렬 */
+export async function listCollectionRecent(name) {
+  ensureFirebaseApp((await loadFirebaseWebConfig()).config);
+  const snap = await getDocs(collection(db, name));
+  const list = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+  return list.sort((a, b) => String(b.createdAt || '').localeCompare(String(a.createdAt || '')));
+}
+
 export async function getDocById(name, id) {
   ensureFirebaseApp((await loadFirebaseWebConfig()).config);
   const snap = await getDoc(doc(db, name, id));

@@ -14,6 +14,7 @@ import {
   removeDoc,
   uploadPublicFile,
   deletePublicFileByUrl,
+  listCollectionRecent,
   getClientAuth,
 } from '../lib/firebaseClient.js';
 
@@ -564,7 +565,7 @@ export const staticAdminApi = {
     return { added, total: list.length };
   },
 
-  inquiries: () => listCollection('inquiries'),
+  inquiries: () => listCollectionRecent('inquiries'), // order 필드 없음 → 최신순
   async inquiryRead(id) {
     await requireAdminUser();
     const it = await getDocById('inquiries', id);
