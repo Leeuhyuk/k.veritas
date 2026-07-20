@@ -38,6 +38,7 @@ function seedSpecs(initial) {
 
 export default function ProductForm({
   categories,
+  onAddCategory,
   editId,
   initial,
   onSaved,
@@ -87,6 +88,7 @@ export default function ProductForm({
     if (!name) return;
     setExtraCats((prev) => (prev.includes(name) ? prev : [...prev, name]));
     setField('category', name);
+    if (typeof onAddCategory === 'function') onAddCategory(name); // Firestore 영속화
   }
 
   function resetLocal() {

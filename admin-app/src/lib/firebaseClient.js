@@ -20,7 +20,7 @@ import {
   query,
   orderBy,
 } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { isStaticHost, siteBase } from './staticMode.js';
 
 let app = null;
@@ -189,6 +189,27 @@ export async function uploadPublicFile(file, folder = 'misc') {
   const r = ref(storage, path);
   await uploadBytes(r, file, { contentType: file.type || 'application/octet-stream' });
   return getDownloadURL(r);
+}
+
+/** 다운로드 URL(또는 storage 경로)로 Storage 객체 삭제 — 실패는 조용히 무시(고아 정리용) */
+export async function deletePublicFileByUrl(url) {
+  if (!url || typeof url !== 'string') return false;
+  try {
+    ensureFirebaseApp((await loadFirebaseWebConfig()).config);
+    let objectRef;
+    const m = url.match(/\/o\/([^?]+)/); // firebasestorage 다운로드 URL: /o/<encodedPath>?...
+    if (/^https?:\/\//i.test(url) && m) {
+      objectRef = ref(storage, decodeURIComponent(m[1]));
+    } else if (/^https?:\/\//i.test(url)) {
+      return false; // 알 수 없는 외부 URL은 건드리지 않음
+    } else {
+      objectRef = ref(storage, url.replace(/^\/+/, ''));
+    }
+    await deleteObject(objectRef);
+    return true;
+  } catch {
+    return false; // 이미 없거나 권한/경로 문제 → 무시
+  }
 }
 
 export async function listCollection(name) {

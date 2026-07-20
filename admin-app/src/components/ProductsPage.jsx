@@ -16,15 +16,26 @@ export default function ProductsPage() {
   const load = useCallback(async () => {
     const prods = await adminApi.products();
     setProducts(Array.isArray(prods) ? prods : []);
-    // 카테고리 옵션 = 공개 사이트의 현재 카테고리(정적 스냅샷) 기준
+    // 카테고리 옵션 = 관리 카테고리(Firestore settings) + 실제 제품에 쓰인 분류
     try {
-      const r = await fetch('../static-api/categories.json', { cache: 'no-store' });
-      const cats = r.ok ? await r.json() : [];
-      setCategories(Array.isArray(cats) && cats.length ? cats : DEFAULT_CATS);
+      const managed = await adminApi.categories();
+      const used = (Array.isArray(prods) ? prods : [])
+        .map((p) => (p.category || '').trim())
+        .filter(Boolean);
+      const merged = Array.from(new Set([...(Array.isArray(managed) ? managed : []), ...used]));
+      setCategories(merged.length ? merged : DEFAULT_CATS);
     } catch {
       setCategories(DEFAULT_CATS);
     }
     setLoading(false);
+  }, []);
+
+  // 새 분류를 Firestore(settings/categories)에 영속화
+  const handleAddCategory = useCallback(async (name) => {
+    const n = (name || '').trim();
+    if (!n) return;
+    setCategories((prev) => (prev.includes(n) ? prev : [...prev, n]));
+    try { await adminApi.addCategory(n); } catch { /* 목록엔 이미 반영, 저장 실패는 무시 */ }
   }, []);
 
   useEffect(() => {
@@ -105,6 +116,7 @@ export default function ProductsPage() {
       <ProductForm
         key={formKey}
         categories={categories}
+        onAddCategory={handleAddCategory}
         editId={editId}
         initial={editInitial}
         onSaved={handleSaved}

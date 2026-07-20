@@ -74,6 +74,8 @@ ul { list-style: none; }
   text-transform: uppercase;
 }
 .mono { font-family: var(--font-fragment-mono); font-size: var(--text-body-sm); letter-spacing: 0.02em; }
+/* <picture> 래퍼는 레이아웃에서 투명 처리 → 내부 img 가 기존 컨테이너의 직접 자식처럼 동작(width:100% 등 유지) */
+picture { display: contents; }
 /* 스펙 표 — 좁은 화면에서 넘침 방지(가로 스크롤 + 축약) */
 .spec-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 @media (max-width: 640px) {

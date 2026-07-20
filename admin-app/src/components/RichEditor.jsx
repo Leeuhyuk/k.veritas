@@ -417,8 +417,18 @@ export default function RichEditor({ value, onChange, placeholder }) {
         ref={editorRef}
         className={`rte-editor${open ? ' is-editing' : ''}`}
         contentEditable
+        role="textbox"
+        aria-multiline="true"
+        aria-label={placeholder || '본문 편집기'}
         data-placeholder={placeholder}
         onInput={onInput}
+        onPaste={(e) => {
+          // 무정제 HTML(워드 등) 방지 — 서식 없는 텍스트로 안전하게 삽입
+          e.preventDefault();
+          const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+          document.execCommand('insertText', false, text);
+          onInput();
+        }}
         onKeyUp={() => {
           saveSelection();
           ensureTableEditor();

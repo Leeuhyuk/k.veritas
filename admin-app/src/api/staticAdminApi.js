@@ -13,6 +13,7 @@ import {
   saveDoc,
   removeDoc,
   uploadPublicFile,
+  deletePublicFileByUrl,
   getClientAuth,
 } from '../lib/firebaseClient.js';
 
@@ -277,6 +278,7 @@ export const staticAdminApi = {
     if (fd.has('seoDescription')) p.seoDescription = fdGet(fd, 'seoDescription').trim();
     if (fd.has('ogImage')) p.ogImage = fdGet(fd, 'ogImage').trim();
 
+    const prevImages = Array.isArray(p.images) ? p.images.slice() : [];
     let kept = p.images || [];
     if (fd.has('keepImages')) {
       try {
@@ -289,6 +291,8 @@ export const staticAdminApi = {
     const added = [];
     for (const f of files) added.push(await uploadPublicFile(f, `products/${id}`));
     p.images = kept.concat(added);
+    // Storage 고아 정리: 제거된 이미지 삭제
+    for (const u of prevImages) { if (!p.images.includes(u)) await deletePublicFileByUrl(u); }
     // thumbs 유지/추가 (간단: 새 파일은 full URL 재사용)
     const oldThumbs = p.thumbs || [];
     p.thumbs = kept
@@ -302,7 +306,12 @@ export const staticAdminApi = {
 
   async deleteProduct(id) {
     await requireAdminUser();
+    const p = await getDocById('products', id);
     await removeDoc('products', id);
+    // Storage 고아 정리: 제품 이미지 삭제
+    if (p && Array.isArray(p.images)) {
+      for (const u of p.images) await deletePublicFileByUrl(u);
+    }
     await publishProductsIndex();   // 공개 페이지 즉시 반영
     return { ok: true };
   },
@@ -396,6 +405,7 @@ export const staticAdminApi = {
     if (fd.has('seoTitle')) n.seoTitle = fdGet(fd, 'seoTitle').trim();
     if (fd.has('seoDescription')) n.seoDescription = fdGet(fd, 'seoDescription').trim();
     if (fd.has('ogImage')) n.ogImage = fdGet(fd, 'ogImage').trim();
+    const prevImages = Array.isArray(n.images) ? n.images.slice() : [];
     let kept = n.images || [];
     if (fd.has('keepImages')) {
       try {
@@ -408,6 +418,7 @@ export const staticAdminApi = {
     const added = [];
     for (const f of files) added.push(await uploadPublicFile(f, `news/${id}`));
     n.images = kept.concat(added);
+    for (const u of prevImages) { if (!n.images.includes(u)) await deletePublicFileByUrl(u); }
     n.thumbs = n.images.slice();
     n.updatedAt = new Date().toISOString();
     await saveDoc('news', n);
@@ -417,7 +428,11 @@ export const staticAdminApi = {
 
   async deleteNews(id) {
     await requireAdminUser();
+    const n = await getDocById('news', id);
     await removeDoc('news', id);
+    if (n && Array.isArray(n.images)) {
+      for (const u of n.images) await deletePublicFileByUrl(u);
+    }
     await publishNewsIndex();
     return { ok: true };
   },
@@ -504,9 +519,11 @@ export const staticAdminApi = {
     if (fd.has('ogImage')) r.ogImage = fdGet(fd, 'ogImage').trim();
     const file = fdFiles(fd, 'file')[0];
     if (file) {
+      const oldFile = r.file;
       r.file = await uploadPublicFile(file, `resources/${id}`);
       r.originalName = file.name || r.originalName;
       r.size = file.size || 0;
+      if (oldFile && oldFile !== r.file) await deletePublicFileByUrl(oldFile); // 교체된 파일 정리
     }
     r.updatedAt = new Date().toISOString();
     await saveDoc('resources', r);
@@ -516,7 +533,9 @@ export const staticAdminApi = {
 
   async deleteResource(id) {
     await requireAdminUser();
+    const r = await getDocById('resources', id);
     await removeDoc('resources', id);
+    if (r && r.file) await deletePublicFileByUrl(r.file);
     await publishResourcesIndex();
     return { ok: true };
   },
