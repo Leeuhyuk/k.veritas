@@ -263,15 +263,20 @@ function wireMobileMenu() {
   const menu = header.querySelector('.mobile-menu');
   if (!burger || !menu) return;
 
-  burger.addEventListener('click', () => {
-    const open = header.classList.toggle('is-open');
+  const navBar = header.matches && header.matches('.nav') ? header : (header.querySelector('.nav') || header);
+  const setNavOpen = (open) => {
+    if (open && navBar) header.style.setProperty('--nav-h-live', navBar.offsetHeight + 'px');
+    header.classList.toggle('is-open', open);
     burger.setAttribute('aria-expanded', String(open));
-  });
+    document.body.classList.toggle('is-nav-open', open); // 배경 스크롤 잠금
+  };
+  burger.addEventListener('click', () => setNavOpen(!header.classList.contains('is-open')));
   menu.addEventListener('click', (e) => {
-    if (e.target.closest('a')) {
-      header.classList.remove('is-open');
-      burger.setAttribute('aria-expanded', 'false');
-    }
+    if (e.target.closest('a') || e.target.closest('.nav-search-btn')) setNavOpen(false);
+  });
+  // Esc 로 닫기
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && header.classList.contains('is-open')) setNavOpen(false);
   });
 }
 
@@ -297,6 +302,7 @@ function wireSiteSearch() {
   const openSearch = () => {
     if (header) header.classList.remove('is-open');
     if (burger) burger.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('is-nav-open');
     overlay.hidden = false;
     document.body.classList.add('is-search-open');
     buildIndex();

@@ -76,6 +76,8 @@ ul { list-style: none; }
 .mono { font-family: var(--font-fragment-mono); font-size: var(--text-body-sm); letter-spacing: 0.02em; }
 /* <picture> 래퍼는 레이아웃에서 투명 처리 → 내부 img 가 기존 컨테이너의 직접 자식처럼 동작(width:100% 등 유지) */
 picture { display: contents; }
+/* 모바일 메뉴/검색 오버레이 열림 시 배경 스크롤 잠금 */
+body.is-nav-open, body.is-search-open { overflow: hidden; }
 /* 스펙 표 — 좁은 화면에서 넘침 방지(가로 스크롤 + 축약) */
 .spec-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 @media (max-width: 640px) {
@@ -2376,7 +2378,24 @@ a.res-title:hover {
   .nav__links--left,
   .nav__links--right { display: none; }
   .nav__burger { display: flex; }
-  #site-header.is-open .mobile-menu { display: block; }
+  /* 모바일: 공개 네비 sticky 유지(버거 접근성) + 메뉴는 고정 오버레이 */
+  body.site-hp #site-nav .nav { position: sticky; top: 0; z-index: 60; }
+  /* 열림 시 backdrop-filter 해제 — 안 그러면 fixed 자식이 네비 박스에 갇힘 */
+  #site-header.is-open,
+  body.site-hp #site-header.is-open { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  #site-header.is-open .mobile-menu {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: var(--nav-h-live, 64px);
+    bottom: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    z-index: 55;
+    background: var(--color-cream-paper);
+    border-top: none;
+  }
   .hero__headline { font-size: 38px; letter-spacing: -1.5px; }
   .section-title, .cta__title, .subhero__title { font-size: 34px; letter-spacing: -1.2px; }
   .channels { grid-template-columns: 1fr; }
