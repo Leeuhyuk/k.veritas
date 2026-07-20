@@ -21,7 +21,7 @@
 
   <div id="site-footer"></div>
   <script src="site-base.js?v=20260718f"></script>
-  <script src="site.js?v=20260718f"></script>
+  <script src="site.js?v=20260718v"></script>
   <script src="sanitize-html.js"></script>
   <script src="detail-lightbox.js"></script>
   <script>
@@ -45,16 +45,18 @@
       const id = new URLSearchParams(location.search).get('id');
       if (!id) { root.innerHTML = '<p class="empty-note">잘못된 접근입니다.</p>'; return; }
 
-      const fetchNews = () => fetch('/api/news/' + encodeURIComponent(id))
+      // Firebase(Firestore) 단일 소스 — 관리자 발행 인덱스(pages/news-index)에서 조회
+      const NEWS_INDEX = 'https://firestore.googleapis.com/v1/projects/production-management-e70fd/databases/(default)/documents/pages/news-index';
+      const fetchNews = () => fetch(NEWS_INDEX, { cache: 'no-store' })
         .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
-        .catch(() => fetch('static-api/news.json')
-          .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
-          .then((list) => {
-            const arr = Array.isArray(list) ? list : (list.items || list.news || []);
-            const found = arr.filter(Boolean).find((x) => String(x.id) === String(id));
-            if (!found) throw new Error();
-            return found;
-          }));
+        .then((doc) => {
+          const s = doc && doc.fields && doc.fields.json && doc.fields.json.stringValue;
+          if (!s) throw new Error();
+          const arr = JSON.parse(s);
+          const found = (Array.isArray(arr) ? arr : []).filter(Boolean).find((x) => String(x.id) === String(id));
+          if (!found) throw new Error();
+          return found;
+        });
 
       fetchNews().then((n) => {
         document.title = (n.seoTitle || n.title) + ' — k.veritas';

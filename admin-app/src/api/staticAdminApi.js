@@ -72,6 +72,44 @@ async function publishProductsIndex() {
   return { count: pub.length };
 }
 
+// 공지사항(Firestore news)을 공개 페이지가 읽는 pages/news-index 로 내보내기
+async function publishNewsIndex() {
+  const all = await listCollection('news');
+  const pub = (all || [])
+    .filter((n) => n && n.status !== 'draft' && n.status !== 'hidden')
+    .sort((a, b) => {
+      const o = (a.order || 0) - (b.order || 0);
+      if (o) return o;
+      return String(b.createdAt || '').localeCompare(String(a.createdAt || ''));
+    });
+  await saveDoc('pages', {
+    id: 'news-index',
+    json: JSON.stringify(pub),
+    count: pub.length,
+    updatedAt: new Date().toISOString(),
+  });
+  return { count: pub.length };
+}
+
+// 자료실(Firestore resources)을 공개 페이지가 읽는 pages/resources-index 로 내보내기
+async function publishResourcesIndex() {
+  const all = await listCollection('resources');
+  const pub = (all || [])
+    .filter((r) => r && r.status !== 'draft' && r.status !== 'hidden')
+    .sort((a, b) => {
+      const o = (a.order || 0) - (b.order || 0);
+      if (o) return o;
+      return String(b.createdAt || '').localeCompare(String(a.createdAt || ''));
+    });
+  await saveDoc('pages', {
+    id: 'resources-index',
+    json: JSON.stringify(pub),
+    count: pub.length,
+    updatedAt: new Date().toISOString(),
+  });
+  return { count: pub.length };
+}
+
 export const staticAdminApi = {
   async me() {
     const meta = await loadFirebaseWebConfig();
@@ -308,8 +346,13 @@ export const staticAdminApi = {
     return items;
   },
 
-  newsList: () => listCollection('news'),
+  async newsList() {
+    const list = await listCollection('news');
+    publishNewsIndex().catch(() => {}); // 목록 열람 시 공개 인덱스 부트스트랩/동기화
+    return list;
+  },
   newsOne: (id) => getDocById('news', id),
+  publishNews: () => publishNewsIndex(),
 
   async createNews(fd) {
     await requireAdminUser();
@@ -334,6 +377,7 @@ export const staticAdminApi = {
       updatedAt: now,
     };
     await saveDoc('news', item);
+    await publishNewsIndex();
     return item;
   },
 
@@ -363,17 +407,24 @@ export const staticAdminApi = {
     n.thumbs = n.images.slice();
     n.updatedAt = new Date().toISOString();
     await saveDoc('news', n);
+    await publishNewsIndex();
     return n;
   },
 
   async deleteNews(id) {
     await requireAdminUser();
     await removeDoc('news', id);
+    await publishNewsIndex();
     return { ok: true };
   },
 
-  resources: () => listCollection('resources'),
+  async resources() {
+    const list = await listCollection('resources');
+    publishResourcesIndex().catch(() => {}); // 목록 열람 시 공개 인덱스 부트스트랩/동기화
+    return list;
+  },
   resource: (id) => getDocById('resources', id),
+  publishResources: () => publishResourcesIndex(),
 
   async createResource(fd) {
     await requireAdminUser();
@@ -402,6 +453,7 @@ export const staticAdminApi = {
       updatedAt: now,
     };
     await saveDoc('resources', item);
+    await publishResourcesIndex();
     return item;
   },
 
@@ -426,12 +478,14 @@ export const staticAdminApi = {
     }
     r.updatedAt = new Date().toISOString();
     await saveDoc('resources', r);
+    await publishResourcesIndex();
     return r;
   },
 
   async deleteResource(id) {
     await requireAdminUser();
     await removeDoc('resources', id);
+    await publishResourcesIndex();
     return { ok: true };
   },
 

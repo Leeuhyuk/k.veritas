@@ -37,7 +37,7 @@
 
   <div id="site-footer"></div>
   <script src="site-base.js?v=20260718f"></script>
-  <script src="site.js?v=20260718f"></script>
+  <script src="site.js?v=20260718v"></script>
   <script>
   (function () {
     var root = document.getElementById('news-root');
@@ -48,14 +48,21 @@
     var excerpt = function (n) { return n.summary || (n.body || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim(); };
     var arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
+    // Firebase(Firestore) 단일 소스 — 관리자 발행 인덱스(pages/news-index)만 읽음
+    var NEWS_INDEX = 'https://firestore.googleapis.com/v1/projects/production-management-e70fd/databases/(default)/documents/pages/news-index';
     function load() {
-      return fetch('/api/news')
-        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
-        .catch(function () { return fetch('static-api/news.json').then(function (r) { return r.json(); }); })
-        .then(function (data) {
+      return fetch(NEWS_INDEX, { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (doc) {
+          var s = doc && doc.fields && doc.fields.json && doc.fields.json.stringValue;
+          var data = s ? JSON.parse(s) : [];
           var list = Array.isArray(data) ? data : (data.items || data.news || []);
           return list.filter(function (n) { return n && n.status !== 'draft' && n.status !== 'hidden'; })
-            .sort(function (a, b) { return String(b.createdAt || '').localeCompare(String(a.createdAt || '')); });
+            .sort(function (a, b) {
+              var o = (a.order || 0) - (b.order || 0);
+              if (o) return o;
+              return String(b.createdAt || '').localeCompare(String(a.createdAt || ''));
+            });
         });
     }
 

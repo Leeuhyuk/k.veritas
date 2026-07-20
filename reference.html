@@ -47,7 +47,7 @@
 
   <div id="site-footer"></div>
   <script src="site-base.js?v=20260718f"></script>
-  <script src="site.js?v=20260718f"></script>
+  <script src="site.js?v=20260718v"></script>
   <script src="force-download.js"></script>
   <script>
   (function () {
@@ -74,11 +74,14 @@
     try { view = localStorage.getItem('res-view') || 'card'; } catch (e) { /* ignore */ }
     var viewToggle = document.getElementById('view-toggle');
 
+    // Firebase(Firestore) 단일 소스 — 관리자 발행 인덱스(pages/resources-index)만 읽음
+    var RES_INDEX = 'https://firestore.googleapis.com/v1/projects/production-management-e70fd/databases/(default)/documents/pages/resources-index';
     function load() {
-      return fetch('/api/resources')
-        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
-        .catch(function () { return fetch('static-api/resources.json').then(function (r) { return r.json(); }); })
-        .then(function (data) {
+      return fetch(RES_INDEX, { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (doc) {
+          var s = doc && doc.fields && doc.fields.json && doc.fields.json.stringValue;
+          var data = s ? JSON.parse(s) : [];
           var list = Array.isArray(data) ? data : (data.items || data.resources || []);
           return list.filter(function (r) { return r && r.status !== 'draft' && r.status !== 'hidden'; })
             .sort(function (a, b) { return (a.order || 0) - (b.order || 0) || String(b.createdAt || '').localeCompare(String(a.createdAt || '')); });

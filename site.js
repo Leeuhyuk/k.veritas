@@ -305,10 +305,12 @@ function wireSiteSearch() {
   };
   // ---- 통합 검색 인덱스 (정적 JSON + 주요 페이지, 정적 호스팅에서도 동작) ----
   const strip = (s) => String(s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  // Firebase(Firestore) 단일 소스 — 관리자 발행 인덱스(pages/*-index)만 사용
+  const FS_DOCS = 'https://firestore.googleapis.com/v1/projects/production-management-e70fd/databases/(default)/documents/pages/';
   const SOURCES = [
-    { url: 'static-api/products.json', type: '제품', link: (x) => 'showcase-detail.html?id=' + encodeURIComponent(x.id), fields: ['title', 'category', 'summary', 'material', 'process', 'body'] },
-    { url: 'static-api/news.json', type: '공지사항', link: (x) => 'news-detail.html?id=' + encodeURIComponent(x.id), fields: ['title', 'category', 'summary', 'body'] },
-    { url: 'static-api/resources.json', type: '자료실', link: (x) => 'resource-detail.html?id=' + encodeURIComponent(x.id), fields: ['title', 'category', 'description', 'originalName'] },
+    { url: FS_DOCS + 'products-index', type: '제품', link: (x) => 'showcase-detail.html?id=' + encodeURIComponent(x.id), fields: ['title', 'category', 'summary', 'material', 'process', 'body'] },
+    { url: FS_DOCS + 'news-index', type: '공지사항', link: (x) => 'news-detail.html?id=' + encodeURIComponent(x.id), fields: ['title', 'category', 'summary', 'body'] },
+    { url: FS_DOCS + 'resources-index', type: '자료실', link: (x) => 'resource-detail.html?id=' + encodeURIComponent(x.id), fields: ['title', 'category', 'description', 'originalName'] },
   ];
   const PAGES = [
     { title: '회사소개', url: 'about.html', kw: '회사소개 인사말 연혁 일반현황 대표 파트너' },
@@ -328,13 +330,21 @@ function wireSiteSearch() {
     { title: '고객지원', url: 'support.html', kw: '고객지원 문의 FAQ 견적 연락처' },
   ];
   const listOf = (d) => Array.isArray(d) ? d : (d.items || d.resources || d.news || d.products || []);
+  // Firestore 발행 인덱스 문서({fields:{json:{stringValue}}}) → 배열
+  const parseIndex = (d) => {
+    try {
+      var sv = d && d.fields && d.fields.json && d.fields.json.stringValue;
+      if (sv) return JSON.parse(sv);
+    } catch (e) { /* ignore */ }
+    return listOf(d);
+  };
   let indexData = null, indexPromise = null;
   function buildIndex() {
     if (indexData) return Promise.resolve(indexData);
     if (indexPromise) return indexPromise;
     const jobs = SOURCES.map((s) =>
-      fetch(s.url).then((r) => (r.ok ? r.json() : [])).catch(() => [])
-        .then((d) => listOf(d)
+      fetch(s.url, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : [])).catch(() => [])
+        .then((d) => parseIndex(d)
           .filter((x) => x && x.status !== 'draft' && x.status !== 'hidden')
           .map((x) => {
             const cat = x.category || '';
