@@ -107,6 +107,19 @@ export default function NewsPage() {
     await load();
   }
 
+  async function onResetExamples() {
+    if (!confirm('등록된 공지를 모두 삭제하고 시험 장비 예제 10개로 교체할까요? 되돌릴 수 없습니다.')) return;
+    setMsg('예제로 초기화 중…');
+    try {
+      const r = await adminApi.resetNewsToExamples();
+      await load();
+      setMsg(`예제 ${r?.added ?? ''}개로 초기화되었습니다.`);
+      setTimeout(() => setMsg(''), 2500);
+    } catch (err) {
+      setMsg(err.message || '초기화 실패');
+    }
+  }
+
   return (
     <>
       <form className="form" onSubmit={onSubmit}>
@@ -211,9 +224,14 @@ export default function NewsPage() {
       </form>
 
       <div className="admin__list">
-        <p className="microlabel" style={{ marginBottom: 'var(--spacing-16)' }}>
-          등록된 공지
-        </p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, marginBottom: 'var(--spacing-16)' }}>
+          <p className="microlabel" style={{ margin: 0 }}>등록된 공지</p>
+          {adminApi.isStatic ? (
+            <button type="button" className="btn btn--ghost btn--sm" onClick={onResetExamples}>
+              예제로 초기화
+            </button>
+          ) : null}
+        </div>
         {!items.length ? (
           <p className="empty-note" style={{ padding: 'var(--spacing-32) 0' }}>
             등록된 공지가 없습니다.

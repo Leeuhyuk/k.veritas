@@ -72,7 +72,7 @@ export default function RichEditor({ value, onChange, placeholder }) {
       if (!window.__tableEditorLoading) {
         window.__tableEditorLoading = true;
         const s = document.createElement('script');
-        s.src = '/table-editor.js';
+        s.src = '../table-editor.js';
         s.onload = () => {
           window.__tableEditorLoading = false;
           ensureTableEditor();

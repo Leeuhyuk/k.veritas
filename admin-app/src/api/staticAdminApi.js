@@ -346,23 +346,17 @@ export const staticAdminApi = {
     return items;
   },
 
-  async newsList() {
-    let list = await listCollection('news');
-    // 최초 1회(v2): 기존 데이터 전부 삭제 후 테스트 장비 예제로 교체
-    try {
-      const seeded = await getDocById('settings', 'news-seed-eq');
-      if (!seeded) {
-        for (const n of list) { if (n && n.id) await removeDoc('news', n.id); }
-        await this.importSampleNews();
-        await saveDoc('settings', { id: 'news-seed-eq', at: new Date().toISOString() });
-        list = await listCollection('news');
-      }
-    } catch { /* 이관 실패는 무시 */ }
-    publishNewsIndex().catch(() => {}); // 목록 열람 시 공개 인덱스 부트스트랩/동기화
-    return list;
-  },
+  newsList: () => listCollection('news'),
   newsOne: (id) => getDocById('news', id),
   publishNews: () => publishNewsIndex(),
+  // 명시적 초기화: 기존 공지 전부 삭제 후 테스트 장비 예제로 교체(관리자 버튼)
+  async resetNewsToExamples() {
+    await requireAdminUser();
+    const existing = await listCollection('news');
+    for (const n of existing) { if (n && n.id) await removeDoc('news', n.id); }
+    const r = await this.importSampleNews();
+    return r;
+  },
 
   async createNews(fd) {
     await requireAdminUser();
@@ -452,23 +446,17 @@ export const staticAdminApi = {
     return { added, total: list.length };
   },
 
-  async resources() {
-    let list = await listCollection('resources');
-    // 최초 1회(v2): 기존 데이터 전부 삭제 후 테스트 장비 예제로 교체
-    try {
-      const seeded = await getDocById('settings', 'resources-seed-eq');
-      if (!seeded) {
-        for (const r of list) { if (r && r.id) await removeDoc('resources', r.id); }
-        await this.importSampleResources();
-        await saveDoc('settings', { id: 'resources-seed-eq', at: new Date().toISOString() });
-        list = await listCollection('resources');
-      }
-    } catch { /* 이관 실패는 무시 */ }
-    publishResourcesIndex().catch(() => {}); // 목록 열람 시 공개 인덱스 부트스트랩/동기화
-    return list;
-  },
+  resources: () => listCollection('resources'),
   resource: (id) => getDocById('resources', id),
   publishResources: () => publishResourcesIndex(),
+  // 명시적 초기화: 기존 자료 전부 삭제 후 테스트 장비 예제로 교체(관리자 버튼)
+  async resetResourcesToExamples() {
+    await requireAdminUser();
+    const existing = await listCollection('resources');
+    for (const r of existing) { if (r && r.id) await removeDoc('resources', r.id); }
+    const res = await this.importSampleResources();
+    return res;
+  },
 
   async createResource(fd) {
     await requireAdminUser();

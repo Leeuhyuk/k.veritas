@@ -6,6 +6,19 @@
    ============================================================ */
 
 /* ------------------------------------------------------------
+   호스트 판정 — 로컬(개발 서버)만 /api 사용, 그 외(모든 배포:
+   github.io·Firebase Hosting·커스텀 도메인)는 Firebase 직접 사용
+   ------------------------------------------------------------ */
+function kvIsStatic() {
+  if (window.FORCE_STATIC_API === true) return true;
+  var h = (location.hostname || '').toLowerCase();
+  var local = h === 'localhost' || /^127(?:\.\d+){3}$/.test(h) || h === '::1' || /\.local$/.test(h);
+  return !local;
+}
+var KV_FS = 'https://firestore.googleapis.com/v1/projects/production-management-e70fd/databases/(default)/documents/';
+var KV_BUCKET = 'production-management-e70fd-media';
+
+/* ------------------------------------------------------------
    사이트 공통(일괄) 설정 — 상단 배경 투명도 등
    cms.js 를 불러오지 않는 페이지(자료실·공지사항·개인정보·상세 등)에도
    전역 설정이 반영되도록 site.js 에서 직접 적용한다.
@@ -25,8 +38,7 @@
     }
   }
   function fetchSettings() {
-    var host = location.hostname || '';
-    var onStatic = /\.github\.io$/i.test(host) || window.FORCE_STATIC_API === true;
+    var onStatic = kvIsStatic();
     if (!onStatic) {
       return fetch('/api/content/site-settings')
         .then(function (r) { return r.ok ? r.json() : null; })
@@ -433,33 +445,64 @@ function wireInquiryForm() {
       if (message) message.value = `[제품 문의] ${productTitle}\n\n수량:\n희망 납기:\n도면 첨부 여부:\n문의 내용:`;
     }
   }
+  const ok = () => { form.reset(); if (msg) { msg.style.color = ''; msg.textContent = '문의가 정상 접수되었습니다. 빠르게 회신드리겠습니다.'; } };
+  const fail = (m) => { if (msg) { msg.style.color = 'var(--color-warm-loam)'; msg.textContent = m || '접수에 실패했습니다.'; } };
+
+  // Firebase Storage 공개 업로드(REST) — 규칙: inquiries/** create 허용
+  function uploadAttachment(file, id, i) {
+    const path = 'inquiries/' + id + '/' + i + '-' + String(file.name || 'file').replace(/[^\w.\-]/g, '_');
+    const url = 'https://firebasestorage.googleapis.com/v0/b/' + KV_BUCKET + '/o?name=' + encodeURIComponent(path);
+    return fetch(url, { method: 'POST', headers: { 'Content-Type': file.type || 'application/octet-stream' }, body: file })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (!d || !d.downloadTokens) return null;
+        return 'https://firebasestorage.googleapis.com/v0/b/' + KV_BUCKET + '/o/' +
+          encodeURIComponent(d.name) + '?alt=media&token=' + d.downloadTokens;
+      })
+      .catch(() => null);
+  }
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+    // 허니팟: 봇이 채우면 조용히 성공 처리
+    if (val('website')) { ok(); return; }
     if (msg) { msg.style.color = ''; msg.textContent = '보내는 중…'; }
-    const payload = new FormData(form);
-    payload.set('name', val('name'));
-    payload.set('company', val('company'));
-    payload.set('email', val('email'));
-    payload.set('phone', val('phone'));
-    payload.set('type', val('type'));
-    payload.set('message', val('message'));
-    payload.set('website', val('website'));
-    payload.set('agree', form.querySelector('#agree')?.checked ? 'true' : 'false');
-    payload.set('productId', productId || val('productId'));
-    payload.set('productTitle', productTitle || val('productTitle'));
-    fetch('/api/inquiries', {
-      method: 'POST',
-      body: payload,
-    }).then(async (r) => {
-      const d = await r.json().catch(() => ({}));
-      if (!r.ok) throw new Error(d.message || '접수에 실패했습니다.');
-      return d;
-    }).then(() => {
-      form.reset();
-      if (msg) { msg.style.color = ''; msg.textContent = '문의가 정상 접수되었습니다. 빠르게 회신드리겠습니다.'; }
-    }).catch((err) => {
-      if (msg) { msg.style.color = 'var(--color-warm-loam)'; msg.textContent = err.message; }
-    });
+
+    if (!kvIsStatic()) {
+      // 로컬 개발 서버(server.js)
+      const payload = new FormData(form);
+      payload.set('agree', form.querySelector('#agree')?.checked ? 'true' : 'false');
+      payload.set('productId', productId || val('productId'));
+      payload.set('productTitle', productTitle || val('productTitle'));
+      fetch('/api/inquiries', { method: 'POST', body: payload })
+        .then(async (r) => { const d = await r.json().catch(() => ({})); if (!r.ok) throw new Error(d.message || '접수에 실패했습니다.'); })
+        .then(ok).catch((err) => fail(err.message));
+      return;
+    }
+
+    // 배포(Firebase): 첨부 → Storage, 본문 → Firestore inquiries
+    const id = 'inq-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
+    const files = Array.prototype.slice.call((form.querySelector('#files') || {}).files || []).slice(0, 8);
+    Promise.all(files.map((f, i) => uploadAttachment(f, id, i)))
+      .then((urls) => urls.filter(Boolean))
+      .then((attachments) => {
+        const now = new Date().toISOString();
+        const S = (v) => ({ stringValue: String(v == null ? '' : v) });
+        const fields = {
+          name: S(val('name')), company: S(val('company')), email: S(val('email')),
+          phone: S(val('phone')), type: S(val('type')), message: S(val('message')),
+          productId: S(productId || val('productId')), productTitle: S(productTitle || val('productTitle')),
+          agree: { booleanValue: !!form.querySelector('#agree')?.checked },
+          attachments: { arrayValue: { values: attachments.map((u) => ({ stringValue: u })) } },
+          read: { booleanValue: false }, status: S('new'),
+          createdAt: S(now), updatedAt: S(now),
+        };
+        return fetch(KV_FS + 'inquiries?documentId=' + encodeURIComponent(id), {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fields: fields }),
+        }).then((r) => { if (!r.ok) throw new Error('접수에 실패했습니다. 잠시 후 다시 시도하거나 이메일로 문의해 주세요.'); });
+      })
+      .then(ok).catch((err) => fail(err.message));
   });
 }
 
@@ -478,9 +521,15 @@ function wireNoticePopups() {
     try { sessionStorage.setItem(key, JSON.stringify(ids)); } catch (e) {}
   };
 
-  fetch('/api/news')
-    .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+  const newsSource = kvIsStatic()
+    ? fetch(KV_FS + 'pages/news-index', { cache: 'no-store' })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((doc) => { const s = doc && doc.fields && doc.fields.json && doc.fields.json.stringValue; return s ? JSON.parse(s) : []; })
+    : fetch('/api/news').then((r) => { if (!r.ok) throw new Error(); return r.json(); });
+
+  newsSource
     .then((items) => {
+      if (!Array.isArray(items)) return;
       const closed = readClosed();
       const popups = items.filter((n) => n.isPopup && !closed.includes(n.id)).slice(0, 3);
       if (!popups.length) return;

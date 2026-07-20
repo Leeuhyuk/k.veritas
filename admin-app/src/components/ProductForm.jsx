@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import RichEditor from './RichEditor.jsx';
 import FileDropzone from './FileDropzone.jsx';
 import ImagePreviewList from './ImagePreviewList.jsx';
@@ -132,7 +132,10 @@ export default function ProductForm({
     }
   }
 
-  const previewThumb = files[0] ? URL.createObjectURL(files[0]) : keptImages[0] || '';
+  // 미리보기 URL: 새 파일이 있으면 objectURL(생성/해제 관리), 없으면 기존 이미지
+  const filePreview = useMemo(() => (files[0] ? URL.createObjectURL(files[0]) : ''), [files]);
+  useEffect(() => () => { if (filePreview) URL.revokeObjectURL(filePreview); }, [filePreview]);
+  const previewThumb = filePreview || keptImages[0] || '';
 
   return (
     <form className="form pf-detail" onSubmit={handleSubmit}>

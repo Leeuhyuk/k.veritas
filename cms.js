@@ -406,9 +406,10 @@
       .then(function (r) { return r.ok ? r.json() : null; })
       .catch(function () { return null; })
       .then(function (data) {
-        var host = location.hostname || '';
-        var onStaticHost =
-          /\.github\.io$/i.test(host) || globalThis.FORCE_STATIC_API === true;
+        // 로컬(개발 서버)만 API 사용, 그 외 모든 배포는 Firestore 병합
+        var host = (location.hostname || '').toLowerCase();
+        var onStaticHost = globalThis.FORCE_STATIC_API === true ||
+          !(host === 'localhost' || /^127(?:\.\d+){3}$/.test(host) || host === '::1' || /\.local$/.test(host));
         // 로컬 Express 등: API 결과만 사용
         if (!onStaticHost) return data || {};
         // GitHub Pages: static-api 스냅샷 + Firestore 최신본 병합

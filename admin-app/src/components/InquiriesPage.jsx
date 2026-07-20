@@ -101,16 +101,20 @@ export default function InquiriesPage() {
               <p className="inq-card__msg">{i.message}</p>
               {(i.attachments || []).length ? (
                 <div className="inq-card__actions" style={{ marginBottom: 'var(--spacing-16)' }}>
-                  {i.attachments.map((a, idx) => (
-                    <a
-                      key={idx}
-                      className="btn btn--ghost btn--sm"
-                      href={`/api/inquiries/${encodeURIComponent(i.id)}/attachments/${idx}`}
-                    >
-                      {a.originalName || '첨부파일'}
-                      {a.size ? ` · ${sizeStr(a.size)}` : ''}
-                    </a>
-                  ))}
+                  {i.attachments.map((a, idx) => {
+                    // 신규(Firebase): 문자열 Storage URL / 구(서버): {originalName,size}
+                    const url = typeof a === 'string'
+                      ? a
+                      : (a && a.url) || `/api/inquiries/${encodeURIComponent(i.id)}/attachments/${idx}`;
+                    const name = (a && a.originalName)
+                      || (() => { try { return decodeURIComponent(String(url).split('?')[0].split('/').pop()).replace(/^\d+-/, ''); } catch { return '첨부파일'; } })();
+                    const size = a && a.size ? ` · ${sizeStr(a.size)}` : '';
+                    return (
+                      <a key={idx} className="btn btn--ghost btn--sm" href={url} target="_blank" rel="noreferrer">
+                        {name}{size}
+                      </a>
+                    );
+                  })}
                 </div>
               ) : null}
               <div className="form__grid" style={{ marginBottom: 'var(--spacing-16)' }}>
