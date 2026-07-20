@@ -347,7 +347,18 @@ export const staticAdminApi = {
   },
 
   async newsList() {
-    const list = await listCollection('news');
+    let list = await listCollection('news');
+    // 최초 1회: 비어 있으면 기존 static 데이터를 Firestore로 자동 이관
+    if (!list.length) {
+      try {
+        const seeded = await getDocById('settings', 'news-seeded');
+        if (!seeded) {
+          await this.importSampleNews();
+          await saveDoc('settings', { id: 'news-seeded', at: new Date().toISOString() });
+          list = await listCollection('news');
+        }
+      } catch { /* 이관 실패는 무시 */ }
+    }
     publishNewsIndex().catch(() => {}); // 목록 열람 시 공개 인덱스 부트스트랩/동기화
     return list;
   },
@@ -418,8 +429,43 @@ export const staticAdminApi = {
     return { ok: true };
   },
 
+  // 기존 static-api/news.json 데이터를 Firestore(news)로 이관(중복 id 건너뜀)
+  async importSampleNews() {
+    await requireAdminUser();
+    let list = [];
+    try {
+      const res = await fetch('../static-api/news.json', { cache: 'no-store' });
+      list = res.ok ? await res.json() : [];
+    } catch {
+      list = [];
+    }
+    if (!Array.isArray(list) || !list.length) return { added: 0, total: 0 };
+    const existing = await listCollection('news');
+    const existingIds = new Set(existing.map((n) => n.id));
+    const now = new Date().toISOString();
+    let added = 0;
+    for (const n of list) {
+      if (!n || !n.id || existingIds.has(n.id)) continue;
+      await saveDoc('news', { ...n, createdAt: n.createdAt || now, updatedAt: now });
+      added += 1;
+    }
+    await publishNewsIndex();
+    return { added, total: list.length };
+  },
+
   async resources() {
-    const list = await listCollection('resources');
+    let list = await listCollection('resources');
+    // 최초 1회: 비어 있으면 기존 static 데이터를 Firestore로 자동 이관
+    if (!list.length) {
+      try {
+        const seeded = await getDocById('settings', 'resources-seeded');
+        if (!seeded) {
+          await this.importSampleResources();
+          await saveDoc('settings', { id: 'resources-seeded', at: new Date().toISOString() });
+          list = await listCollection('resources');
+        }
+      } catch { /* 이관 실패는 무시 */ }
+    }
     publishResourcesIndex().catch(() => {}); // 목록 열람 시 공개 인덱스 부트스트랩/동기화
     return list;
   },
@@ -487,6 +533,30 @@ export const staticAdminApi = {
     await removeDoc('resources', id);
     await publishResourcesIndex();
     return { ok: true };
+  },
+
+  // 기존 static-api/resources.json 데이터를 Firestore(resources)로 이관(중복 id 건너뜀)
+  async importSampleResources() {
+    await requireAdminUser();
+    let list = [];
+    try {
+      const res = await fetch('../static-api/resources.json', { cache: 'no-store' });
+      list = res.ok ? await res.json() : [];
+    } catch {
+      list = [];
+    }
+    if (!Array.isArray(list) || !list.length) return { added: 0, total: 0 };
+    const existing = await listCollection('resources');
+    const existingIds = new Set(existing.map((r) => r.id));
+    const now = new Date().toISOString();
+    let added = 0;
+    for (const r of list) {
+      if (!r || !r.id || existingIds.has(r.id)) continue;
+      await saveDoc('resources', { ...r, createdAt: r.createdAt || now, updatedAt: now });
+      added += 1;
+    }
+    await publishResourcesIndex();
+    return { added, total: list.length };
   },
 
   inquiries: () => listCollection('inquiries'),
