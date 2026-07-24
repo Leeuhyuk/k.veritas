@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 640" role="img" aria-label="대표 인사말">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e2128"/>
+      <stop offset="1" stop-color="#14161b"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.05"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- ground -->
+  <rect width="520" height="640" fill="url(#bg)"/>
+  <rect width="520" height="640" fill="url(#grid)"/>
+  <rect width="520" height="640" fill="url(#sheen)"/>
+
+  <!-- corner ticks (precision) -->
+  <g stroke="#e4572e" stroke-width="2" fill="none">
+    <path d="M28 44 V28 H44"/>
+    <path d="M492 44 V28 H476"/>
+    <path d="M28 596 V612 H44"/>
+    <path d="M492 596 V612 H476"/>
+  </g>
+
+  <!-- eyebrow -->
+  <text x="52" y="92" fill="#e4572e" font-family="'IBM Plex Mono','Fragment Mono',monospace" font-size="14" letter-spacing="4">CEO&#160;MESSAGE</text>
+
+  <!-- oversized quote mark -->
+  <text x="40" y="250" fill="#e4572e" font-family="Georgia,'Times New Roman',serif" font-size="220" font-weight="700" opacity="0.92">&#8220;</text>
+
+  <!-- headline -->
+  <text x="52" y="330" fill="#ffffff" font-family="'Noto Sans KR','Inter',sans-serif" font-size="40" font-weight="800" letter-spacing="-1">정직한 품질로</text>
+  <text x="52" y="384" fill="#ffffff" font-family="'Noto Sans KR','Inter',sans-serif" font-size="40" font-weight="800" letter-spacing="-1">신뢰를 만듭니다</text>
+
+  <!-- rule -->
+  <line x1="52" y1="430" x2="180" y2="430" stroke="#e4572e" stroke-width="3"/>
+
+  <!-- precision waveform / load–displacement echo -->
+  <g transform="translate(52,470)" opacity="0.9">
+    <path d="M0 60 C40 60 60 12 96 10 C150 8 176 54 236 56 C300 58 360 20 416 14"
+          fill="none" stroke="#e4572e" stroke-width="2.4" stroke-linecap="round"/>
+    <g fill="#6b7180" font-family="'IBM Plex Mono',monospace" font-size="10">
+      <circle cx="96" cy="10" r="3.5" fill="#ffffff" stroke="#e4572e" stroke-width="2"/>
+    </g>
+    <line x1="0" y1="66" x2="416" y2="66" stroke="#ffffff" stroke-opacity="0.12" stroke-width="1"/>
+  </g>
+
+  <!-- signature -->
+  <path d="M56 588 c22 -26 30 6 44 -6 c10 -8 4 -22 16 -20 c14 2 10 26 26 22 c14 -4 12 -20 28 -18"
+        fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.85"/>
+  <text x="330" y="590" fill="#9aa0ab" font-family="'IBM Plex Mono','Fragment Mono',monospace" font-size="13" letter-spacing="1" text-anchor="end">대표이사 · k.veritas</text>
+</svg>
