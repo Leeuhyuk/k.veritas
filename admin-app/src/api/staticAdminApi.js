@@ -13,6 +13,8 @@ import {
   saveDoc,
   removeDoc,
   uploadPublicFile,
+  deletePublicFileByUrl,
+  listCollectionRecent,
   getClientAuth,
 } from '../lib/firebaseClient.js';
 
@@ -23,6 +25,19 @@ function fdGet(fd, key) {
 
 function fdFiles(fd, key) {
   return fd.getAll(key).filter((f) => f && typeof f === 'object' && f.size > 0);
+}
+
+// 커스텀 스펙 표 [{label, value}] 파싱 (라벨·값 모두 사용자 편집)
+function parseSpecs(fd) {
+  try {
+    const arr = JSON.parse(fdGet(fd, 'specs') || '[]');
+    if (!Array.isArray(arr)) return [];
+    return arr
+      .map((s) => ({ label: String((s && s.label) || '').trim(), value: String((s && s.value) || '').trim() }))
+      .filter((s) => s.label || s.value);
+  } catch {
+    return [];
+  }
 }
 
 async function requireAdminUser() {
@@ -41,6 +56,60 @@ async function requireAdminUser() {
     throw err;
   }
   return { user, email, meta };
+}
+
+// 관리자 제품(Firestore products)을 공개 페이지가 읽는 pages/products-index 로 내보내기
+// (공개 읽기 가능·CORS 안전). 모든 제품 변경 후 자동 호출되어 즉시 반영됨.
+async function publishProductsIndex() {
+  const all = await listCollection('products');
+  const pub = (all || [])
+    .filter((p) => p && p.status !== 'draft' && p.status !== 'hidden')
+    .sort((a, b) => (a.order || 0) - (b.order || 0));
+  await saveDoc('pages', {
+    id: 'products-index',
+    json: JSON.stringify(pub),
+    count: pub.length,
+    updatedAt: new Date().toISOString(),
+  });
+  return { count: pub.length };
+}
+
+// 공지사항(Firestore news)을 공개 페이지가 읽는 pages/news-index 로 내보내기
+async function publishNewsIndex() {
+  const all = await listCollection('news');
+  const pub = (all || [])
+    .filter((n) => n && n.status !== 'draft' && n.status !== 'hidden')
+    .sort((a, b) => {
+      const o = (a.order || 0) - (b.order || 0);
+      if (o) return o;
+      return String(b.createdAt || '').localeCompare(String(a.createdAt || ''));
+    });
+  await saveDoc('pages', {
+    id: 'news-index',
+    json: JSON.stringify(pub),
+    count: pub.length,
+    updatedAt: new Date().toISOString(),
+  });
+  return { count: pub.length };
+}
+
+// 자료실(Firestore resources)을 공개 페이지가 읽는 pages/resources-index 로 내보내기
+async function publishResourcesIndex() {
+  const all = await listCollection('resources');
+  const pub = (all || [])
+    .filter((r) => r && r.status !== 'draft' && r.status !== 'hidden')
+    .sort((a, b) => {
+      const o = (a.order || 0) - (b.order || 0);
+      if (o) return o;
+      return String(b.createdAt || '').localeCompare(String(a.createdAt || ''));
+    });
+  await saveDoc('pages', {
+    id: 'resources-index',
+    json: JSON.stringify(pub),
+    count: pub.length,
+    updatedAt: new Date().toISOString(),
+  });
+  return { count: pub.length };
 }
 
 export const staticAdminApi = {
@@ -122,10 +191,12 @@ export const staticAdminApi = {
     const item = {
       id,
       title: fdGet(fd, 'title').trim(),
+      model: fdGet(fd, 'model').trim(),
       category: fdGet(fd, 'category').trim(),
       industry: fdGet(fd, 'industry').trim(),
       material: fdGet(fd, 'material').trim(),
       process: fdGet(fd, 'process').trim(),
+      specs: parseSpecs(fd),
       summary: fdGet(fd, 'summary').trim(),
       body: fdGet(fd, 'body'),
       status: fdGet(fd, 'status') === 'draft' ? 'draft' : 'published',
@@ -145,7 +216,45 @@ export const staticAdminApi = {
       await saveDoc('products', p);
     }
     await saveDoc('products', item);
+    await publishProductsIndex();   // 공개 페이지 즉시 반영
     return item;
+  },
+
+  // 수동 공개 반영 버튼용 (자동 반영과 동일)
+  async publishProducts() {
+    await requireAdminUser();
+    return publishProductsIndex();
+  },
+
+  // 공개 사이트의 정적 카탈로그(static-api/products.json)를 Firestore로 가져오기
+  async importSampleProducts() {
+    await requireAdminUser();
+    let list = [];
+    try {
+      const res = await fetch('../static-api/products.json', { cache: 'no-store' });
+      list = res.ok ? await res.json() : [];
+    } catch {
+      list = [];
+    }
+    if (!Array.isArray(list) || !list.length) return { added: 0, total: 0 };
+    const existing = await listCollection('products');
+    const existingIds = new Set(existing.map((p) => p.id));
+    const base = existing.length;
+    const now = new Date().toISOString();
+    let added = 0;
+    for (let i = 0; i < list.length; i++) {
+      const p = list[i];
+      if (!p || !p.id || existingIds.has(p.id)) continue;
+      await saveDoc('products', {
+        ...p,
+        order: base + i,
+        createdAt: p.createdAt || now,
+        updatedAt: now,
+      });
+      added += 1;
+    }
+    await publishProductsIndex();   // 공개 페이지 즉시 반영
+    return { added, total: list.length };
   },
 
   async updateProduct(id, fd) {
@@ -157,10 +266,12 @@ export const staticAdminApi = {
       throw err;
     }
     if (fd.has('title')) p.title = fdGet(fd, 'title').trim();
+    if (fd.has('model')) p.model = fdGet(fd, 'model').trim();
     if (fd.has('category')) p.category = fdGet(fd, 'category').trim();
     if (fd.has('industry')) p.industry = fdGet(fd, 'industry').trim();
     if (fd.has('material')) p.material = fdGet(fd, 'material').trim();
     if (fd.has('process')) p.process = fdGet(fd, 'process').trim();
+    if (fd.has('specs')) p.specs = parseSpecs(fd);
     if (fd.has('summary')) p.summary = fdGet(fd, 'summary').trim();
     if (fd.has('body')) p.body = fdGet(fd, 'body');
     if (fd.has('status')) p.status = fdGet(fd, 'status') === 'draft' ? 'draft' : 'published';
@@ -168,6 +279,7 @@ export const staticAdminApi = {
     if (fd.has('seoDescription')) p.seoDescription = fdGet(fd, 'seoDescription').trim();
     if (fd.has('ogImage')) p.ogImage = fdGet(fd, 'ogImage').trim();
 
+    const prevImages = Array.isArray(p.images) ? p.images.slice() : [];
     let kept = p.images || [];
     if (fd.has('keepImages')) {
       try {
@@ -180,6 +292,8 @@ export const staticAdminApi = {
     const added = [];
     for (const f of files) added.push(await uploadPublicFile(f, `products/${id}`));
     p.images = kept.concat(added);
+    // Storage 고아 정리: 제거된 이미지 삭제
+    for (const u of prevImages) { if (!p.images.includes(u)) await deletePublicFileByUrl(u); }
     // thumbs 유지/추가 (간단: 새 파일은 full URL 재사용)
     const oldThumbs = p.thumbs || [];
     p.thumbs = kept
@@ -187,12 +301,19 @@ export const staticAdminApi = {
       .concat(added);
     p.updatedAt = new Date().toISOString();
     await saveDoc('products', p);
+    await publishProductsIndex();   // 공개 페이지 즉시 반영
     return p;
   },
 
   async deleteProduct(id) {
     await requireAdminUser();
+    const p = await getDocById('products', id);
     await removeDoc('products', id);
+    // Storage 고아 정리: 제품 이미지 삭제
+    if (p && Array.isArray(p.images)) {
+      for (const u of p.images) await deletePublicFileByUrl(u);
+    }
+    await publishProductsIndex();   // 공개 페이지 즉시 반영
     return { ok: true };
   },
 
@@ -213,6 +334,7 @@ export const staticAdminApi = {
       p.order = i++;
       await saveDoc('products', p);
     }
+    await publishProductsIndex();   // 공개 페이지 즉시 반영
     return listCollection('products');
   },
 
@@ -236,6 +358,15 @@ export const staticAdminApi = {
 
   newsList: () => listCollection('news'),
   newsOne: (id) => getDocById('news', id),
+  publishNews: () => publishNewsIndex(),
+  // 명시적 초기화: 기존 공지 전부 삭제 후 테스트 장비 예제로 교체(관리자 버튼)
+  async resetNewsToExamples() {
+    await requireAdminUser();
+    const existing = await listCollection('news');
+    for (const n of existing) { if (n && n.id) await removeDoc('news', n.id); }
+    const r = await this.importSampleNews();
+    return r;
+  },
 
   async createNews(fd) {
     await requireAdminUser();
@@ -260,6 +391,7 @@ export const staticAdminApi = {
       updatedAt: now,
     };
     await saveDoc('news', item);
+    await publishNewsIndex();
     return item;
   },
 
@@ -274,6 +406,7 @@ export const staticAdminApi = {
     if (fd.has('seoTitle')) n.seoTitle = fdGet(fd, 'seoTitle').trim();
     if (fd.has('seoDescription')) n.seoDescription = fdGet(fd, 'seoDescription').trim();
     if (fd.has('ogImage')) n.ogImage = fdGet(fd, 'ogImage').trim();
+    const prevImages = Array.isArray(n.images) ? n.images.slice() : [];
     let kept = n.images || [];
     if (fd.has('keepImages')) {
       try {
@@ -286,20 +419,60 @@ export const staticAdminApi = {
     const added = [];
     for (const f of files) added.push(await uploadPublicFile(f, `news/${id}`));
     n.images = kept.concat(added);
+    for (const u of prevImages) { if (!n.images.includes(u)) await deletePublicFileByUrl(u); }
     n.thumbs = n.images.slice();
     n.updatedAt = new Date().toISOString();
     await saveDoc('news', n);
+    await publishNewsIndex();
     return n;
   },
 
   async deleteNews(id) {
     await requireAdminUser();
+    const n = await getDocById('news', id);
     await removeDoc('news', id);
+    if (n && Array.isArray(n.images)) {
+      for (const u of n.images) await deletePublicFileByUrl(u);
+    }
+    await publishNewsIndex();
     return { ok: true };
+  },
+
+  // 기존 static-api/news.json 데이터를 Firestore(news)로 이관(중복 id 건너뜀)
+  async importSampleNews() {
+    await requireAdminUser();
+    let list = [];
+    try {
+      const res = await fetch('../static-api/news.json', { cache: 'no-store' });
+      list = res.ok ? await res.json() : [];
+    } catch {
+      list = [];
+    }
+    if (!Array.isArray(list) || !list.length) return { added: 0, total: 0 };
+    const existing = await listCollection('news');
+    const existingIds = new Set(existing.map((n) => n.id));
+    const now = new Date().toISOString();
+    let added = 0;
+    for (const n of list) {
+      if (!n || !n.id || existingIds.has(n.id)) continue;
+      await saveDoc('news', { ...n, createdAt: n.createdAt || now, updatedAt: now });
+      added += 1;
+    }
+    await publishNewsIndex();
+    return { added, total: list.length };
   },
 
   resources: () => listCollection('resources'),
   resource: (id) => getDocById('resources', id),
+  publishResources: () => publishResourcesIndex(),
+  // 명시적 초기화: 기존 자료 전부 삭제 후 테스트 장비 예제로 교체(관리자 버튼)
+  async resetResourcesToExamples() {
+    await requireAdminUser();
+    const existing = await listCollection('resources');
+    for (const r of existing) { if (r && r.id) await removeDoc('resources', r.id); }
+    const res = await this.importSampleResources();
+    return res;
+  },
 
   async createResource(fd) {
     await requireAdminUser();
@@ -328,6 +501,7 @@ export const staticAdminApi = {
       updatedAt: now,
     };
     await saveDoc('resources', item);
+    await publishResourcesIndex();
     return item;
   },
 
@@ -346,22 +520,52 @@ export const staticAdminApi = {
     if (fd.has('ogImage')) r.ogImage = fdGet(fd, 'ogImage').trim();
     const file = fdFiles(fd, 'file')[0];
     if (file) {
+      const oldFile = r.file;
       r.file = await uploadPublicFile(file, `resources/${id}`);
       r.originalName = file.name || r.originalName;
       r.size = file.size || 0;
+      if (oldFile && oldFile !== r.file) await deletePublicFileByUrl(oldFile); // 교체된 파일 정리
     }
     r.updatedAt = new Date().toISOString();
     await saveDoc('resources', r);
+    await publishResourcesIndex();
     return r;
   },
 
   async deleteResource(id) {
     await requireAdminUser();
+    const r = await getDocById('resources', id);
     await removeDoc('resources', id);
+    if (r && r.file) await deletePublicFileByUrl(r.file);
+    await publishResourcesIndex();
     return { ok: true };
   },
 
-  inquiries: () => listCollection('inquiries'),
+  // 기존 static-api/resources.json 데이터를 Firestore(resources)로 이관(중복 id 건너뜀)
+  async importSampleResources() {
+    await requireAdminUser();
+    let list = [];
+    try {
+      const res = await fetch('../static-api/resources.json', { cache: 'no-store' });
+      list = res.ok ? await res.json() : [];
+    } catch {
+      list = [];
+    }
+    if (!Array.isArray(list) || !list.length) return { added: 0, total: 0 };
+    const existing = await listCollection('resources');
+    const existingIds = new Set(existing.map((r) => r.id));
+    const now = new Date().toISOString();
+    let added = 0;
+    for (const r of list) {
+      if (!r || !r.id || existingIds.has(r.id)) continue;
+      await saveDoc('resources', { ...r, createdAt: r.createdAt || now, updatedAt: now });
+      added += 1;
+    }
+    await publishResourcesIndex();
+    return { added, total: list.length };
+  },
+
+  inquiries: () => listCollectionRecent('inquiries'), // order 필드 없음 → 최신순
   async inquiryRead(id) {
     await requireAdminUser();
     const it = await getDocById('inquiries', id);

@@ -5,16 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>자료실 — k.veritas</title>
   <meta name="description" content="k.veritas 자료실 — 카탈로그, 사용설명서, 인증서, 도면 등 자료 다운로드." />
+  <link rel="canonical" href="https://leeuhyuk.github.io/k.veritas/reference.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="k.veritas" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:url" content="https://leeuhyuk.github.io/k.veritas/reference.html" />
+  <meta property="og:title" content="자료실 — k.veritas" />
+  <meta property="og:description" content="k.veritas 자료실 — 카탈로그, 사용설명서, 인증서, 도면 등 자료 다운로드." />
+  <meta property="og:image" content="https://leeuhyuk.github.io/k.veritas/images/test-hero.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="자료실 — k.veritas" />
+  <meta name="twitter:description" content="k.veritas 자료실 — 카탈로그, 사용설명서, 인증서, 도면 등 자료 다운로드." />
+  <meta name="twitter:image" content="https://leeuhyuk.github.io/k.veritas/images/test-hero.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20260720d" />
+  <script>document.documentElement.classList.add("reveal-on");setTimeout(function(){window.__revealInit||document.documentElement.classList.add("reveal-off")},3000);</script>
 </head>
-<body>
+<body class="site-hp">
   <div id="site-nav"></div>
 
   <main>
-    <section class="subhero">
+    <section class="subhero subhero--bg" style="--subhero-bg:url('images/test-measure.jpg')">
       <div class="subhero__inner">
         <p class="microlabel">REFERENCE ROOM</p>
         <h1 class="subhero__title">자료실</h1>
@@ -23,9 +36,19 @@
     </section>
 
     <section class="page">
-      <div id="resources-root">
+      <div class="res-toolbar">
+        <div class="filter-chips" id="res-filter"></div>
+        <div class="view-toggle" id="view-toggle" role="group" aria-label="보기 방식">
+          <button type="button" data-view="card" title="카드 보기" aria-label="카드 보기">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>카드</span>
+          </button>
+          <button type="button" data-view="list" title="목록 보기" aria-label="목록 보기">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span>목록</span>
+          </button>
+        </div>
+      </div>
+      <div id="resources-root" aria-live="polite">
         <div class="list-skeleton list-skeleton--table" aria-busy="true" aria-label="불러오는 중">
-          <div class="list-skeleton__row"><span class="list-skeleton__bar list-skeleton__bar--sm"></span><span class="list-skeleton__bar list-skeleton__bar--lg"></span><span class="list-skeleton__bar list-skeleton__bar--md"></span></div>
           <div class="list-skeleton__row"><span class="list-skeleton__bar list-skeleton__bar--sm"></span><span class="list-skeleton__bar list-skeleton__bar--lg"></span><span class="list-skeleton__bar list-skeleton__bar--md"></span></div>
           <div class="list-skeleton__row"><span class="list-skeleton__bar list-skeleton__bar--sm"></span><span class="list-skeleton__bar list-skeleton__bar--lg"></span><span class="list-skeleton__bar list-skeleton__bar--md"></span></div>
           <div class="list-skeleton__row"><span class="list-skeleton__bar list-skeleton__bar--sm"></span><span class="list-skeleton__bar list-skeleton__bar--lg"></span><span class="list-skeleton__bar list-skeleton__bar--md"></span></div>
@@ -35,19 +58,162 @@
   </main>
 
   <div id="site-footer"></div>
-  <script src="site-base.js"></script>
-  <script src="site.js"></script>
+  <script src="site-base.js?v=20260720a"></script>
+  <script src="site.js?v=20260720d"></script>
   <script src="force-download.js"></script>
-  <script type="module" src="public-ui/dist/assets/resources.js"></script>
   <script>
-    window.addEventListener('error', function (e) {
-      if (e && e.target && e.target.tagName === 'SCRIPT' && String(e.target.src || '').indexOf('public-ui') !== -1) {
-        var root = document.getElementById('resources-root');
-        if (root) {
-          root.innerHTML = '<p class="empty-note">자료실 UI를 불러오지 못했습니다. <code>npm run build:public</code> 후 <code>npm start</code> 해 주세요.</p>';
-        }
+  (function () {
+    var root = document.getElementById('resources-root');
+    var filterBar = document.getElementById('res-filter');
+    var all = [], cat = '';
+    var esc = function (s) { return (s || '').replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]); }); };
+    var extOf = function (r) {
+      var n = r.originalName || r.file || r.title || '';
+      var m = String(n).match(/\.([a-z0-9]{1,5})(?:\?|$)/i);
+      return m ? m[1].toUpperCase() : 'FILE';
+    };
+    var fmtSize = function (b) {
+      b = Number(b) || 0;
+      if (b >= 1048576) return (b / 1048576).toFixed(1) + ' MB';
+      if (b >= 1024) return Math.round(b / 1024) + ' KB';
+      return b ? b + ' B' : '';
+    };
+    var dlIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 12 5 5 5-5"/><path d="M5 21h14"/></svg>';
+    var docIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>';
+    var PER = 32; /* 4열 × 8행 */
+    var page = 1;
+    var view = 'card';
+    try { view = localStorage.getItem('res-view') || 'card'; } catch (e) { /* ignore */ }
+    var viewToggle = document.getElementById('view-toggle');
+
+    // Firebase(Firestore) 단일 소스 — 관리자 발행 인덱스(pages/resources-index)만 읽음
+    var RES_INDEX = 'https://firestore.googleapis.com/v1/projects/production-management-e70fd/databases/(default)/documents/pages/resources-index';
+    function load() {
+      return fetch(RES_INDEX, { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (doc) {
+          var s = doc && doc.fields && doc.fields.json && doc.fields.json.stringValue;
+          var data = s ? JSON.parse(s) : [];
+          var list = Array.isArray(data) ? data : (data.items || data.resources || []);
+          return list.filter(function (r) { return r && r.status !== 'draft' && r.status !== 'hidden'; })
+            .sort(function (a, b) { return (a.order || 0) - (b.order || 0) || String(b.createdAt || '').localeCompare(String(a.createdAt || '')); });
+        });
+    }
+
+    function renderFilter() {
+      var cats = [];
+      all.forEach(function (r) { if (r.category && cats.indexOf(r.category) === -1) cats.push(r.category); });
+      if (!cats.length) { filterBar.innerHTML = ''; return; }
+      var html = '<button data-cat="" class="' + (cat === '' ? 'is-active' : '') + '">전체</button>';
+      cats.forEach(function (c) { html += '<button data-cat="' + esc(c) + '" class="' + (cat === c ? 'is-active' : '') + '">' + esc(c) + '</button>'; });
+      filterBar.innerHTML = html;
+    }
+
+    function filtered() { return cat ? all.filter(function (r) { return r.category === cat; }) : all; }
+
+    function renderPager(pages) {
+      if (pages <= 1) return '';
+      var h = '<nav class="pager" aria-label="페이지">';
+      h += '<button data-pg="' + (page - 1) + '"' + (page <= 1 ? ' disabled' : '') + '>이전</button>';
+      for (var i = 1; i <= pages; i++) h += '<button data-pg="' + i + '" class="' + (i === page ? 'is-current' : '') + '">' + i + '</button>';
+      h += '<button data-pg="' + (page + 1) + '"' + (page >= pages ? ' disabled' : '') + '>다음</button>';
+      return h + '</nav>';
+    }
+
+    function cardHtml(r) {
+      var href = r.file && r.file !== '#' ? r.file : '#';
+      var canDl = href !== '#';
+      var dlName = r.originalName ? ' download="' + esc(r.originalName) + '"' : '';
+      var detailHref = 'resource-detail.html?id=' + encodeURIComponent(r.id);
+      var thumb = (r.thumb || r.image)
+        ? '<img src="' + esc(r.thumb || r.image) + '" alt="" loading="lazy" onerror="this.remove()" />'
+        : docIcon;
+      return '<div class="res-card">' +
+        '<a class="res-card__main" href="' + detailHref + '">' +
+          '<span class="res-card__thumb"><span class="res-card__ext">' + esc(extOf(r)) + '</span>' + thumb + '</span>' +
+          '<span class="res-card__b">' +
+            (r.category ? '<span class="tag">' + esc(r.category) + '</span>' : '') +
+            '<h3>' + esc(r.title || '(제목 없음)') + '</h3>' +
+            (r.description ? '<p>' + esc(r.description) + '</p>' : '') +
+          '</span>' +
+        '</a>' +
+        '<div class="res-card__foot">' +
+          '<span class="res-card__size">' + (fmtSize(r.size) || '&nbsp;') + '</span>' +
+          (canDl
+            ? '<a class="btn btn--primary btn--sm res-card__dl" href="' + esc(href) + '"' + dlName + ' rel="noopener">' + dlIcon + '<span>다운로드</span></a>'
+            : '<a class="btn btn--ghost btn--sm res-card__dl" href="' + detailHref + '">자세히</a>') +
+        '</div>' +
+      '</div>';
+    }
+    function listHtml(r) {
+      var href = r.file && r.file !== '#' ? r.file : '#';
+      var canDl = href !== '#';
+      var dlName = r.originalName ? ' download="' + esc(r.originalName) + '"' : '';
+      var detailHref = 'resource-detail.html?id=' + encodeURIComponent(r.id);
+      return '<div class="res-item">' +
+        '<a class="res-item__ic" href="' + detailHref + '" aria-label="상세 보기">' + esc(extOf(r)) + '</a>' +
+        '<a class="res-item__t" href="' + detailHref + '"><h3>' + esc(r.title || '(제목 없음)') + '</h3>' +
+          (r.description ? '<p>' + esc(r.description) + '</p>' : '') + '</a>' +
+        (r.category ? '<span class="tag">' + esc(r.category) + '</span>' : '<span></span>') +
+        '<span class="res-item__size">' + fmtSize(r.size) + '</span>' +
+        (canDl
+          ? '<a class="btn btn--primary btn--sm res-item__dl" href="' + esc(href) + '"' + dlName + ' rel="noopener">' + dlIcon + '<span>다운로드</span></a>'
+          : '<a class="btn btn--ghost btn--sm res-item__dl" href="' + detailHref + '">자세히</a>') +
+      '</div>';
+    }
+
+    function syncToggle() {
+      if (!viewToggle) return;
+      Array.prototype.forEach.call(viewToggle.querySelectorAll('button'), function (b) {
+        b.classList.toggle('is-active', b.getAttribute('data-view') === view);
+      });
+    }
+
+    function render() {
+      syncToggle();
+      var list = filtered();
+      if (!list.length) { root.innerHTML = '<p class="empty-note">등록된 자료가 없습니다.</p>'; return; }
+      var pages = Math.max(1, Math.ceil(list.length / PER));
+      if (page > pages) page = pages;
+      var slice = list.slice((page - 1) * PER, page * PER);
+      if (view === 'list') {
+        root.innerHTML = '<div class="res-list">' + slice.map(listHtml).join('') + '</div>' + renderPager(pages);
+      } else {
+        root.innerHTML = '<div class="res-grid">' + slice.map(cardHtml).join('') + '</div>' + renderPager(pages);
       }
-    }, true);
+    }
+
+    if (viewToggle) {
+      viewToggle.addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-view]'); if (!b) return;
+        var v = b.getAttribute('data-view');
+        if (v === view) return;
+        view = v;
+        try { localStorage.setItem('res-view', view); } catch (e2) { /* ignore */ }
+        render();
+      });
+    }
+
+    filterBar.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-cat]'); if (!b) return;
+      cat = b.getAttribute('data-cat') || '';
+      page = 1;
+      Array.prototype.forEach.call(filterBar.querySelectorAll('button'), function (x) { x.classList.remove('is-active'); });
+      b.classList.add('is-active');
+      render();
+    });
+
+    root.addEventListener('click', function (e) {
+      var b = e.target.closest('.pager button[data-pg]'); if (!b || b.disabled) return;
+      page = parseInt(b.getAttribute('data-pg'), 10) || 1;
+      render();
+      var top = document.querySelector('.page');
+      if (top) top.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    load().then(function (list) { all = list; renderFilter(); render(); })
+      .catch(function () { filterBar.innerHTML = ''; root.innerHTML = '<p class="empty-note">자료를 불러오지 못했습니다.</p>'; });
+  })();
   </script>
 </body>
 </html>

@@ -17,8 +17,12 @@
     window.SITE_BASE = window.SITE_BASE || '';
   }
 
+  // 로컬(개발 서버)만 라이브 /api 사용, 그 외 모든 배포는 정적/Firebase
+  var hostL = host.toLowerCase();
+  var isLocal = hostL === 'localhost' || /^127(?:\.\d+){3}$/.test(hostL) || hostL === '::1' || /\.local$/.test(hostL);
   var preferStatic =
     isGh ||
+    !isLocal ||
     /[?&]static=1(?:&|$)/.test(location.search || '') ||
     window.FORCE_STATIC_API === true;
 

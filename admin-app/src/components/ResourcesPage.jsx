@@ -25,6 +25,22 @@ export default function ResourcesPage() {
   const [fileHint, setFileHint] = useState('');
   const [msg, setMsg] = useState('');
   const [formKey, setFormKey] = useState(0);
+  const [extraCats, setExtraCats] = useState([]);
+
+  // 기본 분류(고정) + 실제 사용 중인 분류 + 사용자가 추가한 분류 + 현재 선택값
+  const catOptions = Array.from(new Set([
+    ...CATS,
+    ...items.map((r) => (r.category || '').trim()).filter(Boolean),
+    ...extraCats,
+    ...(form.category ? [form.category] : []),
+  ]));
+
+  function addCategory() {
+    const name = (window.prompt('추가할 분류명을 입력하세요') || '').trim();
+    if (!name) return;
+    setExtraCats((prev) => (prev.includes(name) ? prev : [...prev, name]));
+    setField('category', name);
+  }
 
   const load = useCallback(async () => {
     const list = await adminApi.resources();
@@ -108,6 +124,19 @@ export default function ResourcesPage() {
     await load();
   }
 
+  async function onResetExamples() {
+    if (!confirm('등록된 자료를 모두 삭제하고 시험 장비 예제 10개로 교체할까요? 되돌릴 수 없습니다.')) return;
+    setMsg('예제로 초기화 중…');
+    try {
+      const r = await adminApi.resetResourcesToExamples();
+      await load();
+      setMsg(`예제 ${r?.added ?? ''}개로 초기화되었습니다.`);
+      setTimeout(() => setMsg(''), 2500);
+    } catch (err) {
+      setMsg(err.message || '초기화 실패');
+    }
+  }
+
   return (
     <>
       <form className="form" onSubmit={onSubmit}>
@@ -118,14 +147,18 @@ export default function ResourcesPage() {
           </div>
           <div className="form__row">
             <label>분류</label>
-            <select value={form.category} onChange={(e) => setField('category', e.target.value)}>
-              {CATS.map((c) => (
-                <option key={c}>{c}</option>
-              ))}
-              {form.category && !CATS.includes(form.category) ? (
-                <option value={form.category}>{form.category}</option>
-              ) : null}
-            </select>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <select
+                value={form.category}
+                onChange={(e) => setField('category', e.target.value)}
+                style={{ flex: 1 }}
+              >
+                {catOptions.map((c) => (
+                  <option key={c}>{c}</option>
+                ))}
+              </select>
+              <button type="button" className="btn btn--ghost btn--sm" onClick={addCategory}>＋ 새 분류</button>
+            </div>
           </div>
         </div>
         <div className="form__grid">
@@ -200,9 +233,14 @@ export default function ResourcesPage() {
       </form>
 
       <div className="admin__list">
-        <p className="microlabel" style={{ marginBottom: 'var(--spacing-16)' }}>
-          등록된 자료
-        </p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, marginBottom: 'var(--spacing-16)' }}>
+          <p className="microlabel" style={{ margin: 0 }}>등록된 자료</p>
+          {adminApi.isStatic ? (
+            <button type="button" className="btn btn--ghost btn--sm" onClick={onResetExamples}>
+              예제로 초기화
+            </button>
+          ) : null}
+        </div>
         {!items.length ? (
           <p className="empty-note" style={{ padding: 'var(--spacing-32) 0' }}>
             등록된 자료가 없습니다.
@@ -218,12 +256,14 @@ export default function ResourcesPage() {
                   {r.size ? `· ${sizeStr(r.size)}` : ''} · 다운로드 {r.downloads || 0} · {fmtDate(r.createdAt)}
                 </span>
               </div>
-              <a className="btn btn--ghost btn--sm" href={`/api/resources/${encodeURIComponent(r.id)}/download`}>
-                받기
-              </a>
+              {r.file && /^https?:\/\//i.test(r.file) ? (
+                <a className="btn btn--ghost btn--sm" href={r.file} download={r.originalName || undefined} target="_blank" rel="noreferrer">
+                  받기
+                </a>
+              ) : null}
               <a
                 className="btn btn--ghost btn--sm"
-                href={`/resource-detail.html?id=${encodeURIComponent(r.id)}`}
+                href={`../resource-detail.html?id=${encodeURIComponent(r.id)}`}
                 target="_blank"
                 rel="noreferrer"
               >

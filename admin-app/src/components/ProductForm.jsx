@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import RichEditor from './RichEditor.jsx';
 import FileDropzone from './FileDropzone.jsx';
 import ImagePreviewList from './ImagePreviewList.jsx';
-import SeoFields from './SeoFields.jsx';
 import { adminApi } from '../api/client.js';
 
 const emptyForm = {
   title: '',
+  model: '',
   category: '',
   status: 'published',
   industry: '',
@@ -14,13 +14,31 @@ const emptyForm = {
   process: '',
   summary: '',
   body: '',
-  seoTitle: '',
-  seoDescription: '',
-  ogImage: '',
 };
+
+// 스펙 표 초기값: 저장된 specs 우선, 없으면 기존 필드(소재·가공·산업)에서 이관, 그것도 없으면 기본 행
+function seedSpecs(initial) {
+  if (initial && Array.isArray(initial.specs) && initial.specs.length) {
+    return initial.specs.map((s) => ({ label: s.label || '', value: s.value || '' }));
+  }
+  if (initial) {
+    const legacy = [
+      ['소재', initial.material],
+      ['가공', initial.process],
+      ['산업', initial.industry],
+    ].filter((r) => r[1]);
+    if (legacy.length) return legacy.map(([label, value]) => ({ label, value }));
+  }
+  return [
+    { label: '소재', value: '' },
+    { label: '가공', value: '' },
+    { label: '산업', value: '' },
+  ];
+}
 
 export default function ProductForm({
   categories,
+  onAddCategory,
   editId,
   initial,
   onSaved,
@@ -30,11 +48,47 @@ export default function ProductForm({
   const [keptImages, setKeptImages] = useState(() => (initial && initial.images ? [...initial.images] : []));
   const [files, setFiles] = useState([]);
   const [msg, setMsg] = useState('');
-  const [previewOpen, setPreviewOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [extraCats, setExtraCats] = useState([]);
+  const [specs, setSpecs] = useState(() => seedSpecs(initial));
+
+  // 수정 클릭 등으로 initial/editId 가 바뀌면 폼을 기존 등록 내용으로 다시 채움
+  // (key 리마운트에만 의존하지 않도록 보강)
+  useEffect(() => {
+    setForm({ ...emptyForm, ...(initial || {}) });
+    setKeptImages(initial && initial.images ? [...initial.images] : []);
+    setSpecs(seedSpecs(initial));
+    setFiles([]);
+    setMsg('');
+  }, [editId, initial]);
+
+  function setSpec(i, key, val) {
+    setSpecs((rows) => rows.map((r, j) => (j === i ? { ...r, [key]: val } : r)));
+  }
+  function addSpec() {
+    setSpecs((rows) => [...rows, { label: '', value: '' }]);
+  }
+  function removeSpec(i) {
+    setSpecs((rows) => rows.filter((_, j) => j !== i));
+  }
+
+  // 관리 카테고리 + 추가한 분류 + 현재 선택값(목록 외 포함)
+  const catList = Array.from(new Set([
+    ...(categories || []),
+    ...extraCats,
+    ...(form.category ? [form.category] : []),
+  ]));
 
   function setField(key, val) {
     setForm((f) => ({ ...f, [key]: val }));
+  }
+
+  function addCategory() {
+    const name = (window.prompt('추가할 카테고리명을 입력하세요') || '').trim();
+    if (!name) return;
+    setExtraCats((prev) => (prev.includes(name) ? prev : [...prev, name]));
+    setField('category', name);
+    if (typeof onAddCategory === 'function') onAddCategory(name); // Firestore 영속화
   }
 
   function resetLocal() {
@@ -52,6 +106,7 @@ export default function ProductForm({
     }
     const fd = new FormData();
     fd.append('title', form.title);
+    fd.append('model', form.model);
     fd.append('category', form.category);
     fd.append('status', form.status);
     fd.append('industry', form.industry);
@@ -59,9 +114,7 @@ export default function ProductForm({
     fd.append('process', form.process);
     fd.append('summary', form.summary);
     fd.append('body', form.body || '');
-    fd.append('seoTitle', form.seoTitle);
-    fd.append('seoDescription', form.seoDescription);
-    fd.append('ogImage', form.ogImage);
+    fd.append('specs', JSON.stringify(specs.filter((s) => s.label.trim() || s.value.trim())));
     files.forEach((f) => fd.append('images', f));
     if (editId) fd.append('keepImages', JSON.stringify(keptImages));
 
@@ -81,110 +134,25 @@ export default function ProductForm({
     }
   }
 
-  const tags = [form.category, form.industry, form.material, form.process].filter(Boolean);
+  // 미리보기 URL: 새 파일이 있으면 objectURL(생성/해제 관리), 없으면 기존 이미지
+  const filePreview = useMemo(() => (files[0] ? URL.createObjectURL(files[0]) : ''), [files]);
+  useEffect(() => () => { if (filePreview) URL.revokeObjectURL(filePreview); }, [filePreview]);
+  const previewThumb = filePreview || keptImages[0] || '';
 
   return (
-    <>
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="form__grid">
-          <div className="form__row">
-            <label htmlFor="title">제품명 *</label>
-            <input
-              id="title"
-              type="text"
-              required
-              placeholder="예: 정밀 가공 브라켓"
-              value={form.title}
-              onChange={(e) => setField('title', e.target.value)}
-            />
-          </div>
-          <div className="form__row">
-            <label htmlFor="category">카테고리</label>
-            <select
-              id="category"
-              value={form.category}
-              onChange={(e) => setField('category', e.target.value)}
-            >
-              <option value="">(선택 안 함)</option>
-              {categories.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-              {form.category && !categories.includes(form.category) ? (
-                <option value={form.category}>{form.category} (목록 외)</option>
-              ) : null}
-            </select>
-          </div>
-        </div>
-        <div className="form__grid">
-          <div className="form__row">
-            <label htmlFor="status">공개 상태</label>
-            <select id="status" value={form.status} onChange={(e) => setField('status', e.target.value)}>
-              <option value="published">게시</option>
-              <option value="draft">비공개</option>
-            </select>
-          </div>
-          <div className="form__row">
-            <label htmlFor="industry">산업군</label>
-            <input
-              id="industry"
-              type="text"
-              placeholder="예: 자동차, 반도체"
-              value={form.industry}
-              onChange={(e) => setField('industry', e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="form__grid">
-          <div className="form__row">
-            <label htmlFor="material">소재</label>
-            <input
-              id="material"
-              type="text"
-              value={form.material}
-              onChange={(e) => setField('material', e.target.value)}
-            />
-          </div>
-          <div className="form__row">
-            <label htmlFor="process">공정</label>
-            <input
-              id="process"
-              type="text"
-              value={form.process}
-              onChange={(e) => setField('process', e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="form__row">
-          <label htmlFor="summary">한 줄 요약</label>
-          <input
-            id="summary"
-            type="text"
-            placeholder="목록 카드에 표시될 짧은 소개"
-            value={form.summary}
-            onChange={(e) => setField('summary', e.target.value)}
-          />
-        </div>
-        <SeoFields
-          idPrefix="product-seo"
-          seoTitle={form.seoTitle}
-          seoDescription={form.seoDescription}
-          ogImage={form.ogImage}
-          onChange={setField}
-          titleFallback="제품명"
-          imageFallback="첨부한 대표 사진"
-        />
-        <div className="form__row">
-          <label>소개 내용</label>
-          <RichEditor
-            value={form.body}
-            onChange={(html) => setField('body', html)}
-            placeholder="제품 소개를 작성하세요."
-          />
-        </div>
-        <div className="form__row">
-          <label>사진 첨부 (여러 장 · 첫 장이 대표)</label>
+    <form className="form pf-detail" onSubmit={handleSubmit}>
+      <p className="pf-detail__hint">
+        실제 <b>상세 페이지</b>와 동일한 화면입니다. 각 칸을 클릭해 바로 입력하고 저장하면 그대로 게시됩니다.
+      </p>
+
+      {/* ── 상단: 이미지(좌) + 정보(우) — 상세 페이지 미러링 ── */}
+      <div className="pf-detail__top">
+        <div className="pf-detail__media">
+          {previewThumb ? (
+            <img className="pf-detail__cover" src={previewThumb} alt="" />
+          ) : (
+            <div className="pf-detail__cover pf-detail__cover--ph">대표 이미지</div>
+          )}
           <FileDropzone
             id="images"
             accept="image/*"
@@ -192,91 +160,154 @@ export default function ProductForm({
             maxFiles={8}
             files={files}
             onChange={setFiles}
-            label="사진을 끌어다 놓으세요"
-            sublabel="또는 클릭해서 탐색기에서 여러 장 선택"
+            label="사진 추가 (여러 장 · 첫 장이 대표)"
+            sublabel="끌어다 놓거나 클릭해서 선택"
           />
         </div>
-        {keptImages.length ? (
-          <div className="form__row">
-            <label>기존 사진 (클릭 확대 · × 로 제외)</label>
-            <ImagePreviewList
-              urls={keptImages}
-              labelPrefix="기존 사진"
-              ariaLabel="기존 사진"
-              onRemove={(i) => setKeptImages((arr) => arr.filter((_, j) => j !== i))}
-            />
-          </div>
-        ) : null}
-        <div style={{ display: 'flex', gap: 'var(--spacing-16)', alignItems: 'center', flexWrap: 'wrap' }}>
-          <button type="submit" className="btn btn--primary form__submit" disabled={saving}>
-            {editId ? '수정 저장' : '등록하기'}
-          </button>
-          <button type="button" className="btn btn--ghost" onClick={() => setPreviewOpen(true)}>
-            미리보기
-          </button>
-          {editId ? (
-            <button
-              type="button"
-              className="btn btn--ghost"
-              onClick={() => {
-                resetLocal();
-                onCancel();
-              }}
-            >
-              취소
-            </button>
-          ) : null}
-          {msg ? <span className="admin__msg">{msg}</span> : null}
-        </div>
-      </form>
 
-      {previewOpen ? (
-        <div
-          className="preview-modal"
-          role="dialog"
-          aria-modal="true"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setPreviewOpen(false);
-          }}
-        >
-          <div className="preview-modal__panel">
-            <div className="admin__bar">
-              <h2 className="section-title" style={{ textAlign: 'left', fontSize: 28, letterSpacing: '-1px' }}>
-                제품 미리보기
-              </h2>
-              <button type="button" className="btn btn--ghost btn--sm" onClick={() => setPreviewOpen(false)}>
-                닫기
-              </button>
-            </div>
-            <div className="detail">
-              <div style={{ display: 'flex', gap: 'var(--spacing-8)', flexWrap: 'wrap', marginBottom: 'var(--spacing-16)' }}>
-                {tags.map((t) => (
-                  <span className="tag" key={t}>
-                    {t}
-                  </span>
-                ))}
-                <span className="tag">{form.status === 'draft' ? '비공개' : '게시'}</span>
-              </div>
-              <h1 className="section-title" style={{ textAlign: 'left', marginBottom: 'var(--spacing-32)' }}>
-                {form.title.trim() || '제품명 미입력'}
-              </h1>
-              {keptImages[0] ? (
-                <img className="detail__cover" src={keptImages[0]} alt="" />
-              ) : (
-                <div className="detail__cover is-ph">
-                  <span className="show-ph">NO IMAGE</span>
-                </div>
-              )}
-              <div
-                className="detail__body"
-                dangerouslySetInnerHTML={{
-                  __html: form.body || '<p class="empty-note" style="text-align:left">소개 내용이 없습니다.</p>',
-                }}
-              />
-            </div>
+        <div className="pf-detail__info">
+          {/* 카테고리 태그 + 공개 상태 */}
+          <div className="pf-detail__tagrow">
+            <select
+              className="pf-detail__cat"
+              value={form.category}
+              onChange={(e) => setField('category', e.target.value)}
+              title="카테고리 (태그로 표시)"
+            >
+              <option value="">카테고리 선택</option>
+              {catList.map((c) => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+            <button type="button" className="btn btn--ghost btn--sm" onClick={addCategory}>＋ 새 분류</button>
+            <span className="pf-detail__grow" />
+            <select
+              className="pf-detail__status"
+              value={form.status}
+              onChange={(e) => setField('status', e.target.value)}
+              title="공개 상태"
+            >
+              <option value="published">게시</option>
+              <option value="draft">비공개</option>
+            </select>
           </div>
+
+          {/* 기본 항목: 좌측 항목명 + 우측 입력 (카드/상세 스펙 표와 동일 형식) */}
+          <dl className="pf-detail__spec pf-detail__spec--edit pf-detail__spec--fields">
+            <div>
+              <dt>모델</dt>
+              <dd>
+                <input
+                  className="pf-detail__model"
+                  type="text"
+                  placeholder="모델 코드 (예: KV-PT 400)"
+                  value={form.model}
+                  onChange={(e) => setField('model', e.target.value)}
+                  title="카드 상단 MODEL 표시"
+                />
+              </dd>
+            </div>
+            <div>
+              <dt>제품명 *</dt>
+              <dd>
+                <input
+                  className="pf-detail__title"
+                  type="text"
+                  required
+                  placeholder="제품명을 입력하세요 *"
+                  value={form.title}
+                  onChange={(e) => setField('title', e.target.value)}
+                />
+              </dd>
+            </div>
+            <div>
+              <dt>요약</dt>
+              <dd>
+                <textarea
+                  className="pf-detail__lead"
+                  rows={2}
+                  placeholder="요약 (상세 페이지 부제 · 여러 줄 가능)"
+                  value={form.summary}
+                  onChange={(e) => setField('summary', e.target.value)}
+                />
+              </dd>
+            </div>
+          </dl>
+
+          <dl className="pf-detail__spec pf-detail__spec--edit">
+            {specs.map((row, i) => (
+              <div key={i}>
+                <dt>
+                  <input
+                    type="text"
+                    className="pf-detail__spec-label"
+                    placeholder="항목명"
+                    value={row.label}
+                    onChange={(e) => setSpec(i, 'label', e.target.value)}
+                  />
+                </dt>
+                <dd>
+                  <input
+                    type="text"
+                    placeholder="값"
+                    value={row.value}
+                    onChange={(e) => setSpec(i, 'value', e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className="pf-detail__spec-del"
+                    title="이 항목 삭제"
+                    onClick={() => removeSpec(i)}
+                  >
+                    ×
+                  </button>
+                </dd>
+              </div>
+            ))}
+          </dl>
+          <button type="button" className="btn btn--ghost btn--sm pf-detail__spec-add" onClick={addSpec}>
+            ＋ 스펙 항목 추가
+          </button>
+        </div>
+      </div>
+
+      {/* ── 상세 정보 (본문) ── */}
+      <div className="pf-detail__body-sec">
+        <h2 className="pf-detail__sec-title">상세 정보</h2>
+        <RichEditor
+          value={form.body}
+          onChange={(html) => setField('body', html)}
+          placeholder="제품 상세 소개를 작성하세요. (표·이미지 삽입 가능)"
+        />
+      </div>
+
+      {keptImages.length ? (
+        <div className="pf-detail__gallery-sec">
+          <h2 className="pf-detail__sec-title">등록된 사진 (첫 장이 대표)</h2>
+          <ImagePreviewList
+            urls={keptImages}
+            labelPrefix="사진"
+            ariaLabel="등록된 사진"
+            onRemove={(i) => setKeptImages((arr) => arr.filter((_, j) => j !== i))}
+          />
         </div>
       ) : null}
-    </>
+
+      <div className="pf-detail__actions">
+        <button type="submit" className="btn btn--primary form__submit" disabled={saving}>
+          {editId ? '수정 저장' : '등록하기'}
+        </button>
+        {editId ? (
+          <button
+            type="button"
+            className="btn btn--ghost"
+            onClick={() => { resetLocal(); onCancel(); }}
+          >
+            취소
+          </button>
+        ) : null}
+        {msg ? <span className="admin__msg">{msg}</span> : null}
+      </div>
+    </form>
   );
 }

@@ -1,298 +1,762 @@
 [
   {
-    "id": "p1783609168385",
-    "summary": "",
-    "process": "",
-    "seoDescription": "",
+    "id": "kv001",
+    "title": "의자 등받이 내구 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "body": "",
-    "seoTitle": "",
-    "title": "33333333333",
-    "ogImage": "",
-    "createdAt": "2026-07-09T14:59:28.385Z",
-    "material": "",
-    "category": "",
-    "order": 0,
+    "material": "BIFMA X5.1 · 반복하중",
+    "summary": "등받이에 반복 하중을 가해 내구성을 검증하는 시험기.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>등받이에 반복 하중을 가해 내구성을 검증하는 시험기.</p><p>대응 규격·사양: BIFMA X5.1 · 반복하중 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
-    "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/full-0-1783679159971.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/full-1-1783679162040.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/full-2-1783679163420.webp"
-    ],
-    "thumbs": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/thumb-0-1783679159971.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/thumb-1-1783679162040.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783609168385/thumb-2-1783679163420.webp"
-    ],
-    "updatedAt": "2026-07-10T10:26:04.777Z"
-  },
-  {
-    "id": "p1783608946207",
-    "summary": "",
-    "process": "",
-    "seoDescription": "",
-    "industry": "",
-    "body": "22222222222",
-    "seoTitle": "",
-    "title": "22222222222",
-    "ogImage": "",
-    "createdAt": "2026-07-09T14:55:46.207Z",
-    "material": "",
-    "category": "자동차",
     "order": 1,
-    "status": "published",
+    "createdAt": "2026-06-02T01:00:00.000Z",
+    "updatedAt": "2026-06-02T01:00:00.000Z",
     "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/full-0-1783679165057.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/full-1-1783679166370.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/full-2-1783679167795.webp"
+      "images/test-durability.jpg"
     ],
     "thumbs": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/thumb-0-1783679165057.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/thumb-1-1783679166370.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608946207/thumb-2-1783679167795.webp"
-    ],
-    "updatedAt": "2026-07-10T10:26:09.159Z"
+      "images/test-durability.jpg"
+    ]
   },
   {
-    "id": "p1783608744476",
-    "summary": "111111111111111",
-    "process": "",
-    "seoDescription": "",
+    "id": "kv002",
+    "title": "의자 좌면 반복하중 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "body": "11111111111111111",
-    "seoTitle": "",
-    "title": "111111111111111",
-    "ogImage": "",
-    "createdAt": "2026-07-09T14:52:24.476Z",
-    "material": "",
-    "category": "자동차",
+    "material": "KS G · EN 1728",
+    "summary": "좌면 반복 하중으로 착좌 내구 수명을 시험.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>좌면 반복 하중으로 착좌 내구 수명을 시험.</p><p>대응 규격·사양: KS G · EN 1728 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
     "order": 2,
-    "status": "published",
+    "createdAt": "2026-06-03T02:00:00.000Z",
+    "updatedAt": "2026-06-03T02:00:00.000Z",
     "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-0-1783679169429.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-1-1783679170729.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-2-1783679172110.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-3-1783679173640.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/full-4-1783679175309.webp"
+      "images/test-lab.jpg"
     ],
     "thumbs": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-0-1783679169429.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-1-1783679170729.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-2-1783679172110.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-3-1783679173640.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1783608744476/thumb-4-1783679175309.webp"
-    ],
-    "updatedAt": "2026-07-10T10:26:16.663Z"
+      "images/test-lab.jpg"
+    ]
   },
   {
-    "id": "p1782823591256",
-    "summary": "",
-    "process": "ㄴㅇㄹㄴㅇㄹㄴㅇ",
-    "seoDescription": "",
-    "industry": "가공품",
-    "body": "ㄴㅇㄻㄴㅇㄻㄴㄻㄴㅇㄹㄴㅇㄹㄴ<img src=\"/uploads/1782823603153-136452148.jpg\" style=\"border-radius: 8px;\">",
-    "seoTitle": "",
-    "title": "ㄴㅇㄹㄴㅇㄹㄴㅇㄹ",
-    "ogImage": "",
-    "createdAt": "2026-06-30T12:46:31.256Z",
-    "material": "ㄴㅇㄹㅇㄹ",
-    "category": "",
+    "id": "kv003",
+    "title": "의자 다리 강도 시험기",
+    "category": "가구 내구성",
+    "industry": "",
+    "material": "정하중 · 충격",
+    "summary": "의자 다리에 정하중·충격을 가해 강도를 평가.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>의자 다리에 정하중·충격을 가해 강도를 평가.</p><p>대응 규격·사양: 정하중 · 충격 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
     "order": 3,
-    "status": "published",
+    "createdAt": "2026-06-04T03:00:00.000Z",
+    "updatedAt": "2026-06-04T03:00:00.000Z",
     "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782823591256/full-0-1783679177794.webp"
+      "images/test-hero.jpg"
     ],
     "thumbs": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782823591256/thumb-0-1783679177794.webp"
-    ],
-    "updatedAt": "2026-07-10T10:26:20.874Z"
+      "images/test-hero.jpg"
+    ]
   },
   {
-    "id": "p1782653407286",
-    "summary": "sfsfsdf",
-    "process": "",
-    "seoDescription": "",
+    "id": "kv004",
+    "title": "소파 좌면 내구 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "body": "ㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹㄴㅇㄹㄹㄹㄹ<table><thead><tr><th>제목1</th><th>제목2</th><th>제목3</th></tr></thead><tbody><tr><td>내용</td><td>내용</td><td>내용</td></tr><tr><td>내용</td><td>내용</td><td>내용</td></tr><tr><td>내용</td><td>내용</td><td>내용</td></tr></tbody></table><p><br></p>",
-    "seoTitle": "",
-    "title": "23424wfsdf",
-    "ogImage": "",
-    "createdAt": "2026-06-28T13:30:07.286Z",
-    "material": "",
-    "category": "자동차",
+    "material": "반복 착좌 · 수명",
+    "summary": "소파 좌면 반복 착좌로 쿠션·프레임 내구를 시험.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>소파 좌면 반복 착좌로 쿠션·프레임 내구를 시험.</p><p>대응 규격·사양: 반복 착좌 · 수명 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
     "order": 4,
-    "status": "published",
+    "createdAt": "2026-06-05T04:00:00.000Z",
+    "updatedAt": "2026-06-05T04:00:00.000Z",
     "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782653407286/full-0-1783679181705.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782653407286/full-1-1783679184604.webp"
+      "images/test-durability.jpg"
     ],
     "thumbs": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782653407286/thumb-0-1783679181705.webp",
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782653407286/thumb-1-1783679184604.webp"
-    ],
-    "updatedAt": "2026-07-10T10:26:27.218Z"
+      "images/test-durability.jpg"
+    ]
   },
   {
-    "id": "p1782727484334",
-    "summary": "ㄴㅇㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹ",
-    "process": "",
-    "seoDescription": "",
+    "id": "kv005",
+    "title": "책상 하중 처짐 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "body": "<table><thead><tr><th>제목1</th><th>제목3</th></tr></thead><tbody><tr><td>내용</td><td rowspan=\"2\">내용 내용</td></tr><tr><td>내용</td></tr><tr><td>내용</td><td>내용</td></tr></tbody></table><p>ㄹㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㄹㄴㅇㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ</p>",
-    "seoTitle": "",
-    "title": "ㄴㅇㄹㄴㄹㄴㅇㄹㄴㅇㄹ",
-    "ogImage": "",
-    "createdAt": "2026-06-29T10:04:44.334Z",
-    "material": "",
-    "category": "자동차",
+    "material": "정하중 · 처짐량",
+    "summary": "상판에 하중을 가해 처짐과 변형을 측정.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>상판에 하중을 가해 처짐과 변형을 측정.</p><p>대응 규격·사양: 정하중 · 처짐량 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
     "order": 5,
-    "status": "published",
+    "createdAt": "2026-06-06T05:00:00.000Z",
+    "updatedAt": "2026-06-06T05:00:00.000Z",
     "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782727484334/full-0-1783679188260.webp"
+      "images/test-lab.jpg"
     ],
     "thumbs": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782727484334/thumb-0-1783679188260.webp"
-    ],
-    "updatedAt": "2026-07-10T10:26:30.964Z"
+      "images/test-lab.jpg"
+    ]
   },
   {
-    "id": "p1782650775270",
-    "summary": "234234234",
-    "process": "",
-    "seoDescription": "",
+    "id": "kv006",
+    "title": "서랍 개폐 반복 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "body": "234234234",
-    "seoTitle": "",
-    "title": "324234234",
-    "ogImage": "",
-    "createdAt": "2026-06-28T12:46:15.270Z",
-    "material": "",
-    "category": "234234234",
+    "material": "개폐 수명 · 사이클",
+    "summary": "서랍 레일의 개폐 반복 수명을 사이클로 시험.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>서랍 레일의 개폐 반복 수명을 사이클로 시험.</p><p>대응 규격·사양: 개폐 수명 · 사이클 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
     "order": 6,
-    "status": "published",
+    "createdAt": "2026-06-07T06:00:00.000Z",
+    "updatedAt": "2026-06-07T06:00:00.000Z",
     "images": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782650775270/full-0-1783679191453.webp"
+      "images/test-hero.jpg"
     ],
     "thumbs": [
-      "https://storage.googleapis.com/production-management-e70fd-media/public/products/p1782650775270/thumb-0-1783679191453.webp"
-    ],
-    "updatedAt": "2026-07-10T10:26:34.750Z"
+      "images/test-hero.jpg"
+    ]
   },
   {
-    "id": "p1782823734310",
-    "summary": "",
-    "images": [],
-    "process": "",
-    "seoDescription": "",
+    "id": "kv007",
+    "title": "도어 힌지 개폐 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "body": "ㄴㅇㄻㄴㄻㄴㄹㄴㅁㅇㄻㄴㅇㄹㄴㅁㅇㄹㄴㅇㄹㄴㄹㅇ<img src=\"/uploads/1782823732278-859060078.jpg\" style=\"border-radius: 8px;\">",
-    "seoTitle": "",
-    "title": "ㄴㅇㄻㄴㅇㄻㄴㄻㄴ",
-    "ogImage": "",
-    "createdAt": "2026-06-30T12:48:54.310Z",
-    "material": "",
-    "category": "자동차",
+    "material": "개폐 내구 · 수명",
+    "summary": "가구 도어 힌지의 개폐 내구 수명을 검증.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>가구 도어 힌지의 개폐 내구 수명을 검증.</p><p>대응 규격·사양: 개폐 내구 · 수명 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
     "order": 7,
-    "status": "published",
-    "updatedAt": "2026-06-30T12:48:54.310Z"
+    "createdAt": "2026-06-08T07:00:00.000Z",
+    "updatedAt": "2026-06-08T07:00:00.000Z",
+    "images": [
+      "images/test-durability.jpg"
+    ],
+    "thumbs": [
+      "images/test-durability.jpg"
+    ]
   },
   {
-    "id": "p1782726609423",
-    "summary": "ㄴㅇㄻㄴㄹ",
-    "images": [],
-    "process": "",
-    "seoDescription": "",
+    "id": "kv008",
+    "title": "캐스터 주행 내구 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "body": "ㄴㅁㅇㄹㄴㅁㄹ",
-    "seoTitle": "",
-    "title": "ㄴㄻㄴㄹㄴㄹ",
-    "ogImage": "",
-    "createdAt": "2026-06-29T09:50:09.423Z",
-    "material": "",
-    "category": "ㄴㅇㄹㄴㄹ",
+    "material": "주행 · 하중",
+    "summary": "하중 상태에서 캐스터 주행 내구를 시험.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>하중 상태에서 캐스터 주행 내구를 시험.</p><p>대응 규격·사양: 주행 · 하중 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
     "order": 8,
-    "status": "published",
-    "updatedAt": "2026-06-30T12:49:15.672Z"
+    "createdAt": "2026-06-09T08:00:00.000Z",
+    "updatedAt": "2026-06-09T08:00:00.000Z",
+    "images": [
+      "images/test-lab.jpg"
+    ],
+    "thumbs": [
+      "images/test-lab.jpg"
+    ]
   },
   {
-    "id": "p1782726603145",
-    "summary": "ㄴㅇㄹㄴㅁㅇㄹ",
-    "images": [],
-    "process": "",
-    "seoDescription": "",
+    "id": "kv009",
+    "title": "사무의자 회전 내구 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "body": "ㄴㅇㄹㄴㅁㅇㄹㄴㅇㄹ",
-    "seoTitle": "",
-    "title": "ㄴㅇㄹㄴㄹ",
-    "ogImage": "",
-    "createdAt": "2026-06-29T09:50:03.145Z",
-    "material": "",
-    "category": "ㄴㅇㄹㄴㄹㄴㅇㄹㄴㅇㄹ",
+    "material": "회전 · 반복",
+    "summary": "사무의자 회전부의 반복 내구를 평가.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>사무의자 회전부의 반복 내구를 평가.</p><p>대응 규격·사양: 회전 · 반복 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
     "order": 9,
-    "status": "published",
-    "updatedAt": "2026-06-30T12:49:08.822Z"
+    "createdAt": "2026-06-10T00:00:00.000Z",
+    "updatedAt": "2026-06-10T00:00:00.000Z",
+    "images": [
+      "images/test-hero.jpg"
+    ],
+    "thumbs": [
+      "images/test-hero.jpg"
+    ]
   },
   {
-    "id": "p1782726614155",
-    "summary": "ㄴㅇㄻㄴㄹ",
-    "images": [],
-    "process": "",
-    "seoDescription": "",
+    "id": "kv010",
+    "title": "침대 프레임 하중 시험기",
+    "category": "가구 내구성",
     "industry": "",
-    "body": "ㄴㅇㄻㄴㄹ",
-    "seoTitle": "",
-    "title": "ㅁㄴㅇㄹㄴㅁㄹ",
-    "ogImage": "",
-    "createdAt": "2026-06-29T09:50:14.155Z",
-    "material": "",
-    "category": "ㅇㄹㅇㄹ",
+    "material": "정하중 · 반복",
+    "summary": "침대 프레임에 반복 하중을 가해 내구를 검증.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>침대 프레임에 반복 하중을 가해 내구를 검증.</p><p>대응 규격·사양: 정하중 · 반복 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
     "order": 10,
-    "status": "published",
-    "updatedAt": "2026-06-30T12:49:21.410Z"
+    "createdAt": "2026-06-11T01:00:00.000Z",
+    "updatedAt": "2026-06-11T01:00:00.000Z",
+    "images": [
+      "images/test-durability.jpg"
+    ],
+    "thumbs": [
+      "images/test-durability.jpg"
+    ]
   },
   {
-    "id": "p1000000000003",
-    "summary": "구동 계통에 들어가는 알루미늄 정밀 브라켓. 5축 CNC 가공으로 ±0.005mm 공차를 구현했습니다.",
-    "createdAt": "2026-06-01T00:00:00.000Z",
-    "images": [],
-    "process": "5축 CNC",
-    "material": "AL6061",
-    "industry": "자동차",
-    "body": "자동차 구동 계통에 적용되는 알루미늄 브라켓입니다.\n\n경량화를 위해 AL6061 소재를 사용했으며, 5축 CNC 가공으로 복합 형상을 한 번의 셋업에 가공해 누적 공차를 최소화했습니다.\n\n전수 검사 후 측정 성적서와 함께 납품됩니다.",
-    "category": "자동차",
-    "title": "정밀 가공 브라켓",
+    "id": "kv011",
+    "title": "수납장 선반 하중 시험기",
+    "category": "가구 내구성",
+    "industry": "",
+    "material": "정하중 · 처짐",
+    "summary": "선반의 적재 하중과 처짐을 측정.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>선반의 적재 하중과 처짐을 측정.</p><p>대응 규격·사양: 정하중 · 처짐 · 분야: 가구 내구성</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
     "order": 11,
-    "status": "published",
-    "updatedAt": "2026-06-01T00:00:00.000Z"
+    "createdAt": "2026-06-12T02:00:00.000Z",
+    "updatedAt": "2026-06-12T02:00:00.000Z",
+    "images": [
+      "images/test-lab.jpg"
+    ],
+    "thumbs": [
+      "images/test-lab.jpg"
+    ]
   },
   {
-    "id": "p1000000000002",
-    "summary": "반도체 장비용 고청정 하우징. 미세 공차와 표면 품질을 동시에 만족합니다.",
-    "createdAt": "2026-05-20T00:00:00.000Z",
-    "images": [],
-    "process": "정밀 가공·아노다이징",
-    "material": "알루미늄",
-    "industry": "반도체",
-    "body": "반도체 장비에 사용되는 알루미늄 하우징입니다.\n\n고청정 환경 요구에 맞춰 표면 조도 Ra 0.2 이상으로 가공하고, 아노다이징 처리로 내식성을 확보했습니다.\n\n조립 모듈 형태로도 공급 가능합니다.",
-    "category": "반도체",
-    "title": "알루미늄 장비 하우징",
+    "id": "kv012",
+    "title": "만능재료시험기 UTM 100kN",
+    "category": "금속·재료",
+    "industry": "",
+    "material": "KS B 0801 · ISO 6892",
+    "summary": "인장·압축·굽힘을 하나의 장비로 시험하는 UTM.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>인장·압축·굽힘을 하나의 장비로 시험하는 UTM.</p><p>대응 규격·사양: KS B 0801 · ISO 6892 · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
     "order": 12,
-    "status": "published",
-    "updatedAt": "2026-05-20T00:00:00.000Z"
+    "createdAt": "2026-06-13T03:00:00.000Z",
+    "updatedAt": "2026-06-13T03:00:00.000Z",
+    "images": [
+      "images/test-metal.jpg"
+    ],
+    "thumbs": [
+      "images/test-metal.jpg"
+    ]
   },
   {
-    "id": "p1000000000001",
-    "summary": "생체 적합 소재로 가공한 의료기기용 정밀 커넥터. 추적성 관리로 신뢰성을 보증합니다.",
-    "createdAt": "2026-05-10T00:00:00.000Z",
-    "images": [],
-    "process": "정밀 가공·전수 검사",
-    "material": "SUS316L",
-    "industry": "의료기기",
-    "body": "의료기기에 적용되는 정밀 커넥터입니다.\n\n생체 적합 소재(SUS316L)를 사용했으며, 로트 단위 추적성 관리와 전수 검사로 신뢰성을 확보합니다.\n\nISO 9001 품질 시스템 하에서 생산됩니다.",
-    "category": "의료기기",
-    "title": "의료용 정밀 커넥터",
-    "order": 13,
+    "id": "kv013",
+    "title": "만능재료시험기 UTM 300kN",
+    "category": "금속·재료",
+    "industry": "",
+    "material": "ASTM E8 · Class 0.5",
+    "summary": "중대형 시편의 인장·압축 시험용 UTM.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>중대형 시편의 인장·압축 시험용 UTM.</p><p>대응 규격·사양: ASTM E8 · Class 0.5 · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
     "status": "published",
-    "updatedAt": "2026-05-10T00:00:00.000Z"
+    "order": 13,
+    "createdAt": "2026-06-14T04:00:00.000Z",
+    "updatedAt": "2026-06-14T04:00:00.000Z",
+    "images": [
+      "images/test-measure.jpg"
+    ],
+    "thumbs": [
+      "images/test-measure.jpg"
+    ]
+  },
+  {
+    "id": "kv014",
+    "title": "만능재료시험기 UTM 600kN",
+    "category": "금속·재료",
+    "industry": "",
+    "material": "고하중 · 유압식",
+    "summary": "고하중 금속 시편의 강도 시험용 유압식 UTM.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>고하중 금속 시편의 강도 시험용 유압식 UTM.</p><p>대응 규격·사양: 고하중 · 유압식 · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 14,
+    "createdAt": "2026-06-15T05:00:00.000Z",
+    "updatedAt": "2026-06-15T05:00:00.000Z",
+    "images": [
+      "images/test-hero.jpg"
+    ],
+    "thumbs": [
+      "images/test-hero.jpg"
+    ]
+  },
+  {
+    "id": "kv015",
+    "title": "유압식 인장 시험기",
+    "category": "금속·재료",
+    "industry": "",
+    "material": "인장 · 항복강도",
+    "summary": "금속의 인장·항복·연신율을 측정하는 시험기.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>금속의 인장·항복·연신율을 측정하는 시험기.</p><p>대응 규격·사양: 인장 · 항복강도 · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 15,
+    "createdAt": "2026-06-16T06:00:00.000Z",
+    "updatedAt": "2026-06-16T06:00:00.000Z",
+    "images": [
+      "images/test-metal.jpg"
+    ],
+    "thumbs": [
+      "images/test-metal.jpg"
+    ]
+  },
+  {
+    "id": "kv016",
+    "title": "압축 강도 시험기",
+    "category": "금속·재료",
+    "industry": "",
+    "material": "압축 · 좌굴",
+    "summary": "재료의 압축 강도와 좌굴 거동을 평가.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>재료의 압축 강도와 좌굴 거동을 평가.</p><p>대응 규격·사양: 압축 · 좌굴 · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 16,
+    "createdAt": "2026-06-17T07:00:00.000Z",
+    "updatedAt": "2026-06-17T07:00:00.000Z",
+    "images": [
+      "images/test-measure.jpg"
+    ],
+    "thumbs": [
+      "images/test-measure.jpg"
+    ]
+  },
+  {
+    "id": "kv017",
+    "title": "굽힘 시험기",
+    "category": "금속·재료",
+    "industry": "",
+    "material": "3점·4점 굽힘",
+    "summary": "3점·4점 굽힘으로 재료의 굽힘 특성을 시험.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>3점·4점 굽힘으로 재료의 굽힘 특성을 시험.</p><p>대응 규격·사양: 3점·4점 굽힘 · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 17,
+    "createdAt": "2026-06-18T08:00:00.000Z",
+    "updatedAt": "2026-06-18T08:00:00.000Z",
+    "images": [
+      "images/test-hero.jpg"
+    ],
+    "thumbs": [
+      "images/test-hero.jpg"
+    ]
+  },
+  {
+    "id": "kv018",
+    "title": "브리넬 경도 시험기",
+    "category": "금속·재료",
+    "industry": "",
+    "material": "KS B 0805 · HB",
+    "summary": "압입 자국 지름으로 브리넬 경도를 측정.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>압입 자국 지름으로 브리넬 경도를 측정.</p><p>대응 규격·사양: KS B 0805 · HB · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 18,
+    "createdAt": "2026-06-19T00:00:00.000Z",
+    "updatedAt": "2026-06-19T00:00:00.000Z",
+    "images": [
+      "images/test-metal.jpg"
+    ],
+    "thumbs": [
+      "images/test-metal.jpg"
+    ]
+  },
+  {
+    "id": "kv019",
+    "title": "로크웰 경도 시험기",
+    "category": "금속·재료",
+    "industry": "",
+    "material": "ISO 6508 · HRC",
+    "summary": "압입 깊이로 로크웰 경도를 신속 측정.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>압입 깊이로 로크웰 경도를 신속 측정.</p><p>대응 규격·사양: ISO 6508 · HRC · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 19,
+    "createdAt": "2026-06-20T01:00:00.000Z",
+    "updatedAt": "2026-06-20T01:00:00.000Z",
+    "images": [
+      "images/test-measure.jpg"
+    ],
+    "thumbs": [
+      "images/test-measure.jpg"
+    ]
+  },
+  {
+    "id": "kv020",
+    "title": "비커스 경도 시험기",
+    "category": "금속·재료",
+    "industry": "",
+    "material": "ISO 6507 · HV",
+    "summary": "미소 압입으로 비커스 경도를 정밀 측정.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>미소 압입으로 비커스 경도를 정밀 측정.</p><p>대응 규격·사양: ISO 6507 · HV · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 20,
+    "createdAt": "2026-06-21T02:00:00.000Z",
+    "updatedAt": "2026-06-21T02:00:00.000Z",
+    "images": [
+      "images/test-hero.jpg"
+    ],
+    "thumbs": [
+      "images/test-hero.jpg"
+    ]
+  },
+  {
+    "id": "kv021",
+    "title": "샤르피 충격 시험기",
+    "category": "금속·재료",
+    "industry": "",
+    "material": "KS B 0810 · 충격",
+    "summary": "노치 시편의 충격 흡수 에너지를 측정.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>노치 시편의 충격 흡수 에너지를 측정.</p><p>대응 규격·사양: KS B 0810 · 충격 · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 21,
+    "createdAt": "2026-06-22T03:00:00.000Z",
+    "updatedAt": "2026-06-22T03:00:00.000Z",
+    "images": [
+      "images/test-metal.jpg"
+    ],
+    "thumbs": [
+      "images/test-metal.jpg"
+    ]
+  },
+  {
+    "id": "kv022",
+    "title": "에릭센 컵핑 시험기",
+    "category": "금속·재료",
+    "industry": "",
+    "material": "성형성 · 컵핑",
+    "summary": "박판의 성형성을 컵핑으로 평가.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>박판의 성형성을 컵핑으로 평가.</p><p>대응 규격·사양: 성형성 · 컵핑 · 분야: 금속·재료</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 22,
+    "createdAt": "2026-06-23T04:00:00.000Z",
+    "updatedAt": "2026-06-23T04:00:00.000Z",
+    "images": [
+      "images/test-measure.jpg"
+    ],
+    "thumbs": [
+      "images/test-measure.jpg"
+    ]
+  },
+  {
+    "id": "kv023",
+    "title": "반복하중 피로 시험기",
+    "category": "내구·피로",
+    "industry": "",
+    "material": "S-N · 10⁶ 사이클",
+    "summary": "반복 하중으로 부품의 피로 수명을 평가.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>반복 하중으로 부품의 피로 수명을 평가.</p><p>대응 규격·사양: S-N · 10⁶ 사이클 · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 23,
+    "createdAt": "2026-06-24T05:00:00.000Z",
+    "updatedAt": "2026-06-24T05:00:00.000Z",
+    "images": [
+      "images/test-press.jpg"
+    ],
+    "thumbs": [
+      "images/test-press.jpg"
+    ]
+  },
+  {
+    "id": "kv024",
+    "title": "굽힘 피로 시험기",
+    "category": "내구·피로",
+    "industry": "",
+    "material": "굽힘 · 반복",
+    "summary": "반복 굽힘으로 재료·부품의 피로를 시험.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>반복 굽힘으로 재료·부품의 피로를 시험.</p><p>대응 규격·사양: 굽힘 · 반복 · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 24,
+    "createdAt": "2026-06-25T06:00:00.000Z",
+    "updatedAt": "2026-06-25T06:00:00.000Z",
+    "images": [
+      "images/test-lab.jpg"
+    ],
+    "thumbs": [
+      "images/test-lab.jpg"
+    ]
+  },
+  {
+    "id": "kv025",
+    "title": "진동 내구 시험기",
+    "category": "내구·피로",
+    "industry": "",
+    "material": "진동 · 환경결합",
+    "summary": "진동 조건에서 부품의 내구성을 검증.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>진동 조건에서 부품의 내구성을 검증.</p><p>대응 규격·사양: 진동 · 환경결합 · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 25,
+    "createdAt": "2026-06-26T07:00:00.000Z",
+    "updatedAt": "2026-06-26T07:00:00.000Z",
+    "images": [
+      "images/test-hero.jpg"
+    ],
+    "thumbs": [
+      "images/test-hero.jpg"
+    ]
+  },
+  {
+    "id": "kv026",
+    "title": "버튼 수명 시험기",
+    "category": "내구·피로",
+    "industry": "",
+    "material": "누름 · 사이클",
+    "summary": "버튼·키의 누름 반복 수명을 시험.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>버튼·키의 누름 반복 수명을 시험.</p><p>대응 규격·사양: 누름 · 사이클 · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 26,
+    "createdAt": "2026-06-27T08:00:00.000Z",
+    "updatedAt": "2026-06-27T08:00:00.000Z",
+    "images": [
+      "images/test-press.jpg"
+    ],
+    "thumbs": [
+      "images/test-press.jpg"
+    ]
+  },
+  {
+    "id": "kv027",
+    "title": "커넥터 삽발 수명 시험기",
+    "category": "내구·피로",
+    "industry": "",
+    "material": "삽입·발거 · 수명",
+    "summary": "커넥터 삽입·발거 반복 수명을 검증.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>커넥터 삽입·발거 반복 수명을 검증.</p><p>대응 규격·사양: 삽입·발거 · 수명 · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 27,
+    "createdAt": "2026-06-01T00:00:00.000Z",
+    "updatedAt": "2026-06-01T00:00:00.000Z",
+    "images": [
+      "images/test-lab.jpg"
+    ],
+    "thumbs": [
+      "images/test-lab.jpg"
+    ]
+  },
+  {
+    "id": "kv028",
+    "title": "힌지 개폐 수명 시험기",
+    "category": "내구·피로",
+    "industry": "",
+    "material": "개폐 · 사이클",
+    "summary": "힌지의 개폐 반복 수명을 사이클로 시험.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>힌지의 개폐 반복 수명을 사이클로 시험.</p><p>대응 규격·사양: 개폐 · 사이클 · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 28,
+    "createdAt": "2026-06-02T01:00:00.000Z",
+    "updatedAt": "2026-06-02T01:00:00.000Z",
+    "images": [
+      "images/test-hero.jpg"
+    ],
+    "thumbs": [
+      "images/test-hero.jpg"
+    ]
+  },
+  {
+    "id": "kv029",
+    "title": "스위치 반복 시험기",
+    "category": "내구·피로",
+    "industry": "",
+    "material": "동작 · 수명",
+    "summary": "스위치 반복 동작 수명을 평가.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>스위치 반복 동작 수명을 평가.</p><p>대응 규격·사양: 동작 · 수명 · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 29,
+    "createdAt": "2026-06-03T02:00:00.000Z",
+    "updatedAt": "2026-06-03T02:00:00.000Z",
+    "images": [
+      "images/test-press.jpg"
+    ],
+    "thumbs": [
+      "images/test-press.jpg"
+    ]
+  },
+  {
+    "id": "kv030",
+    "title": "케이블 굴곡 시험기",
+    "category": "내구·피로",
+    "industry": "",
+    "material": "굴곡 · 단선",
+    "summary": "케이블의 반복 굴곡 내구와 단선을 시험.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>케이블의 반복 굴곡 내구와 단선을 시험.</p><p>대응 규격·사양: 굴곡 · 단선 · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 30,
+    "createdAt": "2026-06-04T03:00:00.000Z",
+    "updatedAt": "2026-06-04T03:00:00.000Z",
+    "images": [
+      "images/test-lab.jpg"
+    ],
+    "thumbs": [
+      "images/test-lab.jpg"
+    ]
+  },
+  {
+    "id": "kv031",
+    "title": "회전 굽힘 피로 시험기",
+    "category": "내구·피로",
+    "industry": "",
+    "material": "회전굽힘 · S-N",
+    "summary": "회전 굽힘으로 축·봉재의 피로를 평가.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>회전 굽힘으로 축·봉재의 피로를 평가.</p><p>대응 규격·사양: 회전굽힘 · S-N · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 31,
+    "createdAt": "2026-06-05T04:00:00.000Z",
+    "updatedAt": "2026-06-05T04:00:00.000Z",
+    "images": [
+      "images/test-hero.jpg"
+    ],
+    "thumbs": [
+      "images/test-hero.jpg"
+    ]
+  },
+  {
+    "id": "kv032",
+    "title": "열충격 내구 시험기",
+    "category": "내구·피로",
+    "industry": "",
+    "material": "온도 · 반복",
+    "summary": "급격한 온도 변화로 내구성을 검증.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>급격한 온도 변화로 내구성을 검증.</p><p>대응 규격·사양: 온도 · 반복 · 분야: 내구·피로</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 32,
+    "createdAt": "2026-06-06T05:00:00.000Z",
+    "updatedAt": "2026-06-06T05:00:00.000Z",
+    "images": [
+      "images/test-press.jpg"
+    ],
+    "thumbs": [
+      "images/test-press.jpg"
+    ]
+  },
+  {
+    "id": "kv033",
+    "title": "맞춤형 지그 시험 장비",
+    "category": "맞춤 시험",
+    "industry": "",
+    "material": "전용 지그 · 규격",
+    "summary": "시편에 맞춘 전용 지그로 규격을 재현.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>시편에 맞춘 전용 지그로 규격을 재현.</p><p>대응 규격·사양: 전용 지그 · 규격 · 분야: 맞춤 시험</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 33,
+    "createdAt": "2026-06-07T06:00:00.000Z",
+    "updatedAt": "2026-06-07T06:00:00.000Z",
+    "images": [
+      "images/test-custom.jpg"
+    ],
+    "thumbs": [
+      "images/test-custom.jpg"
+    ]
+  },
+  {
+    "id": "kv034",
+    "title": "다채널 동시 시험 장비",
+    "category": "맞춤 시험",
+    "industry": "",
+    "material": "다채널 · 동시시험",
+    "summary": "여러 시편을 동시에 시험하는 다채널 장비.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>여러 시편을 동시에 시험하는 다채널 장비.</p><p>대응 규격·사양: 다채널 · 동시시험 · 분야: 맞춤 시험</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 34,
+    "createdAt": "2026-06-08T07:00:00.000Z",
+    "updatedAt": "2026-06-08T07:00:00.000Z",
+    "images": [
+      "images/test-design.jpg"
+    ],
+    "thumbs": [
+      "images/test-design.jpg"
+    ]
+  },
+  {
+    "id": "kv035",
+    "title": "환경 결합 복합 시험 장비",
+    "category": "맞춤 시험",
+    "industry": "",
+    "material": "온도·진동 결합",
+    "summary": "온도·진동 등 환경을 결합한 복합 시험 장비.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>온도·진동 등 환경을 결합한 복합 시험 장비.</p><p>대응 규격·사양: 온도·진동 결합 · 분야: 맞춤 시험</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 35,
+    "createdAt": "2026-06-09T08:00:00.000Z",
+    "updatedAt": "2026-06-09T08:00:00.000Z",
+    "images": [
+      "images/test-hero.jpg"
+    ],
+    "thumbs": [
+      "images/test-hero.jpg"
+    ]
+  },
+  {
+    "id": "kv036",
+    "title": "특수 하중 시험 장비",
+    "category": "맞춤 시험",
+    "industry": "",
+    "material": "맞춤 하중 · 행정",
+    "summary": "요구 하중·행정에 맞춘 특수 시험 장비.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>요구 하중·행정에 맞춘 특수 시험 장비.</p><p>대응 규격·사양: 맞춤 하중 · 행정 · 분야: 맞춤 시험</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 36,
+    "createdAt": "2026-06-10T00:00:00.000Z",
+    "updatedAt": "2026-06-10T00:00:00.000Z",
+    "images": [
+      "images/test-custom.jpg"
+    ],
+    "thumbs": [
+      "images/test-custom.jpg"
+    ]
+  },
+  {
+    "id": "kv037",
+    "title": "자동 반복 시험 시스템",
+    "category": "맞춤 시험",
+    "industry": "",
+    "material": "무인 · 자동화",
+    "summary": "무인 자동 반복 시험이 가능한 시스템.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>무인 자동 반복 시험이 가능한 시스템.</p><p>대응 규격·사양: 무인 · 자동화 · 분야: 맞춤 시험</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 37,
+    "createdAt": "2026-06-11T01:00:00.000Z",
+    "updatedAt": "2026-06-11T01:00:00.000Z",
+    "images": [
+      "images/test-design.jpg"
+    ],
+    "thumbs": [
+      "images/test-design.jpg"
+    ]
+  },
+  {
+    "id": "kv038",
+    "title": "제품 전용 내구 시험기",
+    "category": "맞춤 시험",
+    "industry": "",
+    "material": "제품맞춤 · 내구",
+    "summary": "고객 제품에 특화된 전용 내구 시험기.",
+    "process": "시험기 설계·제작 / 설치·교정",
+    "body": "<p>고객 제품에 특화된 전용 내구 시험기.</p><p>대응 규격·사양: 제품맞춤 · 내구 · 분야: 맞춤 시험</p><p>하중 정밀도 ±0.5%, 교정 성적서와 시험 데이터 리포트를 제공합니다. 표준 사양부터 전용 지그·특수 사양까지 대응합니다.</p>",
+    "status": "published",
+    "order": 38,
+    "createdAt": "2026-06-12T02:00:00.000Z",
+    "updatedAt": "2026-06-12T02:00:00.000Z",
+    "images": [
+      "images/test-hero.jpg"
+    ],
+    "thumbs": [
+      "images/test-hero.jpg"
+    ]
   }
 ]

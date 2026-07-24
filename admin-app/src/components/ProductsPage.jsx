@@ -2,21 +2,40 @@ import { useCallback, useEffect, useState } from 'react';
 import { adminApi } from '../api/client.js';
 import ProductForm from './ProductForm.jsx';
 import ProductList from './ProductList.jsx';
-import CategoryManager from './CategoryManager.jsx';
+
+const DEFAULT_CATS = ['가구 내구성', '금속·재료', '내구·피로', '맞춤 시험'];
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState(DEFAULT_CATS);
   const [editId, setEditId] = useState(null);
   const [editInitial, setEditInitial] = useState(null);
   const [formKey, setFormKey] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
-    const [prods, cats] = await Promise.all([adminApi.products(), adminApi.categories()]);
+    const prods = await adminApi.products();
     setProducts(Array.isArray(prods) ? prods : []);
-    setCategories(Array.isArray(cats) ? cats : []);
+    // 카테고리 옵션 = 관리 카테고리(Firestore settings) + 실제 제품에 쓰인 분류
+    try {
+      const managed = await adminApi.categories();
+      const used = (Array.isArray(prods) ? prods : [])
+        .map((p) => (p.category || '').trim())
+        .filter(Boolean);
+      const merged = Array.from(new Set([...(Array.isArray(managed) ? managed : []), ...used]));
+      setCategories(merged.length ? merged : DEFAULT_CATS);
+    } catch {
+      setCategories(DEFAULT_CATS);
+    }
     setLoading(false);
+  }, []);
+
+  // 새 분류를 Firestore(settings/categories)에 영속화
+  const handleAddCategory = useCallback(async (name) => {
+    const n = (name || '').trim();
+    if (!n) return;
+    setCategories((prev) => (prev.includes(n) ? prev : [...prev, n]));
+    try { await adminApi.addCategory(n); } catch { /* 목록엔 이미 반영, 저장 실패는 무시 */ }
   }, []);
 
   useEffect(() => {
@@ -29,11 +48,13 @@ export default function ProductsPage() {
       setEditId(p.id);
       setEditInitial({
         title: p.title || '',
+        model: p.model || '',
         category: p.category || '',
         status: p.status === 'draft' ? 'draft' : 'published',
         industry: p.industry || '',
         material: p.material || '',
         process: p.process || '',
+        specs: Array.isArray(p.specs) ? p.specs : [],
         summary: p.summary || '',
         body: p.body || '',
         seoTitle: p.seoTitle || '',
@@ -95,12 +116,12 @@ export default function ProductsPage() {
       <ProductForm
         key={formKey}
         categories={categories}
+        onAddCategory={handleAddCategory}
         editId={editId}
         initial={editInitial}
         onSaved={handleSaved}
         onCancel={handleCancel}
       />
-      <CategoryManager categories={categories} onChange={setCategories} />
       <ProductList
         items={products}
         onEdit={handleEdit}

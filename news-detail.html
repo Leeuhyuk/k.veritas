@@ -4,12 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>공지 — k.veritas</title>
+  <meta name="description" content="k.veritas 공지사항 — 새로운 소식과 공지를 전해 드립니다." />
+  <link rel="canonical" href="https://leeuhyuk.github.io/k.veritas/news-detail.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="k.veritas" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:url" content="https://leeuhyuk.github.io/k.veritas/news-detail.html" />
+  <meta property="og:title" content="공지 — k.veritas" />
+  <meta property="og:description" content="k.veritas 공지사항 — 새로운 소식과 공지를 전해 드립니다." />
+  <meta property="og:image" content="https://leeuhyuk.github.io/k.veritas/images/test-hero.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="공지 — k.veritas" />
+  <meta name="twitter:description" content="k.veritas 공지사항 — 새로운 소식과 공지를 전해 드립니다." />
+  <meta name="twitter:image" content="https://leeuhyuk.github.io/k.veritas/images/test-hero.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20260720d" />
+  <script>document.documentElement.classList.add("reveal-on");setTimeout(function(){window.__revealInit||document.documentElement.classList.add("reveal-off")},3000);</script>
 </head>
-<body>
+<body class="site-hp">
   <div id="site-nav"></div>
 
   <main>
@@ -19,8 +33,8 @@
   </main>
 
   <div id="site-footer"></div>
-  <script src="site-base.js"></script>
-  <script src="site.js"></script>
+  <script src="site-base.js?v=20260720a"></script>
+  <script src="site.js?v=20260720d"></script>
   <script src="sanitize-html.js"></script>
   <script src="detail-lightbox.js"></script>
   <script>
@@ -44,7 +58,20 @@
       const id = new URLSearchParams(location.search).get('id');
       if (!id) { root.innerHTML = '<p class="empty-note">잘못된 접근입니다.</p>'; return; }
 
-      fetch('/api/news/' + encodeURIComponent(id)).then((r) => { if (!r.ok) throw new Error(); return r.json(); }).then((n) => {
+      // Firebase(Firestore) 단일 소스 — 관리자 발행 인덱스(pages/news-index)에서 조회
+      const NEWS_INDEX = 'https://firestore.googleapis.com/v1/projects/production-management-e70fd/databases/(default)/documents/pages/news-index';
+      const fetchNews = () => fetch(NEWS_INDEX, { cache: 'no-store' })
+        .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+        .then((doc) => {
+          const s = doc && doc.fields && doc.fields.json && doc.fields.json.stringValue;
+          if (!s) throw new Error();
+          const arr = JSON.parse(s);
+          const found = (Array.isArray(arr) ? arr : []).filter(Boolean).find((x) => String(x.id) === String(id));
+          if (!found) throw new Error();
+          return found;
+        });
+
+      fetchNews().then((n) => {
         document.title = (n.seoTitle || n.title) + ' — k.veritas';
         const plain = (n.body || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 120);
         upsertMeta('meta[name="description"]', 'name', 'description', n.seoDescription || plain);
@@ -61,14 +88,6 @@
             ).join('')}</div>`
           : '';
         root.innerHTML = `
-          <a class="detail__back" href="news.html">
-            <span class="detail__back-icon" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            공지 목록으로
-          </a>
           ${n.isPopup ? '<div class="detail__tags"><span class="tag">팝업 공지</span></div>' : ''}
           <p class="detail__date">${fmt(n.createdAt)}</p>
           <h1 class="detail__title">${esc(n.title)}</h1>

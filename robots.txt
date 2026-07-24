@@ -1,7 +1,11 @@
 User-agent: *
 Allow: /
+Disallow: /admin
 Disallow: /admin.html
 Disallow: /admin-news.html
+Disallow: /admin-resources.html
 Disallow: /admin-inquiries.html
+Disallow: /admin-pages.html
+Disallow: /admin-settings.html
 
-Sitemap: http://localhost:3000/sitemap.xml
+Sitemap: https://leeuhyuk.github.io/k.veritas/sitemap.xml

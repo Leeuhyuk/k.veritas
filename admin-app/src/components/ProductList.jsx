@@ -15,15 +15,6 @@ export default function ProductList({ items, onEdit, onDelete, onReorder }) {
   const start = (safePage - 1) * PAGE_SIZE;
   const slice = items.slice(start, start + PAGE_SIZE);
 
-  function move(id, dir) {
-    const i = items.findIndex((p) => p.id === id);
-    const j = dir === 'up' ? i - 1 : i + 1;
-    if (i < 0 || j < 0 || j >= items.length) return;
-    const next = items.slice();
-    [next[i], next[j]] = [next[j], next[i]];
-    onReorder(next.map((p) => p.id));
-  }
-
   function onDragStart(e, id) {
     setDragId(id);
     e.dataTransfer.effectAllowed = 'move';
@@ -79,12 +70,6 @@ export default function ProductList({ items, onEdit, onDelete, onReorder }) {
       <div className="admin-list__rows">
         {slice.map((p, idx) => {
           const published = p.status !== 'draft';
-          const category = text(p.category) || '미분류';
-          const industry = text(p.industry);
-          const material = text(p.material);
-          const process = text(p.process);
-          const summary = text(p.summary);
-          const imgCount = p.images ? p.images.length : 0;
           const thumb =
             p.images && p.images[0] ? (
               <img className="admin-list__thumb" src={p.images[0]} alt="" />
@@ -119,54 +104,9 @@ export default function ProductList({ items, onEdit, onDelete, onReorder }) {
                     {published ? '게시' : '비공개'}
                   </span>
                 </div>
-
-                {summary ? <p className="admin-list__summary">{summary}</p> : null}
-
-                <div className="admin-list__meta">
-                  <span className="admin-list__chip admin-list__chip--cat" title="카테고리">
-                    {category}
-                  </span>
-                  {industry ? (
-                    <span className="admin-list__chip" title="산업군">
-                      <em>산업</em>
-                      {industry}
-                    </span>
-                  ) : null}
-                  {material ? (
-                    <span className="admin-list__chip" title="소재">
-                      <em>소재</em>
-                      {material}
-                    </span>
-                  ) : null}
-                  {process ? (
-                    <span className="admin-list__chip" title="공정">
-                      <em>공정</em>
-                      {process}
-                    </span>
-                  ) : null}
-                  <span className="admin-list__chip admin-list__chip--muted" title="이미지 수">
-                    이미지 {imgCount}장
-                  </span>
-                </div>
               </div>
 
               <div className="admin-list__actions">
-                <button
-                  type="button"
-                  className="btn btn--ghost btn--sm"
-                  title="위로"
-                  onClick={() => move(p.id, 'up')}
-                >
-                  ▲
-                </button>
-                <button
-                  type="button"
-                  className="btn btn--ghost btn--sm"
-                  title="아래로"
-                  onClick={() => move(p.id, 'down')}
-                >
-                  ▼
-                </button>
                 <button type="button" className="btn btn--ghost btn--sm" onClick={() => onEdit(p.id)}>
                   수정
                 </button>

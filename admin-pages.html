@@ -7,13 +7,13 @@
   <meta name="robots" content="noindex" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fragment+Mono&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fragment+Mono&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20260720d" />
   <link rel="stylesheet" href="admin-pages.css" />
   <link rel="stylesheet" href="rte-float-table.css" />
   <link rel="stylesheet" href="file-dropzone.css" />
 </head>
-<body class="admin-pages">
+<body class="admin-pages admin-hp">
   <div class="admin-shell">
     <header class="admin-app-nav">
       <div class="admin-app-nav__left">
@@ -76,10 +76,33 @@
         </div>
 
         <div class="pages-toolbar-row">
-          <p class="admin__msg pages-hint" id="hint">글상자를 클릭하면 위에 서식 도구가 나타납니다.</p>
-          <a class="btn btn--ghost btn--sm pages-preview-link" id="preview-link" href="#" target="_blank" rel="noreferrer">미리보기 ↗</a>
+          <p class="admin__msg pages-hint" id="hint">글자를 클릭하면 바로 수정할 수 있고, 사진을 클릭하면 교체·삭제할 수 있습니다.</p>
+          <a class="btn btn--ghost btn--sm pages-preview-link" id="preview-link" href="#" target="_blank" rel="noreferrer">새 창으로 보기 ↗</a>
         </div>
-        <div id="fields"></div>
+        <div class="wysiwyg" id="wysiwyg">
+          <iframe id="live-editor" title="페이지 편집"></iframe>
+          <div class="wysiwyg__loading" id="wysiwyg-loading">불러오는 중…</div>
+        </div>
+        <div id="global-box" class="seo-box">
+          <details class="seo-details">
+            <summary>사이트 공통 설정 (모든 페이지 일괄 적용)</summary>
+            <div class="seo-details__body">
+              <div class="form__row">
+                <label>상단 배경 이미지 투명도</label>
+                <div class="opacity-ctrl">
+                  <input type="range" id="subhero-opacity" min="0" max="100" step="1" value="15" />
+                  <input type="number" id="subhero-opacity-num" min="0" max="100" step="1" value="15" />
+                  <span class="opacity-ctrl__unit">%</span>
+                  <button type="button" class="btn btn--primary btn--sm" id="save-global-btn">전 페이지에 적용</button>
+                </div>
+                <p class="seo-help">인증·특허 등 상단 배경 이미지가 있는 모든 페이지에 동일하게 적용됩니다. 값이 클수록 이미지가 진하게 보입니다.</p>
+                <span class="admin__msg" id="global-msg"></span>
+              </div>
+            </div>
+          </details>
+        </div>
+        <div id="seo-box" class="seo-box"></div>
+        <div id="fields" hidden></div>
 
         <div class="pages-save-bar">
           <button type="button" class="btn btn--primary" id="save-btn">저장하기</button>
@@ -155,13 +178,13 @@
     </div>
   </div>
 
-  <script src="site-base.js"></script>
+  <script src="site-base.js?v=20260720a"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
   <script src="admin-pages-auth.js"></script>
-  <script src="cms.js"></script>
+  <script src="cms.js?v=20260720a"></script>
   <script src="rte-image.js"></script>
   <script src="table-editor.js"></script>
   <script>
@@ -174,15 +197,15 @@
         { file: 'index.html', label: '홈(메인)' },
         { file: 'about.html', label: '회사소개' },
         { file: 'certifications.html', label: '인증·특허' },
-        { file: 'facilities.html', label: '생산설비' },
+        { file: 'facilities.html', label: '시험·조립 설비' },
         { file: 'location.html', label: '오시는 길' },
-        { file: 'biz-machining.html', label: '사업영역 · 정밀 가공' },
-        { file: 'biz-mold.html', label: '사업영역 · 금형 제작' },
-        { file: 'biz-assembly.html', label: '사업영역 · 조립·검사' },
+        { file: 'biz-machining.html', label: '사업영역 · 시험기 설계·제작' },
+        { file: 'biz-mold.html', label: '사업영역 · 시험 규격 대응' },
+        { file: 'biz-assembly.html', label: '사업영역 · 설치·교정·지원' },
         { file: 'products.html', label: '제품소개' },
-        { file: 'product-parts.html', label: '제품 · 정밀 가공 부품' },
-        { file: 'product-mold.html', label: '제품 · 정밀 금형' },
-        { file: 'product-module.html', label: '제품 · 조립 모듈' },
+        { file: 'product-parts.html', label: '제품 · 가구 내구성 시험기' },
+        { file: 'product-mold.html', label: '제품 · 금속·재료 시험기' },
+        { file: 'product-module.html', label: '제품 · 내구성·피로 시험기' },
         { file: 'support.html', label: '고객지원(FAQ/채널)' },
       ];
 
@@ -541,6 +564,57 @@
           selectPage(tab.dataset.page);
         };
         selectPage(PAGES[0].file);
+        wireGlobalSettings();
+      }
+
+      // 사이트 공통(일괄) 설정 — 상단 배경 투명도 등
+      let globalSettings = {};
+      function subheroLivePreview(frac) {
+        const doc = $('live-editor').contentDocument;
+        if (doc && doc.body) doc.body.style.setProperty('--subhero-bg-opacity', String(frac));
+      }
+      function currentOpacityFrac() {
+        const range = $('subhero-opacity');
+        const pct = range ? (parseInt(range.value, 10) || 0) : 15;
+        return Math.max(0, Math.min(100, pct)) / 100;
+      }
+      function wireGlobalSettings() {
+        const range = $('subhero-opacity');
+        const num = $('subhero-opacity-num');
+        const msg = $('global-msg');
+        if (!range || range._wired) return;
+        range._wired = true;
+        Auth.getContent('site-settings').then((g) => {
+          globalSettings = g || {};
+          let pct = 15;
+          const raw = globalSettings.__subheroBgOpacity;
+          if (raw != null && raw !== '') {
+            let v = parseFloat(raw);
+            if (!isNaN(v)) { if (v <= 1) v = v * 100; pct = Math.round(v); }
+          }
+          pct = Math.max(0, Math.min(100, pct));
+          range.value = String(pct); num.value = String(pct);
+          subheroLivePreview(pct / 100);
+        }).catch(() => {});
+        const sync = (val) => {
+          const pct = Math.max(0, Math.min(100, parseInt(val, 10) || 0));
+          range.value = String(pct); num.value = String(pct);
+          subheroLivePreview(pct / 100);
+        };
+        range.addEventListener('input', () => sync(range.value));
+        num.addEventListener('input', () => sync(num.value));
+        $('save-global-btn').addEventListener('click', () => {
+          const pct = Math.max(0, Math.min(100, parseInt(range.value, 10) || 0));
+          const content = Object.assign({}, globalSettings, { __subheroBgOpacity: pct / 100 });
+          msg.textContent = '저장 중…';
+          Auth.saveContent('site-settings', content).then(() => {
+            globalSettings = content;
+            msg.textContent = Auth.isStaticHost()
+              ? '모든 페이지에 적용되었습니다.'
+              : '저장되었습니다. (페이지 새로고침 시 반영)';
+            setTimeout(() => (msg.textContent = ''), 4000);
+          }).catch((err) => { msg.textContent = (err && err.message) || '저장에 실패했습니다.'; });
+        });
       }
 
       let currentPage = null;
@@ -598,7 +672,7 @@
       function sectionTitle(section, index) {
         if (!section) return '기타 편집 항목';
         const kind = sectionKind(section);
-        const label = ownText(section, ['.subhero__title', '.hero__headline', '.section-title', '.cta__title', '.microlabel']);
+        const label = ownText(section, ['.subhero__title', '.hero__headline', '.pdp-sec__title', '.pdp-toolbar__title', '.section-title', '.cta__title', '.microlabel']);
         const badge = (KIND_META[kind] || KIND_META.stack).badge;
         return label || `${badge} 영역`;
       }
@@ -607,8 +681,8 @@
         let cls = 'cms-field';
         if (f.type === 'image') cls += ' cms-field--image';
         if (f.key === 'trust_label') cls += ' cms-field--wide cms-field--role-label';
-        if (el.matches('.hero__headline, .subhero__title, .section-title, .cta__title')) cls += ' cms-field--wide cms-field--title cms-field--role-title';
-        else if (el.matches('.hero__sub, .subhero__sub, .split__body, .cta__sub, .faq__answer, .prose p')) cls += ' cms-field--wide cms-field--role-body';
+        if (el.matches('.hero__headline, .subhero__title, .section-title, .cta__title, .pdp-toolbar__title, .pdp-sec__title')) cls += ' cms-field--wide cms-field--title cms-field--role-title';
+        else if (el.matches('.hero__sub, .subhero__sub, .split__body, .cta__sub, .faq__answer, .prose p, .pdp-sec__lead')) cls += ' cms-field--wide cms-field--role-body';
         else if (el.matches('.microlabel, .stat strong, .stat span, .tl-row .tl-year')) cls += ' cms-field--compact cms-field--role-meta';
         else if (el.matches('.card__title, .channel__title')) cls += ' cms-field--role-title';
         else if (el.matches('.card__body, .channel__detail')) cls += ' cms-field--role-body';
@@ -617,8 +691,8 @@
       function fieldRoleBadge(f) {
         const el = f.el;
         if (f.type === 'image') return '이미지';
-        if (el.matches('.hero__headline, .subhero__title, .section-title, .cta__title, .card__title, .channel__title')) return '제목';
-        if (el.matches('.hero__sub, .subhero__sub, .split__body, .cta__sub, .card__body, .channel__detail, .faq__answer')) return '설명';
+        if (el.matches('.hero__headline, .subhero__title, .section-title, .cta__title, .card__title, .channel__title, .pdp-toolbar__title, .pdp-sec__title')) return '제목';
+        if (el.matches('.hero__sub, .subhero__sub, .split__body, .cta__sub, .card__body, .channel__detail, .faq__answer, .pdp-sec__lead')) return '설명';
         if (el.matches('.microlabel')) return '말머리';
         if (el.matches('.faq__item summary')) return '질문';
         if (el.matches('.tl-row .tl-year, .stat strong')) return '강조';
@@ -639,7 +713,7 @@
           const val = overrides[key] !== undefined ? overrides[key] : def;
           const hVal = overrides[key + '__h'] !== undefined ? overrides[key + '__h'] : '';
           return `<div class="cms-subfield cms-subfield--image" data-key="${esc(key)}" data-type="image">
-            <div class="cms-field__label"><span class="microlabel"><span class="cms-role">${esc(role)}</span> ${esc(label)}</span></div>
+            <div class="cms-field__label"><span class="microlabel"><span class="cms-role">${esc(role)}</span> ${esc(label)}</span><button type="button" class="btn btn--ghost btn--sm cms-img-remove"${val ? '' : ' hidden'}>사진 제거</button></div>
             <div class="cms-img file-drop" data-dropzone>
               <input type="file" accept="image/*" class="file-drop__input cms-file-input" />
               <div class="file-drop__icon" aria-hidden="true">
@@ -683,8 +757,9 @@
                 </div>
                 <p class="file-drop__label">공유할 때 보일 사진을 끌어다 놓으세요</p>
                 <p class="file-drop__sub">또는 클릭해서 선택</p>
-                <img class="cms-img__preview" src="${esc(overrides.__seoImage || '')}" alt="" onerror="this.style.display='none'" />
+                <img class="cms-img__preview" src="${esc(overrides.__seoImage || '')}" alt="" ${overrides.__seoImage ? '' : 'style="display:none"'} onerror="this.style.display='none'" />
                 <input type="hidden" class="seo-input" data-seo="__seoImage" value="${esc(overrides.__seoImage || '')}" />
+                <button type="button" class="btn btn--ghost btn--sm cms-img-remove"${overrides.__seoImage ? '' : ' hidden'}>사진 제거</button>
               </div>
             </div>
           </div>
@@ -698,7 +773,7 @@
           const val = overrides[key] !== undefined ? overrides[key] : def;
           const hVal = overrides[key + '__h'] !== undefined ? overrides[key + '__h'] : '';
           return `<div class="${fieldClass(f)}" data-key="${esc(key)}" data-type="image">
-            <div class="cms-field__label"><span class="microlabel"><span class="cms-role">${esc(role)}</span> ${esc(label)}</span></div>
+            <div class="cms-field__label"><span class="microlabel"><span class="cms-role">${esc(role)}</span> ${esc(label)}</span><button type="button" class="btn btn--ghost btn--sm cms-img-remove"${val ? '' : ' hidden'}>사진 제거</button></div>
             <div class="cms-img file-drop" data-dropzone>
               <input type="file" accept="image/*" class="file-drop__input cms-file-input" />
               <div class="file-drop__icon" aria-hidden="true">
@@ -706,7 +781,7 @@
               </div>
               <p class="file-drop__label">이미지를 끌어다 놓으세요</p>
               <p class="file-drop__sub">또는 클릭해서 탐색기에서 선택</p>
-              <img class="cms-img__preview" src="${esc(val)}" alt="" onerror="this.style.display='none'" />
+              <img class="cms-img__preview" src="${esc(val)}" alt="" ${val ? '' : 'style="display:none"'} onerror="this.style.display='none'" />
               <input type="hidden" class="cms-input" value="${esc(val)}" />
               <label class="cms-size-label">높이 <input type="number" class="cms-size" data-key="${esc(key)}__h" value="${esc(hVal)}" min="8" max="600" placeholder="자동" /> px</label>
             </div>
@@ -916,35 +991,383 @@
         </aside>`;
       }
 
+      // ===== WYSIWYG 인라인 편집기 =====
+      let currentOverrides = {};
+      let changedImages = {};
+      const imgFileInput = (function () {
+        const inp = document.createElement('input');
+        inp.type = 'file'; inp.accept = 'image/*'; inp.style.display = 'none';
+        document.body.appendChild(inp);
+        return inp;
+      })();
+
+      const EDIT_CSS = `
+        [data-cms], [data-cms-img]{ transition: outline-color .12s ease, box-shadow .12s ease; }
+        [data-cms]:hover{ outline:1px dashed #0096d6; outline-offset:3px; cursor:text; border-radius:2px; }
+        [data-cms][contenteditable]:focus{ outline:2px solid #0096d6; outline-offset:3px; }
+        [data-cms-img]{ cursor:pointer; }
+        [data-cms-img]:hover{ outline:2px solid #0096d6; outline-offset:2px; }
+        /* 비어 있는 이미지는 삽입할 수 있도록 점선 자리표시로 표시 */
+        [data-cms-img]:not([src]), [data-cms-img][src=""]{
+          display:block !important; min-height:120px; width:100%; box-sizing:border-box;
+          outline:2px dashed #0096d6; outline-offset:-2px; background:#eaf6fc !important;
+        }
+        /* 카드 선택 이미지 슬롯은 편집 화면에선 항상 보여 클릭 삽입 가능 */
+        .card__optimg{ display:block !important; margin-bottom:12px; }
+        [class*="reveal"]{ opacity:1 !important; transform:none !important; }
+        #kv-edit-bar{ position:fixed; z-index:2147483000; top:10px; left:50%; transform:translateX(-50%);
+          display:flex; gap:2px; padding:5px; background:#16181d; border-radius:8px;
+          box-shadow:0 8px 24px rgba(0,0,0,.28); font-family:'Noto Sans KR',sans-serif; }
+        #kv-edit-bar button{ min-width:30px; height:30px; padding:0 8px; border:0; border-radius:6px;
+          background:transparent; color:#fff; font-size:13px; cursor:pointer; line-height:1; }
+        #kv-edit-bar button:hover{ background:rgba(255,255,255,.16); }
+        #kv-edit-bar .sep{ width:1px; margin:3px 2px; background:rgba(255,255,255,.22); }
+        #kv-img-menu{ position:absolute; z-index:2147483001; display:flex; gap:4px; padding:6px;
+          background:#16181d; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.28);
+          font-family:'Noto Sans KR',sans-serif; }
+        #kv-img-menu button{ height:30px; padding:0 12px; border:0; border-radius:6px; background:#2b2f39;
+          color:#fff; font-size:12px; cursor:pointer; }
+        #kv-img-menu button.del{ background:#7a2b25; }
+        #kv-img-menu button:hover{ filter:brightness(1.15); }
+        .kv-add-btn{ display:inline-flex; align-items:center; gap:6px; margin:14px 0 4px; padding:9px 16px;
+          border:1px dashed #0096d6; border-radius:8px; background:#eaf6fc; color:#0067a0;
+          font-size:13px; font-weight:700; cursor:pointer; font-family:'Noto Sans KR',sans-serif; }
+        .kv-add-btn:hover{ background:#d9eefb; }
+        [data-cms-added]{ position:relative; outline:1px dashed rgba(0,150,214,.4); outline-offset:3px; }
+        .kv-item-del{ position:absolute; top:6px; right:6px; z-index:6; width:26px; height:26px;
+          border:0; border-radius:50%; background:#16181d; color:#fff; font-size:15px; line-height:1;
+          cursor:pointer; opacity:.9; }
+        .kv-item-del:hover{ opacity:1; background:#7a2b25; }
+        .kv-item-drag{ position:absolute; top:6px; left:6px; z-index:6; width:26px; height:26px;
+          border:0; border-radius:6px; background:#0096d6; color:#fff; font-size:14px; line-height:1;
+          cursor:grab; opacity:.85; padding:0; }
+        .kv-item-drag:hover{ opacity:1; background:#0079ad; }
+        .kv-item-drag:active{ cursor:grabbing; }
+        /* 표 행: 핸들을 셀 왼쪽 바깥 여백으로 이동 → 셀 내용 가리지 않음 */
+        .kv-item-drag--row{ top:50%; left:-30px; transform:translateY(-50%); width:24px; height:24px; }
+        .kv-dragging{ opacity:.45; outline:2px solid #0096d6 !important; outline-offset:2px; }
+        tr.kv-dragging{ outline:0 !important; background:rgba(0,150,214,.12); }
+        /* 정렬(드래그) 중에는 텍스트 선택·캐럿 방지 */
+        .kv-sorting, .kv-sorting *{ cursor:grabbing !important; -webkit-user-select:none !important; user-select:none !important; }`;
+
+      function buildEditBar(doc) {
+        if (doc.getElementById('kv-edit-bar')) return;
+        const bar = doc.createElement('div');
+        bar.id = 'kv-edit-bar';
+        bar.setAttribute('data-noedit', '1');
+        bar.style.display = 'none';
+        const btns = [
+          ['b', '<b>B</b>', 'bold'], ['i', '<i>I</i>', 'italic'], ['u', '<u>U</u>', 'underline'],
+          ['sep'], ['ul', '• 목록', 'insertUnorderedList'], ['ol', '1. 목록', 'insertOrderedList'],
+          ['sep'], ['l', '왼쪽', 'justifyLeft'], ['c', '가운데', 'justifyCenter'], ['r', '오른쪽', 'justifyRight'],
+          ['sep'], ['undo', '↶', 'undo'], ['redo', '↷', 'redo'],
+        ];
+        btns.forEach((b) => {
+          if (b[0] === 'sep') { const s = doc.createElement('span'); s.className = 'sep'; bar.appendChild(s); return; }
+          const el = doc.createElement('button');
+          el.type = 'button'; el.innerHTML = b[1]; el.title = b[1].replace(/<[^>]+>/g, '');
+          el.addEventListener('mousedown', (e) => e.preventDefault());
+          el.addEventListener('click', () => { try { doc.execCommand(b[2], false, null); } catch (e) {} });
+          bar.appendChild(el);
+        });
+        doc.body.appendChild(bar);
+      }
+      function showEditBar(doc) { const b = doc.getElementById('kv-edit-bar'); if (b) b.style.display = 'flex'; }
+      function hideEditBar(doc) { const b = doc.getElementById('kv-edit-bar'); if (b) b.style.display = 'none'; }
+
+      function closeImgMenu(doc) { const m = doc.getElementById('kv-img-menu'); if (m) m.remove(); }
+      function openImgMenu(doc, imgEl, key) {
+        closeImgMenu(doc);
+        const menu = doc.createElement('div');
+        menu.id = 'kv-img-menu'; menu.setAttribute('data-noedit', '1');
+        const isEmpty = imgEl.tagName === 'IMG' && !imgEl.getAttribute('src');
+        const rep = doc.createElement('button'); rep.type = 'button'; rep.textContent = isEmpty ? '사진 추가' : '사진 교체';
+        const del = doc.createElement('button'); del.type = 'button'; del.className = 'del'; del.textContent = '사진 삭제';
+        rep.addEventListener('click', () => { closeImgMenu(doc); pickImageFor(imgEl, key); });
+        del.addEventListener('click', () => {
+          closeImgMenu(doc);
+          changedImages[key] = '';
+          if (imgEl.tagName === 'IMG') { imgEl.removeAttribute('src'); imgEl.style.display = 'none'; }
+          else { imgEl.style.backgroundImage = 'none'; }
+          // 곡선 패널 등 기본 콘텐츠 복원
+          const panel = imgEl.closest && imgEl.closest('.split__panel');
+          const chart = panel && panel.querySelector('.quality-chart');
+          if (chart) chart.style.display = '';
+        });
+        menu.appendChild(rep);
+        if (!isEmpty) menu.appendChild(del);
+        doc.body.appendChild(menu);
+        const r = imgEl.getBoundingClientRect();
+        const sx = (doc.defaultView.scrollX || 0), sy = (doc.defaultView.scrollY || 0);
+        menu.style.left = Math.max(8, r.left + sx) + 'px';
+        menu.style.top = Math.max(8, r.top + sy + 8) + 'px';
+      }
+      let pendingImg = null;
+      function pickImageFor(imgEl, key) { pendingImg = { el: imgEl, key: key }; imgFileInput.value = ''; imgFileInput.click(); }
+      imgFileInput.addEventListener('change', () => {
+        const file = imgFileInput.files && imgFileInput.files[0];
+        if (!file || !pendingImg) return;
+        const target = pendingImg; pendingImg = null;
+        $('save-msg').textContent = '이미지 업로드 중…';
+        Auth.uploadImage(file).then((d) => {
+          if (!d || !d.url) return;
+          changedImages[target.key] = d.url;
+          if (target.el.tagName === 'IMG') {
+            // 선택 카드 이미지(.card__optimg)는 업로드 즉시 표시 (load 이벤트/lazy 의존 제거)
+            const optbox = target.el.closest && target.el.closest('.card__optimg');
+            if (optbox) { target.el.removeAttribute('loading'); target.el.style.display = 'block'; optbox.classList.add('is-on'); }
+            target.el.src = d.url; target.el.style.visibility = '';
+          }
+          else { target.el.style.backgroundImage = 'url(' + d.url + ')'; target.el.style.backgroundSize = 'cover'; target.el.style.backgroundPosition = 'center'; }
+          $('save-msg').textContent = '';
+        }).catch((err) => { $('save-msg').textContent = (err && err.message) || '이미지 업로드에 실패했습니다.'; });
+      });
+
+      function setupInlineEditing(fr) {
+        const doc = fr.contentDocument;
+        if (!doc) return;
+        // 모든 편집 가능한 요소에 data-cms/data-cms-img 를 즉시 부여 (레이스 방지)
+        try { if (fr.contentWindow && fr.contentWindow.cmsCollect) fr.contentWindow.cmsCollect(doc); } catch (e) { /* ignore */ }
+        const st = doc.createElement('style'); st.textContent = EDIT_CSS; doc.head.appendChild(st);
+        buildEditBar(doc);
+        // 편집한 항목만 저장하도록 표시
+        doc.addEventListener('input', (e) => {
+          const t = e.target.closest && e.target.closest('[data-cms]');
+          if (t) t.setAttribute('data-edited', '1');
+        });
+        // 링크 클릭으로 페이지 이동 방지 (편집 중)
+        doc.addEventListener('click', (e) => {
+          if (e.target.closest && e.target.closest('[data-noedit]')) return;
+          const a = e.target.closest && e.target.closest('a');
+          if (a) e.preventDefault();
+          const img = e.target.closest && e.target.closest('[data-cms-img]');
+          if (img) { e.preventDefault(); openImgMenu(doc, img, img.getAttribute('data-cms-img')); return; }
+          if (!e.target.closest || !e.target.closest('[data-cms], #kv-img-menu, #kv-edit-bar')) closeImgMenu(doc);
+        }, true);
+        // 저장된 추가 항목을 이어붙임 → 다시 stamp → 편집 활성화 → 추가/삭제 버튼
+        editorAppendAdded(fr);
+        try { if (fr.contentWindow && fr.contentWindow.cmsCollect) fr.contentWindow.cmsCollect(doc); } catch (e) { /* ignore */ }
+        makeEditable(doc);
+        wireRepeatables(fr);
+        // 편집 툴바 표시/숨김 (focusin/out은 버블링되어 안정적)
+        doc.addEventListener('focusin', (e) => {
+          if (e.target.closest && e.target.closest('[data-cms]')) showEditBar(doc);
+        });
+        doc.addEventListener('focusout', () => {
+          setTimeout(() => { if (!doc.querySelector('[data-cms]:focus')) hideEditBar(doc); }, 80);
+        });
+        // 현재 설정한 상단 배경 투명도를 미리보기에 반영 (페이지 전환 시 유지)
+        try { subheroLivePreview(currentOpacityFrac()); } catch (_) { /* ignore */ }
+      }
+
+      function makeEditable(doc) {
+        doc.querySelectorAll('[data-cms]').forEach((el) => {
+          if (el.getAttribute('contenteditable') !== 'true') {
+            el.setAttribute('contenteditable', 'true');
+            el.setAttribute('spellcheck', 'false');
+          }
+        });
+      }
+      function editorAppendAdded(fr) {
+        const doc = fr.contentDocument;
+        const REP = (fr.contentWindow && fr.contentWindow.cmsRepeat) || [];
+        const listKeyFn = fr.contentWindow && fr.contentWindow.cmsListKey;
+        const fullKeyFn = fr.contentWindow && fr.contentWindow.cmsFullKey;
+        if (!listKeyFn) return;
+        REP.forEach((r) => {
+          doc.querySelectorAll(r.c).forEach((cont) => {
+            if (cont.closest('#site-nav, #site-footer')) return;
+            const arr = currentOverrides[listKeyFn(cont)];
+            const full = fullKeyFn && currentOverrides[fullKeyFn(cont)];
+            if (full && arr) {
+              // 관리형: 원본 포함 기존 항목 제거 후 저장 순서대로 재구성
+              cont.querySelectorAll(':scope > ' + r.i).forEach((x) => x.remove());
+            } else if (!arr || !arr.length) {
+              return;
+            }
+            arr.forEach((html) => {
+              const tmp = doc.createElement(cont.tagName === 'TBODY' ? 'tbody' : 'div');
+              tmp.innerHTML = String(html || '').trim();
+              const node = tmp.firstElementChild;
+              if (node) { node.setAttribute('data-cms-added', '1'); cont.appendChild(node); }
+            });
+          });
+        });
+      }
+      function addDelBtn(doc, item) {
+        // 표 행(tr)은 버튼을 직접 자식으로 둘 수 없어 마지막 칸에 배치
+        const host = item.tagName === 'TR' ? (item.lastElementChild || item) : item;
+        if (host.querySelector && host.querySelector(':scope > .kv-item-del')) return;
+        if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
+        const b = doc.createElement('button');
+        b.type = 'button'; b.className = 'kv-item-del'; b.title = '이 항목 삭제';
+        b.textContent = '×'; b.setAttribute('data-noedit', '1');
+        b.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); item.remove(); });
+        host.appendChild(b);
+      }
+      // 포인터 기반 순서 변경 — 커서를 따라 실시간 재배치 (커서가 항목 위 + 위치가 바뀔 때만)
+      function startPointerDrag(doc, item) {
+        const cont = item.parentElement;
+        if (!cont) return;
+        const sel = cont._kvSel || '*';
+        item.classList.add('kv-dragging');
+        if (doc.body) doc.body.classList.add('kv-sorting');
+        function onMove(e) {
+          const x = e.clientX, y = e.clientY;
+          const items = [].slice.call(cont.querySelectorAll(':scope > ' + sel));
+          let over = null;
+          for (const it of items) {
+            if (it === item) continue;
+            const b = it.getBoundingClientRect();
+            if (x >= b.left && x <= b.right && y >= b.top && y <= b.bottom) { over = it; break; }
+          }
+          if (!over) return;
+          const b = over.getBoundingClientRect();
+          // 같은 행에 다른 항목이 있으면 그리드(가로), 없으면 목록·표(세로) 기준
+          const grid = items.some((it) => {
+            if (it === over) return false;
+            const r2 = it.getBoundingClientRect();
+            return Math.abs(r2.top - b.top) < b.height * 0.5;
+          });
+          const after = grid ? (x > b.left + b.width / 2) : (y > b.top + b.height / 2);
+          const ref = after ? over.nextElementSibling : over;
+          if (ref === item) return;
+          if (!after && over.previousElementSibling === item) return;
+          if (after && over === item.previousElementSibling) return;
+          cont.insertBefore(item, ref);
+        }
+        function onUp() {
+          item.classList.remove('kv-dragging');
+          if (doc.body) doc.body.classList.remove('kv-sorting');
+          doc.removeEventListener('mousemove', onMove, true);
+          doc.removeEventListener('mouseup', onUp, true);
+        }
+        doc.addEventListener('mousemove', onMove, true);
+        doc.addEventListener('mouseup', onUp, true);
+      }
+      // 드래그 핸들(⠿) — 항목 순서 변경
+      function addDragHandle(doc, item) {
+        const host = item.tagName === 'TR' ? (item.firstElementChild || item) : item;
+        if (host.querySelector && host.querySelector(':scope > .kv-item-drag')) return;
+        if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
+        const h = doc.createElement('button');
+        // 표 행은 셀이 좁아 핸들을 셀 밖(왼쪽 여백)에 배치 → 내용 가림 방지
+        h.type = 'button'; h.className = 'kv-item-drag' + (item.tagName === 'TR' ? ' kv-item-drag--row' : ''); h.title = '드래그하여 순서 변경';
+        h.textContent = '⠿'; h.setAttribute('data-noedit', '1');
+        h.setAttribute('contenteditable', 'false'); h.setAttribute('draggable', 'false');
+        // mousedown에서 preventDefault → contenteditable 캐럿/텍스트 선택 차단, 드래그 시작
+        h.addEventListener('mousedown', (e) => { e.preventDefault(); e.stopPropagation(); startPointerDrag(doc, item); });
+        h.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); });
+        host.appendChild(h);
+      }
+      function wireRepeatables(fr) {
+        const doc = fr.contentDocument;
+        const REP = (fr.contentWindow && fr.contentWindow.cmsRepeat) || [];
+        const fullKeyFn = fr.contentWindow && fr.contentWindow.cmsFullKey;
+        REP.forEach((r) => {
+          doc.querySelectorAll(r.c).forEach((cont) => {
+            if (cont.closest('#site-nav, #site-footer') || cont._kvWired) return;
+            cont._kvWired = true;
+            cont._kvManaged = !!(fullKeyFn && currentOverrides[fullKeyFn(cont)]);
+            cont._kvAddSeq = 1000;
+            cont._kvSel = r.i;
+            cont.querySelectorAll(':scope > ' + r.i + '[data-cms-added]').forEach((it) => addDelBtn(doc, it));
+            // 정렬 기준(로드 순서) 기록 + 모든 항목에 드래그 핸들
+            cont.querySelectorAll(':scope > ' + r.i).forEach((it, i) => {
+              it.setAttribute('data-kv-cid', String(i));
+              addDragHandle(doc, it);
+            });
+            const items = cont.querySelectorAll(':scope > ' + r.i);
+            const tmpl = items[items.length - 1];
+            if (!tmpl) return;
+            const btn = doc.createElement('button');
+            btn.type = 'button'; btn.className = 'kv-add-btn'; btn.setAttribute('data-noedit', '1');
+            btn.textContent = '＋ 항목 추가';
+            btn.addEventListener('click', (e) => {
+              e.preventDefault();
+              const clone = tmpl.cloneNode(true);
+              clone.removeAttribute('data-edited');
+              // 복제된 버튼은 이벤트가 없어 죽은 버튼 → 제거 후 새로 배선
+              clone.querySelectorAll('.kv-item-del, .kv-item-drag').forEach((x) => x.remove());
+              clone.querySelectorAll('[data-cms], [data-cms-img]').forEach((x) => {
+                x.removeAttribute('data-cms'); x.removeAttribute('data-cms-img');
+                x.removeAttribute('contenteditable'); x.removeAttribute('spellcheck'); x.removeAttribute('data-edited');
+              });
+              clone.removeAttribute('data-cms'); clone.removeAttribute('data-cms-img');
+              clone.setAttribute('data-cms-added', '1');
+              clone.setAttribute('data-kv-cid', String(cont._kvAddSeq != null ? cont._kvAddSeq++ : 1000));
+              cont.appendChild(clone);
+              try { fr.contentWindow.cmsCollect(doc); } catch (_) { /* ignore */ }
+              makeEditable(doc);
+              addDelBtn(doc, clone);
+              addDragHandle(doc, clone);
+              clone.querySelectorAll('[data-cms]').forEach((x) => x.setAttribute('data-edited', '1'));
+              clone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+            // 표(tbody)는 버튼을 table 밖(다음 형제)에 둠 — table 내부엔 button 불가
+            if (cont.tagName === 'TBODY') {
+              const table = cont.closest('table') || cont;
+              btn.style.marginTop = '10px';
+              table.parentNode.insertBefore(btn, table.nextSibling);
+            } else {
+              cont.parentNode.insertBefore(btn, cont.nextSibling);
+            }
+          });
+        });
+      }
+      function serializeAddedItem(node) {
+        const c = node.cloneNode(true);
+        c.removeAttribute('data-cms-added'); c.removeAttribute('data-edited');
+        c.removeAttribute('data-cms'); c.removeAttribute('data-cms-img');
+        c.removeAttribute('contenteditable'); c.removeAttribute('spellcheck');
+        c.removeAttribute('data-kv-cid'); c.removeAttribute('draggable');
+        c.querySelectorAll('.kv-item-del, .kv-item-drag').forEach((x) => x.remove());
+        c.querySelectorAll('[contenteditable]').forEach((x) => { x.removeAttribute('contenteditable'); x.removeAttribute('spellcheck'); x.removeAttribute('data-edited'); });
+        c.querySelectorAll('[data-cms]').forEach((x) => x.removeAttribute('data-cms'));
+        c.querySelectorAll('[data-cms-img]').forEach((x) => x.removeAttribute('data-cms-img'));
+        [c].concat([].slice.call(c.querySelectorAll('[class*="reveal"]'))).forEach((x) => {
+          if (x.className) x.className = x.className.replace(/\breveal[\w-]*/g, '').replace(/\s+/g, ' ').trim();
+        });
+        if (c.style) { c.style.removeProperty('animation-delay'); if (c.style.position === 'relative') c.style.removeProperty('position'); }
+        // 삭제버튼 배치를 위해 넣은 인라인 position:relative 정리(표 칸 등)
+        [].slice.call(c.querySelectorAll('[style]')).forEach((x) => {
+          if (x.style && x.style.position === 'relative') x.style.removeProperty('position');
+          if (x.getAttribute && x.getAttribute('style') === '') x.removeAttribute('style');
+        });
+        return c.outerHTML;
+      }
+
+      function renderSeoBox(overrides, defaultTitle, defaultDesc) {
+        $('seo-box').innerHTML = `<details class="seo-details">
+          <summary>검색·공유 미리보기 설정 (선택)</summary>
+          <div class="seo-details__body">
+            <p class="seo-help">구글 검색 결과, 카카오톡·메신저로 링크를 보낼 때 보이는 제목·설명입니다. 비워 두면 자동으로 채워집니다.</p>
+            <div class="form__row"><label>검색·공유 제목</label><input class="seo-input" data-seo="__seoTitle" type="text" value="${esc(overrides.__seoTitle || '')}" placeholder="${esc(defaultTitle)}" /></div>
+            <div class="form__row"><label>검색·공유 설명</label><input class="seo-input" data-seo="__seoDescription" type="text" value="${esc(overrides.__seoDescription || '')}" placeholder="${esc(defaultDesc)}" /></div>
+          </div>
+        </details>`;
+      }
+
       function loadPage(file) {
         currentPage = file;
+        changedImages = {};
         $('preview-link').href = file;
-        $('fields').innerHTML = '<p class="empty-note">불러오는 중…</p>';
+        $('wysiwyg-loading').style.display = 'flex';
         Promise.all([
-          fetch(file).then((r) => r.text()),
+          fetch(file).then((r) => r.text()).catch(() => ''),
           Auth.getContent(file).catch(() => ({})),
         ]).then(([html, overrides]) => {
+          currentOverrides = overrides || {};
           const doc = new DOMParser().parseFromString(html, 'text/html');
           const defaultTitle = doc.querySelector('title')?.textContent || '';
           const defaultDesc = doc.querySelector('meta[name="description"]')?.getAttribute('content') || '';
-          const fields = (window.cmsCollect ? window.cmsCollect(doc) : []);
-          const groups = groupFields(fields);
-          const grouped = groups.map((g, i) => renderGroup(g, overrides, i + 1)).join('');
-          const map = renderPageMap(groups);
-          if (!fields.length) {
-            $('fields').innerHTML = `<div class="cms-layout cms-layout--solo">${renderSeo(defaultTitle, defaultDesc, overrides)}<p class="empty-note">이 페이지에는 아직 편집 가능한 본문 항목이 없습니다.</p></div>`;
-            $('hint').textContent = '';
-            wireFields();
-            return;
-          }
-          $('hint').textContent = '글상자를 클릭하면 서식 도구가 바로 위에 나타납니다. 왼쪽 지도로 구역을 찾을 수 있습니다.';
-          $('fields').innerHTML = `<div class="cms-workspace">
-            ${map}
-            <div class="cms-layout">${renderSeo(defaultTitle, defaultDesc, overrides)}${grouped}</div>
-          </div>`;
-          wireFields();
-          wirePageMap();
-          hideToolbar(true);
+          renderSeoBox(currentOverrides, defaultTitle, defaultDesc);
+          const fr = $('live-editor');
+          fr.onload = () => {
+            $('wysiwyg-loading').style.display = 'none';
+            try { setupInlineEditing(fr); } catch (e) { console.warn(e); }
+          };
+          fr.src = file + (file.indexOf('?') >= 0 ? '&' : '?') + 'edit=1&t=' + (Date.now ? Date.now() : 1);
         });
       }
       function wirePageMap() {
@@ -985,6 +1408,22 @@
         $('fields').querySelectorAll('.cms-reset').forEach((b) => {
           b.addEventListener('click', () => { editBox(b).querySelector('.cms-input').innerHTML = b.dataset.default; });
         });
+        // 사진 제거 (삽입한 이미지 삭제)
+        $('fields').querySelectorAll('.cms-img-remove').forEach((b) => {
+          b.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const field = editBox(b);
+            if (!field) return;
+            const hid = field.querySelector('.cms-input, [data-seo="__seoImage"]');
+            if (hid) hid.value = '';
+            const img = field.querySelector('.cms-img__preview');
+            if (img) { img.removeAttribute('src'); img.style.display = 'none'; img.style.height = ''; img.style.width = ''; }
+            const size = field.querySelector('.cms-size');
+            if (size) size.value = '';
+            b.hidden = true;
+            b.blur();
+          });
+        });
         // 이미지 높이 조절 (미리보기 실시간 반영)
         $('fields').querySelectorAll('.cms-size').forEach((el) => {
           const img = editBox(el).querySelector('.cms-img__preview');
@@ -1009,6 +1448,8 @@
             }
             const img = field.querySelector('.cms-img__preview');
             if (img) { img.src = d.url; img.style.display = ''; }
+            const rm = field.querySelector('.cms-img-remove');
+            if (rm) rm.hidden = false;
           }).catch((err) => {
             $('save-msg').textContent = (err && err.message) || '이미지 업로드에 실패했습니다.';
           });
@@ -1040,25 +1481,54 @@
       }
 
       $('save-btn').addEventListener('click', () => {
-        const content = {};
-        $('fields').querySelectorAll('.seo-input').forEach((el) => {
+        const doc = $('live-editor').contentDocument;
+        if (!doc) { $('save-msg').textContent = '편집 화면을 불러오는 중입니다. 잠시 후 다시 시도하세요.'; return; }
+        // 기존 저장값을 보존하고 편집한 내용만 덮어씀
+        const content = Object.assign({}, currentOverrides);
+        // 텍스트: 실제로 편집한 항목만
+        doc.querySelectorAll('[data-cms][data-edited]').forEach((el) => {
+          content[el.getAttribute('data-cms')] = el.innerHTML.trim();
+        });
+        // 이미지: 교체·삭제한 항목만
+        Object.keys(changedImages).forEach((k) => { content[k] = changedImages[k]; });
+        // 추가/삭제한 반복 항목
+        try {
+          const win = $('live-editor').contentWindow;
+          const REP = (win && win.cmsRepeat) || [];
+          const listKeyFn = win && win.cmsListKey;
+          const fullKeyFn = win && win.cmsFullKey;
+          if (listKeyFn) {
+            REP.forEach((r) => {
+              doc.querySelectorAll(r.c).forEach((cont) => {
+                if (cont.closest('#site-nav, #site-footer')) return;
+                const key = listKeyFn(cont);
+                const fkey = fullKeyFn ? fullKeyFn(cont) : null;
+                const items = [].slice.call(cont.querySelectorAll(':scope > ' + r.i));
+                // 로드 순서(data-kv-cid) 대비 순서가 바뀌었는지 판정 (오름차순이면 그대로)
+                let reordered = false, prev = -Infinity;
+                for (const it of items) {
+                  const n = parseInt(it.getAttribute('data-kv-cid'), 10);
+                  const v = isNaN(n) ? Infinity : n;
+                  if (v < prev) { reordered = true; break; }
+                  prev = v;
+                }
+                if (cont._kvManaged || reordered) {
+                  // 관리형: 원본 포함 전체를 현재 순서대로 저장
+                  content[key] = items.map(serializeAddedItem);
+                  if (fkey) content[fkey] = true;
+                } else {
+                  const added = items.filter((it) => it.hasAttribute('data-cms-added'));
+                  if (added.length) content[key] = added.map(serializeAddedItem);
+                  else if (key in content) content[key] = [];
+                  if (fkey && fkey in content) delete content[fkey];
+                }
+              });
+            });
+          }
+        } catch (e) { console.warn(e); }
+        // SEO
+        document.querySelectorAll('#seo-box .seo-input').forEach((el) => {
           content[el.dataset.seo] = (el.value || '').trim();
-        });
-        $('fields').querySelectorAll('.cms-field').forEach((f) => {
-          if (f.dataset.type === 'seo') return;
-          if (!f.dataset.key) return;
-          const key = f.dataset.key;
-          const input = f.querySelector('.cms-input');
-          content[key] = f.dataset.type === 'image' ? input.value : input.innerHTML.trim();
-          const sizeEl = f.querySelector('.cms-size');
-          if (sizeEl) { const v = (sizeEl.value || '').trim(); if (v) content[sizeEl.dataset.key] = v; }
-        });
-        $('fields').querySelectorAll('.cms-subfield').forEach((f) => {
-          const key = f.dataset.key;
-          const input = f.querySelector('.cms-input');
-          content[key] = f.dataset.type === 'image' ? input.value : input.innerHTML.trim();
-          const sizeEl = f.querySelector('.cms-size');
-          if (sizeEl) { const v = (sizeEl.value || '').trim(); if (v) content[sizeEl.dataset.key] = v; }
         });
         $('save-msg').textContent = '저장 중…';
         Auth.saveContent(currentPage, content)

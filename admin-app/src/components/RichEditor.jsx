@@ -12,7 +12,8 @@ export default function RichEditor({ value, onChange, placeholder }) {
   const editorRef = useRef(null);
   const toolbarRef = useRef(null);
   const savedRange = useRef(null);
-  const lastExternal = useRef(value);
+  // 마운트 시(수정 진입 등) value 가 이미 채워져 있어도 innerHTML 에 반영되도록 null 로 시작
+  const lastExternal = useRef(null);
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState('format'); // format | table
   const [inTable, setInTable] = useState(false);
@@ -27,6 +28,12 @@ export default function RichEditor({ value, onChange, placeholder }) {
       lastExternal.current = value;
     }
   }, [value]);
+
+  // 본문 이미지 클릭 → 크기/정렬 조절 (rte-image.js 의 wireImageResize 재사용)
+  useEffect(() => {
+    ensureImageResize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -45,6 +52,19 @@ export default function RichEditor({ value, onChange, placeholder }) {
     };
   }, [open, mode]);
 
+  function ensureImageResize() {
+    const el = editorRef.current;
+    if (!el) return;
+    if (window.wireImageResize) { window.wireImageResize(el); return; }
+    if (!window.__rteImageLoading) {
+      window.__rteImageLoading = true;
+      const s = document.createElement('script');
+      s.src = '../rte-image.js';
+      s.onload = () => { window.__rteImageLoading = false; ensureImageResize(); };
+      document.head.appendChild(s);
+    }
+  }
+
   function ensureTableEditor() {
     const editor = editorRef.current;
     if (!editor) return;
@@ -52,7 +72,7 @@ export default function RichEditor({ value, onChange, placeholder }) {
       if (!window.__tableEditorLoading) {
         window.__tableEditorLoading = true;
         const s = document.createElement('script');
-        s.src = '/table-editor.js';
+        s.src = '../table-editor.js';
         s.onload = () => {
           window.__tableEditorLoading = false;
           ensureTableEditor();
@@ -397,8 +417,18 @@ export default function RichEditor({ value, onChange, placeholder }) {
         ref={editorRef}
         className={`rte-editor${open ? ' is-editing' : ''}`}
         contentEditable
+        role="textbox"
+        aria-multiline="true"
+        aria-label={placeholder || '본문 편집기'}
         data-placeholder={placeholder}
         onInput={onInput}
+        onPaste={(e) => {
+          // 무정제 HTML(워드 등) 방지 — 서식 없는 텍스트로 안전하게 삽입
+          e.preventDefault();
+          const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+          document.execCommand('insertText', false, text);
+          onInput();
+        }}
         onKeyUp={() => {
           saveSelection();
           ensureTableEditor();

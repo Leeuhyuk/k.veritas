@@ -7,8 +7,8 @@
   <meta name="robots" content="noindex" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fragment+Mono&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fragment+Mono&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20260720d" />
 </head>
 <body>
   <div id="site-nav"></div>
@@ -63,14 +63,17 @@
             </div>
             <div class="form__row">
               <label for="category">분류</label>
-              <select id="category">
-                <option>카탈로그</option>
-                <option>사용설명서</option>
-                <option>인증서</option>
-                <option>도면(CAD)</option>
-                <option>시험성적서</option>
-                <option>기타</option>
-              </select>
+              <div style="display:flex;gap:8px;align-items:center">
+                <select id="category" style="flex:1">
+                  <option>카탈로그</option>
+                  <option>사용설명서</option>
+                  <option>인증서</option>
+                  <option>도면(CAD)</option>
+                  <option>시험성적서</option>
+                  <option>기타</option>
+                </select>
+                <button type="button" class="btn btn--ghost btn--sm" id="add-cat-btn">＋ 새 분류</button>
+              </div>
             </div>
           </div>
           <div class="form__grid">
@@ -150,7 +153,7 @@
   </main>
 
   <div id="site-footer"></div>
-  <script src="site.js"></script>
+  <script src="site.js?v=20260720d"></script>
   <script src="table-editor.js"></script>
   <script src="rte-image.js"></script>
   <script>
@@ -197,8 +200,31 @@
       }
       $('cancel-btn').addEventListener('click', resetForm);
 
+      function refreshCategoryOptions(items) {
+        var sel = $('category'); if (!sel) return;
+        var have = {};
+        Array.prototype.forEach.call(sel.options, function (o) { have[o.value] = 1; });
+        (items || []).forEach(function (r) {
+          var c = (r.category || '').trim();
+          if (c && !have[c]) {
+            var o = document.createElement('option'); o.value = c; o.textContent = c;
+            sel.appendChild(o); have[c] = 1;
+          }
+        });
+      }
+      function addCategoryOption() {
+        var sel = $('category');
+        var name = (window.prompt('추가할 분류명을 입력하세요') || '').trim();
+        if (!name) return;
+        var exists = Array.prototype.some.call(sel.options, function (o) { return o.value === name; });
+        if (!exists) { var o = document.createElement('option'); o.value = name; o.textContent = name; sel.appendChild(o); }
+        sel.value = name;
+      }
+      if ($('add-cat-btn')) $('add-cat-btn').addEventListener('click', addCategoryOption);
+
       function loadList() {
         fetch('/api/admin/resources').then((r) => r.json()).then((items) => {
+          refreshCategoryOptions(items);
           if (!items.length) { $('admin-list').innerHTML = '<p class="empty-note" style="padding:var(--spacing-32) 0">등록된 자료가 없습니다.</p>'; return; }
           $('admin-list').innerHTML = items.map((r) => `
             <div class="admin__row" data-id="${esc(r.id)}">

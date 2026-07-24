@@ -645,7 +645,7 @@ app.get('/api/news/:id', async (req, res) => {
   res.json(n);
 });
 app.post('/api/news', requireAuth, upload.array('images', 8), async (req, res) => {
-  const { title, body, status, isPopup, seoTitle, seoDescription, ogImage } = req.body;
+  const { title, category, body, status, isPopup, seoTitle, seoDescription, ogImage } = req.body;
   if (!title || !title.trim()) {
     removeUploadedFiles(req.files);
     return res.status(400).json({ error: 'title_required', message: '제목을 입력해 주세요.' });
@@ -656,6 +656,7 @@ app.post('/api/news', requireAuth, upload.array('images', 8), async (req, res) =
   const item = {
     id: 'n' + Date.now(),
     title: title.trim(),
+    category: (category || '').trim(),
     body: safeBodyHtml(body),
     status: statusOf(status),
     isPopup: cleanBool(isPopup),
@@ -677,8 +678,9 @@ app.put('/api/news/:id', requireAuth, upload.array('images', 8), async (req, res
     return res.status(404).json({ error: 'not_found' });
   }
   const n = list[idx];
-  const { title, body, keepImages, status, isPopup, seoTitle, seoDescription, ogImage } = req.body;
+  const { title, category, body, keepImages, status, isPopup, seoTitle, seoDescription, ogImage } = req.body;
   if (title !== undefined) n.title = title.trim();
+  if (category !== undefined) n.category = category.trim();
   if (body !== undefined) n.body = safeBodyHtml(body);
   if (status !== undefined) n.status = statusOf(status);
   if (isPopup !== undefined) n.isPopup = cleanBool(isPopup);

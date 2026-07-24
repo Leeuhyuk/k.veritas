@@ -4,12 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>제품 상세 — k.veritas</title>
+  <meta name="description" content="k.veritas 맞춤 시험 장비 — 상세 사양·자료를 확인하세요." />
+  <link rel="canonical" href="https://leeuhyuk.github.io/k.veritas/showcase-detail.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="k.veritas" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:url" content="https://leeuhyuk.github.io/k.veritas/showcase-detail.html" />
+  <meta property="og:title" content="제품 상세 — k.veritas" />
+  <meta property="og:description" content="k.veritas 맞춤 시험 장비 — 상세 사양·자료를 확인하세요." />
+  <meta property="og:image" content="https://leeuhyuk.github.io/k.veritas/images/test-hero.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="제품 상세 — k.veritas" />
+  <meta name="twitter:description" content="k.veritas 맞춤 시험 장비 — 상세 사양·자료를 확인하세요." />
+  <meta name="twitter:image" content="https://leeuhyuk.github.io/k.veritas/images/test-hero.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20260720d" />
+  <script>document.documentElement.classList.add("reveal-on");setTimeout(function(){window.__revealInit||document.documentElement.classList.add("reveal-off")},3000);</script>
 </head>
-<body>
+<body class="site-hp">
   <div id="site-nav"></div>
 
   <main>
@@ -21,8 +35,8 @@
   </main>
 
   <div id="site-footer"></div>
-  <script src="site-base.js"></script>
-  <script src="site.js"></script>
+  <script src="site-base.js?v=20260720a"></script>
+  <script src="site.js?v=20260720d"></script>
   <script src="sanitize-html.js"></script>
   <script src="detail-lightbox.js"></script>
   <script>
@@ -47,8 +61,50 @@
 
       if (!id) { root.innerHTML = '<p class="empty-note">잘못된 접근입니다.</p>'; return; }
 
-      fetch('/api/products/' + encodeURIComponent(id))
+      // 관리자 공개 내보내기(pages/__products_index__) 우선 → 서버(/api) → 정적 export 순으로 조회
+      const PUB_INDEX = 'https://firestore.googleapis.com/v1/projects/production-management-e70fd/databases/(default)/documents/pages/products-index';
+      // 쇼케이스와 동일한 정렬(순번) — 모델 번호를 카드와 일치시키기 위함
+      let fullList = [];
+      const sortLikeShowcase = (arr) => arr.filter((p) => p && p.status !== 'draft' && p.status !== 'hidden')
+        .sort((a, b) => {
+          const o = (a.order || 0) - (b.order || 0);
+          if (o) return o;
+          return String(b.createdAt || '').localeCompare(String(a.createdAt || ''));
+        });
+      const findIn = (list) => {
+        const arr = Array.isArray(list) ? list : (list.items || list.products || []);
+        fullList = sortLikeShowcase(arr);
+        const found = arr.filter(Boolean).find((x) => String(x.id) === String(id));
+        if (!found) throw new Error();
+        return found;
+      };
+      const modelCodeOf = (p) => {
+        if (p.model) return String(p.model).trim().toUpperCase();
+        const raw = String(p.id || '').trim().toUpperCase();
+        const m = raw.match(/^([A-Z]{1,4})[-\s]?(\d{1,4})$/);
+        return m ? (m[1] + '-' + m[2]) : '';
+      };
+      const modelTextOf = (p) => {
+        const code = modelCodeOf(p);
+        if (code) return code;
+        const idx = fullList.findIndex((x) => String(x.id) === String(p.id));
+        return 'KV-' + ('0' + ((idx < 0 ? 0 : idx) + 1)).slice(-2);
+      };
+      const fetchProduct = () => fetch(PUB_INDEX, { cache: 'no-store' })
         .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+        .then((doc) => {
+          const s = doc && doc.fields && doc.fields.json && doc.fields.json.stringValue;
+          if (!s) throw new Error();
+          return JSON.parse(s);
+        })
+        .then(findIn)
+        .catch(() => fetch('/api/products/' + encodeURIComponent(id))
+          .then((r) => { if (!r.ok) throw new Error(); return r.json(); }))
+        .catch(() => fetch('static-api/products.json')
+          .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+          .then(findIn));
+
+      fetchProduct()
         .then((p) => {
           document.title = (p.seoTitle || p.title) + ' — k.veritas';
           upsertMeta('meta[name="description"]', 'name', 'description', p.seoDescription || p.summary || '');
@@ -64,32 +120,49 @@
                 `<img src="${esc(u)}" alt="${esc(p.title)} 사진 ${i + 2}" title="클릭하면 크게 보기" loading="lazy" decoding="async" />`
               ).join('')}</div>`
             : '';
-          const meta = [p.industry, p.material, p.process].filter(Boolean)
-            .map((v) => `<span class="show-meta">${esc(v)}</span>`).join('');
-          const tags = [
-            p.category ? `<span class="tag">${esc(p.category)}</span>` : '',
-            meta,
-          ].filter(Boolean).join('');
+          // 커스텀 스펙 표(관리자 편집) 우선, 없으면 기존 필드로 폴백
+          const customSpecs = Array.isArray(p.specs)
+            ? p.specs.filter((s) => s && (s.label || s.value)).map((s) => [s.label || '', s.value || ''])
+            : [];
+          const specItems = (customSpecs.length
+            ? [['카테고리', p.category], ...customSpecs]
+            : [
+                ['카테고리', p.category],
+                ['소재', p.material],
+                ['가공', p.process],
+                ['산업', p.industry],
+              ]
+          ).filter((r) => r[1]);
+          const specHtml = specItems.length
+            ? `<dl class="detail__spec">${specItems.map((r) => `<div><dt>${esc(r[0])}</dt><dd>${esc(r[1])}</dd></div>`).join('')}</dl>`
+            : '';
+          // 요약: 카드처럼 줄마다 좌측 사각 불릿 목록으로 표시
+          const leadLines = String(p.summary || '').split(/\r?\n+/).map((s) => s.trim()).filter(Boolean);
+          const leadHtml = leadLines.length
+            ? `<ul class="detail__lead">${leadLines.map((s) => `<li>${esc(s)}</li>`).join('')}</ul>`
+            : '';
           const inquiryHref = 'support.html?productId=' + encodeURIComponent(p.id) + '&productTitle=' + encodeURIComponent(p.title) + '#contact';
+          const hasBody = renderBody(p.body).replace(/<[^>]*>/g, '').trim().length > 0;
           root.innerHTML = `
-            <a class="detail__back" href="showcase.html">
-              <span class="detail__back-icon" aria-hidden="true">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                  <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              제품 목록으로
-            </a>
-            ${tags ? `<div class="detail__tags">${tags}</div>` : ''}
-            ${p.summary ? `<p class="detail__date">${esc(p.summary)}</p>` : ''}
-            <h1 class="detail__title">${esc(p.title)}</h1>
-            ${cover}
-            <div class="detail__body">${renderBody(p.body)}</div>
-            ${gallery}
-            <div class="detail__actions">
-              <a href="${inquiryHref}" class="btn btn--primary">이 제품과 유사한 견적 문의</a>
-              <a href="showcase.html" class="btn btn--ghost">목록으로</a>
+            <div class="detail__top">
+              <div class="detail__media">${cover}</div>
+              <div class="detail__info">
+                <div class="detail__tags">${p.category ? `<span class="tag">${esc(p.category)}</span>` : ''}<span class="detail__model">MODEL ${esc(modelTextOf(p))}</span></div>
+                <h1 class="detail__title">${esc(p.title)}</h1>
+                ${leadHtml}
+                ${specHtml}
+                <div class="detail__actions">
+                  <a href="${inquiryHref}" class="btn btn--primary">이 제품과 유사한 견적 문의</a>
+                  <a href="showcase.html" class="btn btn--ghost">목록으로</a>
+                </div>
+              </div>
             </div>
+            ${(hasBody || gallery) ? `
+            <div class="detail__detail">
+              <h2 class="detail__sec-title">상세 정보</h2>
+              ${hasBody ? `<div class="detail__body">${renderBody(p.body)}</div>` : ''}
+              ${gallery}
+            </div>` : ''}
           `;
           if (window.DetailLightbox) window.DetailLightbox.bind(root);
         })

@@ -46,3 +46,6 @@ data/*~
 # agent / local tooling
 .claude/
 .grok/
+
+# 임시 백업(로컬 보관)
+*.bak

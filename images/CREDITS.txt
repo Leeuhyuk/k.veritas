@@ -1,0 +1,15 @@
+이미지 출처 / License
+=====================
+아래 사진은 모두 Unsplash(https://unsplash.com) 제공이며,
+Unsplash License에 따라 상업적 사용 가능하고 별도 저작자 표시 의무가 없습니다.
+(참고용으로 원본 사진 ID를 남깁니다.)
+
+mfg-cnc.jpg     photo-1666634157070-6fd830fb5672   CNC 선반 정밀 가공
+mfg-mold.jpg    photo-1602223114290-ba6de2938acc   정밀 가공 링(부품)
+mfg-tools.jpg   photo-1585366958403-bacb4c36a1a9   CMM 3차원 측정(검사)
+mfg-cnc2.jpg    photo-1548683726-203119be6a39      양산 가공 부품
+mfg-parts.jpg   photo-1585201731775-0597e1be4bfb   드릴 가공(공정)
+mfg-machine.jpg photo-1532186773960-85649e5cb70b   전자/반도체 기판 실장
+mfg-robot.jpg   photo-1563968743333-044cef800494   자동 조립 로봇(모듈)
+mfg-auto.jpg    photo-1647427060118-4911c9821b82   로봇 생산라인(설비)
+mfg-detail.jpg  photo-1600683550547-2c38a96fb400   공장 내부(설비)

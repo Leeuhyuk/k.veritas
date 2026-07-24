@@ -20,7 +20,7 @@ import {
   query,
   orderBy,
 } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { isStaticHost, siteBase } from './staticMode.js';
 
 let app = null;
@@ -170,6 +170,15 @@ export function isEmailAdmin(email, adminEmails) {
   return !!e && list.includes(e);
 }
 
+/** 고정 경로(public/<path>)에 JSON 을 올려 공개 GCS URL 로 노출 (덮어쓰기) */
+export async function uploadPublicJson(path, data) {
+  ensureFirebaseApp((await loadFirebaseWebConfig()).config);
+  const r = ref(storage, `public/${path}`);
+  const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+  await uploadBytes(r, blob, { contentType: 'application/json', cacheControl: 'public,max-age=60' });
+  return getDownloadURL(r);
+}
+
 export async function uploadPublicFile(file, folder = 'misc') {
   ensureFirebaseApp((await loadFirebaseWebConfig()).config);
   const name = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${(file.name || 'file').replace(
@@ -180,6 +189,27 @@ export async function uploadPublicFile(file, folder = 'misc') {
   const r = ref(storage, path);
   await uploadBytes(r, file, { contentType: file.type || 'application/octet-stream' });
   return getDownloadURL(r);
+}
+
+/** 다운로드 URL(또는 storage 경로)로 Storage 객체 삭제 — 실패는 조용히 무시(고아 정리용) */
+export async function deletePublicFileByUrl(url) {
+  if (!url || typeof url !== 'string') return false;
+  try {
+    ensureFirebaseApp((await loadFirebaseWebConfig()).config);
+    let objectRef;
+    const m = url.match(/\/o\/([^?]+)/); // firebasestorage 다운로드 URL: /o/<encodedPath>?...
+    if (/^https?:\/\//i.test(url) && m) {
+      objectRef = ref(storage, decodeURIComponent(m[1]));
+    } else if (/^https?:\/\//i.test(url)) {
+      return false; // 알 수 없는 외부 URL은 건드리지 않음
+    } else {
+      objectRef = ref(storage, url.replace(/^\/+/, ''));
+    }
+    await deleteObject(objectRef);
+    return true;
+  } catch {
+    return false; // 이미 없거나 권한/경로 문제 → 무시
+  }
 }
 
 export async function listCollection(name) {
@@ -199,6 +229,14 @@ export async function listCollection(name) {
       return String(b.createdAt || '').localeCompare(String(a.createdAt || ''));
     });
   }
+}
+
+/** order 필드 없는 컬렉션(문의 등) — 전체 조회 후 createdAt 최신순 정렬 */
+export async function listCollectionRecent(name) {
+  ensureFirebaseApp((await loadFirebaseWebConfig()).config);
+  const snap = await getDocs(collection(db, name));
+  const list = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+  return list.sort((a, b) => String(b.createdAt || '').localeCompare(String(a.createdAt || '')));
 }
 
 export async function getDocById(name, id) {
